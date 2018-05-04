@@ -8,7 +8,6 @@
 namespace app\index\Controller;
 
 use think\Controller;
-use think\Db;
 
 class Base extends Controller{
     protected function tokenGenerate()
@@ -32,5 +31,19 @@ class Base extends Controller{
     {
         $result = Db('user')->where('userId',$userId)->find();
         return $result;
+    }
+
+    protected function checkRcode($rcode)
+    {
+        if(strlen($rcode)==16)
+        {
+            $data = Db('rcode')->where('code',$rcode)->find();
+            if($data['isUsed']==false)
+            {
+                Db('rcode')->where('code',$rcode)->setField('isUsed',true);
+                return true;
+            }
+        }
+        return false;
     }
 }
