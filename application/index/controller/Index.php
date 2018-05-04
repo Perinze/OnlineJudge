@@ -17,29 +17,4 @@ class Index extends Controller
     {
         return 'hello,' . $name;
     }
-
-    public function test(Request $request)
-    {
-        if($request->isPost()) {
-            $data = array(
-                'test' => input('post.test'),
-                '__token__' => input('post.token')
-            );
-
-            $result = $this->validate($data, 'app\index\validate\UserValidate.normal');
-            if ($result === true) {
-                echo 'success';
-                dump($data);
-            } else {
-                echo 'false';
-                dump($data);
-            }
-        }
-        return view('test');
-    }
-
-    public function in()
-    {
-        return view('test');
-    }
 }

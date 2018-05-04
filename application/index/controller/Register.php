@@ -12,7 +12,13 @@ require_once "UserValidate.php";
 class Register extends Base{
     public function registe()
     {
-        $rcode = input('rcode');
+        if($this->checkToken(input('post.token'))!==true)
+        {
+            $ret = array('errCode'=>403,'errMsg'=>'token error','data'=>null);
+            return json($ret);
+        }
+
+        $rcode = input('post.rcode');
         $password = input('post.password');
         $repassword = input('post.repassword');
         if($repassword!=$password)
@@ -26,10 +32,9 @@ class Register extends Base{
             'mail' => input('post.mail'),
             'phone' => input('post.phone'),
             'name' => input('post.name'),
-            'gender' => input('gender'),
+            'gender' => input('post.gender'),
             'joinTime' => date("Y-m-d h:i:s",time()),
             'type' => $this->checkRcode($rcode)?0:1,
-            '__token__' => input('post.token')
         );
         if($this->validate($data,'app\index\validate\UserValidate.register')) {
             unset($data['token']);
@@ -49,8 +54,7 @@ class Register extends Base{
 
     public function newRcode($num)
     {
-        $data = array('__token__'=>input('post.token'));
-        if(!$this->validate($data,'app\index\validate\UserValidate.normal'))
+        if($this->checkToken(input('post.token'))!==true)
         {
             $ret = array('errCode'=>403,'errMsg'=>'token error','data'=>null);
             return json($ret);

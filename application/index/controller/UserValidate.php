@@ -15,14 +15,12 @@ class UserValidate extends Validate{
         'mail' => 'email',
         'password' => 'require',
         'phone' => 'mobile',
-        'token' => 'token',
         'name' => 'cls',
         'gender' => [ 'regex'=>'/^(男|女)$/'],
     ];
 
     protected $scene = [
-        'register' => ['account','mail','password','phone','token','name','gender'],
+        'register' => ['account','mail','password','phone','name','gender'],
         'login' => ['account','password'],
-        'normal' => ['token']
     ];
 }
