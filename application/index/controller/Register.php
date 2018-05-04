@@ -7,6 +7,8 @@
  */
 namespace app\index\Controller;
 
+require_once "UserValidate.php";
+
 class Register extends Base{
     public function registe()
     {
