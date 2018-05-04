@@ -7,6 +7,8 @@
  */
 namespace app\index\Controller;
 
+require_once "UserValidate.php";
+
 class Login extends Base{
     public function login(){
         $ret = array('errCode'=>0,'errMsg'=>'OK','data'=>null);
