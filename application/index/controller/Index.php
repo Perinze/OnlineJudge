@@ -1,7 +1,12 @@
 <?php
-namespace app\index\controller;
+namespace app\index\Controller;
 
-class Index
+require_once 'UserValidate.php';
+
+use think\Controller;
+use think\Request;
+
+class Index extends Controller
 {
     public function index()
     {
@@ -11,5 +16,30 @@ class Index
     public function hello($name = 'ThinkPHP5')
     {
         return 'hello,' . $name;
+    }
+
+    public function test(Request $request)
+    {
+        if($request->isPost()) {
+            $data = array(
+                'test' => input('post.test'),
+                '__token__' => input('post.token')
+            );
+
+            $result = $this->validate($data, 'app\index\validate\UserValidate.normal');
+            if ($result === true) {
+                echo 'success';
+                dump($data);
+            } else {
+                echo 'false';
+                dump($data);
+            }
+        }
+        return view('test');
+    }
+
+    public function in()
+    {
+        return view('test');
     }
 }
