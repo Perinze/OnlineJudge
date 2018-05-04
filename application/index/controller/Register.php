@@ -16,9 +16,16 @@ class Register extends Base{
             return json($ret);
         }
         $rcode = input('rcode');
+        $password = input('post.password');
+        $repassword = input('post.repassword');
+        if($repassword!=$password)
+        {
+            $ret = array('errCode'=>102,'errMsg'=>'两次密码不相同','data'=>null);
+            return json($ret);
+        }
         $data = array(
             'account' => input('post.account'),
-            'password' => input('post.password'),
+            'password' => md5(base64_encode($password)),
             'mail' => input('post.mail'),
             'phone' => input('post.phone'),
             'name' => input('post.name'),
@@ -39,6 +46,12 @@ class Register extends Base{
         if(!$this->checkToken(input('post.token')))
         {
             $ret = array('errCode'=>403,'errMsg'=>'token error','data'=>null);
+            return json($ret);
+        }
+
+        if($this->checkUserType(session('userId'))<=1)
+        {
+            $ret = array('errCode'=>403,'errMsg'=>'没有操作权限','data'=>null);
             return json($ret);
         }
 
