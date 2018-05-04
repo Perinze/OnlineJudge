@@ -10,11 +10,6 @@ namespace app\index\Controller;
 class Register extends Base{
     public function registe()
     {
-//        if(!$this->checkToken(input('post.token')))
-//        {
-//            $ret = array('errCode'=>403,'errMsg'=>'token error','data'=>null);
-//            return json($ret);
-//        }
         $rcode = input('rcode');
         $password = input('post.password');
         $repassword = input('post.repassword');
@@ -32,7 +27,7 @@ class Register extends Base{
             'gender' => input('gender'),
             'joinTime' => date("Y-m-d h:i:s",time()),
             'type' => $this->checkRcode($rcode)?0:1,
-            'token' => input('post.token')
+            '__token__' => input('post.token')
         );
         if($this->validate($data,'app\index\validate\UserValidate.register')) {
             unset($data['token']);
@@ -52,7 +47,7 @@ class Register extends Base{
 
     public function newRcode($num)
     {
-        $data = array('token'=>input('post.token'));
+        $data = array('__token__'=>input('post.token'));
         if(!$this->validate($data,'app\index\validate\UserValidate.normal'))
         {
             $ret = array('errCode'=>403,'errMsg'=>'token error','data'=>null);
