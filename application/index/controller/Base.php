@@ -10,22 +10,22 @@ namespace app\index\Controller;
 use think\Controller;
 
 class Base extends Controller{
-    protected function tokenGenerate()
-    {
-        $hash = bin2hex(random_bytes(16));
-        cache($hash,md5(time()));
-        return $hash;
-    }
-
-    protected function checkToken($token)
-    {
-        if(strlen($token)==32)
-        {
-            $data = app('cache')->pull($token);
-            if($data)return true;
-        }
-        return false;
-    }
+//    protected function tokenGenerate()
+//    {
+//        $hash = bin2hex(random_bytes(16));
+//        cache($hash,md5(time()));
+//        return $hash;
+//    }
+//
+//    protected function checkToken($token)
+//    {
+//        if(strlen($token)==32)
+//        {
+//            $data = app('cache')->pull($token);
+//            if($data)return true;
+//        }
+//        return false;
+//    }
 
     protected function checkUserType($userId)
     {
