@@ -10,11 +10,11 @@ namespace app\index\Controller;
 class Register extends Base{
     public function registe()
     {
-        if(!$this->checkToken(input('post.token')))
-        {
-            $ret = array('errCode'=>403,'errMsg'=>'token error','data'=>null);
-            return json($ret);
-        }
+//        if(!$this->checkToken(input('post.token')))
+//        {
+//            $ret = array('errCode'=>403,'errMsg'=>'token error','data'=>null);
+//            return json($ret);
+//        }
         $rcode = input('rcode');
         $password = input('post.password');
         $repassword = input('post.repassword');
@@ -30,20 +30,30 @@ class Register extends Base{
             'phone' => input('post.phone'),
             'name' => input('post.name'),
             'gender' => input('gender'),
-            'joinTime' => time(),
+            'joinTime' => date("Y-m-d h:i:s",time()),
             'type' => $this->checkRcode($rcode)?0:1,
+            'token' => input('post.token')
         );
-        $userId = Db('user')->insertGetId($data);
-        if($userId)
-        {
-            $ret = array('errCode'=>0,'errMsg'=>'OK','data'=>null);
+        if($this->validate($data,'app\index\validate\UserValidate.register')) {
+            unset($data['token']);
+            $userId = Db('user')->insertGetId($data);
+            if ($userId) {
+                $ret = array('errCode' => 0, 'errMsg' => 'OK', 'data' => null);
+                return json($ret);
+            }else{
+                $ret = array('errCode' => 102, 'errMsg' => '注册失败', 'data' => null);
+                return json($ret);
+            }
+        }else{
+            $ret = array('errCode' => 102, 'errMsg' => '表单信息错误', 'data' => null);
             return json($ret);
         }
     }
 
     public function newRcode($num)
     {
-        if(!$this->checkToken(input('post.token')))
+        $data = array('token'=>input('post.token'));
+        if(!$this->validate($data,'app\index\validate\UserValidate.normal'))
         {
             $ret = array('errCode'=>403,'errMsg'=>'token error','data'=>null);
             return json($ret);
