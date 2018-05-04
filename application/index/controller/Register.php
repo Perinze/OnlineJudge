@@ -21,6 +21,9 @@ class Register extends Base{
             'password' => input('post.password'),
             'mail' => input('post.mail'),
             'phone' => input('post.phone'),
+            'name' => input('post.name'),
+            'gender' => input('gender'),
+            'joinTime' => time(),
             'type' => $this->checkRcode($rcode)?0:1,
         );
         $userId = Db('user')->insertGetId($data);
