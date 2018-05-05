@@ -116,4 +116,38 @@ class User extends Base{
         $ret = array('errCode' => 0, 'errMsg' => 'OK', 'data' => null);
         return json($ret);
     }
+
+    public function deleteUser($userId)
+    {
+        if($this->checkToken(input('post.token'))!==true)
+        {
+            $ret = array('errCode'=>403,'errMsg'=>'token error','data'=>null);
+            return json($ret);
+        }
+
+        if($this->checkUserType(session('userId'))<=1)
+        {
+            $ret = array('errCode'=>403,'errMsg'=>'没有操作权限','data'=>null);
+            return json($ret);
+        }
+
+        if($this->checkUserType($userId)>=1)
+        {
+            $ret = array('errCode'=>102,'errMsg'=>'管理员与正式成员无法删除,请使用数据库','data'=>null);
+            return json($ret);
+        }else{
+            $result = Db('user')->where('userId',$userId)->delete();
+            if($result)
+            {
+                $time = date("Y-m-d H:i:s",time());
+                $sessionuid = session('userId');
+                Log::info("Opt {$time} [{$sessionuid}] Delete User $userId");
+            }else{
+                $ret = array('errCode'=>102,'errMsg'=>'用户不存在','data'=>null);
+                return json($ret);
+            }
+        }
+        $ret = array('errCode' => 0, 'errMsg' => 'OK', 'data' => null);
+        return json($ret);
+    }
 }
