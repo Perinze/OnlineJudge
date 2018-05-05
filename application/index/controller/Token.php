@@ -8,6 +8,11 @@
 namespace app\index\widget;
 
 class Token{
+    /**
+     * view文件夹内可调用：生成token
+     * @return string
+     * @throws \Exception
+     */
     public function tokenGenerate()
     {
         $hash = bin2hex(random_bytes(16));

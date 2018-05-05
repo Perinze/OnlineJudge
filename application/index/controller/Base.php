@@ -10,6 +10,11 @@ namespace app\index\Controller;
 use think\Controller;
 
 class Base extends Controller{
+    /**
+     * view文件夹外调用：生成token（之后可能考虑关闭此方法）
+     * @return string
+     * @throws \Exception
+     */
     public static function tokenGenerate()
     {
         $hash = bin2hex(random_bytes(16));
@@ -17,6 +22,11 @@ class Base extends Controller{
         return $hash;
     }
 
+    /**
+     * 验证token有效性
+     * @param $token
+     * @return bool
+     */
     protected function checkToken($token)
     {
         if(strlen($token)==32)
@@ -27,12 +37,28 @@ class Base extends Controller{
         return false;
     }
 
+    /**
+     * 检查用户身份级别
+     * @param $userId
+     * @return array|null|\PDOStatement|string|\think\Model
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     protected function checkUserType($userId)
     {
         $result = Db('user')->where('userId',$userId)->find();
         return $result;
     }
 
+    /**
+     * 检查邀请码有效性
+     * @param $rcode
+     * @return bool
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     protected function checkRcode($rcode)
     {
         if(strlen($rcode)==16)

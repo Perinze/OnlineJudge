@@ -12,6 +12,20 @@ use think\Log;
 require_once "UserValidate.php";
 
 class User extends Base{
+    /**
+     * 更新个人资料
+     * @param $userId
+     * @param $mail
+     * @param $phone
+     * @param $name
+     * @param $gender
+     * @param $desc
+     * @param $class
+     * @return \think\response\Json
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function changeInfo($userId,$mail,$phone,$name,$gender,$desc,$class)
     {
         if($this->checkToken(input('post.token'))!==true)
@@ -47,6 +61,12 @@ class User extends Base{
         return json($ret);
     }
 
+    /**
+     * 更改用户身份级别
+     * @param $userId
+     * @param $type
+     * @return \think\response\Json
+     */
     public function changeType($userId,$type)
     {
         if($this->checkToken(input('post.token'))!==true)
@@ -75,6 +95,13 @@ class User extends Base{
         }
     }
 
+    /**
+     * 更改密码
+     * @return \think\response\Json
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function changePassword()
     {
         $userId = input('post.userId');
@@ -117,6 +144,13 @@ class User extends Base{
         return json($ret);
     }
 
+    /**
+     * 删除非正式成员
+     * @param $userId
+     * @return \think\response\Json
+     * @throws \think\Exception
+     * @throws \think\exception\PDOException
+     */
     public function deleteUser($userId)
     {
         if($this->checkToken(input('post.token'))!==true)

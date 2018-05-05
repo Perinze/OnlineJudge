@@ -10,6 +10,10 @@ namespace app\index\Controller;
 require_once "UserValidate.php";
 
 class Register extends Base{
+    /**
+     * 用户注册
+     * @return \think\response\Json
+     */
     public function registe()
     {
         if($this->checkToken(input('post.token'))!==true)
@@ -52,6 +56,12 @@ class Register extends Base{
         }
     }
 
+    /**
+     * 批量产生邀请码
+     * @param $num
+     * @return \think\response\Json
+     * @throws \Exception
+     */
     public function newRcode($num)
     {
         if($this->checkToken(input('post.token'))!==true)
