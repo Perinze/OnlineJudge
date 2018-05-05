@@ -12,9 +12,39 @@ use think\Log;
 require_once "UserValidate.php";
 
 class User extends Base{
-    public function changeInfo()
+    public function changeInfo($userId,$mail,$phone,$name,$gender,$desc,$class)
     {
+        if($this->checkToken(input('post.token'))!==true)
+        {
+            $ret = array('errCode'=>403,'errMsg'=>'token error','data'=>null);
+            return json($ret);
+        }
 
+        if(session('userId')!=$userId)
+        {
+            $ret = array('errCode'=>403,'errMsg'=>'没有操作权限','data'=>null);
+            return json($ret);
+        }
+
+        $userInfo = Db('user')->where('userId',$userId)->find();
+
+        $info = json(array('desc'=>$desc,'class'=>$class));
+
+        $data = array();
+        if($mail!=$userInfo['mail'])$data['mail']=$mail;
+        if($phone!=$userInfo['phone'])$data['phone']=$phone;
+        if($name!=$userInfo['name'])$data['name']=$name;
+        if($gender!=$userInfo['gender'])$data['gender']=$gender;
+        if($info!=$userInfo['info'])$data['info']=$info;
+
+        $result = Db('user')->where('userId',$userId)->setField($data);
+        if($result)
+        {
+            $ret = array('errCode' => 0, 'errMsg' => 'OK', 'data' => null);
+        }else{
+            $ret = array('errCode' => 102, 'errMsg' => '更新个人信息失败', 'data' => null);
+        }
+        return json($ret);
     }
 
     public function changeType($userId,$type)
