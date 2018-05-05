@@ -51,6 +51,13 @@ class User extends Base{
         if($gender!=$userInfo['gender'])$data['gender']=$gender;
         if($info!=$userInfo['info'])$data['info']=$info;
 
+        $result = $this->validate($data,'app\index\validate\UserValidate.change');
+        if($result !== true)
+        {
+            $ret = array('errCode' => 102, 'errMsg' => '表单数据格式有误', 'data' => $result);
+            return json($ret);
+        }
+
         $result = Db('user')->where('userId',$userId)->setField($data);
         if($result)
         {
@@ -66,6 +73,9 @@ class User extends Base{
      * @param $userId
      * @param $type
      * @return \think\response\Json
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function changeType($userId,$type)
     {

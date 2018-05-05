@@ -13,6 +13,9 @@ class Register extends Base{
     /**
      * 用户注册
      * @return \think\response\Json
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function registe()
     {
