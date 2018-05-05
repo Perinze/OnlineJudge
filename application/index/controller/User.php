@@ -74,4 +74,46 @@ class User extends Base{
             return json($ret);
         }
     }
+
+    public function changePassword()
+    {
+        $userId = input('post.userId');
+        if($this->checkToken(input('post.token'))!==true)
+        {
+            $ret = array('errCode'=>403,'errMsg'=>'token error','data'=>null);
+            return json($ret);
+        }
+
+        if(session('userId')!=$userId)
+        {
+            $ret = array('errCode'=>403,'errMsg'=>'没有操作权限','data'=>null);
+            return json($ret);
+        }
+
+        $oriPassword = input('post.oriPassword');
+        $newPassword = input('post.newPassword');
+        $rePassword = input('post.rePassword');
+
+        $check = Db('user')->where(array('userId'=>$userId,'password'=>md5(base64_encode($oriPassword))))->find();
+        if($check)
+        {
+            if($newPassword!=$rePassword)
+            {
+                $ret = array('errCode'=>102,'errMsg'=>'两次密码不一致','data'=>null);
+                return json($ret);
+            }else{
+                $result = Db('user')->where('userId',$userId)->setField('password',md5(base64_encode($newPassword)));
+                if(!$result)
+                {
+                    $ret = array('errCode'=>102,'errMsg'=>'新密码与旧密码不能相同','data'=>null);
+                    return json($ret);
+                }
+            }
+        }else{
+            $ret = array('errCode'=>102,'errMsg'=>'原密码错误','data'=>null);
+            return json($ret);
+        }
+        $ret = array('errCode' => 0, 'errMsg' => 'OK', 'data' => null);
+        return json($ret);
+    }
 }
