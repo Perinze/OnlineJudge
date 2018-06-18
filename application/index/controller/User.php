@@ -155,7 +155,7 @@ class User extends Base{
     }
 
     /**
-     * 删除非正式成员
+     * 删除成员（仅有非正式成员可以删除）
      * @param $userId
      * @return \think\response\Json
      * @throws \think\Exception
