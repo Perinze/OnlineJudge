@@ -3162,7 +3162,7 @@
 		-ms-transition: -ms-transform 0.5s ease;
 		transition: transform 0.5s ease;
 		-webkit-overflow-scrolling: touch;
-		background: #21b2a6;
+		background: rgba(0,0,0,0);
 		color: #ffffff;
 		height: 100%;
 		max-width: 80%;
@@ -3171,7 +3171,7 @@
 		position: fixed;
 		right: 0;
 		top: 0;
-		width: 20em;
+		width: 13em;
 		z-index: 10002;
 	}
 
@@ -3194,13 +3194,18 @@
 
 				#menu ul > li > a {
 					border: 0;
-					color: inherit;
+					color: #EEEEEE;
 					display: block;
 					font-size: 0.8em;
 					letter-spacing: 0.225em;
 					outline: 0;
 					text-decoration: none;
 					text-transform: uppercase;
+				}
+
+				/*TODO transition highlight*/
+				#menu ul > li > a :hover{
+					-webkit-tap-highlight-color: rgba(0,0,0,0.3);
 				}
 
 					@media screen and (max-width: 736px) {
@@ -3247,6 +3252,24 @@
 		-webkit-transform: translateX(0);
 		-ms-transform: translateX(0);
 		transform: translateX(0);
+	}
+
+	body.is-menu-visible #menuToggle {
+		opacity: 0;
+		transition: opacity 370ms;
+	}
+
+	/*ACM-font*/
+	@font-face {
+		font-family: 'ACM font';
+		src: url('../fonts/acm.ttf');
+	}
+
+	.acmfont {
+		position: absolute;
+		z-index: 11;
+		font-family: "ACM font";
+		font-size: 9em;
 	}
 
 /* Header */
@@ -3593,7 +3616,7 @@
 		width: 400px;
 		height: 100%;
 		background: #232323;
-		/*z-index: 0;*/
+		z-index: 10;
 	}
 	#banner:after {
 		position: absolute;
@@ -3603,6 +3626,7 @@
 		border-style: solid;
 		border-width: 335.5px;
 		border-color: #232323 transparent transparent #232323;
+		z-index: 10;
 	}
 
 /* CTA */
