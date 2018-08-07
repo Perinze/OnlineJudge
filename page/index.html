@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ACM@WUT</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body style="height: 100%" class="landing">
+<div id="page-wrapper" style="height: 100%">
+    <!--header pattern-->
+    <header id="header" class="alt">
+        <h1>
+            <a href="index.html">ACM@WUT</a>
+        </h1>
+        <nav>
+            <ul>
+                <li class="special">
+                    <a href="#menu" class="menuToggle">
+                        <span>Menu</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <!--banner pattern-->
+    <section id="banner">
+        <!--<div id="beforebanner"></div>-->
+        <!--<div class="bannerbefore"></div>-->
+        <!--<div class="bannerafter"></div>-->
+    </section>
+    <!--one pattern-->
+    <section id="one" class="wrapper style1 special"></section>
+    <!--two pattern-->
+    <section id="two" class="wrapper alt style2"></section>
+    <!--CTA-->
+    <section id="cta" class="wrapper style4"></section>
+    <section id="cta1" class="wrapper style4"></section>
+    <section id="cta2" class="wrapper style4"></section>
+    <section id="cta3" class="wrapper style4"></section>
+    <section id="cta4" class="wrapper style4"></section>
+    <section id="cta5" class="wrapper style4"></section>
+    <section id="cta6" class="wrapper style4"></section>
+    <section id="cta7" class="wrapper style4"></section>
+    <section id="cta8" class="wrapper style4"></section>
+</div>
+</body>
+<!--script begin-->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/jquery.scrollex.min.js"></script>
+<script src="assets/js/jquery.scrolly.min.js"></script>
+<script src="assets/js/skel.min.js"></script>
+<script src="assets/js/util.js"></script>
+<script src="assets/js/main.js"></script>
+<script type="text/javascript">
+    winPos = $(window).scrollTop();
+    $(document).ready(function(){
+        $(window).scroll(function() {
+            winPos = $(window).scrollTop();
+            $('#banner').css('left',winPos*1.57);
+        });
+    });
+</script>
+<!--script end-->
+</html>
