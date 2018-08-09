@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ACM@WUT</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body style="height: 100%" class="landing">
+<div id="page-wrapper" style="height: 100%">
+    <!--header pattern-->
+    <header id="header" class="alt">
+        <h1>
+            <a href="index.html">ACM@WUT</a>
+        </h1>
+        <nav>
+            <ul>
+                <li class="special">
+                    <a href="#menu" id="menuToggle" class="menuToggle">
+                        <span>Menu</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <!--banner pattern-->
+    <section id="banner"></section>
+    <h1 id="acm" class="acmfont" style="top: 30%;left: 20%;color: #880000;">ACM</h1>
+    <h1 id="wut" class="acmfont" style="top: 43%;right: 13%;z-index: 11;color: #232323">WUT</h1>
+    <!--one pattern-->
+    <section id="one" class="wrapper style1 special"></section>
+    <!--two pattern-->
+    <section id="two" class="wrapper alt style2"></section>
+    <!--CTA-->
+    <section id="cta" class="wrapper style4"></section>
+    <section id="cta1" class="wrapper style4"></section>
+    <section id="cta2" class="wrapper style4"></section>
+    <section id="cta3" class="wrapper style4"></section>
+    <section id="cta4" class="wrapper style4"></section>
+    <section id="cta5" class="wrapper style4"></section>
+    <section id="cta6" class="wrapper style4"></section>
+    <section id="cta7" class="wrapper style4"></section>
+    <section id="cta8" class="wrapper style4"></section>
+    <div id="menu">
+        <ul>
+            <li><a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" class="section-li">Home</a></li>
+            <li><a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" class="section-li">Generic</a></li>
+            <li><a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" class="section-li">Elements</a></li>
+            <li><a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" class="section-li">Sign Up</a></li>
+            <li><a href="#" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" class="section-li">Log In</a></li>
+        </ul>
+        <a href="#menu" class="close" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></a>
+    </div>
+</div>
+</body>
+<!--script begin-->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/jquery.scrollex.min.js"></script>
+<script src="assets/js/jquery.scrolly.min.js"></script>
+<script src="assets/js/skel.min.js"></script>
+<script src="assets/js/util.js"></script>
+<script src="assets/js/main.js"></script>
+<script type="text/javascript">
+    // scroll
+    winPos = $(window).scrollTop();
+    $(document).ready(function(){
+        $(window).scroll(function() {
+            winPos = $(window).scrollTop();
+            // console.log(winPos);
+            $('#banner').css('left',winPos*1.57);
+            if(winPos>=205){
+                $('#acm').css('top',winPos);
+            }else{
+                $('#acm').css('top','30%')
+            }
+            if(winPos>=297){
+                $('#wut').css('top',winPos);
+            }else{
+                $('#wut').css('top','43%')
+            }
+            // $('#banner').css('left',-winPos*0.5);
+        });
+    });
+</script>
+<!--script end-->
+</html>

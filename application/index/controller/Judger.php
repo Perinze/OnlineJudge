@@ -9,6 +9,13 @@ namespace app\index\controller;
 
 class Judger extends Base
 {
+    private $python3;
+
+    public function __construct()
+    {
+        $this->python3 = '/Users/wdhhdzyhb/PycharmProjects/DoTA2Analysis/venv/bin/python3';
+    }
+
     public function judge()
     {
         #sudo ./final_judger.py
@@ -28,7 +35,7 @@ class Judger extends Base
           "success": true
         }
         */
-        $command = "sudo ./final_judger.py";
+        $command = $this->python3." ./final_judger.py";
         $command .= " --problem " . "";
         $command .= " --code" . "";
         $command .= " --language " . "";
