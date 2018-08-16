@@ -8,6 +8,7 @@
 namespace app\index\Controller;
 
 use think\Controller;
+use think\Exception;
 
 class Base extends Controller{
     /**
@@ -41,14 +42,15 @@ class Base extends Controller{
      * 检查用户身份级别
      * @param $userId
      * @return array|null|\PDOStatement|string|\think\Model
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
      */
     protected function checkUserType($userId)
     {
-        $result = Db('user')->where('userId',$userId)->find();
-        return $result;
+        try {
+            $result = Db('user')->where('userId', $userId)->field('status');//TODO check
+            return $result;
+        }catch (Exception $e) {
+            return -1;
+        }
     }
 
     /**
