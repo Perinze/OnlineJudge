@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.4
+-- version 4.7.3
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: 2018-08-11 15:08:44
--- 服务器版本： 5.7.14
--- PHP Version: 5.6.25
+-- Host: localhost:8889
+-- Generation Time: 2018-08-16 18:37:41
+-- 服务器版本： 5.6.35
+-- PHP Version: 7.1.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `openjudge_db`
 --
+CREATE DATABASE IF NOT EXISTS `openjudge_db` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `openjudge_db`;
 
 -- --------------------------------------------------------
 
@@ -33,6 +35,30 @@ CREATE TABLE `contest` (
   `contestStartTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `contestEndTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `notice`
+--
+
+CREATE TABLE `notice` (
+  `noticeId` int(11) NOT NULL,
+  `title` varchar(2000) NOT NULL,
+  `href` varchar(2000) DEFAULT '#',
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `user` int(11) NOT NULL,
+  `status` int(2) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `notice`
+--
+
+INSERT INTO `notice` (`noticeId`, `title`, `href`, `time`, `user`, `status`) VALUES
+(1, 'test', '#', '2018-08-16 16:30:01', 1, 0),
+(2, '欢迎加入武汉理工大学计算机学院ACM协会', '#', '2018-08-16 16:30:01', 1, 1),
+(3, '武汉理工大学计算机学院ACM协会首届招新赛报名即将开始', '#', '2018-08-16 16:30:01', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -116,6 +142,12 @@ ALTER TABLE `contest`
   ADD PRIMARY KEY (`contestId`);
 
 --
+-- Indexes for table `notice`
+--
+ALTER TABLE `notice`
+  ADD PRIMARY KEY (`noticeId`);
+
+--
 -- Indexes for table `problem`
 --
 ALTER TABLE `problem`
@@ -149,6 +181,11 @@ ALTER TABLE `user`
 --
 ALTER TABLE `contest`
   MODIFY `contestId` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- 使用表AUTO_INCREMENT `notice`
+--
+ALTER TABLE `notice`
+  MODIFY `noticeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- 使用表AUTO_INCREMENT `problem`
 --
