@@ -43,4 +43,11 @@ class Notice extends Base{
 
         }
     }
+
+    public function getdisplaylist()
+    {
+        $notice = new NoticeModel();
+        $info = $notice->getnotcielist(['status'=>1]);
+        return $info;
+    }
 }

@@ -57,10 +57,12 @@ class NoticeModel extends Model{
         }
     }
 
-    public function getnotcielist()
+    public function getnotcielist($where=null)
     {
         try{
-            $info = $this->select();
+            if($where==null)$info = $this->select();
+            else $info = $this->where($where)->select();
+
             if($info){
                 return ['code' => 0, 'msg' => 'Success', 'data' => $info];
             }else{

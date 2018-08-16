@@ -476,6 +476,26 @@
         })
     }
     setInterval("lunbo('#myul','-36px')", 4000)
+
+    // 获取公告
+    function getRepairList(){
+        $.ajax({
+            url:'http://localhost:8888/OnlineJudge/public/index/Notice/getdisplaylist',
+            data:"",
+            dataType:"json",
+            type:"post",
+            success:function (str) {
+                if(str[0]==0){
+                    //TODO 画出公告列表
+                }else{
+                    alert(str[1])
+                }
+            },
+            error:function(str){
+
+            }
+        })
+    }
 </script>
 <!--script end-->
 </html>
