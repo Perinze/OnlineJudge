@@ -48,6 +48,6 @@ class Notice extends Base{
     {
         $notice = new NoticeModel();
         $info = $notice->getnotcielist(['status'=>1]);
-        return $info;
+        return json(array_values($info));
     }
 }

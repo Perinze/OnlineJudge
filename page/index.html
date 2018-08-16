@@ -406,24 +406,7 @@
 		<div id="background-black-top" class="background-black">
 			<span class="welcome">cout << "ACMer";<span class="blink"> _</span></span>
 			<div class="news" style="height: 45px;overflow: hidden;">
-				<ul id="myul" style="margin:6px;padding:0px;position:relative;width: 700px; height: auto;">
-					<!--TODO 接入通知后台-->
-					<!--<li>-->
-						<!--<a href="#">-->
-							<!--<span>内容</span>-->
-						<!--</a>-->
-					<!--</li>-->
-					<li>
-						<a href="#">
-							<span>欢迎加入武汉理工大学计算机学院ACM协会</span>
-						</a>
-					</li>
-					<li>
-						<a href="#">
-							<span>武汉理工大学计算机学院ACM协会首届招新赛报名即将开始</span>
-						</a>
-					</li>
-				</ul>
+				<ul id="myul" style="margin:6px;padding:0px;position:relative;width: 700px; height: auto;"></ul>
 			</div>
 		</div>
 		<div id="background-black-bottom" class="background-black">
@@ -456,6 +439,10 @@
 </body>
 <!--script begin-->
 <script>
+    window.onload=function () {
+        getDisplayList()
+    }
+
 	function test() {
         // $(window).scrollTop(738);
         // window.scroll(0,738);
@@ -478,7 +465,7 @@
     setInterval("lunbo('#myul','-36px')", 4000)
 
     // 获取公告
-    function getRepairList(){
+    function getDisplayList(){
         $.ajax({
             url:'http://localhost:8888/OnlineJudge/public/index/Notice/getdisplaylist',
             data:"",
@@ -486,7 +473,7 @@
             type:"post",
             success:function (str) {
                 if(str[0]==0){
-                    drwlist(str[2])
+                    drawProjectList(str[2])
                 }else{
                     alert(str[1])
                 }
