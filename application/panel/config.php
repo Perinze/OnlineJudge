@@ -4,11 +4,11 @@ define("VALIDATE_PASS", true);
 define("VALIDATE_ERROR", false);
 define("CODE_SUCCESS", 0);
 define("CODE_ERROR", -1);
-define("SUPER_ADMIN", 2);
+define("SUPER_ADMIN", 2);//
 define("SUPER_ADMIN_NAME", "大狗官");
-define("GENERAL_ADMIN", 1);
+define("GENERAL_ADMIN", 1);//
 define("GENERAL_ADMIN_NAME", "狗官");
-define("CIVILIAN", 0);
+define("CIVILIAN", 0);//
 define("CIVILIAN_NAME", "庶民");
 
 return [

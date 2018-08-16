@@ -1,8 +1,8 @@
 <?php
-namespace app\index\controller;
+namespace app\panel\controller;
 use think\Controller;
 use think\Request;
-use app\index\model\SignModel;
+use app\panel\model\SignModel;
 
 class Sign extends Controller
 {
