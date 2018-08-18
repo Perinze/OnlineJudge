@@ -62,13 +62,12 @@
     //弹出式注册框
     $(document).ready(function(){
         $('#register').click(function() {
-            // $('.login-form-mask').fadeIn(100);
             $('#registeBox').slideDown(200);
         })
-        // $('.login-close').click(function() {
-        //     $('.login-form-mask').fadeOut(100);
-        //     $('.login-form').slideUp(200);
-        // })
+        // TODO 弹出式注册框关闭
+        $('#register-close').click(function() {
+            $('#registeBox').slideUp(200);
+        })
     });
 
     //公告轮播
