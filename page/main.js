@@ -108,6 +108,14 @@ function checkFormBtn() {
     }
 }
 
+function initBtn()
+{
+    var tt=document.styleSheets[0];
+    tt.deleteRule(rulecnt);//清除之前写入的动画样式
+    rulecnt = 0;
+    tt.insertRule("@keyframes button-onfocus {0% {box-shadow:;border: 1px solid #c0c0c0;color: #c0c0c0}100% {box-shadow:;border: 1px solid #ffffff;color: #ffffff;");
+}
+
 // TODO 招新比赛报名接口
 // mui.init()
 // window.onload=function() {

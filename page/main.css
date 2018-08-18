@@ -301,7 +301,7 @@ footer >p{
 @keyframes button-onfocus {
     0% {
         border: 1px solid #c0c0c0;
-        color: #000000
+        color: #c0c0c0
     }
     100% {
         border: 1px solid #ffffff;
