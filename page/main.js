@@ -96,7 +96,7 @@ function checkForm(obj) {
 var rulecnt = 52;
 function checkFormBtn() {
     var tt=document.styleSheets[0];
-    if(cnt === (1<<7)-1)
+    if(cnt === (1<<8)-1)
     {
         tt.deleteRule(rulecnt);//清除之前写入的动画样式
         rulecnt = 0;
