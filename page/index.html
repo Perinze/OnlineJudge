@@ -10,365 +10,6 @@
 	<script src="assets/js/jquery.min.js"></script>
 	<script src="assets/js/jquery.scrollex.min.js"></script>
 	<script src="assets/js/jquery.scrolly.min.js"></script>
-	<style>
-		html, body, #background {
-			font-family: Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", STXihei, "Microsoft YaHei", SimHei, "WenQuanYi Micro Hei";
-			width: 100%;
-			height: 204%;
-			margin: 0;
-			padding: 0;
-			background-color: #000000;
-		}
-
-		h1, h2, h3, h4, h5, h6, h7, span, p, i {
-			color: white;
-		}
-
-		a { text-decoration: none; }
-
-		h1, h2 {
-			font-weight: 200;
-		}
-		
-		h3, h4, h5, h6, h7 {
-			font-weight: 100;
-		}
-
-		h1 { font-size: 50px }
-		h2 { font-size: 44px }
-		h3 { font-size: 40px }
-		h4 { font-size: 33px }
-		h5 { font-size: 30px }
-		h6 { font-size: 28px }
-		h7 { font-size: 26px }
-
-		p { font-size: 22px }
-
-
-		#background {
-			position: absolute;
-			top: 0;
-		}
-
-		#top-layer {
-			position: fixed;
-			width: 100%;
-			height: 85px;
-			background: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.3) 80%);
-			z-index: 500;
-		}
-
-		#background-red {
-			z-index: 10;
-			background-color: #880000;
-			position: absolute;
-			left: 0%;
-			top: 0%;
-			height: 200%;
-			width: 100%;
-		}
-
-		.background-black {
-			z-index: 20;
-			margin: 0;
-			border: 0;
-			position: absolute;
-			left: 0%;
-			height: 100%;
-			width: 100%;
-		}
-
-		#background-black-top {
-			background: linear-gradient(-25deg, rgba(255, 255, 255, 0) 50%, #000000 0);
-			top: 0%;
-		}
-
-		#background-black-top > .welcome {
-			font-family: courier, courier new, serif !important;
-			font-size: 60px;
-			color: white;
-			position: absolute;
-			top: 19%;
-			left: 10%;
-			width: 18em;
-			z-index: 30;
-			white-space:nowrap;
-			overflow:hidden;
-			animation:typing 5s steps(30, end) forwards;
-		}
-
-		#background-black-top > .news {
-			position: absolute;
-			top: 23.5%;
-			left: 9.7%;
-			width: auto;
-			z-index: 30;
-		}
-
-		#background-black-top > .news >ul >li >a >span{
-			height:auto ;
-			line-height: 36px;
-		}
-
-		#background-black-top > .news >ul >li >a {
-			text-decoration: none;
-			font-family: courier, courier new, serif !important;
-			/*font-size: 1em;*/
-			color: #ffffff;
-		}
-
-		@keyframes typing {
-			0% { width: 0 }
-		}
-
-		#background-black-top > .welcome > .blink {
-			animation: blink-cursor 0.75s linear infinite;
-		}
-
-		#background-black-bottom {
-			background: linear-gradient(-25deg, #000000 50%, rgba(255, 255, 255, 0) 0);
-			top: 100%;
-		}
-
-		#content {
-			z-index: 15;
-			position: fixed;
-			height: 100%;
-			padding: 160px 300px;
-		}
-
-		#register-title {
-			position: absolute;
-			text-align: center;
-			bottom: 24%;
-			font-size: 60px;
-			width: 100%;
-			font-weight: 100;
-			color: #ffffff;
-		}
-
-		#register {
-			border: 1px solid #c0c0c0;
-			border-radius: 3px;
-			position: absolute;
-			bottom: 10%;
-			left: 50%;
-			transform: translateX(-50%);
-			padding: 40px 60px;
-			font-size: 30px;
-			font-weight: 200;
-			color: #c0c0c0;
-		}
-
-		#register:hover {
-			animation: button-onfocus 0.1s ease-in-out forwards;
-		}
-
-        footer{
-            background-color: #000000;
-            position: absolute;
-            text-align: center;
-            bottom: -4%;
-            width: 100%;
-        }
-
-        footer >p{
-            color: #ffffff;
-            font-size: 1em;
-        }
-
-		@font-face {
-			font-family: "ACM font";
-			src: url("/assets/fonts/acm.ttf");
-		}
-
-        /* 底栏关于样式 */
-        /*#about {*/
-            /*width: 100%;*/
-            /*height: 5%;*/
-            /*position: absolute;*/
-            /*top: 200%;*/
-            /*background-color: #000000;*/
-            /*z-index: 2000;*/
-            /*text-align: center;*/
-            /*line-height: 12px;*/
-        /*}*/
-
-        /* 底栏关于文本样式 */
-        /*#about > p {*/
-            /*font-size: 14px !important;*/
-            /*color: white;*/
-        /*}*/
-
-		#menu {
-			position: fixed;
-			top: 20px;
-			right: 70px;
-			width: 160px;
-			z-index: 1000;
-		}
-
-		#logo {
-			position: fixed;
-			top: 46px;
-			left: 70px;
-			width: 250px;
-			z-index: 1000;
-		}
-
-		#logo a {
-			font-size: 35px;
-			font-weight: 200;
-		}
-
-		#logo a > #logo-acm {
-			color: #f0f0f0;
-			font-weight: 400;
-		}
-
-		#logo a > #logo-wut {
-			color: #a0a0a0;
-		}
-
-		#menu-text {
-			color: white;
-			font-size: 30px;
-			font-weight: 100;
-			position: relative;
-			float: left;
-			left: 12px;
-			width: 80%;
-		}
-
-		#menu-bar {
-			position: relative;
-			margin: 3px 0px;
-			float: left;
-			width: 20%;
-		}
-
-		#menu-button {
-			cursor: pointer;
-			height: 40px;
-			margin-top: 30px;
-		}
-
-		#menu-content {
-			height: 400px;
-			margin-left: -20px;
-		}
-
-		#menu-content-trigger {
-			position: relative;
-			margin-top: -55px;
-			height: 40px;
-			z-index: 2000;
-			cursor: pointer;
-		}
-
-		#menu-bar-1, #menu-bar-2, #menu-bar-3 {
-			height: 4px;
-			width: 28px;
-			background: white;
-			border-radius: 2px;
-			margin-top: 4px;
-		}
-
-		#menu-content-trigger:hover .submenu li {
-			animation: menu-animation 0.3s ease-in-out forwards;
-			animation-delay: 0.1s;
-		}
-
-		#menu-content-trigger:hover .submenu li:nth-of-type(2) {
-			animation: menu-animation 0.3s ease-in-out forwards;
-			animation-delay: 0.2s;
-		}
-
-		#menu-content-trigger:hover .submenu li:nth-of-type(3) {
-			animation: menu-animation 0.3s ease-in-out forwards;
-			animation-delay: 0.3s;
-		}
-
-		#menu-content-trigger:hover .submenu li:nth-of-type(4) {
-			animation: menu-animation 0.3s ease-in-out forwards;
-			animation-delay: 0.4s;
-		}
-
-		#menu-content-trigger:hover .submenu li:last-of-type {
-			animation: menu-animation 0.3s ease-in-out forwards;
-			animation-delay: 0.5s;
-		}
-
-		.submenu li a:hover {
-			animation: list-on-focus 0.2s ease-in-out forwards;
-		}
-
-		@keyframes menu-animation {
-			from {
-				opacity: 0;
-				transform: translateX(30px) rotateY(90deg);
-			}
-			to {
-				opacity: 1;
-				transform: translateX(0) rotateY(0);
-			}
-		}
-
-		@keyframes list-on-focus {
-			from {
-				color: #c0c0c0;
-			} to {
-				color: white;
-			}
-		}
-
-		@keyframes blink-cursor {
-			0% { opacity: 1 }
-			50% { opacity: 1 }
-			50.01% { opacity: 0 }
-			100% { opacity: 0 }
-		}
-
-		@keyframes button-onfocus {
-			0% { 
-				border: 1px solid #c0c0c0;
-				color: #c0c0c0
-			}
-			100% { 
-				border: 1px solid #ffffff; 
-				color: #ffffff;
-			}
-		}
-
-		@keyframes link-onfocus {
-			0% {  }
-			100% { color: #a0a0a0 }
-		}
-
-		.submenu li {
-			opacity: 0;
-			background-color: rgba(0, 0, 0, 0.4);
-			border-radius: 5px;
-			transform-origin: top center;
-			padding: 10px 12px;
-			margin: 5px;
-			height: 30px;
-		}
-
-		.submenu li a {
-			color: #c0c0c0;
-			text-decoration: none;
-			font-size: 19px;
-			font-weight: 200;
-		}
-
-		.submenu {
-			list-style: none;
-			padding-left: 0px;
-			padding-top: 40px;
-		}
-	</style>
-
 </head>
 <body>
 	<div id="top-layer"></div>
@@ -393,9 +34,7 @@
 			<div id="menu-content-trigger">
 				<ul class="submenu">
 					<li><a href="#content" onclick="window.scrollTo(0,738);">关于我们</a></li>
-					<!--<li><a href="">所获荣誉</a></li>-->
 					<li><a href="#register-title">加入我们</a></li>
-					<!--<li><a href="">管理后台</a></li>-->
 					<li><a href="#">友情链接</a></li>
 				</ul>
 			</div>
@@ -412,7 +51,7 @@
 		<div id="background-black-bottom" class="background-black">
 			<span id="register-title">欢迎加入ACM@WUT</span>
 			<!--报名网址-->
-			<a href="#" id="register" target="_blank"><div>加入我们</div></a>
+			<a id="register" target="_blank"><div>加入我们</div></a>
             <footer>
                 <p id="copyright"></p>
                 <p>唯一指定QQ群：<a href="https://jq.qq.com/?_wv=1027&amp;k=5VKCzDK" target="_blank" style="color: #ffffff;">794613186</a></p>
@@ -422,12 +61,28 @@
 					document.getElementById('copyright').innerHTML= "版权所有 &copy; Copyright "+year+" 武汉理工大学ACM协会 ";
 				</script>
             </footer>
-            <!--<div id="about">-->
-                <!--<p>版权所有 ©️ Copyright 武汉理工大学ACM协会</p>-->
-                <!--<p>唯一指定QQ群：<a href="https://jq.qq.com/?_wv=1027&amp;k=5VKCzDK" target="_blank">794613186</a></p>-->
-            <!--</div>-->
 		</div>
 		<div id="background-red"></div>
+	</div>
+	<!--TODO 弹出式注册-->
+	<div id="registeBox">
+		<div id="form" align="center">
+			<p>招新比赛报名</p>
+			<input type="text" name="name" placeholder="请输入姓名" style="width: 180px;margin-right: 12px">
+			<select name="sex" style="width: 180px;">
+				<option value="null">请选择性别</option>
+				<option value="1">男</option>
+				<option value="0">女</option>
+			</select><br>
+			<input type="text" name="class" placeholder="请输入班级"><br>
+			<input type="text" name="cardNo" placeholder="请输入校园卡号" style="width: 180px;margin-right: 12px">
+			<input type="text" name="date" placeholder="请输入出生日期" style="width: 180px;"><br>
+			<input type="text" name="qq" placeholder="请输入常用QQ号"><br>
+			<input type="text" name="tel" placeholder="请输入常用手机号码"><br>
+			<input type="text" name="dorm" placeholder="请输入宿舍信息，格式如'升升A606'"><br>
+			<!--  status  content  create_time  update_time-->
+			<a id="submit_btn">Submit</a>
+		</div>
 	</div>
 
 	<div id="content">
@@ -439,16 +94,22 @@
 </body>
 <!--script begin-->
 <script>
+    $(document).ready(function($){
+        $('#register').click(function() {
+            // $('.login-form-mask').fadeIn(100);
+            $('#registeBox').slideDown(200);
+        })
+        // $('.login-close').click(function() {
+        //     $('.login-form-mask').fadeOut(100);
+        //     $('.login-form').slideUp(200);
+        // })
+    });
+
     window.onload=function () {
         getDisplayList()
     }
 
-	function test() {
-        // $(window).scrollTop(738);
-        // window.scroll(0,738);
-        window.scrollTo(0,738);
-    }
-
+    //公告轮播
     function lunbo(id, height) {
         var ul = $(id);
         var liFirst = ul.find('li:first');
@@ -495,7 +156,6 @@
             otr.innerHTML = "<a href=\"" + href + "\"><span>" + title + "</span></a>";
             projectList.appendChild(otr);
         }
-        // projectDetailFn();
     }
 </script>
 <!--script end-->

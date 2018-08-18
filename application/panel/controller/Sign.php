@@ -20,7 +20,7 @@ class Sign extends Controller
             'sex' => $info['sex'],
             'class' => $info['class'],
             'cardNo' => $info['cardNo'],
-            'class' => $info['class'],
+//            'class' => $info['class'],
             'date' => $info['date'],
             'qq' => $info['qq'],
             'tel' => $info['tel'],
