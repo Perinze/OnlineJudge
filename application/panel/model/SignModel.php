@@ -1,5 +1,6 @@
 <?php
 namespace app\panel\model;
+use think\exception\DbException;
 use think\Model;
 use think\exception\PDOException;
 
@@ -7,43 +8,45 @@ class SignModel extends Model
 {
     protected $table = 'sign';
 
+    public function getVal($obj, $name)
+    {
+        return $obj->toArray()[$name];
+    }
+
     public function addsign($data)
     {
         try {
             $where = ['cardNo' => $data['cardNo']];
-            if(getsign($where)){
-                $info = $this->strict(false)->update(array('update_time'=>time()));
+            if($this->getsign($where)['code']==0 && $where['cardNo']){
+                $info = $this->where($where)->update(array('update_time'=>time()));
                 return ['code' => 0, 'msg' => 'Success', 'data' => $info];
-            }
-            else{
-                $info = $this->strict(false)->insertGetId($data);
+            }else{
+                $info = $this->insertGetId($data);
                 if ($info === false) {
                     return ['code' => -1, 'msg' => $this->getError(), 'data' => $info];
-                } 
-                else {
-                    return ['code' => 0, 'msg' => 'Success', 'data' => $info];
+                } else {
+                    return ['code' => 0, 'msg' => 'Success', 'data' => $data];
                 }
             }
-        } 
-        catch (PDOException $e) {
+        } catch (PDOException $e) {
             return ['code' => -1, 'msg' => $e->getMessage(), 'data' => ''];
         }
     }
 
-    public function getsign($where, $offset, $limit)
+    public function getsign($where, $offset=null, $limit=null)
     {
         try {
             $info = $this->where($where)
-                ->limit($offset, $limit)
+//                ->limit($offset, $limit)
                 ->select();
             if ($info === false) {
                 return ['code' => -1, 'msg' => $this->getError(), 'data' => $info];
             } 
             else {
-                return ['code' => 0, 'msg' => 'Success', 'data' => $info];
+                return ['code' => 0, 'msg' => 'Success', 'data' => $info->toArray()];
             }
         } 
-        catch (PDOException $e) {
+        catch (DbException $e) {
             return ['code' => -1, 'msg' => $e->getMessage(), 'data' => ''];
         }
     }

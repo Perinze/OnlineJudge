@@ -91,6 +91,7 @@ p { font-size: 22px }
     width: auto;
     z-index: 30;
 }
+/*20*/
 
 #background-black-top > .news >ul >li >a >span{
     height:auto ;
@@ -141,7 +142,7 @@ p { font-size: 22px }
     bottom: 10%;
     left: 50%;
     transform: translateX(-50%);
-    padding: 40px 60px;
+    padding: 35px 55px;
     font-size: 30px;
     font-weight: 200;
     color: #c0c0c0;
@@ -162,6 +163,11 @@ footer{
 footer >p{
     color: #ffffff;
     font-size: 1em;
+    margin: 4px 0;
+}
+
+footer >p >a{
+    color: #ffffff;
 }
 
 @font-face {

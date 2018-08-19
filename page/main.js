@@ -1,4 +1,3 @@
-mui.init();
 window.onload=function () {
     getDisplayList();
     submitFn();
@@ -110,7 +109,7 @@ function checkForm(obj) {
     }
 }
 
-var rulecnt = 52;
+var rulecnt = 53;
 function checkFormBtn() {
     var tt=document.styleSheets[0];
     if(cnt === (1<<8)-1)
@@ -164,47 +163,44 @@ function changeBar(opt, content, url)
 
 // 招新比赛报名接口
 function submitFn () {
-    var infoName = mui('#name')[0];
-    var infoSex = mui('#sex')[0];
-    var infoClass = mui('#class')[0];
-    var infoCardNo = mui('#cardNo')[0];
-    var infoDate = mui('#date')[0];
-    var infoQQ = mui('#qq')[0];
-    var infoTel = mui('#tel')[0];
-    var infoDorm = mui('#dorm')[0];
-
-    mui("#submit_btn")[0].onclick=function() {
+    $("#submit_btn").click(function() {
+        var infoName = document.getElementById("name").value;
+        var infoSex = document.getElementById("sex").value;
+        var infoClass = document.getElementById("class").value;
+        var infoCardNo = document.getElementById("cardNo").value;
+        var infoDate = document.getElementById("date").value;
+        var infoQQ = document.getElementById("qq").value;
+        var infoTel = document.getElementById("tel").value;
+        var infoDorm = document.getElementById("dorm").value;
         if(cnt !== (1<<8)-1){
             changeBar('wrong', '请填写完整信息');
         }else{
-            var a = new FormData();
-            a.append("name",infoName.value);
-            a.append("sex",infoSex.value);
-            a.append("class",infoClass.value);
-            a.append("cardNo",infoCardNo.value);
-            a.append("date",infoDate.value);
-            a.append("qq",infoQQ.value);
-            a.append("tel",infoTel.value);
-            a.append("dorm",infoDorm.value);
+            var a = {
+                'name' : infoName,
+                'sex' : infoSex,
+                'class' : infoClass,
+                'cardNo' : infoCardNo,
+                'date' : infoDate,
+                'qq' : infoQQ,
+                'tel' : infoTel,
+                'dorm' : infoDorm
+            };
+            // console.log(a);
             $.ajax({
                 url:"http://localhost:8888/OnlineJudge/public/panel/Sign/addsign",
-                xhrFields:{
-                    withCredentials:true
-                },
-                type: "GET",
-                cache: false,
+                type: "get",
                 data: a,
-                processData: false,
-                contentType:false,
-                async: false,
                 success: function (str) {
-                    if(str.code == 0){
+                    if(str.status == 0){
                         changeBar('right', '注册成功');
                     }else{
                         changeBar('wrong', str.message);
                     }
                 },
+                error: function(){
+                    changeBar('wrong', '发生错误，请联系管理员');
+                }
             })
         }
-    }
+    })
 }
