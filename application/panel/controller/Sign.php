@@ -36,8 +36,10 @@ class Sign extends Controller
             $where = ['cardNo' => $data['cardNo']];
             $temp = $item->getsign($where);
 //            dump($temp['data'][0]['update_time']);
-            if($temp['code']==0 && strtotime($temp['data'][0]['update_time']) + 1000 > $created){
-                return apiReturn(-1, "不要频繁提交", '', 200);
+            if($temp['data']){
+                if(strtotime($temp['data']['update_time']) + 1000 > $created){
+                    return apiReturn(-1, "不要频繁提交", '', 200);
+                }
             }
             $rel = $item->addsign($data);
             return apiReturn($rel['code'], $rel['msg'], $rel['data'], 200);

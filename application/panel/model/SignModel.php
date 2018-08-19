@@ -19,7 +19,12 @@ class SignModel extends Model
             $where = ['cardNo' => $data['cardNo']];
             if($this->getsign($where)['code']==0 && $where['cardNo']){
                 $info = $this->where($where)->update(array('update_time'=>time()));
-                return ['code' => 0, 'msg' => 'Success', 'data' => $info];
+                if($info)
+                {
+                    return ['code' => 0, 'msg' => 'Success', 'data' => $info];
+                }else{
+                    return ['code' => -1, 'msg' => 'Error', 'data' => $info];
+                }
             }else{
                 $info = $this->insertGetId($data);
                 if ($info === false) {
@@ -33,16 +38,17 @@ class SignModel extends Model
         }
     }
 
-    public function getsign($where, $offset=null, $limit=null)
+    public function getsign($where, $offset='', $limit='')
     {
         try {
             $info = $this->where($where)
-//                ->limit($offset, $limit)
-                ->select();
-            if ($info === false) {
+                ->limit($offset, $limit)
+                ->find();
+//            dump($info);
+//            dump([]);
+            if ($info == []) {
                 return ['code' => -1, 'msg' => $this->getError(), 'data' => $info];
-            } 
-            else {
+            } else {
                 return ['code' => 0, 'msg' => 'Success', 'data' => $info->toArray()];
             }
         } 
