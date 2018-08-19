@@ -10,3 +10,11 @@
 // +----------------------------------------------------------------------
 
 // 应用公共文件
+function apiReturn($status, $message, $data=[], $httpCode=200)
+{
+    return json([
+        'status'  => $status,
+        'message' => $message,
+        'data'    => $data,
+    ], $httpCode);
+}

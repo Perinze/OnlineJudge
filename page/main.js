@@ -1,5 +1,7 @@
+mui.init();
 window.onload=function () {
     getDisplayList();
+    submitFn();
     setInterval("lunbo('#myul','-36px')", 4000);
 };
 
@@ -64,9 +66,8 @@ function drawProjectList(str){
     }
 }
 
+//  表单前端检测--BEGIN
 var cnt=0;
-
-//  表单前端检测
 function checkForm(obj) {
     var opt = obj.name;
     var v = obj.value;
@@ -115,59 +116,75 @@ function initBtn()
     rulecnt = 0;
     tt.insertRule("@keyframes button-onfocus {0% {box-shadow:;border: 1px solid #c0c0c0;color: #c0c0c0}100% {box-shadow:;border: 1px solid #ffffff;color: #ffffff;");
 }
+//  表单前端检测--END
 
-// TODO 招新比赛报名接口
-// mui.init()
-// window.onload=function() {
-//     submitFn();
-// }
-//
-// function submitFn () {
-//     var newprojectSite=mui("#studentDorm")[0];
-//     var projectClass=document.getElementById("projectClass");
-//     var projectSummary=mui("#projectSummary")[0];
-//     var projectSchool="余家头校区";
-//     var studentPhone=mui("#studentPhone")[0];
-//
-//     mui("#submit_btn")[0].onclick=function() {
-//         if(check()){ // TODO check function
-//             mui.alert("请填写完整信息");// TODO 优化
-//         }else{
-//             var a = new FormData();
-//             a.append("projectClass",projectClass.innerHTML);
-//             a.append("projectSite",newprojectSite.innerHTML);
-//             a.append("projectSummary",projectSummary.value);
-//             a.append("projectSchool",projectSchool);
-//             a.append("orderTime",orderTime);
-//             a.append("studentPhone",studentPhone.value);
-//             a.append("image1",img1);
-//             a.append("image2",img2);
-//             a.append("image3",img3);
-//             $.ajax({
-//                 url:"http://localhost:8888/OnlineJudge/public/index/Notice/getdisplaylist",// TODO update
-//                 xhrFields:{
-//                     withCredentials:true
-//                 },
-//                 type: "GET",
-//                 cache: false,
-//                 data: a,
-//                 processData: false,
-//                 contentType:false,
-//                 async: false,
-//                 success: function (str) {
-// TODO update
 
-// if(str.errMsg=="OK"){
-//     mui.openWindow("student_project_list.html");
-// }else{
-//     mui.alert(str.errMsg+".3秒后自动跳转列表页面");
-//     setTimeout(function(){
-//         mui.openWindow("student_project_list.html");
-//     }, 3000);
-//
-// }
-//                 },
-//             })
-//         }
-//     }
-// }
+//  notice-bar
+function changeBar(opt, content)
+{
+    document.getElementById('notice-bar').innerHTML = content;
+    if(opt == 'right')
+    {
+        $('#notice-bar')
+            .css('background-color','lime')
+            .css('border','1px solid lime')
+            .fadeToggle(200)
+            .fadeToggle(200);
+    }
+    if(opt == 'wrong')
+    {
+        $('#notice-bar')
+            .css('background-color','#eb341c')
+            .css('border','1px solid #eb341c')
+            .fadeToggle(200)
+            .fadeToggle(200);
+    }
+}
+//  notice-bar-end
+
+// 招新比赛报名接口
+function submitFn () {
+    var infoName = mui('#name')[0];
+    var infoSex = mui('#sex')[0];
+    var infoClass = mui('#class')[0];
+    var infoCardNo = mui('#cardNo')[0];
+    var infoDate = mui('#date')[0];
+    var infoQQ = mui('#qq')[0];
+    var infoTel = mui('#tel')[0];
+    var infoDorm = mui('#dorm')[0];
+
+    mui("#submit_btn")[0].onclick=function() {
+        if(cnt !== (1<<8)-1){
+            changeBar('wrong', '请填写完整信息');
+        }else{
+            var a = new FormData();
+            a.append("name",infoName.value);
+            a.append("sex",infoSex.value);
+            a.append("class",infoClass.value);
+            a.append("cardNo",infoCardNo.value);
+            a.append("date",infoDate.value);
+            a.append("qq",infoQQ.value);
+            a.append("tel",infoTel.value);
+            a.append("dorm",infoDorm.value);
+            $.ajax({
+                url:"http://localhost:8888/OnlineJudge/public/panel/Sign/addsign",
+                xhrFields:{
+                    withCredentials:true
+                },
+                type: "GET",
+                cache: false,
+                data: a,
+                processData: false,
+                contentType:false,
+                async: false,
+                success: function (str) {
+                    if(str.code == 0){
+                        changeBar('right', '注册成功');
+                    }else{
+                        changeBar('wrong', str.message);
+                    }
+                },
+            })
+        }
+    }
+}

@@ -64,6 +64,10 @@ class NoticeModel extends Model{
             else $info = $this->where($where)->select();
 
             if($info){
+                foreach ($info as $v)
+                {
+                    $v['title'] = htmlspecialchars($v['title']);
+                }//防 X-S-S
                 return ['code' => 0, 'msg' => 'Success', 'data' => $info];
             }else{
                 return ['code' => -1, 'msg' => $this->getError(), 'data' => $info];

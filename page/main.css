@@ -444,3 +444,18 @@ footer >p{
     width: 380px;
     height: 42px;
 }
+
+#notice-bar {
+    vertical-align: middle;
+    display: table-cell;
+    background-color: rgb(135,179,117);
+    color: rgb(255,255,255);
+    z-index:40;
+    width: 50%;
+    height: 8%;
+    position: fixed;
+    top: 1%;
+    left: 25%;
+    border: 1px solid rgb(135,179,117);;
+    border-radius: 5px;
+}
