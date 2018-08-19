@@ -12,7 +12,7 @@ use think\exception\PDOException;
 use think\Model;
 
 class NoticeModel extends Model{
-    protected $table = 'Notice';
+    protected $table = 'notice';
 
     public function addnotice($data)
     {
