@@ -16,7 +16,23 @@ $(document).ready(function(){
         $('#registeBox').slideUp(200);
         $('#mask').fadeOut(200);
     });
+    //锚点平滑滚动
+    $('a[href*=#],area[href*=#]').click(function() {
+        if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+            var $target = $(this.hash);
+            $target = $target.length && $target || $('[name=' + this.hash.slice(1) + ']');
+            if ($target.length) {
+                var targetOffset = $target.offset().top;
+                $('html,body').animate({
+                        scrollTop: targetOffset
+                    },
+                    1000);
+                return false;
+            }
+        }
+    });
 });
+
 
 //公告轮播
 function lunbo(id, height) {
@@ -120,24 +136,28 @@ function initBtn()
 
 
 //  notice-bar
-function changeBar(opt, content)
+function changeBar(opt, content, url)
 {
-    document.getElementById('notice-bar').innerHTML = content;
+    document.getElementById('notice-bar-content').innerHTML = content;
     if(opt == 'right')
     {
         $('#notice-bar')
-            .css('background-color','lime')
-            .css('border','1px solid lime')
-            .fadeToggle(200)
-            .fadeToggle(200);
+            .css('background-color','rgba(135,179,117,0.7)')
+            .css('border','1px solid rgba(135,179,117,0.7)')
+            .fadeIn(200);
     }
     if(opt == 'wrong')
     {
         $('#notice-bar')
-            .css('background-color','#eb341c')
-            .css('border','1px solid #eb341c')
-            .fadeToggle(200)
-            .fadeToggle(200);
+            .css('background-color','rgba(251,52,28,0.7)')
+            .css('border','1px solid rgba(251,52,28,0.7)')
+            .fadeIn(200);
+    }
+    if(url)
+    {
+        window.setTimeout("location.href='" + url + "'", 2000);
+    }else{
+        setTimeout('$("#notice-bar").fadeOut(170)', 2000);
     }
 }
 //  notice-bar-end
