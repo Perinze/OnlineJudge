@@ -393,7 +393,9 @@ footer >p{
     position: absolute;
     z-index: 999;
     top: 3%;
-    left: 8%;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
 }
 
 #form >a {
