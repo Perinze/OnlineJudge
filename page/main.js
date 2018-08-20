@@ -1,4 +1,5 @@
 window.onload=function () {
+    IsPC();
     getDisplayList();
     submitFn();
     setInterval("lunbo('#myul','-36px')", 4000);
@@ -31,6 +32,24 @@ $(document).ready(function(){
         }
     });
 });
+
+//设备检测
+function IsPC() {
+    var userAgentInfo = navigator.userAgent;
+    var Agents = ["Android", "iPhone",
+        "SymbianOS", "Windows Phone",
+        "iPad", "iPod"];
+    var flag = true;
+    for (var v = 0; v < Agents.length; v++) {
+        if (userAgentInfo.indexOf(Agents[v]) > 0) {
+            flag = false;
+            break;
+        }
+    }
+    if(!flag) {
+        changeBar("right", "电脑端访问页面更美");
+    }
+}
 
 //公告轮播
 function lunbo(id, height) {
