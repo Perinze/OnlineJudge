@@ -49,8 +49,8 @@ p { font-size: 22px }
     z-index: 10;
     background-color: #880000;
     position: absolute;
-    left: 0%;
-    top: 0%;
+    left: 0;
+    top: 0;
     height: 200%;
     width: 100%;
 }
@@ -60,7 +60,7 @@ p { font-size: 22px }
     margin: 0;
     border: 0;
     position: absolute;
-    left: 0%;
+    left: 0;
     height: 100%;
     width: 100%;
 }
@@ -77,11 +77,13 @@ p { font-size: 22px }
     position: absolute;
     top: 19%;
     left: 10%;
-    width: 18em;
+    /*width: 18em;*/
     z-index: 30;
-    white-space:nowrap;
+    /*white-space:nowrap;*/
     overflow:hidden;
-    animation:typing 5s steps(30, end) forwards;
+    word-wrap: break-word;
+    word-break: break-all;
+    /*animation:typing 5s steps(30, end) forwards;*/
 }
 
 #background-black-top > .news {
@@ -90,6 +92,8 @@ p { font-size: 22px }
     left: 9.7%;
     width: auto;
     z-index: 30;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 /*20*/
 
@@ -443,7 +447,6 @@ footer >p >a{
 
 #form  >select{
     font-size: 17px;
-    /*display:block;*/
     margin: 12px 0 10px 0;
     background-color: transparent;
     border: 1px solid #c0c0c0;
@@ -459,8 +462,6 @@ footer >p >a{
     font-size: 1.3em;
     text-align: center;
     vertical-align: middle;
-    /*margin-inside: 20px 0 0 0;*/
-    /*line-height: 55px;*/
     background-color: rgba(135,179,117,0.7);
     color: rgb(255,255,255);
     z-index: 501;
@@ -471,4 +472,103 @@ footer >p >a{
     left: 30%;
     border: 1px solid rgba(135,179,117,0.7);
     border-radius: 5px;
+}
+
+/* *************************** */
+/* *********响应式适配********** */
+/* *************************** */
+/* 桌面设备 */
+@media only screen and (min-width: 768px) {
+    #background-black-top > .welcome {
+        white-space: nowrap;
+        width: 18em;
+        animation:typing 5s steps(30, end) forwards;
+    }
+
+    #content {
+        position: fixed;
+    }
+
+    #logo {
+        position: fixed;
+        top: 46px;
+        left: 70px;
+        width: 250px;
+        z-index: 1000;
+    }
+
+    #menu {
+        right: 70px;
+    }
+
+    #register-title {
+        font-size: 60px;
+    }
+
+    #register {
+        font-size: 30px;
+    }
+}
+
+/* 移动设备 */
+@media only screen and (max-width: 768px) {
+    #background-black-top > .welcome {
+        top: 15%;
+        padding: 0 30px 0 0;
+    }
+
+    #background-black-top > .news {
+        top: 28%;
+        padding: 0 30px 0 0;
+    }
+
+    #content {
+        position: absolute;
+        top: 120%;
+        left: -60%;
+        width: 70%;
+    }
+
+    #logo {
+        position: fixed;
+        top: 46px;
+        left: 15%;
+        transform: translateX(-50%);
+        width: 202px;
+        z-index: 1000;
+    }
+
+    #menu {
+        left: 43%;
+    }
+
+    #menu-text {
+        display: none;
+    }
+
+    #top-layer {
+        background: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.7) 50%);
+        height: 120px;
+    }
+
+    #register-title {
+        font-size: 45px;
+    }
+
+    #register {
+        font-size: 20px;
+        word-break: keep-all;
+    }
+
+    .submenu {
+        width: 160px;
+        margin-left: -100px;
+    }
+
+    #registeBox {
+        width: 50%;
+        height: 35%;
+        left: 16%;
+        top: 67%;
+    }
 }

@@ -32,7 +32,6 @@ $(document).ready(function(){
     });
 });
 
-
 //公告轮播
 function lunbo(id, height) {
     var ul = $(id);
