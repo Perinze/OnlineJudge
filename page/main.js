@@ -190,6 +190,7 @@ function submitFn () {
         var infoQQ = document.getElementById("qq").value;
         var infoTel = document.getElementById("tel").value;
         var infoDorm = document.getElementById("dorm").value;
+        var infoContent = document.getElementById("info-content").value;
         if(cnt !== (1<<8)-1){
             changeBar('wrong', '请填写完整信息');
         }else{
@@ -201,9 +202,9 @@ function submitFn () {
                 'date' : infoDate,
                 'qq' : infoQQ,
                 'tel' : infoTel,
-                'dorm' : infoDorm
+                'dorm' : infoDorm,
+                'content' : infoContent
             };
-            // console.log(a);
             $.ajax({
                 url:"http://localhost:8888/OnlineJudge/public/panel/Sign/addsign",
                 type: "get",

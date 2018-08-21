@@ -24,6 +24,7 @@ class Sign extends Controller
             'qq' => $info['qq'],
             'tel' => $info['tel'],
             'dorm' => $info['dorm'],
+            'content' => $info['content'],
             'status' => 0,
             'create_time' => $created,
             'update_time' => $created
