@@ -73,9 +73,6 @@ class User extends Base{
      * @param $userId
      * @param $type
      * @return \think\response\Json
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
      */
     public function changeType($userId,$type)
     {
