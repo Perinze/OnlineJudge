@@ -21,16 +21,49 @@
                 </div>
 
                 <div class="row">
-                    <div class="panel panel-default">
-                        <div class="form-group">
-                            <div class="col-lg-6">
-                                <label for="title-in">Content</label>
-                                <input id="title-in" name="title" class="form-control">
+                    <div class="col-lg-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Add new notice
                             </div>
-                            <div class="col-lg-6">
-                                <label for="href-in">href</label>
-                                <input id="href-in" name="href" class="form-control">
-                                <button type="submit" class="btn btn">Submit</button>
+                            <div class="panel-body">
+                                <form method="post" action="{:url('index/Notice/addNotice')}">
+                                    <label for="title-in">Content</label>
+                                    <input id="title-in" type="text" name="title" class="form-control" required>
+                                    <label for="href-in">href</label>
+                                    <input id="href-in" type="text" name="href" class="form-control" value="#" required>
+                                    <label for="display-in">Display</label>
+                                    <select id="display-in" class="form-control" name="display">
+                                        <option value="0">Not Display</option>
+                                        <option value="1">Display</option>
+                                    </select>
+                                    <br>
+                                    <input type="submit" value="Submit" class="btn btn-default">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Change notice
+                            </div>
+                            <div class="panel-body">
+                                <form method="post" action="{:url('index/Notice/changeNotice')}">
+                                    <label for="title-in-c">Content</label>
+                                    <input id="title-in-c" type="text" name="title" class="form-control" required>
+                                    <label for="href-in-c">href</label>
+                                    <input id="href-in-c" type="text" name="href" class="form-control" value="#" required>
+                                    <label for="display-in-c">Display</label><br>
+                                    <select id="display-in-c" class="form-control" name="display" style="width: 231px;display: table-cell;">
+                                        <option value="0">Not Display</option>
+                                        <option value="1">Display</option>
+                                    </select>
+                                    <input type="text" placeholder="Notice ID" name="noticeId" class="form-control" style="width: 231px;display: table-cell;" required>
+                                    <br><br>
+                                    <input type="submit" value="Submit" class="btn btn-default">
+                                </form>
                             </div>
                         </div>
                     </div>

@@ -1,3 +1,6 @@
+var noticeDisplayUrl = 'http://localhost:8888/OnlineJudge/public/index/Notice/getdisplaylist';
+var addSignUrl = "http://localhost:8888/OnlineJudge/public/panel/Sign/addsign";
+
 window.onload=function () {
     IsPC();
     getDisplayList();
@@ -69,7 +72,7 @@ function lunbo(id, height) {
 // 获取公告
 function getDisplayList(){
     $.ajax({
-        url:'http://localhost:8888/OnlineJudge/public/index/Notice/getdisplaylist',
+        url:noticeDisplayUrl,
         data:"",
         dataType:"json",
         type:"post",
@@ -206,7 +209,7 @@ function submitFn () {
                 'content' : infoContent
             };
             $.ajax({
-                url:"http://localhost:8888/OnlineJudge/public/panel/Sign/addsign",
+                url:addSignUrl,
                 type: "get",
                 data: a,
                 success: function (str) {

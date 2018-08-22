@@ -14,8 +14,7 @@ class Notice extends Base{
     {
         if($this->checkToken(input('post.token'))!==true)
         {
-            $ret = array('errCode'=>403,'errMsg'=>'token error','data'=>null);
-            return json($ret);
+            $this->error('Token错误','index/Panel/notice');
         }
 
         if($this->checkUserType(session('userId'))<=1)
@@ -24,21 +23,20 @@ class Notice extends Base{
             return json($ret);
         }
 
-        $info = input('get.');
+        $info = input('post.');
         $data = array(
             'title' => $info['title'],
             'href' => $info['href'],
             'time' => time(),
             'user' => session('userId'),
-            'status' => 1
+            'status' => $info['display']
         );
         $notice = new NoticeModel();
         $result = $notice->addnotice($data);
 
-
-        //TODO complete
         if($result){
-            return $this->fetch('panel/notice');
+            $panel = new Panel();
+            $panel->notice();
         }else{
             $this->error('发布失败','index/Panel/notice');
         }

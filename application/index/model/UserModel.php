@@ -28,4 +28,17 @@ class UserModel extends Model{
         }
         return false;
     }
+
+    public function getinfo($uid)
+    {
+        try{
+            $info = $this->where([
+                'userId'=>$uid
+            ])->find();
+            if($info)return $info->toArray();
+        }catch (DbException $e) {
+            return false;
+        }
+        return false;
+    }
 }
