@@ -16,10 +16,10 @@
         <ul class="nav" id="main-menu">
 
             <li>
-                <a class="active-menu" href="index.html"><i class="fa fa-dashboard"></i> Dashboard</a>
+                <a id="index" href="{:url('index/Panel/index')}"><i class="fa fa-dashboard"></i> Dashboard</a>
             </li>
             <li>
-                <a href="empty.html"><i class="fa fa-fw fa-file"></i> Notice</a>
+                <a id="notice" href="{:url('index/Panel/notice')}"><i class="fa fa-edit"></i> Notice</a>
             </li>
         </ul>
 
@@ -27,3 +27,8 @@
 
 </nav>
 <!-- /. NAV SIDE  -->
+<script>
+    window.onload = function(){
+        $('#{$type}').addClass('active-menu');
+    }
+</script>

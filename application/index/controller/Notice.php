@@ -38,9 +38,9 @@ class Notice extends Base{
 
         //TODO complete
         if($result){
-
+            return $this->fetch('panel/notice');
         }else{
-
+            $this->error('发布失败','index/Panel/notice');
         }
     }
 
