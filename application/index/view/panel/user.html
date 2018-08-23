@@ -54,33 +54,33 @@
                                         <thead>
                                         <tr role="row">
                                             <th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-sort="ascending" style="width: 32px;">ID</th>
-                                            <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">Name</th>
-                                            <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">Nickname</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 120px;">Name</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 120px;">Nickname</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 50px;">Gender</th>
                                             <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 50px;">Type</th>
                                             <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 50px;">Status</th>
-                                            <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">eMail</th>
-                                            <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 50px;">Gender</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 60px;">eMail</th>
                                             <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 80px;">Phone</th>
                                         </tr>
                                         </thead>
-                                        {literal}
-                                        <!--<tbody>-->
-                                        <!--{volist name="list" id="v"}-->
-                                        <!--{if $v.num % 2 == 0}-->
-                                        <!--<tr class="gradeA odd">-->
-                                            <!--{else /}-->
-                                        <!--<tr class="gradeA even">-->
-                                            <!--{/if}-->
-                                            <!--<td class="sorting_1">{$v.noticeId}</td>-->
-                                            <!--<td class=" ">{$v.title}</td>-->
-                                            <!--<td class=" ">{$v.href}</td>-->
-                                            <!--<td class="center ">{$v.time}</td>-->
-                                            <!--<td class="center ">{$v.user}</td>-->
-                                            <!--<td class="center ">{$v.status}</td>-->
-                                        <!--</tr>-->
-                                        <!--{/volist}-->
-                                        <!--</tbody>-->
-                                        {/literal}
+                                        <tbody>
+                                            {volist name="list" id="v" key="k"}
+                                                {if $k % 2 == 0}
+                                                    <tr class="gradeA odd">
+                                                {else /}
+                                                    <tr class="gradeA even">
+                                                {/if}
+                                                <td class="sorting_1">{$v.userId}</td>
+                                                <td class=" ">{$v.userName}</td>
+                                                <td class=" ">{$v.userNick}</td>
+                                                <td class=" ">{$v.userGender}</td>
+                                                <td class="center ">{$v.userType}</td>
+                                                <td class="center ">{$v.userStat}</td>
+                                                <td class="center ">{$v.userMail}</td>
+                                                <td class="center ">{$v.userPhone}</td>
+                                            </tr>
+                                            {/volist}
+                                        </tbody>
                                     </table>
                                     <div class="row">
                                         <!--<div class="col-sm-6">-->

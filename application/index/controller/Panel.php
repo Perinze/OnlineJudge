@@ -24,7 +24,7 @@ class Panel extends Controller{
         $notice = new NoticeModel();
         $list = $notice->getnotcielist()['data'];
         $cnt=0;
-        foreach($list as $v){// TODO 数据处理
+        foreach($list as $v){
             $v['status']=$v['status']==1?'Dispaly':'Not Display';
             $v['user']=$user->getinfo($v['user'])['userName'];
             $v['num']=($cnt++);
@@ -37,6 +37,24 @@ class Panel extends Controller{
 
     public function user()
     {
+        $user = new UserModel();
+        $list = $user->getuserinfo();
+        $cnt=0;
+        foreach($list as $v) {
+            $v['userStat']=$v['userStat']==0?'退役':'现役';
+            $v['userGender']=$v['userGender']==0?'女':'男';
+            switch($v['userType'])
+            {
+                case -1:$v['userType']='黑名单';break;
+                case 0:$v['userType']='会员';break;
+                case 1:$v['userType']='正式成员';break;
+                case 2:$v['userType']='管理员';break;
+            }
+            $v['num']=($cnt++);
+            $list[$cnt-1]=$v;
+        }
+
+        $this->assign('list',$list);
         $this->assign('type','user');
         return $this->fetch('panel/user');
     }

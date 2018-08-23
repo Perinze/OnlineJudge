@@ -41,4 +41,15 @@ class UserModel extends Model{
         }
         return false;
     }
+
+    public function getuserinfo()
+    {
+        try{
+            $info = $this->field('userId,userType,userStat,userGender,userMail,userPhone,userName,userNick')->select();
+            if($info)return $info->toArray();
+        }catch (DbException $e) {
+            return false;
+        }
+        return false;
+    }
 }
