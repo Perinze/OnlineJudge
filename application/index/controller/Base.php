@@ -46,7 +46,7 @@ class Base extends Controller{
     protected function checkUserType($userId)
     {
         try {
-            $result = Db('user')->where('userId', $userId)->field('status');//TODO check
+            $result = Db('user')->where('userId', $userId)->field('userType')->find();//TODO check
             return $result;
         }catch (Exception $e) {
             return -1;

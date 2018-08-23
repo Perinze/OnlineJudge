@@ -9,9 +9,19 @@ namespace app\index\controller;
 
 use app\index\model\NoticeModel;
 use app\index\model\UserModel;
+use app\panel\model\SignModel;
 use think\Controller;
 
-class Panel extends Controller{
+class Panel extends Base{
+    public function __construct()
+    {
+        parent::__construct();
+        if($this->checkUserType(session('userId'))<=1)
+        {
+            $this->error('没有操作权限','index/Login/adminlogin');
+        }
+    }
+
     public function index()
     {
         $this->assign('type','index');
@@ -61,6 +71,16 @@ class Panel extends Controller{
 
     public function recruit()
     {
+        $sign = new SignModel();
+        $info = $sign->getsign()['data'];
+        $cnt=0;
+        foreach ($info as $v)
+        {
+            $v['sex'] = $v['sex']==1?'男':'女';
+            $v['star']= $v['star']==1?'':'-empty';
+            $info[$cnt++]=$v;
+        }
+        $this->assign('list',$info);
         $this->assign('type','recruit');
         return $this->fetch('panel/recruit');
     }

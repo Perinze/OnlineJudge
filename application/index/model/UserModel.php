@@ -17,8 +17,8 @@ class UserModel extends Model{
     {
         try{
             $info = $this->where([
-                'account'=>$uid,
-                'password'=>$passwd
+                'userNick'=>$uid,
+                'userPasswd'=>$passwd
             ])->find();
             if($info)
                 if($info['userType']>=2)

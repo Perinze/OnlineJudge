@@ -38,14 +38,15 @@ class SignModel extends Model
         }
     }
 
-    public function getsign($where, $offset='', $limit='')
+    public function getsign($where=null, $offset='', $limit='')
     {
         try {
-            $info = $this->where($where)
-                ->limit($offset, $limit)
-                ->find();
-//            dump($info);
-//            dump([]);
+            if($where==null)
+                $info = $this->select();
+            else
+                $info = $this->where($where)
+                    ->limit($offset, $limit)
+                    ->find();
             if ($info == []) {
                 return ['code' => -1, 'msg' => $this->getError(), 'data' => $info];
             } else {
