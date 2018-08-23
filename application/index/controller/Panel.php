@@ -58,4 +58,16 @@ class Panel extends Controller{
         $this->assign('type','user');
         return $this->fetch('panel/user');
     }
+
+    public function recruit()
+    {
+        $this->assign('type','recruit');
+        return $this->fetch('panel/recruit');
+    }
+
+    public function problem()
+    {
+        $this->assign('type','problem');
+        return $this->fetch('panel/problem');
+    }
 }

@@ -21,6 +21,57 @@
             </div>
 
             <div class="row">
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Add new user
+                        </div>
+                        <div class="panel-body">
+                            <!--TODO add action-->
+                            <form method="post" action="">
+                                <label for="title-in">Content</label>
+                                <input id="title-in" type="text" name="title" class="form-control" required>
+                                <label for="href-in">href</label>
+                                <input id="href-in" type="text" name="href" class="form-control" value="#" required>
+                                <label for="display-in">Display</label>
+                                <select id="display-in" class="form-control" name="display">
+                                    <option value="0">Not Display</option>
+                                    <option value="1">Display</option>
+                                </select>
+                                <br>
+                                <input type="submit" value="Submit" class="btn btn-default">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Change userInfo
+                        </div>
+                        <div class="panel-body">
+                            <!--TODO add action-->
+                            <form method="post" action="">
+                                <label for="title-in-c">Content</label>
+                                <input id="title-in-c" type="text" name="title" class="form-control" required>
+                                <label for="href-in-c">href</label>
+                                <input id="href-in-c" type="text" name="href" class="form-control" value="#" required>
+                                <label for="display-in-c">Display</label><br>
+                                <select id="display-in-c" class="form-control" name="display" style="width: 231px;display: table-cell;">
+                                    <option value="0">Not Display</option>
+                                    <option value="1">Display</option>
+                                </select>
+                                <input type="text" placeholder="Notice ID" name="noticeId" class="form-control" style="width: 231px;display: table-cell;" required>
+                                <br><br>
+                                <input type="submit" value="Submit" class="btn btn-default">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
                 <div class="col-md-12">
                     <!-- Advanced Tables -->
                     <div class="panel panel-default">
