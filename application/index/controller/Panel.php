@@ -89,4 +89,10 @@ class Panel extends Base{
         $this->assign('type','problem');
         return $this->fetch('panel/problem');
     }
+
+    public function contest()
+    {
+        $this->assign('type','contest');
+        return $this->fetch('panel/contest');
+    }
 }
