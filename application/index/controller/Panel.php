@@ -10,7 +10,6 @@ namespace app\index\controller;
 use app\index\model\NoticeModel;
 use app\index\model\UserModel;
 use app\panel\model\SignModel;
-use think\Controller;
 
 class Panel extends Base{
     public function __construct()

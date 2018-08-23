@@ -45,7 +45,9 @@ class UserModel extends Model{
     public function getuserinfo()
     {
         try{
-            $info = $this->field('userId,userType,userStat,userGender,userMail,userPhone,userName,userNick')->select();
+            $info = $this->order(['userType'=>'desc'])
+                ->field('userId,userType,userStat,userGender,userMail,userPhone,userName,userNick')
+                ->select();
             if($info)return $info->toArray();
         }catch (DbException $e) {
             return false;

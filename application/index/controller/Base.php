@@ -65,10 +65,11 @@ class Base extends Controller{
     {
         if(strlen($rcode)==16)
         {
-            $data = Db('rcode')->where('code',$rcode)->find();
+            $rcode = Db('rcode')->where('code',$rcode);
+            $data = $rcode->find();
             if($data['isUsed']==false)
             {
-                Db('rcode')->where('code',$rcode)->setField('isUsed',true);
+                $rcode->setField('isUsed',true);
                 return true;
             }
         }

@@ -42,7 +42,7 @@ class SignModel extends Model
     {
         try {
             if($where==null)
-                $info = $this->select();
+                $info = $this->order(['star'=>'desc','create_time'=>'asc'])->select();
             else
                 $info = $this->where($where)
                     ->limit($offset, $limit)
