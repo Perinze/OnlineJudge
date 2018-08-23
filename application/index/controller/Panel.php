@@ -34,4 +34,10 @@ class Panel extends Controller{
         $this->assign('type','notice');
         return $this->fetch('panel/notice');
     }
+
+    public function user()
+    {
+        $this->assign('type','user');
+        return $this->fetch('panel/user');
+    }
 }
