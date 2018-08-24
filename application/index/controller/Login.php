@@ -53,6 +53,7 @@ class Login extends Base{
             if($info !== false)
             {
                 session('userId',$info['userId']);
+                session('userName', $info['userName']);
                 $this->redirect('index/Panel/index');
             }else{
                 $this->error('用户名密码错误或不是管理员');
