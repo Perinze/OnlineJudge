@@ -13,6 +13,6 @@ ACM@WUT MainPage and OnlineJudge
 
 ## 版权信息
 
-版权所有Copyright © 2006-2018 by 武汉理工大学ACM协会
+版权所有Copyright © 2018 by 武汉理工大学ACM协会
 
 All rights reserved。

@@ -98,14 +98,14 @@ p { font-size: 22px }
 /*20*/
 
 #background-black-top > .news >ul >li >a >span{
-    height:auto ;
-    line-height: 36px;
+
 }
 
 #background-black-top > .news >ul >li >a {
     text-decoration: none;
     font-family: courier, courier new, serif !important;
-    /*font-size: 1em;*/
+    height:auto ;
+    line-height: 36px;
     color: #ffffff;
 }
 

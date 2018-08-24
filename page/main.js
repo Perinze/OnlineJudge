@@ -34,6 +34,19 @@ $(document).ready(function(){
             }
         }
     });
+    //引导页
+    $('body').pagewalkthrough({
+        name: 'introduction',
+        steps: [{
+            popup: { //定义弹出提示引导层
+                content: '#walkthrough-1',
+                type: 'modal',
+                position: 'bottom'
+            }
+        }]
+    });
+
+    // $('body').pagewalkthrough('show');
 });
 
 //设备检测
@@ -97,7 +110,7 @@ function drawProjectList(str){
         var title = str[i].title;
         var href = str[i].href||'#';
         var otr=document.createElement('li');
-        otr.innerHTML = "<a href=\"" + href + "\"><span>" + title + "</span></a>";
+        otr.innerHTML = '<a href="' + href + '">' + title + "</a>";
         projectList.appendChild(otr);
     }
 }
