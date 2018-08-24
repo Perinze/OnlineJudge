@@ -46,7 +46,7 @@ class Base extends Controller{
     protected function checkUserType($userId)
     {
         try {
-            $result = Db('user')->where('userId', $userId)->field('status');//TODO check
+            $result = Db('user')->where('userId', $userId)->field('userType')->find();//TODO check
             return $result;
         }catch (Exception $e) {
             return -1;
@@ -65,10 +65,11 @@ class Base extends Controller{
     {
         if(strlen($rcode)==16)
         {
-            $data = Db('rcode')->where('code',$rcode)->find();
+            $rcode = Db('rcode')->where('code',$rcode);
+            $data = $rcode->find();
             if($data['isUsed']==false)
             {
-                Db('rcode')->where('code',$rcode)->setField('isUsed',true);
+                $rcode->setField('isUsed',true);
                 return true;
             }
         }

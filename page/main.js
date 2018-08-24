@@ -215,6 +215,10 @@ function submitFn () {
                 success: function (str) {
                     if(str.status == 0){
                         changeBar('right', '注册成功');
+                        $('#mask').click(function() {
+                            $('#registeBox').slideUp(200);
+                            $('#mask').fadeOut(200);
+                        });
                     }else{
                         changeBar('wrong', str.message);
                     }

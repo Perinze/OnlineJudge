@@ -17,8 +17,8 @@ class UserModel extends Model{
     {
         try{
             $info = $this->where([
-                'account'=>$uid,
-                'password'=>$passwd
+                'userNick'=>$uid,
+                'userPasswd'=>$passwd
             ])->find();
             if($info)
                 if($info['userType']>=2)
@@ -35,6 +35,19 @@ class UserModel extends Model{
             $info = $this->where([
                 'userId'=>$uid
             ])->find();
+            if($info)return $info->toArray();
+        }catch (DbException $e) {
+            return false;
+        }
+        return false;
+    }
+
+    public function getuserinfo()
+    {
+        try{
+            $info = $this->order(['userType'=>'desc'])
+                ->field('userId,userType,userStat,userGender,userMail,userPhone,userName,userNick')
+                ->select();
             if($info)return $info->toArray();
         }catch (DbException $e) {
             return false;

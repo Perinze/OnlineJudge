@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>User</title>
+    <title>Recruit</title>
     {include file='panel/part/head'}
 </head>
 <body>
@@ -15,29 +15,22 @@
             <div class="row">
                 <div class="col-md-12">
                     <h1 class="page-header">
-                        User <small>User console</small>
+                        Recruit <small>Applying for Recruit</small>
                     </h1>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Add new user
+                            Star somebody
                         </div>
                         <div class="panel-body">
                             <!--TODO add action-->
-                            <form method="post" action="">
-                                <label for="title-in">Content</label>
-                                <input id="title-in" type="text" name="title" class="form-control" required>
-                                <label for="href-in">href</label>
-                                <input id="href-in" type="text" name="href" class="form-control" value="#" required>
-                                <label for="display-in">Display</label>
-                                <select id="display-in" class="form-control" name="display">
-                                    <option value="0">Not Display</option>
-                                    <option value="1">Display</option>
-                                </select>
+                            <form method="post" action="{:url('')}">
+                                <label for="cardno-in">cardNo</label>
+                                <input id="cardno-in" type="text" name="cardNo" class="form-control" required>
                                 <br>
                                 <input type="submit" value="Submit" class="btn btn-default">
                             </form>
@@ -45,27 +38,33 @@
                     </div>
                 </div>
 
-                <div class="col-lg-6">
+                <div class="col-lg-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Change userInfo
+                            Sign in for someone
                         </div>
                         <div class="panel-body">
-                            <!--TODO add action-->
-                            <form method="post" action="">
-                                <label for="title-in-c">Content</label>
-                                <input id="title-in-c" type="text" name="title" class="form-control" required>
-                                <label for="href-in-c">href</label>
-                                <input id="href-in-c" type="text" name="href" class="form-control" value="#" required>
-                                <label for="display-in-c">Display</label><br>
-                                <select id="display-in-c" class="form-control" name="display" style="width: 231px;display: table-cell;">
-                                    <option value="0">Not Display</option>
-                                    <option value="1">Display</option>
-                                </select>
-                                <input type="text" placeholder="Notice ID" name="noticeId" class="form-control" style="width: 231px;display: table-cell;" required>
-                                <br><br>
+                            <form method="post" action="{:url('')}">
+                                <label for="cardno-in-l">cardNo</label>
+                                <input id="cardno-in-l" type="text" name="cardNo" class="form-control" required>
+                                <br>
                                 <input type="submit" value="Submit" class="btn btn-default">
                             </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Danger zoom
+                        </div>
+                        <div class="panel-body">
+                            <label style="width: 100px;">Recruit finish: </label>
+                            <input type="button" value="On" class="btn btn-default" style="margin-bottom: 10px;">
+                            <br>
+                            <label style="width: 100px;">Clear recruit: </label>
+                            <input type="button" value="Do" class="btn btn-default" style="margin-bottom: 10px;">
                         </div>
                     </div>
                 </div>
@@ -76,7 +75,7 @@
                     <!-- Advanced Tables -->
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            User Table
+                            Recruit Table
                         </div>
                         <div class="panel-body">
                             <div class="table-responsive">
@@ -104,33 +103,37 @@
                                     <table class="table table-striped table-bordered table-hover dataTable no-footer" id="dataTables-example" aria-describedby="dataTables-example_info">
                                         <thead>
                                         <tr role="row">
-                                            <th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-sort="ascending" style="width: 32px;">ID</th>
-                                            <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 80px;">Name</th>
-                                            <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">Nickname</th>
-                                            <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 50px;">Gender</th>
-                                            <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 50px;">Type</th>
-                                            <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 50px;">Status</th>
-                                            <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">eMail</th>
-                                            <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 80px;">Phone</th>
+                                            <th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-sort="ascending" style="width: 65px;">Name</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 42px;">Sex</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">Date</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 70px;">CardNo</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 90px;">Class</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 70px;">QQ</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 100px;">Tel</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 70px;">Dorm</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 200px;">Content</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 35px;">Star</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                            {volist name="list" id="v" key="k"}
-                                                {if $k % 2 == 0}
-                                                    <tr class="gradeA odd">
-                                                {else /}
-                                                    <tr class="gradeA even">
-                                                {/if}
-                                                <td class="sorting_1">{$v.userId}</td>
-                                                <td class=" ">{$v.userName}</td>
-                                                <td class=" ">{$v.userNick}</td>
-                                                <td class=" ">{$v.userGender}</td>
-                                                <td class="center ">{$v.userType}</td>
-                                                <td class="center ">{$v.userStat}</td>
-                                                <td class="center ">{$v.userMail}</td>
-                                                <td class="center ">{$v.userPhone}</td>
-                                            </tr>
-                                            {/volist}
+                                        {volist name="list" id="v" key="k"}
+                                        {if $k % 2 == 0}
+                                        <tr class="gradeA odd">
+                                            {else /}
+                                        <tr class="gradeA even">
+                                            {/if}
+                                            <td class="sorting_1">{$v.name}</td>
+                                            <td class=" ">{$v.sex}</td>
+                                            <td class=" ">{$v.date}</td>
+                                            <td class="center ">{$v.cardNo}</td>
+                                            <td class="center ">{$v.class}</td>
+                                            <td class="center ">{$v.qq}</td>
+                                            <td class="center ">{$v.tel}</td>
+                                            <td class="center ">{$v.dorm}</td>
+                                            <td class="center ">{$v.content}</td>
+                                            <td class="center "><i class="glyphicon glyphicon-star{$v.star}" onclick="changeStar(this)"></i></td>
+                                        </tr>
+                                        {/volist}
                                         </tbody>
                                     </table>
                                     <div class="row">
