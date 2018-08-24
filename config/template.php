@@ -34,7 +34,7 @@ return [
     'taglib_end'   => '}',
 
     'tpl_replace_string'  =>  [
-        '__CSS__'=>'/static/assets/css',
-        '__JS__' => '/static/assets/js',
+        '__CSS__'=>'../../../public/static/assets/css',
+        '__JS__' => '../../../public/static/assets/js',
     ]
 ];
