@@ -29,17 +29,52 @@
                         <div class="panel-body">
                             <!--TODO add action-->
                             <form method="post" action="">
-                                <label for="title-in">Content</label>
-                                <input id="title-in" type="text" name="title" class="form-control" required>
-                                <label for="href-in">href</label>
-                                <input id="href-in" type="text" name="href" class="form-control" value="#" required>
-                                <label for="display-in">Display</label>
-                                <select id="display-in" class="form-control" name="display">
-                                    <option value="0">Not Display</option>
-                                    <option value="1">Display</option>
-                                </select>
-                                <br>
-                                <input type="submit" value="Submit" class="btn btn-default">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <label for="name-in">Name</label>
+                                        <input id="name-in" type="text" name="name" class="form-control" required>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label for="nickname-in">Nick Name</label>
+                                        <input id="nickname-in" type="text" name="nickname" class="form-control" required>
+                                    </div>
+                                </div>
+                                <label for="email-in">e-Mail</label>
+                                <input id="email-in" type="text" name="email" class="form-control">
+                                <label for="phone-in">Phone</label>
+                                <input id="phone-in" type="text" name="phone" class="form-control">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <label for="gender-in">Gender</label>
+                                        <select id="gender-in" class="form-control" name="gender">
+                                            <option value="1">男</option>
+                                            <option value="0">女</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label for="status-in">Status</label>
+                                        <select id="status-in" class="form-control" name="status">
+                                            <option value="1">现役</option>
+                                            <option value="0">退役</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <label for="type-in">Type</label>
+                                        <select id="type-in" class="form-control" name="type">
+                                            <option value="0">会员</option>
+                                            <option value="1">正式成员</option>
+                                            <option value="2">管理员</option>
+                                            <option value="-1">黑名单</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label>Submit</label>
+                                        <br>
+                                        <input type="submit" value="Submit" class="btn btn-default">
+                                    </div>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -53,17 +88,33 @@
                         <div class="panel-body">
                             <!--TODO add action-->
                             <form method="post" action="">
-                                <label for="title-in-c">Content</label>
-                                <input id="title-in-c" type="text" name="title" class="form-control" required>
-                                <label for="href-in-c">href</label>
-                                <input id="href-in-c" type="text" name="href" class="form-control" value="#" required>
-                                <label for="display-in-c">Display</label><br>
-                                <select id="display-in-c" class="form-control" name="display" style="width: 231px;display: table-cell;">
-                                    <option value="0">Not Display</option>
-                                    <option value="1">Display</option>
-                                </select>
-                                <input type="text" placeholder="Notice ID" name="noticeId" class="form-control" style="width: 231px;display: table-cell;" required>
-                                <br><br>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <label for="userid-in-c">User Id</label>
+                                        <input id="userid-in-c" type="text" name="userId" class="form-control" required>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label for="status-in-c">Status</label>
+                                        <select id="status-in-c" class="form-control" name="status">
+                                            <option value="1">现役</option>
+                                            <option value="0">退役</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <label for="type-in-c">Type</label>
+                                        <select id="type-in-c" class="form-control" name="type">
+                                            <option value="0">会员</option>
+                                            <option value="1">正式成员</option>
+                                            <option value="2">管理员</option>
+                                            <option value="-1">黑名单</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-6">
+                                    </div>
+                                </div>
+                                <br>
                                 <input type="submit" value="Submit" class="btn btn-default">
                             </form>
                         </div>
