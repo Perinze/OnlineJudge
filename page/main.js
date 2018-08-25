@@ -167,7 +167,6 @@ function initBtn()
 }
 //  表单前端检测--END
 
-
 //  notice-bar
 function changeBar(opt, content, url)
 {

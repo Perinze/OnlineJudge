@@ -7,8 +7,11 @@
  */
 namespace app\index\Controller;
 
+use think\Container;
 use think\Controller;
 use think\Exception;
+use think\exception\HttpResponseException;
+use think\Response;
 
 class Base extends Controller{
     /**
@@ -74,5 +77,78 @@ class Base extends Controller{
             }
         }
         return false;
+    }
+
+    /**
+     * 重写success
+     * @access protected
+     * @param  mixed     $msg 提示信息
+     * @param  string    $url 跳转的URL地址
+     * @param  mixed     $data 返回的数据
+     * @param  integer   $wait 跳转等待时间
+     * @param  array     $header 发送的Header信息
+     * @return void
+     */
+    protected function success($msg = '', $url = null, $data = '', $wait = 3, array $header = [])
+    {
+        if (is_null($url) && isset($_SERVER["HTTP_REFERER"])) {
+            $url = $_SERVER["HTTP_REFERER"];
+        } elseif ('' !== $url) {
+            $url = (strpos($url, '://') || 0 === strpos($url, '/')) ? $url : Container::get('url')->build($url);
+        }
+
+        $result = [
+            'code' => 1,
+            'msg'  => $msg,
+            'data' => $data,
+            'url'  => $url,
+            'wait' => $wait,
+        ];
+
+        $type = $this->getResponseType();
+        // 把跳转模板的渲染下沉，这样在 response_send 行为里通过getData()获得的数据是一致性的格式
+        if ('html' == strtolower($type)) {
+            $type = 'jump';
+        }
+
+        $response = Response::create($result, $type)->header($header)->options(['jump_template' => Container::get('config')->get('dispatch_success_tmpl')]);
+
+        throw new HttpResponseException($response);
+    }
+
+    /**
+     * 重写error
+     * @access protected
+     * @param  mixed     $msg 提示信息
+     * @param  string    $url 跳转的URL地址
+     * @param  mixed     $data 返回的数据
+     * @param  integer   $wait 跳转等待时间
+     * @param  array     $header 发送的Header信息
+     * @return void
+     */
+    protected function error($msg = '', $url = null, $data = '', $wait = 3, array $header = [])
+    {
+        if (is_null($url)) {
+            $url = Container::get('request')->isAjax() ? '' : 'javascript:history.back(-1);';
+        } elseif ('' !== $url) {
+            $url = (strpos($url, '://') || 0 === strpos($url, '/')) ? $url : Container::get('url')->build($url);
+        }
+
+        $result = [
+            'code' => 0,
+            'msg'  => $msg,
+            'data' => $data,
+            'url'  => $url,
+            'wait' => $wait,
+        ];
+
+        $type = $this->getResponseType();
+        if ('html' == strtolower($type)) {
+            $type = 'jump';
+        }
+
+        $response = Response::create($result, $type)->header($header)->options(['jump_template' => Container::get('config')->get('dispatch_error_tmpl')]);
+
+        throw new HttpResponseException($response);
     }
 }

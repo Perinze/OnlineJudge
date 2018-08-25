@@ -125,6 +125,8 @@ return [
 
     // 默认跳转页面对应的模板文件
     'dispatch_success_tmpl'  => Env::get('think_path') . 'tpl/dispatch_jump.tpl',
+//    'dispatch_success_tmpl'  => Env::get('app_path') . 'index/view/extra/jump.html',
+//    'dispatch_error_tmpl'    => Env::get('app_path') . 'index/view/extra/jump.html',
     'dispatch_error_tmpl'    => Env::get('think_path') . 'tpl/dispatch_jump.tpl',
 
     // 异常页面的模板文件
