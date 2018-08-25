@@ -32,7 +32,8 @@ class Login extends Base{
             if($user)
             {
                 session('userId',$user['userId']);
-                session('userType',$user['userrType']);
+//                session('userType',$user['userType']);
+                session('userName', $user['userName']);
             }else{
                 $ret = array('errCode'=>102,'errMsg'=>'用户名或密码错误','data'=>null);
             }
@@ -44,6 +45,13 @@ class Login extends Base{
      * 管理员登陆
      */
     public function adminlogin(Request $request) {
+        if(session('userId')!=null)
+        {
+            if($this->checkUserType(session('userId'))>=2)
+            {
+                $this->redirect('index/Panel/index');
+            }
+        }
         if($request->isPost())
         {
             $user = new UserModel();
