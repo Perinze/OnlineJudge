@@ -569,10 +569,11 @@ footer >p >a{
     }
 
     #registeBox {
-        width: 50%;
-        height: 46%;
-        left: 18%;
-        top: 62%;
+        z-index: 1999;
+        width: 90%;
+        height: 90%;
+        left: 22%;
+        top: 16%;
     }
 
     .news >ul {
