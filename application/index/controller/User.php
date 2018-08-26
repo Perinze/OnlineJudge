@@ -7,11 +7,22 @@
  */
 namespace app\index\Controller;
 
+use app\index\model\UserModel;
 use think\Log;
 
 require_once "UserValidate.php";
 
 class User extends Base{
+    public function __construct()
+    {
+        parent::__construct();
+        if($this->checkToken(input('post.token'))!==true)
+        {
+            $ret = array('errCode'=>403,'errMsg'=>'token error','data'=>null);
+            return json($ret);
+        }
+    }
+
     /**
      * 更新个人资料
      * @param $userId
@@ -28,12 +39,6 @@ class User extends Base{
      */
     public function changeInfo($userId,$mail,$phone,$name,$gender,$desc,$class)
     {
-        if($this->checkToken(input('post.token'))!==true)
-        {
-            $ret = array('errCode'=>403,'errMsg'=>'token error','data'=>null);
-            return json($ret);
-        }
-
         if(session('userId')!=$userId)
         {
             $ret = array('errCode'=>403,'errMsg'=>'没有操作权限','data'=>null);
@@ -69,26 +74,29 @@ class User extends Base{
     }
 
     /**
-     * 更改用户身份级别
+     * 更改用户身份级别与在役状态
      * @param $userId
      * @param $type
      * @return \think\response\Json
      */
-    public function changeType($userId,$type)
+    public function changeStatus()
     {
-        if($this->checkToken(input('post.token'))!==true)
-        {
-            $ret = array('errCode'=>403,'errMsg'=>'token error','data'=>null);
-            return json($ret);
-        }
-
         if($this->checkUserType(session('userId'))<=1)
         {
             $ret = array('errCode'=>403,'errMsg'=>'没有操作权限','data'=>null);
             return json($ret);
         }
 
-        $result = Db('user')->where('userId',$userId)->setField('type',$type);
+        $userId = input('post.userId');
+        $type = input('post.type');
+        $status = input('post.status');
+        $star = input('post.star');
+
+        $user = new UserModel();
+        $result = $user->changeInfo($userId,'userType',$type);
+        $result &= $user->changeInfo($userId,'userStatus',$status);
+        $result &= $user->changeInfo($userId,'star',$star);
+
         if(!$result)
         {
             $ret = array('errCode'=>102,'errMsg'=>'修改失败','data'=>null);
@@ -112,11 +120,6 @@ class User extends Base{
     public function changePassword()
     {
         $userId = input('post.userId');
-        if($this->checkToken(input('post.token'))!==true)
-        {
-            $ret = array('errCode'=>403,'errMsg'=>'token error','data'=>null);
-            return json($ret);
-        }
 
         if(session('userId')!=$userId)
         {
@@ -160,12 +163,6 @@ class User extends Base{
      */
     public function deleteUser($userId)
     {
-        if($this->checkToken(input('post.token'))!==true)
-        {
-            $ret = array('errCode'=>403,'errMsg'=>'token error','data'=>null);
-            return json($ret);
-        }
-
         if($this->checkUserType(session('userId'))<=1)
         {
             $ret = array('errCode'=>403,'errMsg'=>'没有操作权限','data'=>null);
@@ -190,5 +187,10 @@ class User extends Base{
         }
         $ret = array('errCode' => 0, 'errMsg' => 'OK', 'data' => null);
         return json($ret);
+    }
+
+    public function adminAddUser()
+    {
+
     }
 }

@@ -12,6 +12,7 @@ require_once "UserValidate.php";
 class Register extends Base{
     /**
      * 用户注册
+     * TODO 重构 with UserModel
      * @return \think\response\Json
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException

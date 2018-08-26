@@ -27,8 +27,7 @@
                             Add new user
                         </div>
                         <div class="panel-body">
-                            <!--TODO add action-->
-                            <form method="post" action="">
+                            <form method="post" action="{:url('index/User/adminAddUser')}">
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <label for="name-in">Name</label>
@@ -80,43 +79,59 @@
                     </div>
                 </div>
 
-                <div class="col-lg-6">
+                <div class="col-lg-3">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             Change userInfo
                         </div>
                         <div class="panel-body">
-                            <!--TODO add action-->
-                            <form method="post" action="">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <label for="userid-in-c">User Id</label>
-                                        <input id="userid-in-c" type="text" name="userId" class="form-control" required>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <label for="status-in-c">Status</label>
-                                        <select id="status-in-c" class="form-control" name="status">
-                                            <option value="1">现役</option>
-                                            <option value="0">退役</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <label for="type-in-c">Type</label>
-                                        <select id="type-in-c" class="form-control" name="type">
-                                            <option value="0">会员</option>
-                                            <option value="1">正式成员</option>
-                                            <option value="2">管理员</option>
-                                            <option value="-1">黑名单</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-lg-6">
-                                    </div>
-                                </div>
+                            <form method="post" action="{:url('index/User/changeStatus')}">
+                                <label for="userid-in-c">User Id</label>
+                                <input id="userid-in-c" type="text" name="userId" class="form-control" required>
+                                <label for="status-in-c">Status</label>
+                                <select id="status-in-c" class="form-control" name="status">
+                                    <option value="1">现役</option>
+                                    <option value="0">退役</option>
+                                </select>
+                                <label for="type-in-c">Type</label>
+                                <select id="type-in-c" class="form-control" name="type">
+                                    <option value="0">会员</option>
+                                    <option value="1">正式成员</option>
+                                    <option value="2">管理员</option>
+                                    <option value="-1">黑名单</option>
+                                </select>
+                                <label for="star-in-c">Star</label>
+                                <select id="star-in-c" class="form-control" name="star">
+                                    <option value="0">Unstar</option>
+                                    <option value="1">Star</option>
+                                </select>
+                                <label>Submit</label>
                                 <br>
                                 <input type="submit" value="Submit" class="btn btn-default">
                             </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3">
+                    <div class="panel panel-default" style="border: 2px solid red">
+                        <div class="panel-heading" style="width: 150px;color: red;">
+                            Danger Zoom
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <form method="post" action="{:url('index/User/deleteUser')}">
+                                    <div class="col-lg-6">
+                                        <label for="userid-in-d">Delete User</label>
+                                        <input id="userid-in-d" type="text" name="userId" class="form-control" placeholder="User Id" required>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label>Submit</label>
+                                        <br>
+                                        <input type="submit" value="Submit" class="btn btn-default">
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

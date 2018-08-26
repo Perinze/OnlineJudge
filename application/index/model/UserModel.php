@@ -45,11 +45,35 @@ class UserModel extends Model{
     public function getuserinfo()
     {
         try{
-            $info = $this->order(['userType'=>'desc'])
+            $info = $this->order(['userType'=>'desc','star'=>'desc'])
                 ->field('userId,userType,userStat,userGender,userMail,userPhone,userName,userNick')
                 ->select();
             if($info)return $info->toArray();
         }catch (DbException $e) {
+            return false;
+        }
+        return false;
+    }
+
+    public function changeInfo($userId,$field,$data)
+    {
+        try{
+            $info = $this->where('userId',$userId);
+            $result = $info->field($field)->find();
+            if(!$result)return false;
+            if($info->field($field)->find()!=$data)
+            {
+                $result = $info->setField($field,$data);
+                if($result)
+                {
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                return true;
+            }
+        }catch(DbException $e) {
             return false;
         }
         return false;
