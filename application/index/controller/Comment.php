@@ -7,6 +7,8 @@
  */
 namespace app\index\controller;
 
+require_once "Base.php";
+
 class Comment extends Base{
     public function addComment()
     {

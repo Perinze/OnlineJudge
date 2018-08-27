@@ -10,6 +10,7 @@ namespace app\index\Controller;
 use app\index\model\UserModel;
 use think\Log;
 
+require_once "Base.php";
 require_once "UserValidate.php";
 
 class User extends Base{

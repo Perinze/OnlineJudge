@@ -7,6 +7,8 @@
  */
 namespace app\index\controller;
 
+require_once "Base.php";
+
 class Judger extends Base
 {
     private $python3;

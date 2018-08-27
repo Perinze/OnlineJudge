@@ -7,6 +7,8 @@
  */
 namespace app\index\Controller;
 
+require_once "Base.php";
+
 class Contest extends Base{
     public function signUp($contestId)
     {

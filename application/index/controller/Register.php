@@ -7,6 +7,7 @@
  */
 namespace app\index\Controller;
 
+require_once "Base.php";
 require_once "UserValidate.php";
 
 class Register extends Base{

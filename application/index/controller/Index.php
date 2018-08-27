@@ -1,10 +1,7 @@
 <?php
 namespace app\index\Controller;
 
-require_once 'UserValidate.php';
-
 use think\Controller;
-use think\Request;
 
 class Index extends Controller
 {
