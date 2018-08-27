@@ -137,5 +137,6 @@ return [
     // 异常处理handle类 留空使用 \think\exception\Handle
     'exception_handle'       => '',
 
-    'finish' => false,
+    'begin' => '2018-09-10 00:00:00',
+    'finish' => '2018-09-25 25:59:59',
 ];

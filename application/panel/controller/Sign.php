@@ -13,26 +13,30 @@ class Sign extends Controller
 
     public function addsign()
     {
-        $info = $_GET;
-        $created = time();
-        $data = array(
-            'name' => $info['name'],
-            'sex' => $info['sex'],
-            'class' => $info['class'],
-            'cardNo' => $info['cardNo'],
-            'date' => $info['date'],
-            'qq' => $info['qq'],
-            'tel' => $info['tel'],
-            'dorm' => $info['dorm'],
-            'content' => $info['content'],
-            'status' => 0,
-            'create_time' => $created,
-            'update_time' => $created
-        );
-        if(config('finish')){
-            return apiReturn(-1, "报名已经结束", '', 200);
+        $begin = strtotime(config('begin'));
+        $finish = strtotime(config('finish'));
+        $now = time();
+        if($now<$begin || $now>$finish){
+            return apiReturn(-1, "现在不是报名时间", '', 200);
         }
         else{
+            $info = $_GET;
+            $created = time();
+            $data = array(
+                'name' => $info['name'],
+                'sex' => $info['sex'],
+                'class' => $info['class'],
+                'cardNo' => $info['cardNo'],
+                'date' => $info['date'],
+                'qq' => $info['qq'],
+                'tel' => $info['tel'],
+                'dorm' => $info['dorm'],
+                'content' => $info['content'],
+                'status' => 0,
+                'create_time' => $created,
+                'update_time' => $created
+            );
+
             $item = new SignModel();
             $where = ['cardNo' => $data['cardNo']];
             $temp = $item->getsign($where);
