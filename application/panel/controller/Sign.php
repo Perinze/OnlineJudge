@@ -6,10 +6,10 @@ use app\panel\model\SignModel;
 
 class Sign extends Controller
 {
-    public function contract()
-    {
-        return $this->fetch();
-    }
+//    public function contract()
+//    {
+//        return $this->fetch();
+//    }
 
     public function addsign()
     {
@@ -49,10 +49,5 @@ class Sign extends Controller
             $rel = $item->addsign($data);
             return apiReturn($rel['code'], $rel['msg'], $rel['data'], 200);
         }
-    }
-
-    public function test()
-    {
-        dump($_GET);
     }
 }
