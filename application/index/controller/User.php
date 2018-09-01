@@ -8,6 +8,8 @@
 namespace app\index\controller;
 
 use app\index\model\UserModel;
+use think\Db;
+use think\Exception;
 use think\Log;
 
 require_once "UserValidate.php";
@@ -20,6 +22,21 @@ class User extends Base{
         {
             $ret = array('errCode'=>403,'errMsg'=>'token error','data'=>null);
             return json($ret);
+        }
+    }
+
+    public function starsb()
+    {
+        if($this->checkUserType(session('userId'))<=1)
+        {
+            $ret = array('errCode'=>403,'errMsg'=>'没有操作权限','data'=>null);
+            return json($ret);
+        }
+
+        $cardNo = input('post.cardNo');
+        try {
+            Db::name('sign')->where('cardNo', $cardNo)->update(['star' => 1]);
+        } catch (Exception $e) {
         }
     }
 
