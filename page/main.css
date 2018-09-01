@@ -184,7 +184,7 @@ footer >p >a{
     top: 20px;
     right: 70px;
     width: 160px;
-    z-index: 24;
+    z-index: 23;
 }
 
 #logo {
@@ -192,7 +192,7 @@ footer >p >a{
     top: 46px;
     left: 70px;
     width: 250px;
-    z-index: 24;
+    z-index: 23;
 }
 
 #logo a {
@@ -494,7 +494,7 @@ footer >p >a{
         top: 46px;
         left: 70px;
         width: 250px;
-        z-index: 1000;
+        z-index: 23;
     }
 
     #menu {
@@ -538,7 +538,7 @@ footer >p >a{
         left: 33%;
         transform: translateX(-50%);
         width: 202px;
-        z-index: 1000;
+        z-index: 23;
     }
 
     #menu {
