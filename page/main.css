@@ -103,7 +103,7 @@ p { font-size: 22px }
 
 #background-black-top > .news >ul >li >a {
     text-decoration: none;
-    font-family: courier, courier new, serif !important;
+    font-family: Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", STXihei, "Microsoft YaHei", SimHei, "WenQuanYi Micro Hei";
     height:auto ;
     line-height: 36px;
     color: #ffffff;
