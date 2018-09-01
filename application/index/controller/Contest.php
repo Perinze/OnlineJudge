@@ -5,9 +5,7 @@
  * Date: 2018/6/17
  * Time: 下午5:27
  */
-namespace app\index\Controller;
-
-require_once "Base.php";
+namespace app\index\controller;
 
 class Contest extends Base{
     public function signUp($contestId)

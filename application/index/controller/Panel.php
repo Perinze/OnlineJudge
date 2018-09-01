@@ -11,8 +11,6 @@ use app\index\model\NoticeModel;
 use app\index\model\UserModel;
 use app\panel\model\SignModel;
 
-require_once "Base.php";
-
 class Panel extends Base{
     public function __construct()
     {

@@ -5,12 +5,11 @@
  * Date: 2018/5/4
  * Time: 上午9:43
  */
-namespace app\index\Controller;
+namespace app\index\controller;
 
 use app\index\model\UserModel;
 use think\Request;
 
-require_once "Base.php";
 require_once "UserValidate.php";
 
 class Login extends Base{

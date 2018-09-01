@@ -9,8 +9,6 @@ namespace app\index\controller;
 
 use app\index\model\NoticeModel;
 
-require_once "Base.php";
-
 class Notice extends Base{
     public function addNotice()
     {

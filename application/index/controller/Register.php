@@ -5,9 +5,8 @@
  * Date: 2018/5/4
  * Time: 上午9:45
  */
-namespace app\index\Controller;
+namespace app\index\controller;
 
-require_once "Base.php";
 require_once "UserValidate.php";
 
 class Register extends Base{

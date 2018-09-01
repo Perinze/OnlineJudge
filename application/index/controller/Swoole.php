@@ -5,7 +5,7 @@
  * Date: 2018/5/12
  * Time: 上午11:49
  */
-namespace app\index\Controller;
+namespace app\index\controller;
 
 class Swoole extends Base{
     CONST HOST = "0.0.0.0";

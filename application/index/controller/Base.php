@@ -5,7 +5,7 @@
  * Date: 2018/5/4
  * Time: 上午8:45
  */
-namespace app\index\Controller;
+namespace app\index\controller;
 
 use think\Container;
 use think\Controller;
