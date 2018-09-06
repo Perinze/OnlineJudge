@@ -50,4 +50,37 @@ class Sign extends Controller
             return apiReturn($rel['code'], $rel['msg'], $rel['data'], 200);
         }
     }
+
+    public function downloadCSV()
+    {
+        $userId = input('post.userId');
+        $passwd = md5(base64_encode(input('post.passwd')));
+        $user = new \app\index\model\UserModel();
+        $result = $user->checkAdmin($userId, $passwd);
+        if(!$result) {
+            return apiReturn(-1, 'You don\'t have authority', null, 200);
+        }
+
+        $now = date("Y-m-d",time());
+        $nowtoken = md5(base64_encode('panel' . 'Sign' . 'downloadCSV' . $now . 'fight in acm@wut'));
+        $token = input('post.token');
+
+        if($nowtoken != $token)
+        {
+            return apiReturn(-1, 'token is wrong', null, 200);
+        }else{
+            $item = new SignModel();
+            $data = $item->getsign()['data'];
+            $info = "";
+            foreach ($data as $v) {
+                foreach ($v as $vv) {
+                    $info .= "\"";
+                    $info .= $vv;
+                    $info .= "\",";
+                }
+                $info .= "\n";
+            }
+            return json(array('status'=>0, 'message'=>'OK', 'data'=>$info));
+        }
+    }
 }
