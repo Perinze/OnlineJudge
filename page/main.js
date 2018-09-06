@@ -229,6 +229,7 @@ function submitFn () {
                         changeBar('right', '注册成功');
                         $('#registeBox').slideUp(200);
                         $('#mask').fadeOut(200);
+                        changeBar('right', '请添加页面下方招新赛QQ群');
                     }else{
                         changeBar('wrong', str.message);
                     }
