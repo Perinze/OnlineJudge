@@ -364,6 +364,7 @@ footer >p >a{
 
 #registeBox:after {
     content: '';
+    /*position: fixed;*/
     position: absolute;
     top: 0;
     left: 0;
@@ -375,6 +376,7 @@ footer >p >a{
 
 #registeBox::before {
     content: '';
+    /*position: fixed;*/
     position: absolute;
     top: 0;
     left: 0;
@@ -390,7 +392,7 @@ footer >p >a{
 }
 
 #mask {
-    z-index: 25;
+    z-index: 29;
     background: rgba(22,22,22,0.7);
     position: fixed;
     height: 100%;
@@ -519,7 +521,7 @@ footer >p >a{
 
     #background-black-top > .news {
         top: 31%;
-        padding: 0 30px 0 0;
+        padding: 0 28px 0 0;
         width: 80%;
         height: 5%;
     }
@@ -569,6 +571,8 @@ footer >p >a{
     }
 
     #registeBox {
+        /*overflow: auto;*/
+        /*overflow-y: auto;*/
         z-index: 1999;
         width: 90%;
         height: 90%;
@@ -591,5 +595,12 @@ footer >p >a{
         z-index: 2000;
         width: 80%;
         left: 10%;
+    }
+}
+
+/* 短屏设备 */
+@media only screen and (max-height: 640px) {
+    #form {
+        overflow: auto;
     }
 }
