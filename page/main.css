@@ -402,6 +402,7 @@ footer >p >a{
 
 /*表单*/
 #form {
+    overflow: auto;
     position: absolute;
     z-index: 999;
     top: 3%;
@@ -600,7 +601,4 @@ footer >p >a{
 
 /* 短屏设备 */
 @media only screen and (max-height: 640px) {
-    #form {
-        overflow: auto;
-    }
 }
