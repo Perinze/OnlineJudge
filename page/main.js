@@ -229,7 +229,7 @@ function submitFn () {
                         changeBar('right', '注册成功');
                         $('#registeBox').slideUp(200);
                         $('#mask').fadeOut(200);
-                        setTimeout(changeBar('right', '请添加页面下方招新赛QQ群'),410);
+                        setTimeout(changeBar,2520,'right', '请添加页面下方招新赛QQ群');
                     }else{
                         changeBar('wrong', str.message);
                     }
