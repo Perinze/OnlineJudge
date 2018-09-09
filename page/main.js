@@ -130,7 +130,7 @@ function checkForm(obj) {
         case 'class':re=/^[\u4e00-\u9fa5]+[a-zA-Z]*[0-9]{4}$/;num=3;break;
         case 'cardNo':re=/^[0-9]{6}$/;num=4;break;
         case 'date':re=/^[1-9][0-9]{3}\/[0-9]{1,2}\/[0-9]{1,2}$/;num=5;break;
-        case 'tel':re= /^[1][3,4,5,7,8,9][0,9]{9}$/;num=6;break;
+        case 'tel':re= /[1][3,4,5,7,8,9][0-9]{9}$/;num=6;break;
         case 'dorm':re=/^[\u4e00-\u9fa5a-zA-Z0-9]+$/;num=7;break;
     }
     if(re.test(v) === true)
@@ -229,7 +229,7 @@ function submitFn () {
                         changeBar('right', '注册成功');
                         $('#registeBox').slideUp(200);
                         $('#mask').fadeOut(200);
-                        changeBar('right', '请添加页面下方招新赛QQ群');
+                        setTimeout(changeBar('right', '请添加页面下方招新赛QQ群'),410);
                     }else{
                         changeBar('wrong', str.message);
                     }
