@@ -405,9 +405,9 @@ footer >p >a{
     position: absolute;
     z-index: 999;
     top: 3%;
-    display: table-cell;
+    /*display: table-cell;*/
     text-align: center;
-    vertical-align: middle;
+    /*vertical-align: middle;*/
 }
 
 #form >a {
@@ -513,6 +513,12 @@ footer >p >a{
 }
 
 /* 移动设备 */
+@media only screen and (min-width: 415px) and  (max-width: 768px){
+    #registeBox {
+        margin-top: -13%;
+    }
+}
+
 @media only screen and (max-width: 768px) {
     #background-black-top > .welcome {
         top: 15%;
@@ -601,6 +607,6 @@ footer >p >a{
 /* 短屏设备 */
 @media only screen and (max-height: 640px) {
     #form {
-        overflow: auto;
+        overflow: scroll;
     }
 }
