@@ -448,6 +448,7 @@ footer >p >a{
     border-radius: 5px;
     width: 380px;
     height: 38px;
+    -webkit-appearance:none;
 }
 
 #form  >select{

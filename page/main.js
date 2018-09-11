@@ -122,6 +122,7 @@ function checkForm(obj) {
     var v = obj.value;
     var re = /^$/;
     var num=0;
+    // alert("Here");
     switch(opt)
     {
         case 'name':re=/^[\u4e00-\u9fa5]+$/;num=0;break;
@@ -133,14 +134,18 @@ function checkForm(obj) {
         case 'tel':re= /[1][3,4,5,7,8,9][0-9]{9}$/;num=6;break;
         case 'dorm':re=/^[\u4e00-\u9fa5a-zA-Z0-9]+$/;num=7;break;
     }
+    // alert("I'm here");
     if(re.test(v) === true)
     {
         cnt = cnt | (1<<num);
         $(obj).css('box-shadow','0 0 12px #00ff99');
+        // alert("No,It's Here");
     }else{
         if(((cnt>>num) & 1 )=== 1)cnt-=1<<num;
         $(obj).css('box-shadow','0 0 12px #eb341c');
+        // alert("That's Here");
     }
+    // alert("I's end");
 }
 
 var rulecnt = 53;
