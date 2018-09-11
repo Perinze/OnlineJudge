@@ -18,7 +18,8 @@ class SignModel extends Model
         try {
             $where = ['cardNo' => $data['cardNo']];
             if($this->getsign($where)['code']==0 && $where['cardNo']){
-                $info = $this->where($where)->update(array('update_time'=>time()));
+                $data['update_time'] = time();
+                $info = $this->where($where)->update($data);
                 if($info)
                 {
                     return ['code' => 0, 'msg' => 'Success', 'data' => $info];
