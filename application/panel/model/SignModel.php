@@ -45,7 +45,7 @@ class SignModel extends Model
                 $info = $this->order(['star'=>'desc','create_time'=>'asc'])->select();
             else
                 $info = $this->where($where)
-                    ->limit($offset, $limit)
+//                    ->limit($offset, $limit)
                     ->find();
             if ($info == []) {
                 return ['code' => -1, 'msg' => $this->getError(), 'data' => $info];

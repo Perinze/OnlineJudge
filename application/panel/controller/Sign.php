@@ -42,7 +42,7 @@ class Sign extends Controller
             $temp = $item->getsign($where);
 //            dump($temp['data'][0]['update_time']);
             if($temp['data']){
-                if(strtotime($temp['data']['update_time']) + 1000 > $created){
+                if(strtotime($temp['data']['update_time']) + 60 > $created){
                     return apiReturn(-1, "不要频繁提交", '', 200);
                 }
             }
