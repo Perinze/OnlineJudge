@@ -404,10 +404,13 @@ footer >p >a{
 #form {
     position: absolute;
     z-index: 999;
+    height: 96%;
+    margin-bottom: 30px;
     top: 3%;
     /*display: table-cell;*/
     text-align: center;
     /*vertical-align: middle;*/
+    /*width: 100%;*/
 }
 
 #form >a {
@@ -517,6 +520,10 @@ footer >p >a{
     #registeBox {
         margin-top: -13%;
     }
+
+    #form {
+        overflow: auto;
+    }
 }
 
 @media only screen and (max-width: 768px) {
@@ -602,11 +609,15 @@ footer >p >a{
         width: 80%;
         left: 10%;
     }
+
+    #form {
+        overflow: auto;
+    }
 }
 
 /* 短屏设备 */
 @media only screen and (max-height: 640px) {
     #form {
-        overflow: scroll;
+        overflow: auto;
     }
 }
