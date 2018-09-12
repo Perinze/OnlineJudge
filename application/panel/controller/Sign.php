@@ -40,10 +40,6 @@ class Sign extends Controller
             $item = new SignModel();
             $where = ['cardNo' => $data['cardNo']];
             $temp = $item->getsign($where);
-//            dump($temp['data'][0]['update_time']);
-            if($temp['code']==-1) {
-                return apiReturn(-1,"发生错误，请联系管理员",'',200);
-            }
             if($temp['data']){
                 if(strtotime($temp['data']['update_time']) + 60 > $created){
                     return apiReturn(-1, "不要频繁提交", '', 200);
