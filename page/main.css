@@ -90,7 +90,7 @@ p { font-size: 22px }
     position: absolute;
     top: 23.5%;
     left: 9.7%;
-    width: 100%;
+    width: 89%;
     z-index: 30;
     word-wrap: break-word;
     word-break: break-all;
@@ -360,6 +360,7 @@ footer >p >a{
     overflow: hidden;
     box-sizing: border-box;
     display: none;
+    /*vertical-align: middle;*/
 }
 
 #registeBox:after {
@@ -484,6 +485,13 @@ footer >p >a{
 /* *********响应式适配********** */
 /* *************************** */
 /* 桌面设备 */
+@media only screen and (min-width: 1524px) {
+    #registeBox {
+        width: 23%;
+        height: 60%;
+    }
+}
+
 @media only screen and (min-width: 768px) {
     #background-black-top > .welcome {
         white-space: nowrap;
