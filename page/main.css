@@ -90,7 +90,7 @@ p { font-size: 22px }
     position: absolute;
     top: 23.5%;
     left: 9.7%;
-    width: 89%;
+    width: 88%;
     z-index: 30;
     word-wrap: break-word;
     word-break: break-all;
@@ -495,7 +495,7 @@ footer >p >a{
 @media only screen and (min-width: 768px) {
     #background-black-top > .welcome {
         white-space: nowrap;
-        width: 18em;
+        /*width: 18em;*/
         animation:typing 5s steps(30, end) forwards;
     }
 
