@@ -14,6 +14,11 @@ use think\exception\HttpResponseException;
 use think\Response;
 
 class Base extends Controller{
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     /**
      * view文件夹外调用：生成token（之后可能考虑关闭此方法）
      * @return string

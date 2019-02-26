@@ -10,6 +10,17 @@ namespace app\index\controller;
 require_once "UserValidate.php";
 
 class Register extends Base{
+
+    public function __construct()
+    {
+        parent::__construct();
+        if($this->checkToken(input('post.token'))!==true)
+        {
+            $ret = array('errCode'=>403,'errMsg'=>'token error','data'=>null);
+            return json($ret);
+        }
+    }
+
     /**
      * 用户注册
      * TODO 重构 with UserModel
@@ -20,12 +31,6 @@ class Register extends Base{
      */
     public function registe()
     {
-        if($this->checkToken(input('post.token'))!==true)
-        {
-            $ret = array('errCode'=>403,'errMsg'=>'token error','data'=>null);
-            return json($ret);
-        }
-
         $rcode = input('post.rcode');
         $password = input('post.password');
         $repassword = input('post.repassword');
@@ -68,12 +73,6 @@ class Register extends Base{
      */
     public function newRcode($num)
     {
-        if($this->checkToken(input('post.token'))!==true)
-        {
-            $ret = array('errCode'=>403,'errMsg'=>'token error','data'=>null);
-            return json($ret);
-        }
-
         if($this->checkUserType(session('userId'))<=1)
         {
             $ret = array('errCode'=>403,'errMsg'=>'没有操作权限','data'=>null);

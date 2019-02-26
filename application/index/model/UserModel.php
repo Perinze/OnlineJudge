@@ -7,11 +7,24 @@
  */
 namespace app\index\model;
 
+use think\Exception;
 use think\exception\DbException;
 use think\Model;
 
 class UserModel extends Model{
     protected $table = 'user';
+
+    public function addUser($data)
+    {
+        try{
+            $id = $this->insertGetId($data);
+            return $id;
+        }catch (Exception $e){
+            return false;
+        }
+        return false;
+    }
+
 
     public function checkAdmin($uid,$passwd)
     {
