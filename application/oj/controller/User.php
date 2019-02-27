@@ -8,7 +8,6 @@
 
 namespace app\oj\controller;
 
-
 use app\oj\model\UserModel;
 use app\oj\validate\UserValidate;
 
@@ -16,11 +15,17 @@ class User extends Base
 {
     public function addUser()
     {
-        // TODO fix bugs
         $user_validate = new UserValidate();
         $user_model = new UserModel();
         $req = input('post.');
-        $result = $user_validate->scene('adduser')->check($req);
+
+        $result = $user_validate->scene('foreAddUser')->check($req);
+        if($result != true){
+            return apiReturn(CODE_ERROR, $user_validate->getError(), '');
+        }
+        $req = $this->handleUserReq($req);
+
+        $result = $user_validate->scene('addUser')->check($req);
         if($result != true){
             return apiReturn(CODE_ERROR, $user_validate->getError(), '');
         }
@@ -32,12 +37,23 @@ class User extends Base
     {
         $user_validate = new UserValidate();
         $user_model = new UserModel();
+
         $req = input('post.');
-        $result = $user_validate->scene('edituser')->check($req);
+
+        $user_id = $req['user_id'];
+        unset($req['user_id']);
+
+        $result = $user_validate->scene('foreAddUser')->check($req);
         if($result != true){
             return apiReturn(CODE_ERROR, $user_validate->getError(), '');
         }
-        $resp = $user_model->editUser($req);
+        $req = $this->handleUserReq($req);
+
+        $result = $user_validate->scene('editUser')->check($req);
+        if($result != true){
+            return apiReturn(CODE_ERROR, $user_validate->getError(), '');
+        }
+        $resp = $user_model->editUser($user_id, $req);
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
@@ -45,8 +61,9 @@ class User extends Base
     {
         $user_validate = new UserValidate();
         $user_model = new UserModel();
+
         $req = input('post.');
-        $result = $user_validate->scene('deleteuser')->check($req);
+        $result = $user_validate->scene('deleteUser')->check($req);
         if($result != true){
             return apiReturn(CODE_ERROR, $user_validate->getError(), '');
         }
@@ -58,10 +75,11 @@ class User extends Base
     {
         $user_validate = new UserValidate();
         $user_model = new UserModel();
+
         $req = input('post.');
-        $result = $user_validate->scene('searchuser_id')->check($req);
+        $result = $user_validate->scene('searchUser_id')->check($req);
         if($result != true){
-            $result = $user_validate->scene('searchuser_nick')->check($req);
+            $result = $user_validate->scene('searchUser_nick')->check($req);
             if($result != true){
                 return apiReturn(CODE_ERROR, $user_validate->getError(), '');
             }
@@ -70,5 +88,15 @@ class User extends Base
             $resp = $user_model->searchUserById($req['id']);
         }
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
+    }
+
+    private function handleUserReq($req) {
+        $req['desc'] = json_encode([
+            'phone'=>$req['phone'],
+            'sex'=>$req['sex'],
+            'sign'=>$req['sign']
+        ]);
+        unset($req['phone'],$req['sex'],$req['sign']);
+        return $req;
     }
 }

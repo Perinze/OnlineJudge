@@ -15,18 +15,22 @@ class UserValidate extends Validate
 {
 
     protected $rule = [
-        '' => 'require',
+        'user_id' => 'require',
+        'nick' => 'require|max:25',
     ];
 
     protected $message = [
-        '' => '',
+        'user_id.require' => '缺少用户id',
+        'nick.require' => '缺少用户昵称',
+        'nick.max' => '昵称最长25个字符',
     ];
 
     protected $scene = [
-        'adduser' => '',
-        'edituser' => '',
-        'searchuser_id' => '',
-        'searchuser_nick' => '',
-        'deleteuser' => '',
+        'addUser' => '',
+        'editUser' => '',
+        'searchUser_id' => ['user_id'],
+        'searchUser_nick' => ['nick'],
+        'deleteUser' => ['user_id'],
+        'foreAddUser'=>''
     ];
 }
