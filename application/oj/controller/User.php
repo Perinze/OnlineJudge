@@ -16,6 +16,7 @@ class User extends Base
 {
     public function addUser()
     {
+        // TODO fix bugs
         $user_validate = new UserValidate();
         $user_model = new UserModel();
         $req = input('post.');

@@ -15,9 +15,9 @@ class UserModel extends Model {
 
     public function addUser($data) {
         try{
-            $info = $this->insert($data);
-            if(empty($info)){
-                return ['code' => CODE_SUCCESS, 'msg' => '添加成功',  'data' => $info];
+            $res = $this->insert($data);
+            if($res){
+                return ['code' => CODE_SUCCESS, 'msg' => '添加成功',  'data' => ''];
             } else {
                 return ['code' => CODE_ERROR, 'msg' => '添加失败',  'data' => ''];
             }
@@ -31,9 +31,9 @@ class UserModel extends Model {
         return ['code' => CODE_SUCCESS, 'msg' => '删除成功',  'data' => ''];
     }
 
-    public function editUser($data) {
+    public function editUser($user_id, $data) {
         try{
-            $info = $this->where('id', $data['id'])->update($data);
+            $info = $this->where('user_id', $user_id)->update($data);
             if($info != 0){
                 return ['code' => CODE_SUCCESS, 'msg' => '更新成功',  'data' => $info];
             } else {
@@ -46,7 +46,8 @@ class UserModel extends Model {
 
     public function searchUserById($user_id) {
         try{
-            return $this->where('user_id', $user_id)->find();
+            $content = $this->where('user_id', $user_id)->find();
+            return ['code' => CODE_SUCCESS, 'msg' => '查找成功',  'data' => $content];
         }catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常',  'data' => $e->getMessage()];
         }
@@ -54,7 +55,8 @@ class UserModel extends Model {
 
     public function searchUserByNick($nick) {
         try {
-            return $this->where('nick', $nick)->find();
+            $content = $this->where('nick', $nick)->find();
+            return ['code' => CODE_SUCCESS, 'msg' => '查找成功',  'data' => $content];
         }catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常',  'data' => $e->getMessage()];
         }

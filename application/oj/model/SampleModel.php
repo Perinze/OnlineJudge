@@ -7,47 +7,74 @@
  */
 namespace app\oj\model;
 
-use think\db\exception\DataNotFoundException;
-use think\db\exception\ModelNotFoundException;
 use think\Exception;
 use think\Model;
 
-class SampleInputModel extends Model {
+class SampleModel extends Model {
     protected $table = 'sample';
 
     public function addSample($problem_id, $input, $output) {
-        $this->insert([
-            'problem_id' => $problem_id,
-            'input' => $input,
-            'output' => $output
-        ]);
+        try {
+            $res = $this->insert([
+                'problem_id' => $problem_id,
+                'input' => $input,
+                'output' => $output
+            ]);
+            if($res) {
+                return ['code'=>CODE_SUCCESS , 'msg'=>'添加成功' , 'data'=>''];
+            }else{
+                return ['code'=>CODE_ERROR , 'msg'=>'添加失败' , 'data'=>''];
+            }
+        }catch(Exception $e) {
+            return ['code'=>CODE_ERROR , 'msg'=>'数据库异常' , 'data'=>$e->getMessage()];
+        }
     }
 
     public function searchSampleByID($id) {
         try{
-            return $this->where('id',$id)->find();
+            $content = $this->where('sample_id',$id)->find();
+            return ['code'=>CODE_SUCCESS , 'msg'=>'查找成功' , 'data'=>$content];
         }catch (Exception $e) {
-            return null;
+            return ['code'=>CODE_ERROR , 'msg'=>'数据库异常' , 'data'=>$e->getMessage()];
         }
     }
 
     public function searchSampleByProblemID($problem_id) {
         try{
-            return $this->where('problem_id',$problem_id)->select();
+            $content = $this->where('problem_id',$problem_id)->select();
+            return ['code'=>CODE_SUCCESS , 'msg'=>'查找成功' , 'data'=>$content];
         }catch (Exception $e) {
-            return null;
+            return ['code'=>CODE_ERROR , 'msg'=>'数据库异常' , 'data'=>$e->getMessage()];
         }
     }
 
     public function deleSample($id) {
-        $this->where('id',$id)->delete();
+        try {
+            $res = $this->where('sample_id', $id)->delete();
+            if ($res) {
+                return ['code' => CODE_SUCCESS, 'msg' => '删除成功', 'data' => ''];
+            } else {
+                return ['code' => CODE_ERROR, 'msg' => '删除失败', 'data' => ''];
+            }
+        }catch(Exception $e) {
+            return ['code'=>CODE_ERROR , 'msg'=>'数据库异常' , 'data'=>$e->getMessage()];
+        }
     }
 
     public function editSample($id, $input, $output) {
-        $this->where('id', $id)
-            ->setField([
-                'input' => $input,
-                'output' => $output
-            ]);
+        try {
+            $res = $this->where('sample_id', $id)
+                ->setField([
+                    'input' => $input,
+                    'output' => $output
+                ]);
+            if($res){
+                return ['code'=>CODE_SUCCESS , 'msg'=>'编辑成功' , 'data'=>''];
+            }else{
+                return ['code'=>CODE_ERROR , 'msg'=>'编辑失败' , 'data'=>''];
+            }
+        }catch(Exception $e) {
+            return ['code'=>CODE_ERROR , 'msg'=>'数据库异常' , 'data'=>$e->getMessage()];
+        }
     }
 }
