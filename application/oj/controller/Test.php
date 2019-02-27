@@ -162,4 +162,12 @@ class Test extends Controller {
         }
         echo '<br>';
     }
+
+    public function userController() {
+
+    }
+
+    public function loginController() {
+
+    }
 }

@@ -61,4 +61,18 @@ class UserModel extends Model {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常',  'data' => $e->getMessage()];
         }
     }
+
+    public function loginCheck($req) {
+        // uncheck
+        try{
+            $res = $this->where($req)->find();
+            if($res){
+                return ['code'=>CODE_SUCCESS, 'msg'=>'登陆成功', 'data'=>''];
+            }else{
+                return ['code'=>CODE_ERROR, 'msg'=>'用户名或密码错误', 'data'=>''];
+            }
+        }catch(Exception $e) {
+            return ['code'=>CODE_ERROR, 'msg'=>'数据库错误', 'data'=>$e->getMessage()];
+        }
+    }
 }

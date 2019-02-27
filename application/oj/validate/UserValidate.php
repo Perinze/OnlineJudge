@@ -17,12 +17,14 @@ class UserValidate extends Validate
     protected $rule = [
         'user_id' => 'require',
         'nick' => 'require|max:25',
+        'password' => 'require',
     ];
 
     protected $message = [
         'user_id.require' => '缺少用户id',
         'nick.require' => '缺少用户昵称',
         'nick.max' => '昵称最长25个字符',
+        'password.require' => '缺少密码',
     ];
 
     protected $scene = [
@@ -31,6 +33,7 @@ class UserValidate extends Validate
         'searchUser_id' => ['user_id'],
         'searchUser_nick' => ['nick'],
         'deleteUser' => ['user_id'],
-        'foreAddUser'=>''
+        'foreAddUser'=>'',
+        'login'=>['user_id','password'],
     ];
 }
