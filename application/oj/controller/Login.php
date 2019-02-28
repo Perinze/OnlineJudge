@@ -9,6 +9,7 @@ namespace app\oj\controller;
 
 use app\oj\model\UserModel;
 use app\oj\validate\UserValidate;
+use think\facade\Session;
 
 class Login extends Base
 {
@@ -19,7 +20,9 @@ class Login extends Base
     {
         $user_validate = new UserValidate();
         $user_model = new UserModel();
-
+        if(Session::has('user_id')){
+            return apiReturn(CODE_ERROR, '请不要重复登录', '');
+        }
         $req = input('post.');
         $result = $user_validate->scene('login')->check($req);
         if($result != true){
@@ -27,7 +30,6 @@ class Login extends Base
         }
         $req['password'] = md5(base64_encode($req['password']));
         $result = $user_model->loginCheck($req);
-        // TODO 已经登陆逻辑
         if($result['code']==CODE_SUCCESS){
             session('user_id',$req['user_id']);
             return apiReturn($result['code'],$result['msg'],$result['data']);
