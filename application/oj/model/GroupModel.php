@@ -5,14 +5,15 @@
  * Date: 2019/2/28
  * Time: 16:08
  */
-
 namespace app\oj\model;
-
 
 use think\Model;
 
 class GroupModel extends Model
 {
+
+    // uncheck
+
     protected $table = 'group';
 
     public function get_all_group()

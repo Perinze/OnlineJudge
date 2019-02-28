@@ -8,7 +8,6 @@
 
 namespace app\oj\validate;
 
-
 use think\Validate;
 
 class GroupValidate extends Validate

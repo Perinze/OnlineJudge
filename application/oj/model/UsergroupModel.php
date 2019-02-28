@@ -13,6 +13,10 @@ use think\Model;
 
 class UsergroupModel extends Model
 {
+
+    // uncheck
+    // un create db_table
+
     protected $table = 'user_group';
 
     public function find_group($user)

@@ -13,6 +13,9 @@ use app\oj\validate\UserValidate;
 
 class User extends Base
 {
+
+    // uncheck
+
     public function addUser()
     {
         $user_validate = new UserValidate();

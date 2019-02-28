@@ -163,6 +163,14 @@ class Test extends Controller {
         echo '<br>';
     }
 
+    public function UsergroupModel() {
+
+    }
+
+    public function groupModel() {
+
+    }
+
     public function userController() {
 
     }

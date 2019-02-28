@@ -8,7 +8,6 @@
 
 namespace app\oj\controller;
 
-
 use app\oj\model\GroupModel;
 use app\oj\model\UsergroupModel;
 use app\oj\validate\GroupValidate;
@@ -16,6 +15,9 @@ use think\facade\Session;
 
 class Group extends Base
 {
+
+    // uncheck
+
     public function get_all_group()
     {
         $usergroup_model = new UsergroupModel();
@@ -35,10 +37,10 @@ class Group extends Base
             return apiReturn(CODE_ERROR, $group_validate->getError(), '');
         }
         $resp = $usergroup_model->find_user($req['group_id']);
-        $resp1 = $group_model->get_the_group($req['group_id'])
+        $resp1 = $group_model->get_the_group($req['group_id']);
         return apiReturn($resp['code'], $resp['msg'], array(
             'user' => $resp['data'],
-            'group' => $resp['data']
+            'group' => $resp1['data']
         ));
     }
 }
