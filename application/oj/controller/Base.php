@@ -8,9 +8,13 @@
 namespace app\oj\controller;
 
 use think\Controller;
+use think\facade\Session;
 
 class Base extends Controller {
     public function __construct() {
         parent::__construct();
+//        if(!Session::has('user_id')){
+//            $this->redirect('http://xxx.xxx.xxx/');
+//        }
     }
 }
