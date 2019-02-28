@@ -8,7 +8,7 @@
 
 namespace app\oj\model;
 
-
+use think\Exception;
 use think\Model;
 
 class UsergroupModel extends Model
@@ -19,43 +19,87 @@ class UsergroupModel extends Model
 
     protected $table = 'user_group';
 
-    public function find_group($user)
+    public function find_group($user_id)
     {
         $group_model = new GroupModel();
         try{
-            $info = $this->where('user', $user)->select()->toArray();
+            $info = $this->where('user_id', $user_id)->select()->toArray();
             if(empty($info)){
-                return ['code' => CODE_ERROR, 'msg' => '查询失败', 'data' => $this->getError()];
+                return ['code' => CODE_ERROR, 'msg' => '查询失败', 'data' =>''];
             } else{
                 $i = 0;
                 $data = array();
-                foreach ($info as $k){
-                    $data[$i++] = $group_model->get_the_group($info['group'])['data'];
+                foreach ($info as $key){
+                    $data[$i++] = $group_model->get_the_group($key['group'])['data']; // TODO no handle code==CODE_ERROR case
                 }
                 return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $data];
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+        }
+    }
+
+    public function find_user($group_id)
+    {
+        $user_model = new UserModel();
+        try{
+            $info = $this->where('group_id', $group_id)->select()->toArray();
+            if(empty($info)){
+                return ['code' => CODE_ERROR, 'msg' => '查询失败', 'data' => ''];
+            } else{
+                $i = 0;
+                $data = array();
+                foreach ($info as $key){
+                    $data[$i++] = $user_model->searchUserById($key['user'])['data']; // TODO no handle code==CODE_ERROR case
+                }
+                return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $data];
+            }
+        } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => ''];
         }
     }
 
-    public function find_user($group)
-    {
-        $user_model = new UserModel();
+    /**
+     * @param $group_id
+     * @param $user_id
+     * @return array['int','string','object']
+     */
+    public function searchRelation($group_id, $user_id) {
         try{
-            $info = $this->where('group', $group)->select()->toArray();
-            if(empty($info)){
-                return ['code' => CODE_ERROR, 'msg' => '查询失败', 'data' => $this->getError()];
-            } else{
-                $i = 0;
-                $data = array();
-                foreach ($info as $k){
-                    $data[$i++] = $user_model->searchUserById($info['user'])['data'];
-                }
-                return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $data];
+            $content = $this->where(['group_id'=>$group_id, 'user_id'=>$user_id])->select()[0]; // return object
+            if($content) {
+                return ['code' => CODE_SUCCESS, 'msg' => '成功', 'data' => $content];
+            }else{
+                return ['code' => CODE_ERROR, 'msg' => '失败', 'data' => ''];
             }
-        } catch (\Exception $e) {
-            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => ''];
+        }catch(Exception $e) {
+            return ['code'=>CODE_ERROR, 'msg'=>'数据库错误', 'data'=>$e->getMessage()];
+        }
+    }
+
+    public function addRelation($group_id, $user_id) {
+        try{
+            $res = $this->insert(['group_id'=>$group_id, 'user_id'=>$user_id]);
+            if($res){
+                return ['code'=>CODE_SUCCESS, 'msg'=>'成功', 'data'=>''];
+            }else{
+                return ['code'=>CODE_ERROR, 'msg'=>'失败', 'data'=>''];
+            }
+        }catch(Exception $e) {
+            return ['code'=>CODE_ERROR, 'msg'=>'数据库错误', 'data'=>$e->getMessage()];
+        }
+    }
+
+    public function deleRelation($group_id, $user_id) {
+        try{
+            $res = $this->where(['group_id'=>$group_id, 'user_id'=>$user_id])->delete();
+            if($res){
+                return ['code'=>CODE_SUCCESS, 'msg'=>'成功', 'data'=>''];
+            }else{
+                return ['code'=>CODE_ERROR, 'msg'=>'失败', 'data'=>''];
+            }
+        }catch(Exception $e) {
+            return ['code'=>CODE_ERROR, 'msg'=>'数据库错误', 'data'=>$e->getMessage()];
         }
     }
 }
