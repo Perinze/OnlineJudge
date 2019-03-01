@@ -10,6 +10,9 @@ namespace app\oj\validate;
 use think\Validate;
 
 class ProblemValidate extends Validate {
+
+    // TODO fill in
+
     protected $rule = [
 
     ];

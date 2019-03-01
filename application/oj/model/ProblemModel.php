@@ -30,7 +30,7 @@ class ProblemModel extends Model {
     }
 
     /**
-     * @param $data: $title, $background, $describe, $input_format, $output_format, $hint, $public
+     * @param $data: $title, $background, $describe, $input_format, $output_format, $hint, $public(boolean), $source, $tag
      * @return array
      */
     public function addProblem($data) {
