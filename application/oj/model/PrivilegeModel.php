@@ -46,9 +46,9 @@ class PrivilegeModel extends Model {
         try{
             $res = $this->where(['user_id'=>$user_id,'privilege'=>$privilege])->find();
             if($res){
-                return ['code'=>CODE_SUCCESS,'msg'=>'权限验证成功','data'=>''];
+                return ['code'=>CODE_SUCCESS,'msg'=>'权限验证成功','data'=>'权限验证成功'];
             }else{
-                return ['code'=>CODE_ERROR,'msg'=>'不存在该权限','data'=>''];
+                return ['code'=>CODE_ERROR,'msg'=>'不存在该权限','data'=>'不存在该权限'];
             }
         }catch(Exception $e){
             return ['code'=>CODE_ERROR,'msg'=>'数据库错误','data'=>$e->getMessage()];
