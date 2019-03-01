@@ -8,6 +8,7 @@
 namespace app\oj\controller;
 
 use app\oj\model\GroupModel;
+use app\oj\model\PrivilegeModel;
 use app\oj\model\SampleModel;
 use app\oj\model\UsergroupModel;
 use app\oj\model\UserModel;
@@ -290,6 +291,50 @@ class Test extends Controller {
             halt($res);
         }
 
+    }
+
+    public function privilegeModel() {
+        $privilege = new PrivilegeModel();
+
+        $res = $privilege->addPrivilege(1,'p1');
+        if($res['code']==CODE_SUCCESS) {
+            $privilege->addPrivilege(1,'g1');
+            $privilege->addPrivilege(1,'p1');
+            $privilege->addPrivilege(1,'admin');
+            echo 'add privilege success';
+        }else{
+            halt($res);
+        }
+        echo '<br>';
+
+        $res = $privilege->searchOnesAllPrivilege(1);
+        if($res['code']==CODE_SUCCESS) {
+            echo 'search ones all privilege success : ';
+            dump($res['data']);
+        }else{
+            halt($res);
+        }
+        echo '<br>';
+
+        $res = $privilege->searchPrivilege(1,'admin');
+        if($res['code']==CODE_SUCCESS) {
+            echo 'search privilege success : ';
+            dump($res);
+        }else{
+            halt($res);
+        }
+        echo '<br>';
+
+        $res = $privilege->delePrivilege(1,'admin');
+        if($res['code']==CODE_SUCCESS) {
+            $privilege->delePrivilege(1,'p1');
+            $privilege->delePrivilege(1,'g1');
+            echo 'delete privilege success';
+        }else{
+            halt($res);
+        }
+        echo '<br>';
+        echo 'test success';
     }
 
     public function userController() {
