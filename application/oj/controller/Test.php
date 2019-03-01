@@ -14,6 +14,10 @@ use app\oj\model\UsergroupModel;
 use app\oj\model\UserModel;
 use think\Controller;
 
+/**
+ * Class Test 单元测试Controller
+ * @package app\oj\controller
+ */
 class Test extends Controller {
     public function __construct(){
         parent::__construct();
@@ -344,4 +348,13 @@ class Test extends Controller {
     public function loginController() {
 
     }
+
+    public function groupController() {
+
+    }
+
+    public function problemController() {
+
+    }
+
 }
