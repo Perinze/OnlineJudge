@@ -14,8 +14,7 @@ use think\Model;
 class UsergroupModel extends Model
 {
 
-    // uncheck
-    // un create db_table
+    // TODO handle duplicated key such as '1 1' then insert '1 1'
 
     protected $table = 'user_group';
 
@@ -29,8 +28,18 @@ class UsergroupModel extends Model
             } else{
                 $i = 0;
                 $data = array();
-                foreach ($info as $key){
-                    $data[$i++] = $group_model->get_the_group($key['group'])['data']; // TODO no handle code==CODE_ERROR case
+                foreach ($info as $key=>$value){
+                    $a_group_res = $group_model->get_the_group($value['group_id']);
+                    if($a_group_res['code']==CODE_SUCCESS){
+                        if(!empty($a_group_res['data'])){
+                            $data[$i]=$a_group_res['data'];
+                        }else{
+                            $data[$i]='分组不存在';
+                        }
+                    }else{
+                        $data[$i]='查询错误';
+                    }
+                    $i++;
                 }
                 return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $data];
             }
@@ -49,8 +58,18 @@ class UsergroupModel extends Model
             } else{
                 $i = 0;
                 $data = array();
-                foreach ($info as $key){
-                    $data[$i++] = $user_model->searchUserById($key['user'])['data']; // TODO no handle code==CODE_ERROR case
+                foreach ($info as $key=>$value){
+                    $a_group_res = $user_model->searchUserById($value['user_id']);
+                    if($a_group_res['code']==CODE_SUCCESS){
+                        if(!empty($a_group_res['data'])){
+                            $data[$i]=$a_group_res['data'];
+                        }else{
+                            $data[$i]='用户不存在';
+                        }
+                    }else{
+                        $data[$i]='查询错误';
+                    }
+                    $i++;
                 }
                 return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $data];
             }
@@ -73,7 +92,7 @@ class UsergroupModel extends Model
                 return ['code' => CODE_ERROR, 'msg' => '失败', 'data' => ''];
             }
         }catch(Exception $e) {
-            return ['code'=>CODE_ERROR, 'msg'=>'数据库错误', 'data'=>$e->getMessage()];
+            return ['code'=>CODE_ERROR, 'msg'=>'数据库异常', 'data'=>$e->getMessage()];
         }
     }
 

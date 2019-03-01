@@ -11,16 +11,13 @@ use think\Model;
 
 class GroupModel extends Model
 {
-
-    // uncheck
-
     protected $table = 'group';
 
     public function get_all_group() {
         try{
             $info = $this->select();
             if(empty($info)){
-                return ['code' => CODE_ERROR, 'msg' => '查询失败', 'data' => $this->getError()];
+                return ['code' => CODE_ERROR, 'msg' => '分组不存在', 'data' => $this->getError()];
             } else{
                 return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $info];
             }
@@ -33,7 +30,7 @@ class GroupModel extends Model
         try{
             $info = $this->where('group_id', $group_id)->find();
             if(empty($info)){
-                return ['code' => CODE_ERROR, 'msg' => '查询失败', 'data' => $this->getError()];
+                return ['code' => CODE_ERROR, 'msg' => '分组不存在', 'data' => $this->getError()];
             } else{
                 return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $info];
             }
@@ -42,6 +39,10 @@ class GroupModel extends Model
         }
     }
 
+    /**
+     * @param $data
+     * @return array $data : $group_name $desc $group_creator
+     */
     public function newGroup($data) {
         try{
             $res = $this->insert($data);

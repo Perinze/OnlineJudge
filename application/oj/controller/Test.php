@@ -7,7 +7,9 @@
  */
 namespace app\oj\controller;
 
+use app\oj\model\GroupModel;
 use app\oj\model\SampleModel;
+use app\oj\model\UsergroupModel;
 use app\oj\model\UserModel;
 use think\Controller;
 
@@ -164,10 +166,129 @@ class Test extends Controller {
     }
 
     public function UsergroupModel() {
+//        $group = new GroupModel();
+//        $res = $group->get_the_group(1);
+//        halt($res);// for debug
+
+        $user_group = new UsergroupModel();
+
+        $res = $user_group->addRelation(1,1);
+        if($res['code']==CODE_SUCCESS) {
+            $user_group->addRelation(2, 1);
+            $user_group->addRelation(1, 2);
+            echo 'add relation success';
+        }else{
+            halt($res);
+        }
+        echo '<br>';
+
+        $res = $user_group->searchRelation(1,1);
+        if($res['code']==CODE_SUCCESS) {
+            echo 'searchRealtion success : ';
+            dump($res['data']);
+        }else{
+            halt($res);
+        }
+        echo '<br>';
+
+
+        /*
+         *  TODO has problem (maybe in the GroupModel)
+         */
+        $res = $user_group->find_group(1);
+        if($res['code']==CODE_SUCCESS) {
+            echo 'find group success : ';
+            dump($res['data']);
+        }else{
+            halt($res);
+        }
+        echo '<br>';
+
+        $res = $user_group->find_user(1);
+        if($res['code']==CODE_SUCCESS) {
+            echo 'find user success : ';
+            dump($res['data']);
+        }else{
+            halt($res);
+        }
+        echo '<br>';
+        /*
+         * problem end
+         */
+
+        $res = $user_group->deleRelation(1,1);
+        if($res['code']==CODE_SUCCESS) {
+            $user_group->deleRelation(2,1);
+            $user_group->deleRelation(1,2);
+            echo 'delete Relation success';
+        }else{
+            halt($res);
+        }
+
+        echo 'test success';
+
+//        $res1 = $user_group->addRelation(1,1);
+//        $res2 = $user_group->addRelation(1,2);
+//        dump($res1);
+//        dump($res2);
 
     }
 
     public function groupModel() {
+        $group = new GroupModel();
+
+        $data = [
+            'group_name'=>'test',
+            'desc'=>'group describe',
+            'group_creator'=>1
+        ];
+
+        $res = $group->newGroup($data);
+        if($res) {
+            echo 'new group success';
+        }else{
+            halt($res);
+        }
+        echo '<br>';
+
+        $res = $group->get_all_group();
+        dump($res);
+
+        $group_id = $res['data'][0]['group_id'];
+        echo 'group_id : ' . $group_id;
+        echo '<br>';
+
+        $res = $group->get_the_group($group_id);
+        if($res) {
+            echo 'get_the_group success : ';
+            dump($res['data']);
+        }else{
+            halt($res['data']);
+        }
+        echo '<br>';
+
+        $new_data = [
+            'group_name'=>'testForEdit',
+            'desc'=>'IKIJIBIKI',
+            'group_creator'=>2
+        ];
+
+        $res = $group->editGroup($group_id,$new_data);
+        if($res){
+            echo 'edit Group success';
+        }else{
+            halt($res);
+        }
+        $res = $group->get_the_group($group_id);
+        dump($res['data']);
+        echo '<br>';
+
+        $res = $group->deleGroup($group_id);
+        if($res){
+            echo 'delete Success';
+        }else{
+            halt($res);
+        }
 
     }
 
