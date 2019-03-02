@@ -18,19 +18,26 @@ class Login extends Base
 
     public function do_login()
     {
-        $user_validate = new UserValidate();
-        $user_model = new UserModel();
+        // 检测重复登录
         if(Session::has('user_id')){
             return apiReturn(CODE_ERROR, '请不要重复登录', '');
         }
+        // 正常登陆逻辑
+        $user_validate = new UserValidate();
+        $user_model = new UserModel();
+
         $req = input('post.');
+        // 检测前端传送的用户登陆数据
         $result = $user_validate->scene('login')->check($req);
         if($result != true){
             return apiReturn(CODE_ERROR, $user_validate->getError(), '');
         }
+        // 密码加密
         $req['password'] = md5(base64_encode($req['password']));
+        // 身份验证
         $result = $user_model->loginCheck($req);
         if($result['code']==CODE_SUCCESS){
+            // 验证成功，session分配
             session('user_id',$req['user_id']);
             return apiReturn($result['code'],$result['msg'],$result['data']);
         }else{

@@ -7,44 +7,59 @@
  */
 namespace app\discuss\model;
 
+use think\Exception;
 use think\Model;
 
 class CommentModel extends Model {
     protected $table = 'question';
 
     /**
-     * @param $data : $user_id $contest_id $problem_id $title $content
+     * 新建评论
+     * @param $data : $user_id $question_id $content(评论内容)
+     * @return array
      */
-    public function newQuestion($data) {
-
+    public function newComment($data) {
+        try{
+            $res = $this->insert($data);
+            if($res) {
+                return ['code'=>CODE_SUCCESS, 'msg'=>'评论成功', 'data'=>''];
+            }else{
+                return ['code'=>CODE_ERROR, 'msg'=>'评论失败', 'data'=>''];
+            }
+        }catch(Exception $e){
+            return ['code'=>CODE_ERROR, 'msg'=>'数据库错误', 'data'=>$e->getMessage()];
+        }
     }
 
     /**
-     * 该function在大部分时候不应该被调用
-     * @param $question_id
+     * 查找评论
+     * @param $comment_id
+     * @return array
      */
-    public function deleQuestion($question_id) {
-
+    public function searchComment($comment_id) {
+        try {
+            $content = $this->where('comment_id', $comment_id)->find();
+            if(!empty($content)) {
+                return ['code'=>CODE_SUCCESS, 'msg'=>'查找成功', 'data'=>$content];
+            }else{
+                return ['code'=>CODE_ERROR, 'msg'=>'查找失败', 'data'=>'不存在查找项'];
+            }
+        }catch(Exception $e){
+            return ['code'=>CODE_ERROR, 'msg'=>'数据库错误', 'data'=>$e->getMessage()];
+        }
     }
 
-    /**
-     * 根据比赛编号(null)-题目编号来查找question
-     * @param $contest_id
-     * @param $problem_id
+    /*
+     * I think this function should not be exist
      */
-    public function searchQuestionByContestProblem($contest_id, $problem_id) { // TODO don't forget if not in contest logic
+    public function editComment($comment_id) {
 
     }
 
-    /**
-     * 根据question编号找到question
-     * @param $question_id
+    public function deleComment($comment_id) {
+
+    }
+    /*
+     * end
      */
-    public function searchQuestion($question_id) {
-
-    }
-
-    public function editQuestion() {  // TODO this block of code really should be exist?
-
-    }
 }
