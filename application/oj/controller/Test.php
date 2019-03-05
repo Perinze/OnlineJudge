@@ -346,7 +346,7 @@ class Test extends Controller {
     }
 
     public function loginController() {
-
+        return view('login');
     }
 
     public function groupController() {

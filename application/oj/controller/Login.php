@@ -13,14 +13,11 @@ use think\facade\Session;
 
 class Login extends Base
 {
-
-    // uncheck
-
     public function do_login()
     {
         // 检测重复登录
         if(Session::has('user_id')){
-            return apiReturn(CODE_ERROR, '请不要重复登录', '');
+            return apiReturn(CODE_ERROR, '已有账号登录登陆', '');
         }
         // 正常登陆逻辑
         $user_validate = new UserValidate();
@@ -38,11 +35,9 @@ class Login extends Base
         $result = $user_model->loginCheck($req);
         if($result['code']==CODE_SUCCESS){
             // 验证成功，session分配
-            session('user_id',$req['user_id']);
-            return apiReturn($result['code'],$result['msg'],$result['data']);
-        }else{
-            return apiReturn($result['code'],$result['msg'],$result['data']);
+            session('user_id',$result['data']['user_id']);
         }
+        return apiReturn($result['code'],$result['msg'],$result['data']);
     }
 
     public function do_logout()

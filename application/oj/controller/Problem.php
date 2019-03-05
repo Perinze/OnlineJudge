@@ -5,25 +5,28 @@
  * Date: 2019/2/28
  * Time: 14:38
  */
-
 namespace app\oj\controller;
-
 
 use think\Controller;
 
 class Problem extends Controller
 {
-    public function index()
+    public function displayProblem()
     {
 
     }
 
-    public function look_problem()
+    public function addProblem()
     {
 
     }
 
-    public function add_problem()
+    public function editProblem()
+    {
+
+    }
+
+    public function submit()
     {
 
     }

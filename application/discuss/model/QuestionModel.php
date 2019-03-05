@@ -61,7 +61,7 @@ class QuestionModel extends Model {
         try {
             $condition = [];
             if($contest_id!=null){
-                $condition = ['contest_id'=>$contest_id, 'problem_id'=>$problem_id]
+                $condition = ['contest_id'=>$contest_id, 'problem_id'=>$problem_id];
             }else{
                 $condition = ['problem_id'=>$problem_id];
             }

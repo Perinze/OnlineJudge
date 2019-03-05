@@ -67,7 +67,7 @@ class UserModel extends Model {
         try{
             $res = $this->where($req)->find();
             if($res){
-                return ['code'=>CODE_SUCCESS, 'msg'=>'登陆成功', 'data'=>''];
+                return ['code'=>CODE_SUCCESS, 'msg'=>'登陆成功', 'data'=>$res];
             }else{
                 return ['code'=>CODE_ERROR, 'msg'=>'用户名或密码错误', 'data'=>''];
             }
