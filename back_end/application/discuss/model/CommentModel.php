@@ -49,17 +49,12 @@ class CommentModel extends Model {
         }
     }
 
-    /*
-     * I think this function should not be exist
+    /**
+     * 编辑回复
+     * 只允许admin权限使用
+     * @param $comment_id
      */
-    public function editComment($comment_id) {
-
-    }
-
     public function deleComment($comment_id) {
 
     }
-    /*
-     * end
-     */
 }

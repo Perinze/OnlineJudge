@@ -16,8 +16,8 @@ class Login extends Base
     public function do_login()
     {
         // 检测重复登录
-        if(Session::has('user_id')){
-            return apiReturn(CODE_ERROR, '已有账号登录登陆', '');
+        if(Session::has('user_id')) {
+            return apiReturn(CODE_ERROR, '已有账号登录', '');
         }
         // 正常登陆逻辑
         $user_validate = new UserValidate();

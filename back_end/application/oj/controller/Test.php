@@ -15,7 +15,7 @@ use app\oj\model\UserModel;
 use think\Controller;
 
 /**
- * Class Test 单元测试Controller
+ * Class Test 单元测试Controller,测试内容为function name
  * @package app\oj\controller
  */
 class Test extends Controller {
@@ -341,12 +341,12 @@ class Test extends Controller {
         echo 'test success';
     }
 
-    public function userController() {
-
-    }
-
     public function loginController() {
         return view('login');
+    }
+
+    public function userController() {
+        
     }
 
     public function groupController() {

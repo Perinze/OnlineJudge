@@ -93,8 +93,4 @@ class QuestionModel extends Model {
             return ['code'=>CODE_ERROR, 'msg'=>'数据库错误', 'data'=>$e->getMessage()];
         }
     }
-
-    public function editQuestion() {  // TODO this block of code really should be exist?
-
-    }
 }
