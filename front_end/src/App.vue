@@ -97,7 +97,7 @@
 </script>
 
 <style>
-  /*TODO 重写drawer样式，左侧加上圆角*/
+  /*TODO drawer样式：左侧加上圆角，关闭放到左上角*/
 
   /*#layout-content-transition-with-trigger*/
 
