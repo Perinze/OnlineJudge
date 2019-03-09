@@ -8,86 +8,70 @@
       <div class="logo" />
       <a-menu theme="dark" mode="inline" :defaultSelectedKeys="['1']">
         <a-menu-item key="1">
-          <a-icon type="user" />
-          <span>nav 1</span>
+          <a-icon type="home" />
+          <span>主页</span>
         </a-menu-item>
         <a-menu-item key="2">
-          <a-icon type="video-camera" />
-          <span>nav 2</span>
+          <a-icon type="profile" />
+          <span>题目</span>
         </a-menu-item>
         <a-menu-item key="3">
-          <a-icon type="upload" />
-          <span>nav 3</span>
+          <a-icon type="flag" />
+          <span>比赛</span>
         </a-menu-item>
       </a-menu>
     </a-layout-sider>
     <a-layout>
-      <a-layout-header style="background: #fff; padding: 0">
-        <a-icon
-                class="trigger"
-                :type="collapsed ? 'menu-unfold' : 'menu-fold'"
-                @click="()=> collapsed = !collapsed"
-        />
-      </a-layout-header>
       <a-layout-content :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }">
-        Content
-      </a-layout-content>
-    </a-layout>
-    <!--<a-layout>-->
-      <!--<a-layout-content>-->
+        <!--TODO 写一个样式类，用transition ease 0.3s-->
+        <!--TODO content-->
+        {{ layoutContent }}
+        <a-list
+                :dataSource="[
+        {
+          name: 'Lily',
+        },
+        {
+          name: 'Lily',
+        },
+      ]"
+                bordered
+        >
+          <a-list-item slot="renderItem" slot-scope="item">
+            <a slot="actions" @click="showDrawer">View Profile</a>
+            <a-list-item-meta
+                    description="Progresser AFX"
+            >
+              <a slot="title" href="https://vue.ant.design/">{{item.name}}</a>
+              <a-avatar slot="avatar" src="https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png" />
+            </a-list-item-meta>
+          </a-list-item>
+        </a-list>
 
-      <!--</a-layout-content>-->
-    <!--</a-layout>-->
-    <div>
-      <a-button type="primary" @click="showDrawer">
-        Open
-      </a-button>
+      </a-layout-content>
       <a-drawer
-              title="Multi-level drawer"
-              width=520
-              :closable="false"
+              width=44%
+              placement="right"
+              :closable="true"
               @close="onClose"
               :visible="visible"
+              :mask="false"
       >
-        <a-button type="primary" @click="showChildrenDrawer">
-          Two-level drawer
-        </a-button>
-        <a-drawer
-                title="Two-level Drawer"
-                width=320
-                :closable="false"
-                @close="onChildrenDrawerClose"
-                :visible="childrenDrawer"
+        <iframe
+                :srcdoc="drawerContent"
+                frameborder="0"
+                marginheight="0"
+                marginwidth="0"
+                scrolling=yes
+                style="height: 100%;width: 100%;"
         >
-          <a-button type="primary" @click="showChildrenDrawer">
-            This is two-level drawer
-          </a-button>
-        </a-drawer>
-        <div
-                :style="{
-          position: 'absolute',
-          bottom: 0,
-          width: '100%',
-          borderTop: '1px solid #e8e8e8',
-          padding: '10px 16px',
-          textAlign: 'right',
-          left: 0,
-          background: '#fff',
-          borderRadius: '0 0 4px 4px',
-        }"
-        >
-          <a-button
-                  style="marginRight: 8px"
-                  @click="onClose"
-          >
-            Cancel
-          </a-button>
-          <a-button @click="onClose" type="primary">
-            Submit
-          </a-button>
-        </div>
+        </iframe>
       </a-drawer>
-    </div>
+      <a-layout-footer style="text-align: center">
+        ACM@WUT © 2019 Created by WUT-ACM-Developer
+      </a-layout-footer>
+      <!--TODO a drawer from top to down upon a-layout-content(code input)-->
+    </a-layout>
   </a-layout>
 </template>
 
@@ -95,8 +79,10 @@
     export default {
         data() {
             return {
+                collapsed: true,
                 visible: false,
-                childrenDrawer: false
+                drawerContent: "<p>123 Test</p>",
+                layoutContent: "<p>layout test</p>"
             }
         },
         methods: {
@@ -106,27 +92,15 @@
             onClose() {
                 this.visible = false
             },
-            showChildrenDrawer() {
-                this.childrenDrawer = true
-            },
-            onChildrenDrawerClose() {
-                this.childrenDrawer = false
-            },
-        },
-    }
-</script>
-
-<script>
-    export default {
-        data(){
-            return {
-                collapsed: false,
-            }
         },
     }
 </script>
 
 <style>
+  /*TODO 重写drawer样式，左侧加上圆角*/
+
+  /*#layout-content-transition-with-trigger*/
+
   #components-layout-demo-custom-trigger .trigger {
     font-size: 18px;
     line-height: 64px;
