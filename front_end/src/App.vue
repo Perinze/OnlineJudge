@@ -22,31 +22,18 @@
       </a-menu>
     </a-layout-sider>
     <a-layout>
-      <a-layout-content :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }">
-        <!--TODO 写一个样式类，用transition ease 0.3s-->
-        <!--TODO content-->
-        {{ layoutContent }}
-        <a-list
-                :dataSource="[
-        {
-          name: 'Lily',
-        },
-        {
-          name: 'Lily',
-        },
-      ]"
-                bordered
+      <a-layout-content
+              :style="{ margin: '24px 16px', padding: '0px', background: '#fff', minHeight: '280px' }"
+              :class="[visible?'layout-content-fold':'']">
+        <iframe
+                :src="layoutContent"
+                frameborder="0"
+                marginheight="0"
+                marginwidth="0"
+                scrolling=yes
+                style="height: 100%;width: 100%;"
         >
-          <a-list-item slot="renderItem" slot-scope="item">
-            <a slot="actions" @click="showDrawer">View Profile</a>
-            <a-list-item-meta
-                    description="Progresser AFX"
-            >
-              <a slot="title" href="https://vue.ant.design/">{{item.name}}</a>
-              <a-avatar slot="avatar" src="https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png" />
-            </a-list-item-meta>
-          </a-list-item>
-        </a-list>
+        </iframe>
 
       </a-layout-content>
       <a-drawer
@@ -56,9 +43,10 @@
               @close="onClose"
               :visible="visible"
               :mask="false"
+              style="height: 100%;"
       >
         <iframe
-                :srcdoc="drawerContent"
+                :src="drawerContent"
                 frameborder="0"
                 marginheight="0"
                 marginwidth="0"
@@ -67,7 +55,10 @@
         >
         </iframe>
       </a-drawer>
-      <a-layout-footer style="text-align: center">
+      <a-layout-footer
+              style="text-align: center"
+              :class="[visible?'layout-content-fold':'']"
+      >
         ACM@WUT © 2019 Created by WUT-ACM-Developer
       </a-layout-footer>
       <!--TODO a drawer from top to down upon a-layout-content(code input)-->
@@ -80,9 +71,9 @@
         data() {
             return {
                 collapsed: true,
-                visible: false,
-                drawerContent: "<p>123 Test</p>",
-                layoutContent: "<p>layout test</p>"
+                visible: true,
+                drawerContent: "",
+                layoutContent: ""
             }
         },
         methods: {
@@ -97,9 +88,34 @@
 </script>
 
 <style>
-  /*TODO drawer样式：左侧加上圆角，关闭放到左上角*/
+  /*TODO margin to % or width to px*/
+
+  .layout-content-fold {
+    width: 51.2% !important;
+    transition: ease .3s;
+  }
+
+  .ant-drawer-content-wrapper {
+    border-bottom-left-radius: 25px;
+    border-top-left-radius: 25px;
+  }
+
+  .ant-drawer-content {
+    border-bottom-left-radius: 25px;
+    border-top-left-radius: 25px;
+  }
 
   /*#layout-content-transition-with-trigger*/
+
+  .ant-drawer-close {
+    left: 0;
+    right: unset !important;
+  }
+
+  .ant-drawer-body {
+    padding: 0 0 3px 0 !important;
+    height: 100%;
+  }
 
   #components-layout-demo-custom-trigger .trigger {
     font-size: 18px;
