@@ -14,6 +14,12 @@ ACM@WUT MainPage & OnlineJudge业务系统
 - UI：Ant-Design-Vue
 - 代码编辑器：CodeMirror
 
+## 相关项目地址
+
+- [FinalRank](https://github.com/DarkKris/FinalRank) (By王熠弘、李劲巍、周景尧、曾嘉豪、黄融 Private Repo)  
+- [爬虫业务](https://github.com/IengY/flaskvj) (By冷瑜)  
+- [评测内核](https://github.com/hr567/Ana) (By黄融)
+
 ## 参与开发
 
 > 列出了OnlineJudge的所有贡献者，  
