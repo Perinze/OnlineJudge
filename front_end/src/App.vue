@@ -7,23 +7,59 @@
     >
       <div class="logo" />
       <a-menu theme="dark" mode="inline" :defaultSelectedKeys="['1']">
+
         <a-menu-item key="1">
           <a-icon type="home" />
           <span>主页</span>
         </a-menu-item>
+
         <a-menu-item key="2">
           <a-icon type="profile" />
           <span>题目</span>
         </a-menu-item>
+
         <a-menu-item key="3">
           <a-icon type="flag" />
           <span>比赛</span>
         </a-menu-item>
+
+        <a-menu-item key="4">
+          <a-icon type="bars" />
+          <span>Rank</span>
+        </a-menu-item>
+
+        <a-menu-item key="5">
+          <a-icon type="team" />
+          <span>小组</span>
+        </a-menu-item>
+
+        <a-menu-item key="6">
+          <a-icon type="user" />
+          <span>用户</span>
+        </a-menu-item>
+
       </a-menu>
     </a-layout-sider>
     <a-layout>
+      <!--TODO maybe Vue just admit one drawer-->
+      <!--a drawer from top to down upon a-layout-content(code input)-->
+      <!--<div>-->
+        <!--<a-button type="primary" @click="showTopDrawer">-->
+          <!--Open-->
+        <!--</a-button>-->
+        <!--<a-drawer-->
+                <!--placement="top"-->
+                <!--:closable="true"-->
+                <!--@close="onCloseTop"-->
+                <!--:TopVisible="visible"-->
+        <!--&gt;-->
+          <!--<p>Some contents...</p>-->
+          <!--<p>Some contents...</p>-->
+          <!--<p>Some contents...</p>-->
+        <!--</a-drawer>-->
+      <!--</div>-->
       <a-layout-content
-              :style="{ margin: '24px 16px', padding: '0px', background: '#fff', minHeight: '280px' }"
+              :style="{ margin: '20px 16px', padding: '0px', background: '#fff', minHeight: '280px' }"
               :class="[visible?'layout-content-fold':'']">
         <iframe
                 :src="layoutContent"
@@ -61,7 +97,6 @@
       >
         ACM@WUT © 2019 Created by WUT-ACM-Developer
       </a-layout-footer>
-      <!--TODO a drawer from top to down upon a-layout-content(code input)-->
     </a-layout>
   </a-layout>
 </template>
@@ -72,6 +107,7 @@
             return {
                 collapsed: true,
                 visible: true,
+                TopVisible: true,
                 drawerContent: "",
                 layoutContent: ""
             }
@@ -83,6 +119,12 @@
             onClose() {
                 this.visible = false
             },
+            showTopDrawer() {
+                this.TopVisible = true
+            },
+            onCloseTop() {
+                this.TopVisible = false
+            },
         },
     }
 </script>
@@ -92,7 +134,11 @@
 
   .layout-content-fold {
     width: 51.2% !important;
-    transition: ease .3s;
+    -webkit-transition: transifrom .3s;
+    -moz-transition: transifrom .3s;
+    -ms-transition: transifrom .3s;
+    -o-transition: transifrom .3s;
+    transition: transifrom .3s;
   }
 
   .ant-drawer-content-wrapper {
@@ -135,3 +181,5 @@
     margin: 16px;
   }
 </style>
+
+<!--TODO CodeMirror Theme: material nord oceanic-next-->
