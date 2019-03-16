@@ -41,37 +41,25 @@
       </a-menu>
     </a-layout-sider>
     <a-layout>
-      <!--TODO maybe Vue just admit one drawer-->
-      <!--a drawer from top to down upon a-layout-content(code input)-->
-      <!--<div>-->
-        <!--<a-button type="primary" @click="showTopDrawer">-->
-          <!--Open-->
-        <!--</a-button>-->
-        <!--<a-drawer-->
-                <!--placement="top"-->
-                <!--:closable="true"-->
-                <!--@close="onCloseTop"-->
-                <!--:TopVisible="visible"-->
-        <!--&gt;-->
-          <!--<p>Some contents...</p>-->
-          <!--<p>Some contents...</p>-->
-          <!--<p>Some contents...</p>-->
-        <!--</a-drawer>-->
-      <!--</div>-->
+      <!--topDrawer-->
+      <a-drawer
+              :closable="false"
+              placement="top"
+              @close="onCloseTop"
+              :visible="TopVisible"
+              :mask="true"
+              z-index="999"
+              style="width: 40%"
+              height=94%
+      >
+      </a-drawer>
       <a-layout-content
               :style="{ margin: '20px 16px', padding: '0px', background: '#fff', minHeight: '280px' }"
-              :class="[visible?'layout-content-fold':'']">
-        <iframe
-                :src="layoutContent"
-                frameborder="0"
-                marginheight="0"
-                marginwidth="0"
-                scrolling=yes
-                style="height: 100%;width: 100%;"
-        >
-        </iframe>
-
+              :class="[visible?'layout-content-fold':'']"
+      >
+        
       </a-layout-content>
+      <!--leftDrawer-->
       <a-drawer
               width=44%
               placement="right"
@@ -81,15 +69,6 @@
               :mask="false"
               style="height: 100%;"
       >
-        <iframe
-                :src="drawerContent"
-                frameborder="0"
-                marginheight="0"
-                marginwidth="0"
-                scrolling=yes
-                style="height: 100%;width: 100%;"
-        >
-        </iframe>
       </a-drawer>
       <a-layout-footer
               style="text-align: center"
@@ -109,7 +88,12 @@
                 visible: true,
                 TopVisible: true,
                 drawerContent: "",
-                layoutContent: ""
+                layoutContent: "",
+                leftDrawerStyle: {
+                    // radius: '10px'
+                    'border-bottom-left-radius': '20px',
+                    'border-top-left-radius': '20px'
+                }
             }
         },
         methods: {
@@ -131,6 +115,17 @@
 
 <style>
   /*TODO margin to % or width to px*/
+  .ant-drawer-top .ant-drawer-content-wrapper {
+    width: 45% !important;
+    margin-left: 7%;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+
+  .ant-drawer-top .ant-drawer-content {
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
 
   .layout-content-fold {
     width: 51.2% !important;
@@ -141,14 +136,14 @@
     transition: transifrom .3s;
   }
 
-  .ant-drawer-content-wrapper {
-    border-bottom-left-radius: 25px;
-    border-top-left-radius: 25px;
+  .ant-drawer-right .ant-drawer-content-wrapper {
+    border-bottom-left-radius: 20px;
+    border-top-left-radius: 20px;
   }
 
-  .ant-drawer-content {
-    border-bottom-left-radius: 25px;
-    border-top-left-radius: 25px;
+  .ant-drawer-right .ant-drawer-content {
+    border-bottom-left-radius: 20px;
+    border-top-left-radius: 20px;
   }
 
   /*#layout-content-transition-with-trigger*/
