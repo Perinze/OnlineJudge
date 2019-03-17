@@ -52,15 +52,19 @@
               style="width: 40%"
               height=94%
       >
-        <!--<keep-alive>-->
-          <component :is="topDrawerContent"></component>
-        <!--</keep-alive>-->
+        <keep-alive>
+          <component
+                  :is="topDrawerContent"
+          ></component>
+        </keep-alive>
       </a-drawer>
       <a-layout-content
               :style="{ margin: '20px 16px', padding: '0px', background: '#fff', minHeight: '280px' }"
               :class="[visible?'layout-content-fold':'']"
       >
-        <component :is="mainContent"></component>
+        <component
+                :is="mainContent"
+        ></component>
       </a-layout-content>
       <!--leftDrawer-->
       <a-drawer
@@ -73,7 +77,9 @@
               style="height: 100%;"
       >
         <keep-alive>
-          <component :is="sideDrawerContent"></component>
+          <component
+                  :is="sideDrawerContent"
+          ></component>
         </keep-alive>
       </a-drawer>
       <a-layout-footer
@@ -94,6 +100,8 @@
         data() {
             return {
                 topDrawerContent: 'codemirror',
+                sideDrawerContent: 'probleminfo',
+                mainContent: '',
                 collapsed: true,
                 visible: true,
                 TopVisible: true,
