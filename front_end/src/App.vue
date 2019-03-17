@@ -52,12 +52,15 @@
               style="width: 40%"
               height=94%
       >
+        <!--<keep-alive>-->
+          <component :is="topDrawerContent"></component>
+        <!--</keep-alive>-->
       </a-drawer>
       <a-layout-content
               :style="{ margin: '20px 16px', padding: '0px', background: '#fff', minHeight: '280px' }"
               :class="[visible?'layout-content-fold':'']"
       >
-        
+        <component :is="mainContent"></component>
       </a-layout-content>
       <!--leftDrawer-->
       <a-drawer
@@ -69,6 +72,9 @@
               :mask="false"
               style="height: 100%;"
       >
+        <keep-alive>
+          <component :is="sideDrawerContent"></component>
+        </keep-alive>
       </a-drawer>
       <a-layout-footer
               style="text-align: center"
@@ -81,19 +87,16 @@
 </template>
 
 <script>
+    import codemirror from "./components/codemirror"
+
     export default {
+        components: {codemirror},
         data() {
             return {
+                topDrawerContent: 'codemirror',
                 collapsed: true,
                 visible: true,
                 TopVisible: true,
-                drawerContent: "",
-                layoutContent: "",
-                leftDrawerStyle: {
-                    // radius: '10px'
-                    'border-bottom-left-radius': '20px',
-                    'border-top-left-radius': '20px'
-                }
             }
         },
         methods: {
@@ -115,6 +118,14 @@
 
 <style>
   /*TODO margin to % or width to px*/
+  .ant-drawer-top .ant-drawer-wrapper-body {
+    height: 100% !important;
+  }
+
+  .ant-drawer-top .ant-drawer-wrapper-body .ant-drawer-body {
+    height: 100% !important;
+  }
+
   .ant-drawer-top .ant-drawer-content-wrapper {
     width: 45% !important;
     margin-left: 7%;
