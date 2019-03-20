@@ -8,32 +8,32 @@
       <div class="logo" />
       <a-menu theme="dark" mode="inline" :defaultSelectedKeys="['1']">
 
-        <a-menu-item key="1">
+        <a-menu-item key="1" @click="mainContent = 'mainpage'">
           <a-icon type="home" />
           <span>主页</span>
         </a-menu-item>
 
-        <a-menu-item key="2">
+        <a-menu-item key="2" @click="mainContent = ''">
           <a-icon type="profile" />
           <span>题目</span>
         </a-menu-item>
 
-        <a-menu-item key="3">
+        <a-menu-item key="3" @click="mainContent = ''">
           <a-icon type="flag" />
           <span>比赛</span>
         </a-menu-item>
 
-        <a-menu-item key="4">
+        <a-menu-item key="4" @click="mainContent = ''">
           <a-icon type="bars" />
           <span>Rank</span>
         </a-menu-item>
 
-        <a-menu-item key="5">
+        <a-menu-item key="5" @click="mainContent = ''">
           <a-icon type="team" />
           <span>小组</span>
         </a-menu-item>
 
-        <a-menu-item key="6">
+        <a-menu-item key="6" @click="mainContent = ''">
           <a-icon type="user" />
           <span>用户</span>
         </a-menu-item>
@@ -41,6 +41,10 @@
       </a-menu>
     </a-layout-sider>
     <a-layout>
+      <blur_nav
+              :component-name = "mainContent"
+      >
+      </blur_nav>
       <!--topDrawer-->
       <a-drawer
               :closable="false"
@@ -59,7 +63,7 @@
         </keep-alive>
       </a-drawer>
       <a-layout-content
-              :style="{ margin: '20px 16px', padding: '0px', background: '#fff', minHeight: '280px' }"
+              :style="{ margin: '0', padding: '0', background: '#fff' }"
               :class="[visible?'layout-content-fold':'']"
       >
         <component
@@ -82,27 +86,24 @@
           ></component>
         </keep-alive>
       </a-drawer>
-      <a-layout-footer
-              style="text-align: center"
-              :class="[visible?'layout-content-fold':'']"
-      >
-        ACM@WUT © 2019 Created by WUT-ACM-Developer
-      </a-layout-footer>
     </a-layout>
   </a-layout>
 </template>
 
 <script>
+    import blur_nav from "./components/blur_nav"
     import codemirror from "./components/codemirror"
+    import mainpage from "./components/mainpage"
 
     export default {
-        components: {codemirror},
+        components: { codemirror, mainpage, blur_nav },
         data() {
             return {
                 topDrawerContent: 'codemirror',
                 sideDrawerContent: 'probleminfo',
-                mainContent: '',
-                collapsed: true,
+                mainContent: 'mainpage',
+                blurNav: 'blur_nav',
+                collapsed: false,
                 visible: true,
                 TopVisible: true,
             }
@@ -125,6 +126,7 @@
 </script>
 
 <style>
+
   /*TODO margin to % or width to px*/
   .ant-drawer-top .ant-drawer-wrapper-body {
     height: 100% !important;
@@ -164,8 +166,6 @@
     border-bottom-left-radius: 20px;
     border-top-left-radius: 20px;
   }
-
-  /*#layout-content-transition-with-trigger*/
 
   .ant-drawer-close {
     left: 0;
