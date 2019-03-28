@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: 2019-03-01 16:45:30
+-- Generation Time: 2019-03-28 14:23:08
 -- 服务器版本： 5.6.35
 -- PHP Version: 7.1.8
 
@@ -187,7 +187,7 @@ ALTER TABLE `contest`
 -- 使用表AUTO_INCREMENT `group`
 --
 ALTER TABLE `group`
-  MODIFY `group_id` int(32) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `group_id` int(32) NOT NULL AUTO_INCREMENT;
 --
 -- 使用表AUTO_INCREMENT `problem`
 --
