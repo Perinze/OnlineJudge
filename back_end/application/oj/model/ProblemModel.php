@@ -16,6 +16,18 @@ class ProblemModel extends Model {
 
     protected $table = 'problem';
 
+    public function get_all_problem()
+    {
+        try{
+            $info = $this->where('status', 1)->select()->toArray();
+            if(empty($info)){
+                return ['code' => CODE_ERROR,'msg' => '查找失败','data' => ''];
+            }
+            return ['code' => CODE_SUCCESS,'msg' => '查找成功','data' => $info];
+        } catch (Exception $e) {
+            return ['code' => CODE_ERROR,'msg' => '数据库错误','data' => $e->getMessage()];
+        }
+    }
     public function searchProblem($problem_id) {
         try{
             $content = $this->where('problem_id',$problem_id)->find();
