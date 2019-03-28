@@ -1,107 +1,28 @@
 <template>
-  <a-layout id="components-layout-demo-custom-trigger" style="height: 100%">
-    <a-layout-sider
-            :trigger="null"
-            collapsible
-            v-model="collapsed"
-    >
-      <div class="logo" />
-      <a-menu theme="dark" mode="inline" :defaultSelectedKeys="['1']">
-
-        <a-menu-item key="1" @click="mainContent = 'mainpage'">
-          <a-icon type="home" />
-          <span>主页</span>
-        </a-menu-item>
-
-        <a-menu-item key="2" @click="mainContent = ''">
-          <a-icon type="profile" />
-          <span>题目</span>
-        </a-menu-item>
-
-        <a-menu-item key="3" @click="mainContent = ''">
-          <a-icon type="flag" />
-          <span>比赛</span>
-        </a-menu-item>
-
-        <a-menu-item key="4" @click="mainContent = ''">
-          <a-icon type="bars" />
-          <span>Rank</span>
-        </a-menu-item>
-
-        <a-menu-item key="5" @click="mainContent = ''">
-          <a-icon type="team" />
-          <span>小组</span>
-        </a-menu-item>
-
-        <a-menu-item key="6" @click="mainContent = ''">
-          <a-icon type="user" />
-          <span>用户</span>
-        </a-menu-item>
-
-      </a-menu>
-    </a-layout-sider>
-    <a-layout>
-      <blur_nav
-              :component-name = "mainContent"
-      >
-      </blur_nav>
-      <!--topDrawer-->
-      <a-drawer
-              :closable="false"
-              placement="top"
-              @close="onCloseTop"
-              :visible="TopVisible"
-              :mask="true"
-              z-index="999"
-              style="width: 40%"
-              height=94%
-      >
-        <keep-alive>
-          <component
-                  :is="topDrawerContent"
-          ></component>
-        </keep-alive>
-      </a-drawer>
-      <a-layout-content
-              :style="{ margin: '0', padding: '0', background: '#fff' }"
-              :class="[visible?'layout-content-fold':'']"
-      >
-        <component
-                :is="mainContent"
-        ></component>
-      </a-layout-content>
-      <!--leftDrawer-->
-      <a-drawer
-              width=44%
-              placement="right"
-              :closable="true"
-              @close="onClose"
-              :visible="visible"
-              :mask="false"
-              style="height: 100%;"
-      >
-        <keep-alive>
-          <component
-                  :is="sideDrawerContent"
-          ></component>
-        </keep-alive>
-      </a-drawer>
-    </a-layout>
-  </a-layout>
+    <div>
+        <top-nav></top-nav>
+        <sidenav></sidenav>
+        <layoutcontent>
+            <!--<component :is="mainContent"></component>-->
+        </layoutcontent>
+        <top-drawer>
+            <!--<codemirror></codemirror>-->
+        </top-drawer>
+        <side-drawer></side-drawer>
+    </div>
 </template>
 
 <script>
-    import blur_nav from "./components/blur_nav"
-    import codemirror from "./components/codemirror"
-    import mainpage from "./components/mainpage"
+    import layoutcontent from "./components/layout-content"
+    import sidenav from "./components/side-nav"
 
     export default {
-        components: { codemirror, mainpage, blur_nav },
+        components: { layoutcontent ,sidenav },
         data() {
             return {
                 topDrawerContent: 'codemirror',
                 sideDrawerContent: 'probleminfo',
-                mainContent: 'mainpage',
+                mainContent: '',
                 blurNav: 'blur_nav',
                 collapsed: false,
                 visible: true,

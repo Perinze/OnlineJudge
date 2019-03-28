@@ -35,5 +35,6 @@ class UserValidate extends Validate
         'deleteUser' => ['user_id'],
         'foreAddUser'=>'',
         'login'=>['nick','password'],
+        'register'=>[]
     ];
 }

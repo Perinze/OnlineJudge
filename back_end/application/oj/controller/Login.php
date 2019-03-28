@@ -13,8 +13,7 @@ use think\facade\Session;
 
 class Login extends Base
 {
-    public function do_login()
-    {
+    public function do_login() {
         // 检测重复登录
         if(Session::has('user_id')) {
             return apiReturn(CODE_ERROR, '已有账号登录', '');
@@ -40,8 +39,21 @@ class Login extends Base
         return apiReturn($result['code'],$result['msg'],$result['data']);
     }
 
-    public function do_logout()
-    {
+    public function do_logout() {
         session('user_id',null);
+    }
+
+    public function register() {
+        $req = input('post.');
+        $user_validate = new UserValidate();
+        $result = $user_validate->scene('register')->check($req);
+        if($result != true) {
+            return apiReturn(CODE_ERROR, $user_validate->getError(), '');
+        }
+
+    }
+
+    public function forgetPassword() {
+
     }
 }
