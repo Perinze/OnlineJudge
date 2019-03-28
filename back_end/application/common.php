@@ -13,6 +13,18 @@ define("VALIDATE_ERROR", false);
 define("CODE_SUCCESS", 0);
 define("CODE_ERROR", -1);
 
+define("CODE_PARAM_ERROR", -2);
+define("NO_LOGIN", -3);
+
+define("USERNAME_NOT_EXIST", 10001); // 登录用户名不存在
+define("LOGIN_PASSWORD_WRONG", 10002); // 登录密码错误
+define("LOGIN_STATUS_WRONG", 10003); // 登录状态异常
+define("USERNAME_IS_EXIST", 10004); // 注册用户名已存在
+
+define('ADMINISTRATOR', 3);
+define('TEACHER', 2);
+define('TRAINING_TEAM_MEMBER', 1);
+define('ORDINARY_MEMBER', 0);
 // 应用公共文件
 function apiReturn($status, $message, $data=[], $httpCode=200)
 {
