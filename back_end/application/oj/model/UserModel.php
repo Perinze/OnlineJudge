@@ -15,7 +15,11 @@ class UserModel extends Model {
 
     public function addUser($data) {
         try{
-            $res = $this->insert($data);
+            $info = $this->where('nick', $data['nick'])->find();
+            if(!empty($info)){
+                return ['code' => USERNAME_IS_EXIST, 'msg' => '该昵称已被注册', 'data' =>''];
+            }
+            $res = $this->strict(false)->insert($data);
             if($res){
                 return ['code' => CODE_SUCCESS, 'msg' => '添加成功',  'data' => ''];
             } else {

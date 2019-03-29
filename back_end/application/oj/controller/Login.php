@@ -43,16 +43,6 @@ class Login extends Base
         session('user_id',null);
     }
 
-    public function register() {
-        $req = input('post.');
-        $user_validate = new UserValidate();
-        $result = $user_validate->scene('register')->check($req);
-        if($result != true) {
-            return apiReturn(CODE_ERROR, $user_validate->getError(), '');
-        }
-
-    }
-
     public function forgetPassword() {
 
     }
