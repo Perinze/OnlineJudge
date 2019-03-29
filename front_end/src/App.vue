@@ -2,9 +2,9 @@
     <div>
         <top-nav></top-nav>
         <sidenav></sidenav>
-        <layoutcontent>
-            <!--<component :is="mainContent"></component>-->
-        </layoutcontent>
+        <div class="layout-content">
+            <component :is="mainContent"></component>
+        </div>
         <top-drawer>
             <!--<codemirror></codemirror>-->
         </top-drawer>
@@ -13,20 +13,21 @@
 </template>
 
 <script>
-    import layoutcontent from "./components/layout-content"
     import sidenav from "./components/side-nav"
+    import mainpage from "./components/mainpage"
 
     export default {
-        components: { layoutcontent ,sidenav },
+        components: { sidenav, mainpage },
         data() {
             return {
                 topDrawerContent: 'codemirror',
                 sideDrawerContent: 'probleminfo',
-                mainContent: '',
+                mainContent: 'mainpage',
                 blurNav: 'blur_nav',
                 collapsed: false,
                 visible: true,
                 TopVisible: true,
+                bgsrc: "../assets/logo.png",
             }
         },
         methods: {
@@ -47,6 +48,12 @@
 </script>
 
 <style>
+    .layout-content {
+        position: fixed;
+        padding-left: 200px;
+        width: 100%;
+        height: 100%;
+    }
 
   /*TODO margin to % or width to px*/
   .ant-drawer-top .ant-drawer-wrapper-body {
