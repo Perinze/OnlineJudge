@@ -38,10 +38,13 @@
                 </div>
             </div>
             <div>
-                <menu-item v-for="item in items"
+                <menu-item
+                        v-for="(item,index) in items"
                         :title="item.title"
                         :key="item.keyName"
                         :img-src="item.imgSrc"
+                        :class="[activeIndex === index?'menu-item-active':'']"
+                        @click.native="activeIndex = index"
                 >
                 </menu-item>
             </div>
@@ -62,53 +65,36 @@
         data() {
             return {
                 // TODO item selected
+                activeIndex: 0,
                 items: [
                     {
                         title: '主页 Home',
-                        keyNUm: '1',
-                        imgSrc: '',
-                        selected: true
+                        keyName: 'mainpage',
+                        imgSrc: ''
                     },
                     {
                         title: '题目 Problems',
                         keyName: '2',
-                        imgSrc: '',
-                        selected: false
+                        imgSrc: ''
                     },
                     {
                         title: '比赛 Contests',
                         keyName: '3',
-                        imgSrc: '',
-                        selected: false
+                        imgSrc: ''
                     },
                     {
                         title: '排名 Rank',
                         keyName: '4',
-                        imgSrc: '',
-                        selected: false
+                        imgSrc: ''
                     },
                     {
                         title: '小组 Groups',
                         keyName: '5',
-                        imgSrc: '',
-                        selected: false
+                        imgSrc: ''
                     },
                 ],
                 selected: '1',
             }
-        },
-        mounted(){
-            this.watchChild();
-        },
-        methods: {
-            watchChild() {
-                this.items.forEach(vm => {
-                    vm.$on('menuItemUpdate', name => {
-                        this.$emit('update:selected', [name])
-                    });
-                });
-                alert('here');
-            },
         }
 
     }
@@ -135,7 +121,7 @@
     .logo {
         align-items: center;
         text-align: center;
-        height: 6.3%;
+        height: 60px;
         /*background: #a94442;*/
     }
 
@@ -148,7 +134,7 @@
     .menu-userbar .user-alias-border {
         position: relative;
         left: 75px;
-        top: 2%;
+        top: 20px;
         border-radius: 25px;
         border: 1px solid #5c8db7;
         height: 50px;

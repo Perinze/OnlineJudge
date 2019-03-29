@@ -23,26 +23,8 @@
                 topDrawerContent: 'codemirror',
                 sideDrawerContent: 'probleminfo',
                 mainContent: 'mainpage',
-                blurNav: 'blur_nav',
-                collapsed: false,
-                visible: true,
-                TopVisible: true,
                 bgsrc: "../assets/logo.png",
             }
-        },
-        methods: {
-            showDrawer() {
-                this.visible = true
-            },
-            onClose() {
-                this.visible = false
-            },
-            showTopDrawer() {
-                this.TopVisible = true
-            },
-            onCloseTop() {
-                this.TopVisible = false
-            },
         },
     }
 </script>
