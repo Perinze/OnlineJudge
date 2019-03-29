@@ -2,9 +2,7 @@
     <div>
         <top-nav></top-nav>
         <sidenav></sidenav>
-        <layoutcontent>
-            <!--<component :is="mainContent"></component>-->
-        </layoutcontent>
+        <layoutcontent :content="mainContent"></layoutcontent>
         <top-drawer>
             <!--<codemirror></codemirror>-->
         </top-drawer>
@@ -22,7 +20,7 @@
             return {
                 topDrawerContent: 'codemirror',
                 sideDrawerContent: 'probleminfo',
-                mainContent: '',
+                mainContent: 'mainpage',
                 blurNav: 'blur_nav',
                 collapsed: false,
                 visible: true,
