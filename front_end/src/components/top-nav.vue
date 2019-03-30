@@ -1,5 +1,5 @@
 <template>
-    <div class="top-nav" align="center">
+    <div class="top-nav">
         <div class="search-bar">
             <img src="../assets/search.svg" width="16px" height="16px">
             <input type="text" class="search-input" placeholder="Search transactions, invoices or help">
@@ -15,6 +15,8 @@
 
 <style scoped>
     .top-nav {
+        display: flex;
+        flex-direction: column;
         position: fixed;
         padding-left: 200px;
         width: 100%;
@@ -23,6 +25,7 @@
     }
 
     .search-bar {
+        margin: 0 auto;
         display: flex;
         align-items: center;
         position: relative;
@@ -31,13 +34,17 @@
         height: 35px;
         opacity: 0.5;
         border-radius: 17.5px;
-        /*background: rgba(255,255,255,0.3);*/
-        background: rgba(0,0,0,0.3);
+        background: rgba(255,255,255,1);
+        /*background: rgba(0,0,0,0.3);*/
     }
 
     .search-bar >img {
         position: absolute;
         left: 16px;
+    }
+
+    .search-bar >img {
+        filter: invert(0.4);
     }
 
     .search-bar >input {
@@ -48,5 +55,11 @@
         border-radius: inherit;
         padding-left: 42px;
         border: none;
+    }
+
+    .search-bar >input ::placeholder {
+        font-size:15px;
+        font-weight:400;
+        color:rgba(136,136,136,1);
     }
 </style>

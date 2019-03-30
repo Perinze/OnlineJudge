@@ -13,6 +13,7 @@ ACM@WUT MainPage & OnlineJudge业务系统
 - 框架：Vue2
 - UI：手撸
 - 代码编辑器：CodeMirror
+- 页面最小分辨率：1280*660 小于该尺寸Warning
 
 ## 相关项目地址
 

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="height: 100%;">
         <topnav></topnav>
         <sidenav></sidenav>
         <div class="layout-content">

@@ -37,6 +37,7 @@
             </div>
         </div>
         <div>
+            <div class="button-blank"></div>
             <menu-item
                     v-for="(item,index) in items"
                     :title="item.title"
@@ -224,5 +225,15 @@
     
     #menu-footer >span {
         display: block;
+    }
+
+    /*TODO 660 warning*/
+    
+    @media (min-height: 695px) {
+        .button-blank {
+            width: 100%;
+            height: 34px;
+            max-height: 34px;
+        }
     }
 </style>

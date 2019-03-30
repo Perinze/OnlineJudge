@@ -28,6 +28,7 @@
 
 <style scoped>
     .statistics-card {
+        background: white;
         border-radius: 10px;
         overflow: hidden;
         /*flex: 1 1 auto;*/

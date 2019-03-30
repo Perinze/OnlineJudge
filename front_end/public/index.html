@@ -7,7 +7,7 @@
         <link rel="icon" href="<%= BASE_URL %>favicon.ico">
         <title>WUT OnlineJudge</title>
     </head>
-    <body>
+    <body style="background: #f0f0f7;">
         <noscript>
             <strong>We're sorry but WUT OnlineJudge doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
         </noscript>
@@ -18,5 +18,13 @@
         body {
             font-family: Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei";
         }
+
+        ::-webkit-scrollbar-track {
+            opacity: 0;
+            /*background: #880000;*/
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0); border-radius: 10px;
+        }
+
+
     </style>
 </html>
