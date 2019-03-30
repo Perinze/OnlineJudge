@@ -100,18 +100,7 @@
 </script>
 
 <style scoped>
-    #user-nick {
-        font-weight: bold;
-        font-size: 16px;
-    }
-
-    #user-desc {
-        font-weight: 300;
-        font-size: 10px;
-    }
-
     #side-bar {
-        box-shadow: 0 0 15px #888888;
         height: 100%;
         width: 200px;
         background: #fbfbfb;
@@ -123,14 +112,12 @@
         align-items: center;
         text-align: center;
         height: 60px;
-        /*background: #a94442;*/
     }
 
     .menu-userbar {
         text-align: center;
         height: 220px;
         border-bottom: 1px solid rgba(0,0,0,0.05);
-        /*background: #66512c;*/
     }
 
     .menu-userbar .user-alias-border {
@@ -156,6 +143,16 @@
     .menu-userbar .user-info {
         position: relative;
         top: 25px;
+    }
+
+    .menu-userbar .user-info #user-nick {
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .menu-userbar .user-info #user-desc {
+        font-weight: 300;
+        font-size: 10px;
     }
 
     .menu-userbar .user-data {
@@ -187,6 +184,9 @@
     }
 
     .menu-item:hover {
+        -webkit-transition: all .3s ease 0s;
+        -moz-transition: all .3s ease 0s;
+        -o-transition: all .3s ease 0s;
         background: #f5f5f5;
         border-left: 7px solid transparent;
     }

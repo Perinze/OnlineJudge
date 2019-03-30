@@ -10,6 +10,7 @@
   "dependencies": {
     "ant-design-vue": "^1.3.5",
     "codemirror": "^5.44.0",
+    "element-ui": "^2.7.0",
     "jQuery": "^1.7.4",
     "vue": "^2.6.6",
     "vue-markdown": "^2.2.4"

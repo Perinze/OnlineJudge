@@ -24,6 +24,6 @@
 
 <style scoped>
     .icon-active{
-        filter: invert(1) sepia(1) saturate(3) hue-rotate(175deg);
+        filter: invert(1) sepia(1) saturate(2) hue-rotate(175deg);
     }
 </style>

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <top-nav></top-nav>
+        <topnav></topnav>
         <sidenav></sidenav>
         <div class="layout-content">
             <component :is="mainContent"></component>
@@ -13,11 +13,12 @@
 </template>
 
 <script>
+    import topnav from "./components/top-nav"
     import sidenav from "./components/side-nav"
     import mainpage from "./components/mainpage"
 
     export default {
-        components: { sidenav, mainpage },
+        components: { topnav, sidenav, mainpage },
         data() {
             return {
                 topDrawerContent: 'codemirror',
