@@ -1,58 +1,57 @@
 <template>
     <div id="side-bar">
-
-            <div class="logo">
-                <div style="position: relative;top: 9px">
-                    <img src="../assets/logo.png">
+        <div class="logo">
+            <div style="position: relative;top: 9px">
+                <img src="../assets/logo.png">
+            </div>
+        </div>
+        <div class="menu-userbar" align="center">
+            <div class="user-alias-border">
+                <div class="user-alias">
+                    <img src="../assets/avator.png" height="40" width="40"/>
                 </div>
             </div>
-            <div class="menu-userbar" align="center">
-                <div class="user-alias-border">
-                    <div class="user-alias">
-                        <img src="../assets/avator.png" height="40" width="40"/>
-                    </div>
-                </div>
-                <div class="user-info" align="center">
-                    <span id="user-nick">Lomo Zheng</span>
+            <div class="user-info" align="center">
+                <span id="user-nick">Lomo Zheng</span>
+                <br>
+                <span id="user-desc">You blow me away.</span>
+            </div>
+            <div class="user-data">
+                <div style="width: 12px"></div>
+                <div class="data-item">
+                    <strong class="data-font">提交量</strong>
                     <br>
-                    <span id="user-desc">You blow me away.</span>
+                    <strong id="submit-num" class="data-num">1214</strong>
                 </div>
-                <div class="user-data">
-                    <div style="width: 12px"></div>
-                    <div class="data-item">
-                        <strong class="data-font">提交量</strong>
-                        <br>
-                        <strong id="submit-num" class="data-num">1214</strong>
-                    </div>
-                    <div class="data-item">
-                        <strong class="data-font">通过量</strong>
-                        <br>
-                        <strong id="ac-num"  class="data-num">416</strong>
-                    </div>
-                    <div class="data-item">
-                        <strong class="data-font">正确率</strong>
-                        <br>
-                        <strong id="ac-percent" class="data-num">100%</strong>
-                    </div>
-                    <div style="width: 5px"></div>
+                <div class="data-item">
+                    <strong class="data-font">通过量</strong>
+                    <br>
+                    <strong id="ac-num"  class="data-num">416</strong>
                 </div>
+                <div class="data-item">
+                    <strong class="data-font">正确率</strong>
+                    <br>
+                    <strong id="ac-percent" class="data-num">100%</strong>
+                </div>
+                <div style="width: 5px"></div>
             </div>
-            <div>
-                <menu-item
-                        v-for="(item,index) in items"
-                        :title="item.title"
-                        :key="item.keyName"
-                        :img-src="item.imgSrc"
-                        :class="[activeIndex === index?'menu-item-active':'menu-item']"
-                        :is-active="activeIndex === index"
-                        @click.native="activeIndex = index;"
-                >
-                </menu-item>
-            </div>
-            <div id="menu-footer" align="center">
-                <span class="menu-footer-content" style="font-size: 14px;font-weight: 300;">ACM@WUT</span>
-                <span class="menu-footer-content" style="font-size: 10px;font-weight: 200;">©2019 WUT ACM Developer</span>
-            </div>
+        </div>
+        <div>
+            <menu-item
+                    v-for="(item,index) in items"
+                    :title="item.title"
+                    :key="item.keyName"
+                    :img-src="item.imgSrc"
+                    :class="[activeIndex === index?'menu-item-active':'menu-item']"
+                    :is-active="activeIndex === index"
+                    @click.native="activeIndex = index;"
+            >
+            </menu-item>
+        </div>
+        <div id="menu-footer" align="center">
+            <span class="menu-footer-content" style="font-size: 14px;font-weight: 300;">ACM@WUT</span>
+            <span class="menu-footer-content" style="font-size: 10px;font-weight: 200;">©2019 WUT ACM Developer</span>
+        </div>
     </div>
 </template>
 
@@ -112,20 +111,12 @@
     }
 
     #side-bar {
+        box-shadow: 0 0 15px #888888;
         height: 100%;
         width: 200px;
         background: #fbfbfb;
         position: fixed;
         z-index: 1000;
-    }
-
-    .side-bar-background {
-        height: 100%;
-        width: 100%;
-        background: #fbfbfb;
-        -webkit-box-shadow: 0px 0px 40px #fbfbfb;
-        -moz-box-shadow: 0px 0px 40px #fbfbfb;
-        box-shadow: 0px 0px 40px #fbfbfb;
     }
 
     .logo {

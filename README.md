@@ -11,7 +11,7 @@ ACM@WUT MainPage & OnlineJudge业务系统
 ### 前端
 
 - 框架：Vue2
-- UI：Ant-Design-Vue
+- UI：手撸
 - 代码编辑器：CodeMirror
 
 ## 相关项目地址
@@ -29,6 +29,7 @@ ACM@WUT MainPage & OnlineJudge业务系统
 - 李劲巍（2017级）：业务逻辑、OnlineJudge前端页面、及部分评测核心对接任务  
 - 曾嘉豪（2017级）：项目运维及评测核心对接任务  
 - 黄融（2018级）：评测核心及其对接任务  
+- 郑文伟（2017级）：WUTOJ的设计工作
 - 周景尧（2017级）：OnlineJudge前端页面  
 - 冷瑜（2016级）：Python爬虫部分  
 - 刘福鑫（2017级）：主页  
