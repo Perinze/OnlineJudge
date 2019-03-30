@@ -3,14 +3,13 @@
         <div class="content-background"></div>
         <div class="mainpage-content" align="center">
             <div class="main-carousel">
-                <el-carousel :interval="4000" type="card" height="250px">
-                    <el-carousel-item v-for="item in 6" :key="item">
+                <el-carousel :interval="7500" type="card" height="250px">
+                    <el-carousel-item v-for="item in 3" :key="item">
                         <h3>{{ item }}</h3>
                     </el-carousel-item>
                 </el-carousel>
             </div>
             <div class="main-statistics" align="left">
-                <!--TODO 适配宽屏幕-->
                 <span class="block-title">Statistics</span>
                 <div class="main-statistics-content">
                     <div style="width: 55px;flex: 1 1 auto;"></div>
@@ -38,8 +37,11 @@
                 <div class="block-title">Contest</div>
                 <div class="main-contest-list-content">
                     <contest-card
-                            v-for="index in 8"
+                            v-for="index in 10"
                             v-bind:key="index"
+                            contest-nick="大学生程序设计竞赛"
+                            contest-type="ACM"
+                            contest-num="2,244"
                     >
                     </contest-card>
                 </div>
@@ -81,6 +83,8 @@
     /*element-ui carousel END*/
 
     .mainpage {
+        display: flex;
+        flex-direction: column;
         width: 100%;
         height: 100%;
     }
@@ -107,6 +111,8 @@
     .main-statistics {
         position: relative;
         top: 101px;
+        margin: 0 auto;
+        max-width: 1330px;
     }
 
     .block-title {
@@ -125,11 +131,15 @@
     .main-contest-list {
         position: relative;
         top: 136px;
+        margin: 0 auto;
+        max-width: 1330px;
     }
 
     .main-contest-list .main-contest-list-content {
+        margin: 0 0px 0 43px;
         position: relative;
         top: 12px;
         display: flex;
+        flex-wrap: wrap;
     }
 </style>
