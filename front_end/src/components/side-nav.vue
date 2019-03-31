@@ -127,15 +127,15 @@
         left: 75px;
         top: 20px;
         border-radius: 25px;
-        border: 1px solid #5c8db7;
+        border: 2px solid #5c8db7;
         height: 50px;
         width: 50px;
     }
 
     .menu-userbar .user-alias-border .user-alias {
         position: relative;
-        top: 4px;
-        left: 4px;
+        top: 3px;
+        left: 3px;
         height: 40px;
         width: 40px;
         border-radius: 20px;
