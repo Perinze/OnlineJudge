@@ -107,6 +107,7 @@
         background: #fbfbfb;
         position: fixed;
         z-index: 1000;
+        box-shadow:inset -10px 0 15px -15px rgba(0,0,0,0.6);
     }
 
     .logo {
@@ -185,11 +186,14 @@
     }
 
     .menu-item:hover {
-        -webkit-transition: all .3s ease 0s;
-        -moz-transition: all .3s ease 0s;
-        -o-transition: all .3s ease 0s;
+        transform: translate3d(0, 0, 0);
+        -webkit-transition: all .5s ease 0s;
+        -moz-transition: all .5s ease 0s;
+        -o-transition: all .5s ease 0s;
+        transition: all .5s ease 0s;
         background: #f5f5f5;
         border-left: 7px solid transparent;
+        box-shadow:inset -10px 0 15px -16px rgba(0,0,0,0.6);
     }
 
     .menu-item-active {
@@ -203,6 +207,7 @@
         height: 60px;
         background: #f5f5f5;
         border-left: 7px #5c8db7 solid;
+        box-shadow:inset -10px 0 15px -16px rgba(0,0,0,0.6);
     }
 
     .data-item .data-font {

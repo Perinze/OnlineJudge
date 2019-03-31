@@ -2,8 +2,8 @@
     <div style="height: 100%;">
         <topnav :topnavOpacity="topnavOpacity" ></topnav>
         <sidenav></sidenav>
-        <div class="layout-content">
-            <component :is="mainContent" ref="comp"></component>
+        <div class="layout-content" ref="parent">
+            <component :is="mainContent" id="combox"></component>
         </div>
         <top-drawer>
             <!--<codemirror></codemirror>-->
@@ -25,18 +25,16 @@
                 sideDrawerContent: 'probleminfo',
                 mainContent: 'mainpage',
                 bgsrc: "../assets/logo.png",
-                topnavOpacity: 0
+                topnavOpacity: 0,
+                parent: null,
+                combox: null
             }
         },
-        created() {
-            this.$refs.comp.addEventListener('scroll', this.handleScroll);
-            alert('here');
-        },
-        methods: {
-            handleScroll() {
-                this.topnavOpacity = this.$refs.comp.scrollHeight;
-                alert(this.$refs.comp.scrollHeight);
-            }
+        mounted() {
+            this.combox = document.getElementById('combox');
+            this.combox.addEventListener('scroll', ()=>{
+                this.topnavOpacity = this.combox.scrollTop * 0.003;
+            });
         }
     }
 </script>

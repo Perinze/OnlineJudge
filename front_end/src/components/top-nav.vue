@@ -1,5 +1,5 @@
 <template>
-    <div class="top-nav">
+    <div class="top-nav" :style="{background: 'rgba(255,255,255,'+topnavOpacity+')'}">
         <div class="search-bar">
             <img src="../assets/search.svg" width="16px" height="16px">
             <input type="text" class="search-input" placeholder="Search transactions, invoices or help">
@@ -9,7 +9,8 @@
 
 <script>
     export default {
-        name: "top-nav"
+        name: "top-nav",
+        props: ['topnavOpacity']
     }
 </script>
 
@@ -22,6 +23,7 @@
         width: 100%;
         height: 60px;
         z-index: 999;
+        background: white;
     }
 
     .search-bar {
@@ -55,6 +57,8 @@
         border-radius: inherit;
         padding-left: 42px;
         border: none;
+        outline: none;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
     }
 
     .search-bar >input ::placeholder {
