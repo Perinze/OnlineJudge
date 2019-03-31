@@ -36,5 +36,7 @@ return [
     'tpl_replace_string'  =>  [
         '__CSS__'=>'../../../public/static/assets/css',
         '__JS__' => '../../../public/static/assets/js',
+        '__IMG__' => '../../../public/static/assets/img',
+        '__UPLOAD__' =>'../../../public/uploads/image',
     ]
 ];
