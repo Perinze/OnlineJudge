@@ -126,7 +126,9 @@
         filter: blur(30px) brightness(1.15) opacity(0.50);
         /*background: white;*/
         background: url("../assets/background-main.png") no-repeat scroll;
-        background-size: 100% 390px;
+        background-size: 100% 422px;
+        top: -32px;
+
     }
 
     .mainpage-content {
