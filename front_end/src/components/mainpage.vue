@@ -1,10 +1,11 @@
 <template>
-    <div class="mainpage">
+    <div class="mainpage"><!--overflow-y:scroll；-->
+        <!--背景图-->
         <div class="content-background"></div>
-
+        <!--页面内容-->
         <div class="mainpage-content" align="center">
             <div class="main-carousel">
-                <el-carousel :interval="750000" type="card" height="250px">
+                <el-carousel :interval="7500" type="card" height="250px" trigger="click">
                     <el-carousel-item v-for="item in 3" :key="item">
                         <h3>{{ item }}</h3>
                     </el-carousel-item>
@@ -102,6 +103,7 @@
     /*element-ui carousel END*/
 
     .mainpage {
+        position: relative;
         overflow-x: hidden;
         overflow-y: scroll;
         display: flex;
@@ -110,18 +112,25 @@
         height: 100%;
     }
 
+    .mainpage ::-webkit-scrollbar-track {
+        opacity: 0;
+        /*background: #880000;*/
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0); border-radius: 10px;
+    }
+
     .content-background {
         z-index: -1;
-        position: fixed;
+        position: absolute;
         width: 100%;
         height: 100%;
         filter: blur(30px) brightness(1.15) opacity(0.50);
         /*background: white;*/
-        background: url("../assets/background-main.png") no-repeat;
+        background: url("../assets/background-main.png") no-repeat scroll;
         background-size: 100% 390px;
     }
 
     .mainpage-content {
+        position: relative;
     }
 
     .main-carousel {
@@ -163,5 +172,9 @@
         top: 12px;
         display: flex;
         flex-wrap: wrap;
+    }
+
+    @media (max-width: 1543px) and (min-width: 1280px) {
+
     }
 </style>
