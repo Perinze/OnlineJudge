@@ -33,7 +33,7 @@
         mounted() {
             this.combox = document.getElementById('combox');
             this.combox.addEventListener('scroll', ()=>{
-                this.topnavOpacity = this.combox.scrollTop * 0.003;
+                this.topnavOpacity = this.combox.scrollTop * 0.0033;
             });
         }
     }
