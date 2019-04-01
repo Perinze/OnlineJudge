@@ -18,7 +18,7 @@ window.onload = function() {
     var bodyHeight = document.body.clientHeight;
 
     var exploreName = getExploreName();
-    var allowUA = ['Firebox','Chrome','Safari'];
+    var allowUA = ['Firefox','Chrome','Safari'];
 
     if(bodyHeight>bodyWidth || !IsPC()) {
         alert("本系统不支持移动端");

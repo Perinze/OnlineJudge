@@ -24,7 +24,7 @@
         height: 60px;
         z-index: 999;
         background: white;
-        transition: background .2s ease 0s;
+        transition: background .1s ease 0s;
     }
 
     .search-bar {

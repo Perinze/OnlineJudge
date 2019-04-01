@@ -105,7 +105,7 @@
         background: #fbfbfb;
         position: fixed;
         z-index: 1000;
-        box-shadow:inset -10px 0 15px -15px rgba(0,0,0,0.6);
+        box-shadow:inset -10px 0 15px -15px rgba(0,0,0,0.3);
     }
 
     .logo {
@@ -172,6 +172,11 @@
     }
 
     .menu-item {
+        transform: translate3d(0, 0, 0);
+        -webkit-transition: all .6s ease 0s;
+        -moz-transition: all .6s ease 0s;
+        -o-transition: all .6s ease 0s;
+        transition: all .6s ease 0s;
         font-size: 12px;
         font-weight: 300;
         color: #a0a5ab;
@@ -185,18 +190,18 @@
 
     .menu-item:hover {
         transform: translate3d(0, 0, 0);
-        -webkit-transition: all .5s ease 0s;
-        -moz-transition: all .5s ease 0s;
-        -o-transition: all .5s ease 0s;
-        transition: all .5s ease 0s;
+        -webkit-transition: all .6s ease 0s;
+        -moz-transition: all .6s ease 0s;
+        -o-transition: all .6s ease 0s;
+        transition: all .6s ease 0s;
         background: #f5f5f5;
         border-left: 7px solid transparent;
-        box-shadow:inset -10px 0 15px -16px rgba(0,0,0,0.6);
+        box-shadow:inset -10px 0 15px -16px rgba(0,0,0,0.3);
     }
 
     .menu-item-active {
         font-size: 12px;
-        font-weight: 300;
+        font-weight: 400;
         color: #338bb8;
         display: flex;
         flex-direction: row;
@@ -205,7 +210,7 @@
         height: 60px;
         background: #f5f5f5;
         border-left: 7px #5c8db7 solid;
-        box-shadow:inset -10px 0 15px -16px rgba(0,0,0,0.6);
+        box-shadow:inset -10px 0 15px -16px rgba(0,0,0,0.3);
     }
 
     .data-item .data-font {

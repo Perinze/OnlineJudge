@@ -3,7 +3,9 @@
         <topnav :topnavOpacity="topnavOpacity" ></topnav>
         <sidenav ref="sidenav"></sidenav>
         <div class="layout-content" ref="parent">
-            <component :is="mainContent" id="combox"></component>
+            <keep-alive>
+                <component :is="mainContent" id="combox"></component>
+            </keep-alive>
         </div>
         <top-drawer>
             <!--<codemirror></codemirror>-->
@@ -32,13 +34,24 @@
             }
         },
         mounted() {
-            this.combox = document.getElementById('combox');
-            this.combox.addEventListener('scroll', ()=>{
-                this.topnavOpacity = this.combox.scrollTop * 0.0033;
-            });
+            this.initCombox();
             this.$refs.sidenav.$on('changeContent',(name)=>{
                 this.mainContent = name;
+
+                this.updateTopNavOpacity();
             })
+        },
+        methods: {
+            initCombox: function() {
+                this.combox = document.getElementById('combox');
+                this.combox.addEventListener('scroll', ()=>{
+                    this.updateTopNavOpacity();
+                });
+            },
+            updateTopNavOpacity: function() {
+                this.topnavOpacity = this.combox.scrollTop * 0.0033;
+            }
+            // TODO 做到是parent滚动而不是component滚动
         }
     }
 </script>
