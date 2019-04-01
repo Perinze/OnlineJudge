@@ -45,7 +45,7 @@
                     :img-src="item.imgSrc"
                     :class="[activeIndex === index?'menu-item-active':'menu-item']"
                     :is-active="activeIndex === index"
-                    @click.native="activeIndex = index;"
+                    @click.native="activeIndex = index; $emit('changeContent',item.keyName)"
             >
             </menu-item>
         </div>
@@ -64,36 +64,34 @@
         name: "side-nav",
         data() {
             return {
-                // TODO item selected
                 activeIndex: 0,
                 items: [
                     {
                         title: '主页 Home',
-                        keyName: 'mainpage',
+                        keyName: "mainpage",
                         imgSrc: require('../assets/home.svg')
                     },
                     {
                         title: '题目 Problem',
-                        keyName: '2',
+                        keyName: "problemlist",
                         imgSrc: require('../assets/problem.svg')
                     },
                     {
                         title: '比赛 Contest',
-                        keyName: '3',
+                        keyName: 'contestlist',
                         imgSrc: require('../assets/contest.svg')
                     },
                     {
                         title: '排名 Rank',
-                        keyName: '4',
+                        keyName: 'rank',
                         imgSrc: require('../assets/rank.svg')
                     },
                     {
                         title: '小组 Groups',
-                        keyName: '5',
+                        keyName: 'grouplist',
                         imgSrc: require('../assets/group.svg')
                     },
                 ],
-                selected: '1',
             }
         }
 

@@ -1,7 +1,7 @@
 <template>
     <div style="height: 100%;">
         <topnav :topnavOpacity="topnavOpacity" ></topnav>
-        <sidenav></sidenav>
+        <sidenav ref="sidenav"></sidenav>
         <div class="layout-content" ref="parent">
             <component :is="mainContent" id="combox"></component>
         </div>
@@ -16,9 +16,10 @@
     import topnav from "./components/top-nav"
     import sidenav from "./components/side-nav"
     import mainpage from "./components/mainpage"
+    import problemlist from "./components/problemlist"
 
     export default {
-        components: { topnav, sidenav, mainpage },
+        components: { topnav, sidenav, mainpage, problemlist },
         data() {
             return {
                 topDrawerContent: 'codemirror',
@@ -35,6 +36,9 @@
             this.combox.addEventListener('scroll', ()=>{
                 this.topnavOpacity = this.combox.scrollTop * 0.0033;
             });
+            this.$refs.sidenav.$on('changeContent',(name)=>{
+                this.mainContent = name;
+            })
         }
     }
 </script>
