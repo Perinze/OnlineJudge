@@ -11,6 +11,7 @@
             <!--<codemirror></codemirror>-->
         </top-drawer>
         <side-drawer></side-drawer>
+        <!--<div class="test" style="z-index: 1001;-webkit-backdrop-filter: blur(30px);backdrop-filter: blur(30px);width: 500px;height: 500px;position: absolute;left: 100px;top: 100px;"></div>-->
     </div>
 </template>
 
@@ -37,21 +38,16 @@
             this.initCombox();
             this.$refs.sidenav.$on('changeContent',(name)=>{
                 this.mainContent = name;
-
-                this.updateTopNavOpacity();
+                this.topnavOpacity = 0;
             })
         },
         methods: {
             initCombox: function() {
                 this.combox = document.getElementById('combox');
                 this.combox.addEventListener('scroll', ()=>{
-                    this.updateTopNavOpacity();
+                    this.topnavOpacity = this.combox.scrollTop * 0.0033;
                 });
-            },
-            updateTopNavOpacity: function() {
-                this.topnavOpacity = this.combox.scrollTop * 0.0033;
             }
-            // TODO 做到是parent滚动而不是component滚动
         }
     }
 </script>

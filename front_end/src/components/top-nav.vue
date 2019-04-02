@@ -25,6 +25,7 @@
         z-index: 999;
         background: white;
         transition: background .1s ease 0s;
+        /*-webkit-backdrop-filter: blur(10px);*/
     }
 
     .search-bar {
