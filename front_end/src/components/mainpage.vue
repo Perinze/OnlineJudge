@@ -32,7 +32,7 @@
                             num="1,432,567"
                     >
                     </statistics-card>
-                    <div style="width: 51px;flex: 1 1 auto;"></div>
+                    <div class="statistics-card-block" style="width: 51px;flex: 1 1 auto;"></div>
                 </div>
             </div>
             <div class="main-contest-list" align="left">
@@ -177,6 +177,33 @@
     }
 
     @media (max-width: 1543px) and (min-width: 1280px) {
+        .main-carousel {
+            width: 996px;
+            margin-left: 27px;
+        }
 
+        .el-carousel__item {
+            /*height: 191px !important;*/
+        }
+
+        .main-contest-list {
+            max-width: 1039px;
+        }
+
+        .main-contest-list-content {
+            margin-left: 33px !important;
+        }
+
+        .main-statistics {
+            max-width: 1039px;
+        }
+
+        .main-statistics .main-statistics-content {
+            /*margin-left: 10px;*/
+        }
+
+        .statistics-card-block {
+            width: 23px !important;
+        }
     }
 </style>

@@ -68,4 +68,11 @@
         font-weight:400;
         color:rgba(136,136,136,1);
     }
+
+    @media (max-width: 1543px) and (min-width: 1280px) {
+        .search-bar {
+            width: 996px;
+            left: 13px;
+        }
+    }
 </style>
