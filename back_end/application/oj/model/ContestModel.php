@@ -16,10 +16,18 @@ class ContestModel extends Model {
 
     protected $table = 'contest';
 
-    public function searchContest($contest_id) {
+    public function searchContest($contest_id = 0, $contest_name = '') {
         try {
-            $content = $this->where('contest_id', $contest_id)->find();
-            return ['code'=>CODE_SUCCESS, 'msg'=>'查找成功', 'data'=>$content];
+            if($contest_id === 0 && $contest_name === ''){
+                $content = $this->where('state', '<>', 0)->select()->toArray();
+                return ['code'=>CODE_SUCCESS, 'msg'=>'查找成功', 'data'=>$content];
+            } else if($contest_id !== 0) {
+                $content = $this->where('contest_id', $contest_id)->find();
+                return ['code'=>CODE_SUCCESS, 'msg'=>'查找成功', 'data'=>$content];
+            } else {
+                $content = $this->where('contest_name', 'like', '%'.$contest_name.'%')->select()->toArray();
+                return ['code'=>CODE_SUCCESS, 'msg'=>'查找成功', 'data'=>$content];
+            }
         }catch (Exception $e) {
             return ['code'=>CODE_ERROR, 'msg'=>'数据库错误', 'data'=>$e->getMessage()];
         }
@@ -40,7 +48,7 @@ class ContestModel extends Model {
 
     public function deleContest($contest_id) {
         try{
-            $res = $this->where('contest_id',$contest_id)->delete();
+            $res = $this->where('contest_id',$contest_id)->update(['state' => 0]);
             if($res){
                 return ['code'=>CODE_SUCCESS, 'msg'=>'删除比赛成功', 'data'=>''];
             }else{

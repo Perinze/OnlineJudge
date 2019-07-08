@@ -10,6 +10,7 @@ namespace app\oj\validate;
 use think\Validate;
 
 class ContestValidate extends Validate {
+    // TODO 添加
     protected $rule = [
         'contest_id' => 'require',
     ];

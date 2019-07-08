@@ -25,10 +25,19 @@ class Register extends Controller
         if($req['password'] !== $req['password_check']){
             return apiReturn(CODE_ERROR, '两次输入密码不一致', '');
         }
-        $req['ac_problem'] = json_encode(array());
-        $req['wa_problem'] = json_encode(array());
-        $req['submit_data'] = json_encode(array());
-        $resp = $user_model->addUser($req);
+        $resp = $user_model->addUser(array(
+            'nick' => $req['nick'],
+            'password' => $req['password'],
+            'realname' => $req['realname'],
+            'school' => $req['school'],
+            'major' => $req['major'],
+            'class' => $req['class'],
+            'contact' => $req['contact'],
+            'mail' => $req['mail'],
+            'ac_problem' => json_encode(array()),
+            'wa_problem' => json_encode(array()),
+            'submit_problem' => json_encode(array()),
+        ));
         return apiReturn($resp['code'],$resp['msg'],$resp['data']);
     }
 }

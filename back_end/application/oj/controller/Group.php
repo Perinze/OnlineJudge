@@ -11,9 +11,11 @@ namespace app\oj\controller;
 use app\oj\model\GroupModel;
 use app\oj\model\UsergroupModel;
 use app\oj\validate\GroupValidate;
+use think\Controller;
 use think\facade\Session;
+use think\response\Json;
 
-class Group extends Base
+class Group extends Controller
 {
 
     // uncheck
@@ -42,5 +44,15 @@ class Group extends Base
             'user' => $resp['data'],
             'group' => $resp1['data']
         ));
+    }
+
+    public function add_group()
+    {
+
+    }
+
+    public function join_group()
+    {
+
     }
 }

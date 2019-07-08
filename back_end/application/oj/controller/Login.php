@@ -11,7 +11,7 @@ use app\oj\model\UserModel;
 use app\oj\validate\UserValidate;
 use think\facade\Session;
 
-class Login extends Base
+class Login
 {
     public function do_login() {
         // 检测重复登录
@@ -44,6 +44,13 @@ class Login extends Base
     }
 
     public function forgetPassword() {
-
+        $user_validate = new UserValidate();
+        $req = input('post.');
+        $result = $user_validate->scene('forget')->check($req);
+        if($result != true){
+            return apiReturn(CODE_ERROR, $user_validate->getError(), '');
+        }
+        // TODO 状态改变
+        // TODO 发送邮件
     }
 }
