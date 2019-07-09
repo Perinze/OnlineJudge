@@ -64,6 +64,9 @@ class Contest extends Controller
         if(empty($session)){
             return apiReturn(CODE_ERROR, '未登录', '');
         }
+        if($session['identity'] !== ADMINISTRATOR){
+            return apiReturn(CODE_ERROR, '权限不足', '');
+        }
         $req = input('post.');
         $result = $contest_validate->scene('newContest')->check($req);
         if($result !== true){
