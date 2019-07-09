@@ -31,5 +31,6 @@ class GroupValidate extends Validate
 
     protected $scene = [
         'get_the_group' => ['group'],
+        'add_group' => ['group_name', 'desc', 'group_creator'],
     ];
 }
