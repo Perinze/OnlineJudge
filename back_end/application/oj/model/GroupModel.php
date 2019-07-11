@@ -28,7 +28,7 @@ class GroupModel extends Model
 
     public function get_the_group($group_id) {
         try{
-            $info = $this->where([['group_id' => $group_id], ['state' => 0]])->find();
+            $info = $this->where([['group_id' , '=', $group_id], ['state' , '=', 0]])->find();
             if(empty($info)){
                 return ['code' => CODE_ERROR, 'msg' => '分组不存在', 'data' => $this->getError()];
             } else{

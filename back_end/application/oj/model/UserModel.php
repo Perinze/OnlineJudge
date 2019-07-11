@@ -60,6 +60,9 @@ class UserModel extends Model {
     public function searchUserByNick($nick) {
         try {
             $content = $this->where('nick', $nick)->find();
+            if(empty($content)){
+                return ['code' => CODE_ERROR, 'msg' => '用户名不存在',  'data' => $content];
+            }
             return ['code' => CODE_SUCCESS, 'msg' => '查找成功',  'data' => $content];
         }catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常',  'data' => $e->getMessage()];
