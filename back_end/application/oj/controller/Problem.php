@@ -41,7 +41,13 @@ class Problem extends Controller
     }
     public function searchProblem()
     {
-
+        $problem_validate = new ProblemValidate();
+        $problem_model = new ProblemModel();
+        $req = input('post.');
+        $result = $problem_validate->scene('searchProblem')->check($req);
+        if($result != VALIDATE_PASS) {
+            return apiReturn(CODE_ERROR, $problem_validate->getError(), '');
+        }
     }
     /**
      * 新建题目

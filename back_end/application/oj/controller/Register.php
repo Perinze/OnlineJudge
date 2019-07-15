@@ -27,7 +27,7 @@ class Register extends Controller
         }
         $resp = $user_model->addUser(array(
             'nick' => $req['nick'],
-            'password' => $req['password'],
+            'password' => md5(base64_encode($req['password'])),
             'realname' => $req['realname'],
             'school' => $req['school'],
             'major' => $req['major'],

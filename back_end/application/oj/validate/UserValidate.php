@@ -51,9 +51,10 @@ class UserValidate extends Validate
         'searchUser_id' => ['user_id'],
         'searchUser_nick' => ['nick'],
         'deleteUser' => ['user_id'],
-        'foreAddUser'=>'',
+        'foreAddUser'=> [],
         'login' => ['nick','password'],
-        'register' => ['nick', 'password', 'password_check', 'identify', 'realname', 'school', 'major', 'class', 'contact', 'mail'],
+        'register' => ['nick', 'password', 'password_check', 'realname', 'school', 'major', 'class', 'contact', 'mail'],
         'forget' => ['nick'],
+        'change_password' => ['password', 'password_check']
     ];
 }
