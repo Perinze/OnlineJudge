@@ -8,6 +8,7 @@
 
 namespace app\oj\controller;
 
+use app\oj\model\CommonModel;
 use app\oj\model\UserModel;
 use app\oj\validate\UserValidate;
 use think\Controller;
@@ -22,14 +23,10 @@ class User extends Controller
     {
         $user_validate = new UserValidate();
         $user_model = new UserModel();
-        $session = Session::get('user_id');
-        if(empty($session)){
-            return apiReturn(CODE_ERROR, '未登录', '');
-        }
-        $user = $user_model->searchUserById($session);
-        isset($user['data']['identity']) ? $identity = $user['data']['identity'] : $identity = 0;
-        if($identity !== ADMINISTRATOR){
-            return apiReturn(CODE_ERROR, '你没有权限', '');
+        $common_model = new CommonModel();
+        $resp = $common_model->checkIdentity();
+        if($resp['code'] !== CODE_SUCCESS){
+            return apiReturn($resp['code'], $resp['msg'], $resp['data']);
         }
         $req = input('post.');
 
@@ -75,14 +72,10 @@ class User extends Controller
     {
         $user_validate = new UserValidate();
         $user_model = new UserModel();
-        $session = Session::get('user_id');
-        if(empty($session)){
-            return apiReturn(CODE_ERROR, '未登录', '');
-        }
-        $user = $user_model->searchUserById($session);
-        isset($user['data']['identity']) ? $identity = $user['data']['identity'] : $identity = 0;
-        if($identity !== ADMINISTRATOR){
-            return apiReturn(CODE_ERROR, '你没有权限', '');
+        $common_model = new CommonModel();
+        $resp = $common_model->checkIdentity();
+        if($resp['code'] !== CODE_SUCCESS){
+            return apiReturn($resp['code'], $resp['msg'], $resp['data']);
         }
         $req = input('post.');
         $result = $user_validate->scene('deleteUser')->check($req);
@@ -141,6 +134,7 @@ class User extends Controller
         $resp = $user_model->editUser($user_id, array(
             'password' => md5(base64_encode($req['password']))
         ));
+        Session::set('find_password', false);
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 }

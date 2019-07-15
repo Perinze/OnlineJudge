@@ -27,14 +27,14 @@ class Login
         $req = input('post.');
         // 检测前端传送的用户登陆数据
         $result = $user_validate->scene('login')->check($req);
-        if($result != true){
+        if($result !== true){
             return apiReturn(CODE_ERROR, $user_validate->getError(), '');
         }
         // 密码加密
         $req['password'] = md5(base64_encode($req['password']));
         // 身份验证
         $result = $user_model->loginCheck($req);
-        if($result['code']==CODE_SUCCESS){
+        if($result['code'] === CODE_SUCCESS){
             // 验证成功，session分配
             session('user_id',$result['data']['user_id']);
         }

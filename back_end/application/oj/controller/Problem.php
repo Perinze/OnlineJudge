@@ -7,6 +7,7 @@
  */
 namespace app\oj\controller;
 
+use app\oj\model\CommonModel;
 use app\oj\model\ProblemModel;
 use app\oj\validate\ProblemValidate;
 use think\Controller;
@@ -33,7 +34,7 @@ class Problem extends Controller
         if($result != VALIDATE_PASS) {
             return apiReturn(CODE_ERROR, $problem_validate->getError(), '');
         }
-        $resp = $problem_model->searchProblem($req['problem_id']);
+        $resp = $problem_model->searchProblemById($req['problem_id']);
         if(!empty($resp['data']['status']) && $resp['data']['status'] == USING){
             return apiReturn($resp['code'], '题目不可用', '');
         }
@@ -45,16 +46,56 @@ class Problem extends Controller
         $problem_model = new ProblemModel();
         $req = input('post.');
         $result = $problem_validate->scene('searchProblem')->check($req);
-        if($result != VALIDATE_PASS) {
+        if($result !== VALIDATE_PASS) {
             return apiReturn(CODE_ERROR, $problem_validate->getError(), '');
         }
+        $resp1 = $problem_model->searchProblemById($req['search']);
+        $resp2 = $problem_model->searchProblemByTitle($req['search']);
+        $i = 0;
+        if($resp1['code'] !== CODE_SUCCESS && $resp2['code'] !== CODE_SUCCESS){
+            return apiReturn(CODE_ERROR, '查询失败', '');
+        }
+        $resp = [];
+        if($resp1['code'] === CODE_SUCCESS){
+            $resp[0] = $resp1['data'];
+            $i = 1;
+        }
+        if($resp2['code'] === CODE_SUCCESS){
+            foreach ($resp2['data'] as $k){
+                $resp[$i++] = $k;
+            }
+        }
+        return apiReturn(CODE_SUCCESS, '查询成功', $resp);
     }
     /**
      * 新建题目
      */
     public function newProblem()
     {
-
+        $problem_validate = new ProblemValidate();
+        $problem_model = new ProblemModel();
+        $common_model = new CommonModel();
+        $resp = $common_model->checkIdentity();
+        if($resp['code'] !== CODE_SUCCESS){
+            return apiReturn($resp['code'], $resp['msg'], $resp['data']);
+        }
+        $req = input('post.');
+        $result = $problem_validate->scene('newProblem')->check($req);
+        if($result !== VALIDATE_PASS) {
+            return apiReturn(CODE_ERROR, $problem_validate->getError(), '');
+        }
+        $resp = $problem_model->addProblem(array(
+            'title' => $req['title'],
+            'background' => $req['background'],
+            'describe' => $req['describe'],
+            'input_format' => isset($req['input_format']) ? $req['input_format'] : '',
+            'output_format' => isset($req['output_format']) ? $req['output_format'] : '',
+            'hint' => isset($req['hint']) ? $req['hint'] : '',
+            'public' => isset($req['public']) ? $req['public'] : 1,
+            'source' => isset($req['source']) ? $req['source'] : '',
+            'tag' => isset($req['tag']) ? $req['tag'] : '',
+        ));
+        return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
     /**
@@ -62,7 +103,30 @@ class Problem extends Controller
      */
     public function editProblem()
     {
-
+        $problem_validate = new ProblemValidate();
+        $problem_model = new ProblemModel();
+        $common_model = new CommonModel();
+        $resp = $common_model->checkIdentity();
+        if($resp['code'] !== CODE_SUCCESS){
+            return apiReturn($resp['code'], $resp['msg'], $resp['data']);
+        }
+        $req = input('post.');
+        $result = $problem_validate->scene('editProblem')->check($req);
+        if($result !== VALIDATE_PASS) {
+            return apiReturn(CODE_ERROR, $problem_validate->getError(), '');
+        }
+        $resp = $problem_model->editProblem($req['problem_id'], array(
+            'title' => $req['title'],
+            'background' => $req['background'],
+            'describe' => $req['describe'],
+            'input_format' => isset($req['input_format']) ? $req['input_format'] : '',
+            'output_format' => isset($req['output_format']) ? $req['output_format'] : '',
+            'hint' => isset($req['hint']) ? $req['hint'] : '',
+            'public' => isset($req['public']) ? $req['public'] : 1,
+            'source' => isset($req['source']) ? $req['source'] : '',
+            'tag' => isset($req['tag']) ? $req['tag'] : '',
+        ));
+        return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
     /**
