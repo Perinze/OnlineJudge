@@ -29,6 +29,7 @@ define('ORDINARY_MEMBER', 0);
 define('BANNED', 0);
 define('USING', 1);
 define('CONTEST', 2);
+define('VALID_TIME', 600);
 // 应用公共文件
 function apiReturn($status, $message, $data=[], $httpCode=200)
 {

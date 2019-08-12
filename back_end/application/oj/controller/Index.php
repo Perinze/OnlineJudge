@@ -36,4 +36,19 @@ class Index extends Controller
         $resp = $submitlog_model->get_the_log();
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
+
+    public function contest()
+    {
+
+    }
+
+    public function date()
+    {
+
+    }
+
+    public function all_num()
+    {
+
+    }
 }

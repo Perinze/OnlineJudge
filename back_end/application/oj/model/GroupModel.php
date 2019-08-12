@@ -15,7 +15,7 @@ class GroupModel extends Model
 
     public function get_all_group() {
         try{
-            $info = $this->select();
+            $info = $this->where('state', 0)->select()->toArray();
             if(empty($info)){
                 return ['code' => CODE_ERROR, 'msg' => '分组不存在', 'data' => $this->getError()];
             } else{
@@ -28,7 +28,7 @@ class GroupModel extends Model
 
     public function get_the_group($group_id) {
         try{
-            $info = $this->where('group_id', $group_id)->find();
+            $info = $this->where([['group_id' , '=', $group_id], ['state' , '=', 0]])->find();
             if(empty($info)){
                 return ['code' => CODE_ERROR, 'msg' => '分组不存在', 'data' => $this->getError()];
             } else{
@@ -47,6 +47,11 @@ class GroupModel extends Model
         try{
             $res = $this->insert($data);
             if($res){
+                $usergroup_model = new UsergroupModel();
+                $resp = $usergroup_model->addRelation($res, $data['group_creator']);
+                if($resp['code'] !== CODE_SUCCESS){
+                    return ['code'=>CODE_ERROR, 'msg'=>'创建分组失败', 'data'=>''];
+                }
                 return ['code'=>CODE_SUCCESS, 'msg'=>'创建分组成功', 'data'=>''];
             }else{
                 return ['code'=>CODE_ERROR, 'msg'=>'创建分组失败', 'data'=>$this->getError()];

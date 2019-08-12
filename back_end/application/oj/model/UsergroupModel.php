@@ -85,7 +85,7 @@ class UsergroupModel extends Model
      */
     public function searchRelation($group_id, $user_id) {
         try{
-            $content = $this->where(['group_id'=>$group_id, 'user_id'=>$user_id])->select()[0]; // return object
+            $content = $this->where([['group_id', '=', $group_id, 'user_id', '=', $user_id]])->select()[0]; // return object
             if($content) {
                 return ['code' => CODE_SUCCESS, 'msg' => '成功', 'data' => $content];
             }else{
@@ -111,7 +111,7 @@ class UsergroupModel extends Model
 
     public function deleRelation($group_id, $user_id) {
         try{
-            $res = $this->where(['group_id'=>$group_id, 'user_id'=>$user_id])->delete();
+            $res = $this->where([['group_id', '=', $group_id, 'user_id', '=', $user_id]])->delete();
             if($res){
                 return ['code'=>CODE_SUCCESS, 'msg'=>'成功', 'data'=>''];
             }else{

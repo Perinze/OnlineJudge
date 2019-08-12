@@ -28,7 +28,7 @@ class ProblemModel extends Model {
             return ['code' => CODE_ERROR,'msg' => '数据库错误','data' => $e->getMessage()];
         }
     }
-    public function searchProblem($problem_id) {
+    public function searchProblemById($problem_id) {
         try{
             $content = $this->where('problem_id',$problem_id)->find();
             if($content){
@@ -41,6 +41,18 @@ class ProblemModel extends Model {
         }
     }
 
+    public function searchProblemByTitle($title) {
+        try{
+            $content = $this->where('title', 'like', '%'.$title.'%')->find();
+            if($content){
+                return ['code'=>CODE_SUCCESS,'msg'=>'查找成功','data'=>$content];
+            }else{
+                return ['code'=>CODE_ERROR,'msg'=>'查找失败','data'=>''];
+            }
+        }catch(Exception $e){
+            return ['code'=>CODE_ERROR,'msg'=>'数据库错误','data'=>$e->getMessage()];
+        }
+    }
     /**
      * @param $data: $title, $background, $describe, $input_format, $output_format, $hint, $public(boolean), $source, $tag
      * @return array

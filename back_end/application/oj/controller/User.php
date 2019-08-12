@@ -8,10 +8,13 @@
 
 namespace app\oj\controller;
 
+use app\oj\model\CommonModel;
 use app\oj\model\UserModel;
 use app\oj\validate\UserValidate;
+use think\Controller;
+use think\facade\Session;
 
-class User extends Base
+class User extends Controller
 {
 
     // uncheck
@@ -20,16 +23,21 @@ class User extends Base
     {
         $user_validate = new UserValidate();
         $user_model = new UserModel();
+        $common_model = new CommonModel();
+        $resp = $common_model->checkIdentity();
+        if($resp['code'] !== CODE_SUCCESS){
+            return apiReturn($resp['code'], $resp['msg'], $resp['data']);
+        }
         $req = input('post.');
 
         $result = $user_validate->scene('foreAddUser')->check($req);
-        if($result != true){
+        if($result !== true){
             return apiReturn(CODE_ERROR, $user_validate->getError(), '');
         }
         $req = $this->handleUserReq($req);
 
         $result = $user_validate->scene('addUser')->check($req);
-        if($result != true){
+        if($result !== true){
             return apiReturn(CODE_ERROR, $user_validate->getError(), '');
         }
         $resp = $user_model->addUser($req);
@@ -40,20 +48,20 @@ class User extends Base
     {
         $user_validate = new UserValidate();
         $user_model = new UserModel();
-
+        $user_id = Session::get('user_id');
+        if(empty($user_id)){
+            return apiReturn(CODE_ERROR, '未登录', '');
+        }
         $req = input('post.');
 
-        $user_id = $req['user_id'];
-        unset($req['user_id']);
-
         $result = $user_validate->scene('foreAddUser')->check($req);
-        if($result != true){
+        if($result !== true){
             return apiReturn(CODE_ERROR, $user_validate->getError(), '');
         }
         $req = $this->handleUserReq($req);
 
         $result = $user_validate->scene('editUser')->check($req);
-        if($result != true){
+        if($result !== true){
             return apiReturn(CODE_ERROR, $user_validate->getError(), '');
         }
         $resp = $user_model->editUser($user_id, $req);
@@ -64,10 +72,14 @@ class User extends Base
     {
         $user_validate = new UserValidate();
         $user_model = new UserModel();
-
+        $common_model = new CommonModel();
+        $resp = $common_model->checkIdentity();
+        if($resp['code'] !== CODE_SUCCESS){
+            return apiReturn($resp['code'], $resp['msg'], $resp['data']);
+        }
         $req = input('post.');
         $result = $user_validate->scene('deleteUser')->check($req);
-        if($result != true){
+        if($result !== true){
             return apiReturn(CODE_ERROR, $user_validate->getError(), '');
         }
         $resp = $user_model->deleUser($req['id']);
@@ -101,5 +113,28 @@ class User extends Base
         ]);
         unset($req['phone'],$req['sex'],$req['sign']);
         return $req;
+    }
+
+    public function change_password()
+    {
+        $user_model = new UserModel();
+        $user_validate = new UserValidate();
+        if(session('find_password') !== true){
+            return apiReturn(CODE_ERROR, '找回密码无效，请重新提交验证', '');
+        }
+        $req = input('post.');
+        $result = $user_validate->scene('change_password')->check($req);
+        if($result !== true){
+            return apiReturn(CODE_ERROR, $user_validate->getError(), '');
+        }
+        if($req['password'] !== $req['password_check']){
+            return apiReturn(CODE_ERROR, '两次输入密码不一致', '');
+        }
+        $user_id = Session::get('user_id');
+        $resp = $user_model->editUser($user_id, array(
+            'password' => md5(base64_encode($req['password']))
+        ));
+        Session::set('find_password', false);
+        return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 }
