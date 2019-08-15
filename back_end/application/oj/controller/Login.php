@@ -46,6 +46,7 @@ class Login
     }
 
     public function forgetPassword() {
+        //TODO 验证邮箱
         $user_validate = new UserValidate();
         $find_model = new FindPasswordModel();
         $user_model = new UserModel();

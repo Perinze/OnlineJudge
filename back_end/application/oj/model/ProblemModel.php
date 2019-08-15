@@ -19,7 +19,7 @@ class ProblemModel extends Model {
     public function get_all_problem()
     {
         try{
-            $info = $this->where('status', 1)->select()->toArray();
+            $info = $this->field(['problem_id', 'title', 'ac', 'wa', 'tag'])->where('status', 1)->select()->toArray();
             if(empty($info)){
                 return ['code' => CODE_ERROR,'msg' => '查找失败','data' => ''];
             }

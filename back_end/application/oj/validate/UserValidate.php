@@ -54,7 +54,7 @@ class UserValidate extends Validate
         'foreAddUser'=> [],
         'login' => ['nick','password'],
         'register' => ['nick', 'password', 'password_check', 'realname', 'school', 'major', 'class', 'contact', 'mail'],
-        'forget' => ['nick'],
+        'forget' => ['nick', 'mail'],
         'change_password' => ['password', 'password_check']
     ];
 }

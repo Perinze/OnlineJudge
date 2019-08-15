@@ -82,4 +82,13 @@ class UserModel extends Model {
             return ['code'=>CODE_ERROR, 'msg'=>'数据库错误', 'data'=>$e->getMessage()];
         }
     }
+
+    public function user_rank()
+    {
+        try{
+            $info = $this->where('state', 0)->select()->toArray();
+        } catch (Exception $e){
+            return ['code' => CODE_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];
+        }
+    }
 }
