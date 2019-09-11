@@ -25,7 +25,7 @@ window.onload = function() {
     }else if(bodyWidth<1280 || bodyHeight<660) {
         alert("由于您的网页分辨率过低，该系统暂不支持您的设备");
     }else if(allowUA.indexOf(exploreName) === -1) {
-        alert(allowUA.indexOf(exploreName));
+        alert("本网站暂不支持您的浏览器");
     }
 };
 

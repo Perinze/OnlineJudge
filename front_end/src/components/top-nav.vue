@@ -2,7 +2,7 @@
     <div class="top-nav" :style="{background: 'rgba(255,255,255,'+topnavOpacity+')'}">
         <div class="search-bar">
             <img src="../assets/search.svg" width="16px" height="16px">
-            <input type="text" class="search-input" placeholder="Search transactions, invoices or help">
+            <input type="text" class="search-input" placeholder="Search problem, contest or user">
         </div>
     </div>
 </template>
@@ -25,6 +25,7 @@
         z-index: 999;
         background: white;
         transition: background .1s ease 0s;
+        color: #888888;/*rgba(,1);*/
         /*-webkit-backdrop-filter: blur(10px);*/
     }
 
@@ -36,19 +37,23 @@
         top: 13px;
         width: 1230px;
         height: 35px;
-        opacity: 0.5;
+        /*opacity: 0.5;*/
         border-radius: 17.5px;
-        background: rgba(255,255,255,1);
+        background: rgba(255,255,255,0.3);
+        transition: all .6s ease 0s;
         /*background: rgba(0,0,0,0.3);*/
+    }
+
+    .search-bar:hover {
+        background: rgba(255,255,255,0.5);
+        transition: all .6s ease 0s;
     }
 
     .search-bar >img {
         position: absolute;
         left: 16px;
-    }
-
-    .search-bar >img {
-        filter: invert(0.4);
+        filter: invert(0.8);
+        transition: all .6s ease 0s;
     }
 
     .search-bar >input {
@@ -61,12 +66,34 @@
         border: none;
         outline: none;
         -webkit-tap-highlight-color: rgba(0,0,0,0);
+        transition: all .6s ease 0s;
     }
 
-    .search-bar >input ::placeholder {
+    .search-bar >input::placeholder {
         font-size:15px;
-        font-weight:400;
-        color:rgba(136,136,136,1);
+        font-weight:300;
+        color: #BBBBBB;
+        transition: all .6s ease 0s;
+    }
+
+    .search-bar >input:focus::placeholder  {
+        color: #888888;
+        transition: all .6s ease 0s;
+    }
+
+    .search-bar:hover >input::placeholder  {
+        color: #888888;
+        transition: all .6s ease 0s;
+    }
+
+    .search-bar:hover >img {
+        filter: invert(0.4);
+        transition: all .6s ease 0s;
+    }
+
+    .search-bar:focus >img {
+        filter: invert(0.4);
+        transition: all .6s ease 0s;
     }
 
     @media (max-width: 1543px) and (min-width: 1280px) {
