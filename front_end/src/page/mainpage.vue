@@ -53,8 +53,8 @@
 </template>
 
 <script>
-    import contestCard from "./contest-card"
-    import statisticsCard from "./main-statistics-card"
+    import contestCard from "../components/contest-card"
+    import statisticsCard from "../components/main-statistics-card"
 
     export default {
         name: "mainpage",

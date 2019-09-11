@@ -18,8 +18,8 @@
 <script>
     import topnav from "./components/top-nav"
     import sidenav from "./components/side-nav"
-    import mainpage from "./components/mainpage"
-    import problemlist from "./components/problemlist"
+    import mainpage from "./page/mainpage"
+    import problemlist from "./page/problemlist"
 
     export default {
         components: { topnav, sidenav, mainpage, problemlist },
