@@ -31,17 +31,18 @@ class Problem extends Controller
         $problem_validate = new ProblemValidate();
         $problem_model = new ProblemModel();
         $result = $problem_validate->scene('displayProblem')->check($req);
-        if($result != VALIDATE_PASS) {
+        if($result !== VALIDATE_PASS) {
             return apiReturn(CODE_ERROR, $problem_validate->getError(), '');
         }
         $resp = $problem_model->searchProblemById($req['problem_id']);
-        if(!empty($resp['data']['status']) && $resp['data']['status'] == USING){
+        if(!empty($resp['data']['status']) && $resp['data']['status'] === USING){
             return apiReturn($resp['code'], '题目不可用', '');
         }
         return apiReturn($resp['code'],$resp['msg'],$resp['data']);
     }
     public function searchProblem()
     {
+        // TODO 返回数据格式化，减少返回数据
         $problem_validate = new ProblemValidate();
         $problem_model = new ProblemModel();
         $req = input('post.');

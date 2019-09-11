@@ -86,4 +86,9 @@ class GroupModel extends Model
             return ['code'=>CODE_ERROR, 'msg'=>'数据库错误', 'data'=>$e->getMessage()];
         }
     }
+
+    public function group_rank()
+    {
+
+    }
 }
