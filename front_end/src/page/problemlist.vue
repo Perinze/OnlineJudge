@@ -1,15 +1,163 @@
 <template>
-    <div>
-
+    <div class="problemlist">
+        <div class="problem-element" v-for="index in 6">
+            <i class="icon" v-bind:class="items[index-1].status+'-icon'"></i>
+            <span class="problem-id">{{items[index-1].id}}</span>
+            <span class="problem-title" @click="goto(items[index-1].id)">{{items[index-1].title}}</span>
+            <span class="problem-statistics">{{items[index-1].statistics.ac + '/' + items[index-1].statistics.all}}</span>
+        </div>
     </div>
 </template>
 
 <script>
     export default {
-        name: "problemlist"
+        name: "problemlist",
+        data() {
+            return {
+                items: [
+                    {
+                        id: 1000,
+                        status: 'ac',
+                        title: '超级玛丽游戏',
+                        statistics: {
+                            ac: 28,
+                            all: 188
+                        }
+                    },
+                    {
+                        id: 1001,
+                        status: 'wa',
+                        title: 'A+B Problem',
+                        statistics: {
+                            ac: 28,
+                            all: 188
+                        }
+                    },
+                    {
+                        id: 1002,
+                        status: 'tle',
+                        title: '过河卒',
+                        statistics: {
+                            ac: 28,
+                            all: 188
+                        }
+                    },
+                    {
+                        id: 1003,
+                        status: 'mle',
+                        title: '铺地毯',
+                        statistics: {
+                            ac: 28,
+                            all: 188
+                        }
+                    },
+                    {
+                        id: 1004,
+                        status: 'other',
+                        title: '方格取数',
+                        statistics: {
+                            ac: 28,
+                            all: 188
+                        }
+                    },
+                    {
+                        id: 1005,
+                        status: 'un',
+                        title: '矩阵取数游戏',
+                        statistics: {
+                            ac: 28,
+                            all: 188
+                        }
+                    }
+                ]
+            }
+        },
+        methods: {
+            goto(link) {
+                alert(link);
+            }
+        }
     }
 </script>
 
 <style scoped>
+    .problemlist {
+        position: relative;
+        width: 100%;
+        top: 88px;
+        margin-left: 13px;
+    }
 
+    .problem-element {
+        position: relative;
+        background: white;
+        width: 75%;
+        height: 45px;
+        margin: 0 auto 10px auto;
+        border-radius: .5em;
+        display: flex;
+        align-items: center;
+        padding: 0 5px;
+        min-width: 875px;
+        max-width: 990px;
+    }
+
+    .icon {
+        content: ' ';
+        width: 27px;
+        text-align: center;
+        font-weight: bold;
+        font-style: normal;
+        font-size: 18px;
+    }
+
+    .ac-icon::before {
+        content: 'A';
+        color: limegreen;
+    }
+
+    .wa-icon::before {
+        content: 'W';
+        color: #e94040;
+    }
+
+    .tle-icon::before {
+        content: 'T';
+        color: dodgerblue;
+    }
+
+    .mle-icon::before {
+        content: 'M';
+        color: darkorange;
+    }
+
+    .other-icon::before {
+        content: 'O';
+        color: black;
+    }
+
+    .un-icon::before {
+        content: '-';
+        color: #8A8A8A;
+    }
+
+    .problem-id {
+        font-weight: bold;
+        font-style: italic;
+        margin-left: 7px;
+    }
+
+    .problem-title {
+        font-weight: bold;
+        /*left: 5px;*/
+        width: 58%;
+        margin-left: 10px;
+    }
+
+    .problem-statistics {
+        position: relative;
+        left: 27%;
+        /*right: 5px;*/
+        /*float: right;*/
+    }
 </style>

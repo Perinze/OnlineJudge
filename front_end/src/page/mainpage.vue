@@ -169,7 +169,7 @@
     }
 
     .main-contest-list .main-contest-list-content {
-        margin: 0 0px 0 43px;
+        margin: 0 0 0 43px;
         position: relative;
         top: 12px;
         display: flex;
