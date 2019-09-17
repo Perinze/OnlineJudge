@@ -83,7 +83,7 @@
 <style scoped>
     .problemlist {
         position: relative;
-        width: 100%;
+        width: calc(100% - 13px);
         top: 88px;
         margin-left: 13px;
     }

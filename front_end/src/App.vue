@@ -1,16 +1,15 @@
 <template>
     <div style="height: 100%;">
-        <topnav :topnavOpacity="topnavOpacity" ></topnav>
-        <sidenav ref="sidenav"></sidenav>
+        <topnav :topnavOpacity="topnavOpacity" />
+        <sidenav ref="sidenav" />
         <div class="layout-content" ref="parent">
             <keep-alive>
-                <component :is="mainContent" id="combox"></component>
+                <router-view id="combox" />
             </keep-alive>
         </div>
-        <top-drawer>
+        <!--<top-drawer />-->
             <!--<codemirror></codemirror>-->
-        </top-drawer>
-        <side-drawer></side-drawer>
+        <!--<side-drawer />-->
         <!--<div class="test" style="z-index: 1001;-webkit-backdrop-filter: blur(30px);backdrop-filter: blur(30px);width: 500px;height: 500px;position: absolute;left: 100px;top: 100px;"></div>-->
     </div>
 </template>
@@ -20,9 +19,10 @@
     import sidenav from "./components/side-nav"
     import mainpage from "./page/mainpage"
     import problemlist from "./page/problemlist"
+    import contestpage from "./page/contestpage"
 
     export default {
-        components: { topnav, sidenav, mainpage, problemlist },
+        components: { topnav, sidenav, mainpage, problemlist, contestpage },
         data() {
             return {
                 topDrawerContent: 'codemirror',
@@ -31,7 +31,7 @@
                 bgsrc: "../assets/logo.png",
                 topnavOpacity: 0,
                 parent: null,
-                combox: null
+                combox: null,
             }
         },
         mounted() {
@@ -39,14 +39,38 @@
             this.$refs.sidenav.$on('changeContent',(name)=>{
                 this.mainContent = name;
                 this.topnavOpacity = 0;
-            })
+            });
         },
         methods: {
-            initCombox: function() {
+            getCombox: function() {
                 this.combox = document.getElementById('combox');
-                this.combox.addEventListener('scroll', ()=>{
-                    this.topnavOpacity = this.combox.scrollTop * 0.0033;
-                });
+            },
+            initCombox: async function() {
+                // await this.getCombox();
+                setTimeout(() => {
+                    this.getCombox();
+                    this.combox.addEventListener('scroll', () => {
+                        this.topnavOpacity = this.combox.scrollTop * 0.0033;
+                    }, true);
+                },2000);
+                // await sleep(100);
+                // console.log(this.combox);
+                // this.combox.addEventListener('scroll', () => {
+                //     this.topnavOpacity = this.combox.scrollTop * 0.0033;
+                // }, true);
+                // setTimeout(() => {
+                //     console.log(this.combox);
+                // },3000);
+            }
+        },
+        computed: {
+            nowPath: function() {
+                return this.$route.path;
+            }
+        },
+        watch: {
+            nowPath: function(val) {
+                this.initCombox();
             }
         }
     }

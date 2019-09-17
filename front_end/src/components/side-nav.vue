@@ -45,7 +45,10 @@
                     :img-src="item.imgSrc"
                     :class="[activeIndex === index?'menu-item-active':'menu-item']"
                     :is-active="activeIndex === index"
-                    @click.native="activeIndex = index; $emit('changeContent',item.keyName)"
+                    @click.native="
+                        $emit('changeContent',item.keyName);
+                        $router.push(item.routeName)
+                    "
             >
             </menu-item>
         </div>
@@ -64,34 +67,50 @@
         name: "side-nav",
         data() {
             return {
-                activeIndex: 0,
                 items: [
                     {
                         title: '主页 Home',
                         keyName: "mainpage",
-                        imgSrc: require('../assets/home.svg')
+                        imgSrc: require('../assets/home.svg'),
+                        routeName: "main"
                     },
                     {
                         title: '题目 Problem',
                         keyName: "problemlist",
-                        imgSrc: require('../assets/problem.svg')
+                        imgSrc: require('../assets/problem.svg'),
+                        routeName: "problem"
                     },
                     {
                         title: '比赛 Contest',
-                        keyName: 'contestlist',
-                        imgSrc: require('../assets/contest.svg')
+                        keyName: 'contestpage',
+                        imgSrc: require('../assets/contest.svg'),
+                        routeName: "contest"
                     },
                     {
                         title: '排名 Rank',
                         keyName: 'rank',
-                        imgSrc: require('../assets/rank.svg')
+                        imgSrc: require('../assets/rank.svg'),
+                        routeName: "rank"
                     },
                     {
                         title: '小组 Groups',
                         keyName: 'grouplist',
-                        imgSrc: require('../assets/group.svg')
+                        imgSrc: require('../assets/group.svg'),
+                        routeName: "group"
                     },
                 ],
+            }
+        },
+        computed: {
+            activeIndex: function() {
+                switch(this.$route.path) {
+                    case '/main': return 0;
+                    case '/problem': return 1;
+                    case '/contest': return 2;
+                    case '/rank': return 3;
+                    case '/group': return 4;
+                    default: console.log('fault in side-nav component');
+                }
             }
         }
 
