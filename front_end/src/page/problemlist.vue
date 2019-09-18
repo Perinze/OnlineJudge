@@ -152,6 +152,7 @@
         /*left: 5px;*/
         width: 58%;
         margin-left: 10px;
+        cursor:pointer;
     }
 
     .problem-statistics {

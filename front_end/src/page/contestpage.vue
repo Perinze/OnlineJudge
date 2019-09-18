@@ -60,6 +60,7 @@
     .contestpage {
         position: relative;
         top: 88px;
+        left: 12px;
     }
 
     .contest-card {
@@ -73,6 +74,7 @@
         overflow: hidden;
         min-width: 875px;
         max-width: 990px;
+        cursor:pointer;
     }
 
     .contest-content {

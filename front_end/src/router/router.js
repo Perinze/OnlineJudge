@@ -4,6 +4,8 @@ import VueRouter from 'vue-router';
 import mainpage from '../page/mainpage';
 import problemlist from '../page/problemlist';
 import contestpage from '../page/contestpage';
+import problemdetail from '../page/tempProblemDetail';
+import contestrank from '../page/contest-rank';
 
 Vue.use(VueRouter);
 
@@ -21,8 +23,16 @@ const routes = [
         component: problemlist
     },
     {
+        path: '/problem/:id',
+        component: problemdetail
+    },
+    {
         path: '/contest',
         component: contestpage
+    },
+    {
+        path: '/rank/:id',
+        component: contestrank
     }
 ];
 

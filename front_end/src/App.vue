@@ -9,7 +9,7 @@
         </div>
         <!--<top-drawer />-->
             <!--<codemirror></codemirror>-->
-        <!--<side-drawer />-->
+        <sidedrawer />
         <!--<div class="test" style="z-index: 1001;-webkit-backdrop-filter: blur(30px);backdrop-filter: blur(30px);width: 500px;height: 500px;position: absolute;left: 100px;top: 100px;"></div>-->
     </div>
 </template>
@@ -17,12 +17,13 @@
 <script>
     import topnav from "./components/top-nav"
     import sidenav from "./components/side-nav"
+    import sidedrawer from "./components/side-drawer"
     import mainpage from "./page/mainpage"
     import problemlist from "./page/problemlist"
     import contestpage from "./page/contestpage"
 
     export default {
-        components: { topnav, sidenav, mainpage, problemlist, contestpage },
+        components: { topnav, sidenav, mainpage, problemlist, contestpage, sidedrawer },
         data() {
             return {
                 topDrawerContent: 'codemirror',
