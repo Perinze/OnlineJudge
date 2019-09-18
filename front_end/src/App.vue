@@ -20,7 +20,7 @@
     import sidedrawer from "./components/side-drawer"
     import mainpage from "./page/mainpage"
     import problemlist from "./page/problemlist"
-    import contestpage from "./page/contestpage"
+    import contestpage from "./page/contestlist"
 
     export default {
         components: { topnav, sidenav, mainpage, problemlist, contestpage, sidedrawer },

@@ -3,9 +3,10 @@ import VueRouter from 'vue-router';
 
 import mainpage from '../page/mainpage';
 import problemlist from '../page/problemlist';
-import contestpage from '../page/contestpage';
+import contestlist from '../page/contestlist';
 import problemdetail from '../page/tempProblemDetail';
 import contestrank from '../page/contest-rank';
+import contestpage from '../page/contestpage';
 
 Vue.use(VueRouter);
 
@@ -28,6 +29,10 @@ const routes = [
     },
     {
         path: '/contest',
+        component: contestlist
+    },
+    {
+        path: '/contest/:id',
         component: contestpage
     },
     {

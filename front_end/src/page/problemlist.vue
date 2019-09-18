@@ -1,6 +1,6 @@
 <template>
     <div class="problemlist">
-        <div class="problem-element" v-for="index in 6">
+        <div class="problem-element" v-for="index in items.length">
             <i class="icon" v-bind:class="items[index-1].status+'-icon'"></i>
             <span class="problem-id">{{items[index-1].id}}</span>
             <span class="problem-title" @click="goto(items[index-1].id)">{{items[index-1].title}}</span>
@@ -73,8 +73,8 @@
             }
         },
         methods: {
-            goto(link) {
-                alert(link);
+            goto: function(link) {
+                this.$router.push('/problem/'+link);
             }
         }
     }
