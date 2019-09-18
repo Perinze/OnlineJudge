@@ -47,7 +47,7 @@
                     :is-active="activeIndex === index"
                     @click.native="
                         $emit('changeContent',item.keyName);
-                        $router.push(item.routeName)
+                        $router.push('/'+item.routeName)
                     "
             >
             </menu-item>
@@ -103,7 +103,9 @@
         },
         computed: {
             activeIndex: function() {
-                switch(this.$route.path) {
+                let res = this.$route.path + "/";
+                let path = res.slice(0, res.indexOf("/", 1));
+                switch(path) {
                     case '/main': return 0;
                     case '/problem': return 1;
                     case '/contest': return 2;
