@@ -19,7 +19,7 @@ class SubmitModel extends Model
     public function get_all_submit($where)
     {
         try{
-            $info = $this->field(['user_id', 'problem_id', 'status', 'time', 'memory', 'submit_time'])
+            $info = $this->field(['user_id', 'nick', 'problem_id', 'status', 'time', 'memory', 'submit_time'])
                 ->where($where)->order('submit_time')->select()->toArray();
             return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $info];
         } catch (Exception $e) {

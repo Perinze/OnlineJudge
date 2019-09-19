@@ -71,7 +71,7 @@ class Rank extends Controller
             $user_id = $item['user_id'];
             $problem_id = $item['problem_id'];
             if(!isset($rank[$user_id])){
-                $rank[$user_id] = ['penalty' => 0, 'ac_num' => 0];
+                $rank[$user_id] = ['nick' => $item['nick'], 'penalty' => 0, 'ac_num' => 0];
             }
             //var_dump($user_id);
             //halt($rank);
@@ -108,6 +108,7 @@ class Rank extends Controller
             }
             $new_rank[] = [
                 'user_id' => $key,
+                'nick' => $item['nick'],
                 'penalty' => $item['penalty'],
                 'ac_num' => $item['ac_num'],
                 'problem_id' => $problem,
