@@ -58,12 +58,11 @@ class Problem extends Controller
         }
         $resp = [];
         if($resp1['code'] === CODE_SUCCESS){
-            $resp[0] = $resp1['data'];
-            $i = 1;
+            $resp[] = $resp1['data'];
         }
         if($resp2['code'] === CODE_SUCCESS){
             foreach ($resp2['data'] as $k){
-                $resp[$i++] = $k;
+                $resp[] = $k;
             }
         }
         return apiReturn(CODE_SUCCESS, '查询成功', $resp);
