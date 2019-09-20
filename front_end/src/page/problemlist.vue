@@ -83,9 +83,6 @@
 <style scoped>
     .problemlist {
         position: relative;
-        width: calc(100% - 13px);
-        top: 88px;
-        margin-left: 13px;
     }
 
     .problem-element {
@@ -100,6 +97,10 @@
         padding: 0 5px;
         min-width: 875px;
         max-width: 990px;
+    }
+
+    .problem-element:first-child {
+        margin-top: 88px;
     }
 
     .icon {

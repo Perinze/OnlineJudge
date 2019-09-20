@@ -4,7 +4,7 @@
         <sidenav ref="sidenav" />
         <div class="layout-content" ref="parent">
             <keep-alive>
-                <router-view id="combox" />
+                <router-view id="combox" class="combox" />
             </keep-alive>
         </div>
         <!--<top-drawer />-->
@@ -48,12 +48,23 @@
             },
             initCombox: async function() {
                 // await this.getCombox();
+                // this.combox = await document.getElementById('combox');
+                // console.log(this.combox);
+                // this.combox.addEventListener('scroll', () => {
+                //     this.topnavOpacity = this.combox.scrollTop * 0.0033;
+                // }, true);
+                // setTimeout(() => {
+                //     console.log(this.combox);
+                // },2000);
                 setTimeout(() => {
                     this.getCombox();
                     this.combox.addEventListener('scroll', () => {
                         this.topnavOpacity = this.combox.scrollTop * 0.0033;
+                        console.log('here');
                     }, true);
+                    console.log(this.combox);
                 },2000);
+                console.log(this.combox);
                 // await sleep(100);
                 // console.log(this.combox);
                 // this.combox.addEventListener('scroll', () => {
@@ -83,6 +94,14 @@
         padding-left: 200px;
         width: 100%;
         height: 100%;
+    }
+
+    .combox {
+        width: 100%;
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        position: relative;
     }
 </style>
 

@@ -1,11 +1,14 @@
 <template>
     <div class="contestlist">
+        <!-- TODO 正在进行 -->
         <div class="contest-card" v-for="index in 6">
             <div class="contest-content" @click="goto(items[index-1].link)">
                 <span class="contest-title">{{items[index-1].title}}</span>
                 <span class="contest-sub-title">{{items[index-1].time}}</span>
             </div>
         </div>
+        <!-- TODO 即将到来 -->
+        <!-- TODO 已经结束 -->
     </div>
 </template>
 
@@ -59,8 +62,10 @@
 <style scoped>
     .contestlist {
         position: relative;
-        top: 88px;
-        left: 12px;
+        width: 100%;
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: scroll;
     }
 
     .contest-card {
@@ -74,7 +79,11 @@
         overflow: hidden;
         min-width: 875px;
         max-width: 990px;
-        cursor:pointer;
+        cursor: pointer;
+    }
+
+    .contest-card:first-child {
+        margin-top: 88px;
     }
 
     .contest-content {

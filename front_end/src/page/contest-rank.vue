@@ -1238,15 +1238,13 @@
 
 <style scoped>
     .contest-rank {
-        width: 100%;
         position: relative;
-        top: 88px;
-        margin-bottom: 60px;
+
     }
 
     .rank-form {
         width: 85%;
-        margin: 0 auto;
+        margin: 88px auto 60px auto;
         border-color: gray;
         border-radius: 1em;
         background: rgb(250, 250, 250);
