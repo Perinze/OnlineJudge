@@ -72,15 +72,15 @@
                     <i class="see-more"></i>
                 </span>
                 <!-- TODO 改成卡片样式 -->
-                <ul>
+                <ol>
                     <li>
-                        <div class="discuss-card">
-                            <span>A</span>
-                            <span>Title</span>
-                            <span>Author</span>
+                        <div class="discuss-card" v-for="index in discusses.length">
+                            <span class="discuss-problem-id">{{String.fromCharCode(contest_info.problems.indexOf(discusses[index-1].problem) + 65)}}</span>
+                            <span class="discuss-title">{{discusses[index-1].title}}</span>
+                            <span class="discuss-author">{{discusses[index-1].author}}</span>
                         </div>
                     </li>
-                </ul>
+                </ol>
             </div>
         </div>
     </div>
@@ -128,7 +128,42 @@
                     },
                 ],
                 discusses: [
-
+                    {
+                        problem: 1001,
+                        title: 'title',
+                        author: 'author',
+                        time: 23
+                    },
+                    {
+                        problem: 1001,
+                        title: 'title',
+                        author: 'author',
+                        time: 27
+                    },
+                    {
+                        problem: 1005,
+                        title: 'title',
+                        author: 'author',
+                        time: 27
+                    },
+                    {
+                        problem: 1001,
+                        title: 'title',
+                        author: 'author',
+                        time: 27
+                    },
+                    {
+                        problem: 1000,
+                        title: 'title',
+                        author: 'author',
+                        time: 27
+                    },
+                    {
+                        problem: 1001,
+                        title: 'title',
+                        author: 'author',
+                        time: 27
+                    },
                 ]
             }
         }
@@ -136,7 +171,7 @@
 </script>
 
 <style scoped>
-    ul {
+    ul, ol {
         position: relative;
         list-style-type: none;
         padding-left: 5px;
@@ -221,12 +256,48 @@
     }
 
     .submit-log-list-element {
-        background: linear-gradient(360deg, rgba(100,26,56,.7) 3%, rgba(255,255,255,0)),
-                    linear-gradient(90deg, rgba(255,255,255,0) 100%, rgba(255,255,255,0));
+        /*background: linear-gradient(360deg, rgba(100,26,56,.7) 3%, rgba(255,255,255,0)),*/
+                    /*linear-gradient(90deg, rgba(255,255,255,0) 100%, rgba(255,255,255,0));*/
     }
 
     .discuss-card {
+        height: 130px;
+        border-radius: .5em;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+        z-index: 1;
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
 
+    /*.discuss-card::after {*/
+        /*content: '';*/
+        /*position: absolute;*/
+        /*left: 0;*/
+        /*right: 0;*/
+        /*top: 0;*/
+        /*bottom: 0;*/
+        /*background: white;*/
+        /*filter: blur(10px) opacity(0.5);*/
+        /*z-index: -1;*/
+    /*}*/
+
+    .discuss-problem-id {
+        position: relative;
+        top: 5px;
+        left: 10px;
+        font-size: 20px;
+    }
+
+    .discuss-title {
+        position: relative;
+        top: 25px;
+        left: 20px;
+    }
+
+    .discuss-author {
+        position: relative;
+        left: 75%;
+        top: 95px;
     }
 
     /*th {*/
