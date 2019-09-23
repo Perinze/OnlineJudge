@@ -1,7 +1,7 @@
 <template>
     <div class="top-nav" :style="{background: 'rgba(255,255,255,'+topnavOpacity+')'}">
         <div class="search-bar">
-            <img src="../assets/search.svg" width="16px" height="16px">
+            <img src="../assets/icon/search.svg" width="16px" height="16px">
             <input type="text" class="search-input" placeholder="Search problem, contest or user">
         </div>
     </div>

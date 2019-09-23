@@ -47,32 +47,12 @@
                 this.combox = document.getElementById('combox');
             },
             initCombox: async function() {
-                // await this.getCombox();
-                // this.combox = await document.getElementById('combox');
-                // console.log(this.combox);
-                // this.combox.addEventListener('scroll', () => {
-                //     this.topnavOpacity = this.combox.scrollTop * 0.0033;
-                // }, true);
-                // setTimeout(() => {
-                //     console.log(this.combox);
-                // },2000);
                 setTimeout(() => {
                     this.getCombox();
                     this.combox.addEventListener('scroll', () => {
                         this.topnavOpacity = this.combox.scrollTop * 0.0033;
-                        console.log('here');
                     }, true);
-                    console.log(this.combox);
-                },2000);
-                console.log(this.combox);
-                // await sleep(100);
-                // console.log(this.combox);
-                // this.combox.addEventListener('scroll', () => {
-                //     this.topnavOpacity = this.combox.scrollTop * 0.0033;
-                // }, true);
-                // setTimeout(() => {
-                //     console.log(this.combox);
-                // },3000);
+                },500);
             }
         },
         computed: {
@@ -103,6 +83,84 @@
         overflow-y: scroll;
         position: relative;
     }
+
+    /*
+        题目icon BEGIN
+    */
+
+    .ac-icon::before {
+        content: 'A';
+        color: limegreen;
+    }
+
+    .wa-icon::before {
+        content: 'W';
+        color: #e94040;
+    }
+
+    .tle-icon::before {
+        content: 'T';
+        color: dodgerblue;
+    }
+
+    .mle-icon::before {
+        content: 'M';
+        color: darkorange;
+    }
+
+    .other-icon::before {
+        content: 'O';
+        color: black;
+    }
+
+    .un-icon::before {
+        content: '-';
+        color: #8A8A8A;
+    }
+
+    /*
+        题目icon END
+    */
+
+    /*
+        固定色 BEGIN
+    */
+
+    .ac-color {
+        color: limegreen;
+    }
+
+    .wa-color {
+        color: #e94040;
+    }
+
+    .tle-color {
+        color: dodgerblue;
+    }
+
+    .mle-color {
+        color: darkorange;
+    }
+
+    .ac-background {
+        background: limegreen;
+    }
+
+    .wa-background {
+        background: #e94040;
+    }
+
+    .tle-background {
+        background: dodgerblue;
+    }
+
+    .mle-background {
+        background: darkorange;
+    }
+
+    /*
+        固定色END
+    */
 </style>
 
 <!--TODO CodeMirror Theme: material nord oceanic-next-->

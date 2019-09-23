@@ -112,36 +112,6 @@
         font-size: 18px;
     }
 
-    .ac-icon::before {
-        content: 'A';
-        color: limegreen;
-    }
-
-    .wa-icon::before {
-        content: 'W';
-        color: #e94040;
-    }
-
-    .tle-icon::before {
-        content: 'T';
-        color: dodgerblue;
-    }
-
-    .mle-icon::before {
-        content: 'M';
-        color: darkorange;
-    }
-
-    .other-icon::before {
-        content: 'O';
-        color: black;
-    }
-
-    .un-icon::before {
-        content: '-';
-        color: #8A8A8A;
-    }
-
     .problem-id {
         font-weight: bold;
         font-style: italic;
