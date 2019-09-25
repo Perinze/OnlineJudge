@@ -13,7 +13,6 @@
                         <th>罚时 Penalty</th>
                         <th v-for="index in contest_info.problems.length"
                             class="problem-head"
-                            :style="'background: #' + contest_info.colors[index-1]"
                         >
                             {{String.fromCharCode(64 + index)}}
                         </th>
@@ -38,46 +37,54 @@
         <div class="bottom">
             <div class="submit-log-list">
                 <span class="title">提交记录 Submit log</span>
-                <ul>
+                <span id="submit-log-tips" class="tips">点击查看具体记录</span>
+                <ul class="submit-log-ul">
                     <li v-for="index in submit_log.length"
                         v-bind:title="'RunID: '+ submit_log[index-1].runid"
-                        class="submit-log-list-element"
+                        class="submit-log-list-element submit-log-li"
                     >
-                        <span>
-                            {{submit_log[index-1].submit_time}}
-                        </span> <!-- Submit Time -->
-                        <span style="font-weight: bold;">
-                            {{String.fromCharCode(contest_info.problems.indexOf(submit_log[index-1].problem) + 65)}}
-                        </span>
-                        <span>
-                            {{submit_log[index-1].time_used + 'ms'}}
-                        </span> <!-- Time used -->
-                        <span>
-                            {{submit_log[index-1].mem_used + 'Mb'}}
-                        </span> <!-- Memory used -->
-                        <span>
-                            {{submit_log[index-1].language}}
-                        </span> <!-- Language -->
-                        <span style="font-weight:bold;"
-                              :class="submit_log[index-1].status + '-color'"
-                        >
-                            {{submit_log[index-1].status.toUpperCase()}}
-                        </span> <!-- Result -->
+                        <i :style="{background: 'radial-gradient(circle, rgba(255,255,255,0) 36%, #' + contest_info.colors[contest_info.problems.indexOf(submit_log[index-1].problem)] + ' 40%)'}"></i>
+                        <div>
+                            <span style="display: block;">
+                                {{contestBeginTime + 1000*submit_log[index-1].submit_time | formatDate}}
+                            </span> <!-- Submit Time -->
+                            <span style="font-weight: bold;" class="log-problem-id">
+                                {{String.fromCharCode(contest_info.problems.indexOf(submit_log[index-1].problem) + 65)}}
+                            </span>
+                            <span class="log-time-used">
+                                {{submit_log[index-1].time_used + 'ms'}}
+                            </span> <!-- Time used -->
+                            <span class="log-mem-used">
+                                {{submit_log[index-1].mem_used + 'Mb'}}
+                            </span> <!-- Memory used -->
+                            <span class="log-language">
+                                {{submit_log[index-1].language}}
+                            </span> <!-- Language -->
+                            <span style="font-weight:bold;" :class="submit_log[index-1].status + '-color'" class="log-status">
+                                {{submit_log[index-1].status.toUpperCase()}}
+                            </span> <!-- Result -->
+                        </div>
                     </li>
                 </ul>
             </div>
             <div class="discuss-list">
                 <span class="title">
                     讨论板 Discuss list
-                    <i class="see-more"></i>
+                    <span class="see-more tips">点我查看更多, 提问问题</span>
                 </span>
                 <!-- TODO 改成卡片样式 -->
                 <ol>
                     <li>
                         <div class="discuss-card" v-for="index in discusses.length">
-                            <span class="discuss-problem-id">{{String.fromCharCode(contest_info.problems.indexOf(discusses[index-1].problem) + 65)}}</span>
-                            <span class="discuss-title">{{discusses[index-1].title}}</span>
-                            <span class="discuss-author">{{discusses[index-1].author}}</span>
+                            <span class="discuss-problem-id">
+                                {{String.fromCharCode(contest_info.problems.indexOf(discusses[index-1].problem) + 65)}}
+                            </span>
+                            <span class="discuss-title">
+                                {{discusses[index-1].title}}
+                            </span>
+                            <span class="discuss-author">
+                                {{discusses[index-1].author}}
+                            </span>
                         </div>
                     </li>
                 </ol>
@@ -87,6 +94,8 @@
 </template>
 
 <script>
+    import { formatDate } from "../api/common";
+
     export default {
         name: "contestpage",
         data() {
@@ -112,6 +121,15 @@
                         runid: 21063965,
                         problem: 1000,
                         submit_time: 12, /* 比赛开始后的秒数*/
+                        time_used: 234, /*毫秒数*/
+                        mem_used: 2.54,
+                        language: 'cpp',
+                        status: 'wa',
+                    },
+                    {
+                        runid: 21063965,
+                        problem: 1005,
+                        submit_time: 12, /* 比赛开始后的秒数*/
                         time_used: 2000, /*毫秒数*/
                         mem_used: 2.54,
                         language: 'cpp',
@@ -119,7 +137,43 @@
                     },
                     {
                         runid: 21063965,
+                        problem: 1010,
+                        submit_time: 12, /* 比赛开始后的秒数*/
+                        time_used: 2, /*毫秒数*/
+                        mem_used: 2.54,
+                        language: 'cpp',
+                        status: 'wa',
+                    },
+                    {
+                        runid: 21063965,
                         problem: 1000,
+                        submit_time: 12, /* 比赛开始后的秒数*/
+                        time_used: 234, /*毫秒数*/
+                        mem_used: 2.54,
+                        language: 'cpp',
+                        status: 'ac',
+                    },
+                    {
+                        runid: 21063965,
+                        problem: 1000,
+                        submit_time: 12, /* 比赛开始后的秒数*/
+                        time_used: 234, /*毫秒数*/
+                        mem_used: 2.54,
+                        language: 'cpp',
+                        status: 'wa',
+                    },
+                    {
+                        runid: 21063965,
+                        problem: 1005,
+                        submit_time: 12, /* 比赛开始后的秒数*/
+                        time_used: 2000, /*毫秒数*/
+                        mem_used: 2.54,
+                        language: 'cpp',
+                        status: 'tle',
+                    },
+                    {
+                        runid: 21063965,
+                        problem: 1010,
                         submit_time: 12, /* 比赛开始后的秒数*/
                         time_used: 2, /*毫秒数*/
                         mem_used: 2.54,
@@ -146,25 +200,19 @@
                         author: 'author',
                         time: 27
                     },
-                    {
-                        problem: 1001,
-                        title: 'title',
-                        author: 'author',
-                        time: 27
-                    },
-                    {
-                        problem: 1000,
-                        title: 'title',
-                        author: 'author',
-                        time: 27
-                    },
-                    {
-                        problem: 1001,
-                        title: 'title',
-                        author: 'author',
-                        time: 27
-                    },
                 ]
+            }
+        },
+        computed: {
+            contestBeginTime: function() {
+                var res = new Date(this.contest_info.begin_time).getTime();
+                return res;
+            }
+        },
+        filters: {
+            formatDate(time) {
+                var date = new Date(time);
+                return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
             }
         }
     }
@@ -175,7 +223,7 @@
         position: relative;
         list-style-type: none;
         padding-left: 5px;
-        margin-top: 10px;
+        margin-top: 15px;
     }
 
     li {
@@ -215,12 +263,15 @@
     }
 
     .problem-status-form {
-        /*border: 1px solid #333333;*/
         text-align: center;
+        border-radius: 10px;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+        background: white;
     }
 
     .problem-head {
         cursor: pointer;
+        border-left: 1px rgba(0,0,0,.2) dashed;
         /*
             TODO 点击后弹出题目
         */
@@ -228,6 +279,7 @@
 
     .problem-status {
         cursor: pointer;
+        border-left: 1px rgba(0,0,0,.2) dashed;
         /*
             TODO 点击后在提交列表内相应题目记录高亮，再次点击消除
         */
@@ -235,10 +287,49 @@
 
     .see-more {
         cursor: pointer;
+        margin-top: 5px;
     }
 
     .submit-log-list {
         width: 47%;
+    }
+
+    .submit-log-ul {
+        padding-left: 0;
+        border-radius: 10px;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+        overflow: hidden;
+        background: white;
+    }
+
+    .submit-log-li:last-child {
+        border: none;
+    }
+
+    .submit-log-li {
+        height: 50px;
+        border-bottom: 1px solid rgb(0,0,0,.1);
+        display: flex;
+        align-items: center;
+    }
+
+    .submit-log-li > i {
+        content: '';
+        position: absolute;
+        height: 16px;
+        width: 16px;
+        border-radius: 10px;
+        margin-left: 11px;
+        filter: brightness(130%);
+    }
+
+    .submit-log-li > div {
+        margin-left: 35px;
+    }
+
+    #submit-log-tips {
+        margin-top: 5px;
+        margin-right: 4px;
     }
 
     .discuss-list {
@@ -261,12 +352,13 @@
     }
 
     .discuss-card {
-        height: 130px;
-        border-radius: .5em;
-        box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+        height: 110px;
+        border-radius: 10px;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.08);
         z-index: 1;
         overflow: hidden;
         margin-bottom: 20px;
+        background: white;
     }
 
     /*.discuss-card::after {*/
@@ -297,7 +389,7 @@
     .discuss-author {
         position: relative;
         left: 75%;
-        top: 95px;
+        top: 75px;
     }
 
     /*th {*/

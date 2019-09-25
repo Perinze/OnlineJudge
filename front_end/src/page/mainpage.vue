@@ -125,7 +125,7 @@
         height: 100%;
         filter: blur(30px) brightness(1.15) opacity(0.50);
         /*background: white;*/
-        background: url("../assets/background/background-main.png") no-repeat scroll;
+        background: url("../../assets/background/background-main.png") no-repeat scroll;
         background-size: 100% 422px;
         top: -32px;
 

@@ -1,14 +1,15 @@
 <template>
     <div id="side-bar">
+        <welcome :display="true" />
         <div class="logo">
             <div style="position: relative;top: 9px">
-                <img src="../assets/media/logo.png">
+                <img src="../../assets/media/logo.png">
             </div>
         </div>
         <div class="menu-userbar" align="center">
             <div class="user-alias-border">
                 <div class="user-alias">
-                    <img v-bind:src="[userinfo.isLogin?userinfo.avator:'./src/assets/media/default-avator.png']" height="40" width="40"/>
+                    <img src="../../assets/media/avator.png" height="40" width="40"/>
                 </div>
             </div>
             <div class="user-info" align="center">
@@ -61,9 +62,10 @@
 
 <script>
     import MenuItem from "./menu-item";
+    import welcome from "../components/welcome";
 
     export default {
-        components: { MenuItem },
+        components: { MenuItem, welcome },
         name: "side-nav",
         data() {
             return {
@@ -71,38 +73,38 @@
                     {
                         title: '主页 Home',
                         keyName: "mainpage",
-                        imgSrc: require('../assets/icon/home.svg'),
+                        imgSrc: require('../../assets/icon/home.svg'),
                         routeName: "main"
                     },
                     {
                         title: '题目 Problem',
                         keyName: "problemlist",
-                        imgSrc: require('../assets/icon/problem.svg'),
+                        imgSrc: require('../../assets/icon/problem.svg'),
                         routeName: "problem"
                     },
                     {
                         title: '比赛 Contest',
                         keyName: 'contestpage',
-                        imgSrc: require('../assets/icon/contest.svg'),
+                        imgSrc: require('../../assets/icon/contest.svg'),
                         routeName: "contest"
                     },
                     {
                         title: '排名 Rank',
                         keyName: 'rank',
-                        imgSrc: require('../assets/icon/rank.svg'),
+                        imgSrc: require('../../assets/icon/rank.svg'),
                         routeName: "rank"
                     },
                     {
                         title: '小组 Groups',
                         keyName: 'grouplist',
-                        imgSrc: require('../assets/icon/group.svg'),
+                        imgSrc: require('../../assets/icon/group.svg'),
                         routeName: "group"
                     },
                 ],
                 userinfo: {
-                    isLogin: false,
-                    avator: '../assets/media/avator.png',
-                }
+                    isLogin: true,
+                    avator: '/assets/media/avator.png',
+                },
             }
         },
         computed: {
