@@ -37,6 +37,7 @@ class Login
         if($result['code'] === CODE_SUCCESS){
             // 验证成功，session分配
             session('user_id',$result['data']['user_id']);
+            session('nick',$result['data']['nick']);
         }
         return apiReturn($result['code'],$result['msg'],$result['data']);
     }
