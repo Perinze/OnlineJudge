@@ -161,6 +161,10 @@
     /*
         固定色END
     */
+
+    :focus {
+        outline: 0;
+    }
 </style>
 
 <!--TODO CodeMirror Theme: material nord oceanic-next-->

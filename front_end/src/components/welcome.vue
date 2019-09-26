@@ -1,12 +1,15 @@
 <template>
-    <div class="welcome"  @click="reverse_action()" v-if="display">
+    <div class="welcome" v-if="display">
+        <div id="function-mask" @click="close"></div>
         <div class="welcome-main" ref="card">
-            <div id="bezier-background">
-                <div id="bezier-1"></div>
-                <div id="bezier-2"></div>
-                <div id="bezier-3"></div>
-                <div id="bezier-4"></div>
-            </div>
+            <!--<div id="bezier-background">-->
+                <!--<svg width="883px" height="580px" xmlns="http://www.w3.org/2000/svg" version="1.1">-->
+                    <!--<path d="M0,360 C 235,340 328,70 883,280" stroke='blue' stroke-width='2' fill='none' />-->
+                    <!--<path d="M0,300 C 380,175 400,460 883,340" stroke='blue' stroke-width='2' fill='none' />-->
+                    <!--<path d="M0,360 C 230,345 328,70 883,280" stroke='blue' stroke-width='2' fill='none' />-->
+                    <!--<path d="M0,360 C 230,345 328,70 883,280" stroke='blue' stroke-width='2' fill='none' />-->
+                <!--</svg>-->
+            <!--</div>-->
             <div class="welcome-view">
                 <div class="welcome-view-content">
                     <span class="welcome-title">欢迎</span>
@@ -16,16 +19,24 @@
                 </div>
             </div>
             <div class="welcome-interact">
-                <span class="login-guide-1">我们将引导您完成注册步骤</span>
-                <span class="login-guide-2">如果您已有账户可以选择：</span>
-                <button class="login-button">Login</button>
-                <span class="register-guide">点击下方"Sign up"按钮即可开始注册</span>
-                <button class="register-button">Sign up</button>
-                <div class="tourist-content">
-                    <span class="tourist-guide">如果您还未准备好注册账户，可以选择</span>
-                    <a class="tourist-a">继续以游客模式访问</a>
-                    <span class="tourist-intro">您仍可以浏览页面，但个别功能无法使用</span>
+                <div class="welcome-interact-guide fade-in-out" ref="default">
+                    <span class="login-guide-1">我们将引导您完成注册步骤</span>
+                    <span class="login-guide-2">如果您已有账户可以选择：</span>
+                    <button class="login-button" @click="call('login')">Login</button>
+                    <span class="register-guide">点击下方"Sign up"按钮即可开始注册</span>
+                    <button class="register-button" @click="call('register')">Sign up</button>
+                    <div class="tourist-content">
+                        <span class="tourist-guide">如果您还未准备好注册账户，可以选择</span>
+                        <a class="tourist-a">继续以游客模式访问</a>
+                        <span class="tourist-intro">您仍可以浏览页面，但个别功能无法使用</span>
+                    </div>
                 </div>
+                <!--<div class="welcome-interact-login fade-in-out" ref="login">-->
+                    <!--login-->
+                <!--</div>-->
+                <!--<div class="welcome-interact-register fade-in-out" ref="register">-->
+                    <!--register-->
+                <!--</div>-->
             </div>
         </div>
     </div>
@@ -42,13 +53,35 @@
         },
         data() {
             return {
-                
+                activeInteract: "default"
             }
         },
         methods: {
-            reverse_action() {
-                // console.log('here');
-                // this.$refs.card.style.transform = 'rotateX(180deg)';
+            call(anchor) {
+                // console.log("here");
+                // switch(anchor) {
+                //     case "login":
+                //         // this.activeInteract = "login";
+                //         this.$refs.default.style.opacity = 0;
+                //         this.$refs.register.style.opacity = 0;
+                //         this.$refs.login.style.opacity = 1;
+                //         return;
+                //     case "register":
+                //         // this.activeInteract = "register";
+                //         this.$refs.default.style.opacity = 0;
+                //         this.$refs.login.style.opacity = 0;
+                //         this.$refs.register.style.opacity = 1;
+                //         return;
+                //     default:
+                //         // this.activeInteract = "default";
+                //         this.$refs.login.style.opacity = 0;
+                //         this.$refs.register.style.opacity = 0;
+                //         this.$refs.default.style.opacity = 1;
+                //         return;
+                // }
+            },
+            close() {
+                // this.display = false;
             }
         }
     }
@@ -60,6 +93,13 @@
         width: 100%;
         height: 100%;
         background: rgba(34,33,53,0.85);
+        z-index: 1001;
+    }
+
+    #function-mask {
+        position: fixed;
+        width: 100%;
+        height: 100%;
         z-index: 1002;
     }
 
@@ -72,7 +112,8 @@
         width: 883px;
         height: 580px;
         /*background:linear-gradient(45deg,rgba(92,108,205,1) 0%,rgba(87,83,181,1) 100%);*/
-        background:linear-gradient(228deg,rgba(135,133,214,1) 0%,rgba(17,17,29,1) 100%);
+        /*background:linear-gradient(228deg,rgba(135,133,214,1) 0%,rgba(17,17,29,1) 100%);*/
+        background: url("../../assets/media/login_bg.png");
         display: flex;
     }
 
@@ -94,18 +135,29 @@
         background:rgba(255,255,255,.7);
     }
 
-    .welcome-interact > span {
+    .welcome-interact-guide {
+    }
+
+    .welcome-interact-guide > span {
         display: block;
+    }
+
+    .welcome-interact-login {
+        opacity: 0;
+    }
+
+    .welcome-interact-register {
+        opacity: 0;
     }
 
     /* 字体 */
     .welcome-title {
         position: relative;
         font-size: 48px;
-        font-weight: bold;
+        font-weight: 400;
         line-height: 24px;
-        letter-spacing: 10px;
-        top: 67px;
+        letter-spacing: 7px;
+        top: 80px;
         left: 62px;
     }
 
@@ -141,7 +193,7 @@
 
     .login-guide-1 {
         position: relative;
-        top: 67px;
+        top: 66px;
         left: 58px;
         width:288px;
         height:58px;
@@ -153,14 +205,14 @@
 
     .login-guide-2 {
         position: relative;
-        top: 38px;
+        top: 37px;
         left: 58px;
         font-size: 14px;
     }
 
     .login-button {
         position: relative;
-        top: 72px;
+        top: 95px;
         left: 58px;
         height: 40px;
         width: 286px;
@@ -168,11 +220,12 @@
         box-shadow:0px 3px 15px rgba(38,38,38,0);
         background: transparent;
         border-radius: 5px;
+        cursor: pointer;
     }
 
     .register-guide {
         position: relative;
-        top: 103px;
+        top: 126px;
         left: 71px;
         width:275px;
         height:22px;
@@ -184,14 +237,17 @@
 
     .register-button {
         position: relative;
-        top: 135px;
+        top: 158px;
         left: 58px;
         width:286px;
         height:40px;
         background:linear-gradient(4deg,rgba(30,30,33,1) 0%,rgba(86,85,144,1) 100%);
         box-shadow:0px 10px 15px rgba(67,65,116,0.31);
         border-radius:5px;
+        border: none;
         color: white;
+        cursor: pointer;
+        filter: brightness(1.05);
     }
 
     .tourist-content {
@@ -225,22 +281,29 @@
 
     #bezier-background {
         z-index: 1004;
+        position: fixed;
+        /*background: url("../../assets/media/login_bg.png");*/
+        /*width: 100%;*/
+        /*height: 100%;*/
     }
 
-    #bezier-1 {
-        transition: all 2s cubic-bezier(.9,.16,.11,1.11);
-        /*cubic-bezier(.9,.16,.11,1.11)*/
+    /* Animation */
+
+    .fade-in-out {
+        transition: all .2s ease;
     }
 
-    #bezier-2 {
+    /* 移动端适配 */
 
+    @media screen and (max-height: 667px) {
+        .welcome-main {
+            margin-top: 45px;
+        }
     }
 
-    #bezier-3 {
-
-    }
-
-    #bezier-4 {
-
+    @media screen and (max-height: 729px) and (min-height: 668px) {
+        .welcome-main {
+            margin-top: 63px;
+        }
     }
 </style>

@@ -1,5 +1,6 @@
 <template>
     <div class="contestpage">
+        <div class="mask" v-if="!isBegin"></div>
         <div class="top">
             <label class="tips">点击题号查看题面 Please click problem label to see the detail</label>
             <table class="problem-status-form"
@@ -205,8 +206,14 @@
         },
         computed: {
             contestBeginTime: function() {
-                var res = new Date(this.contest_info.begin_time).getTime();
+                let res = new Date(this.contest_info.begin_time).getTime();
                 return res;
+            },
+            isBegin: function() {
+                let begin = new Date(this.contest_info.begin_time).getTime();
+                let now = new Date().getTime();
+                if (now >= begin) return true;
+                return false;
             }
         },
         filters: {
@@ -240,12 +247,18 @@
         float: right;
     }
 
+    /* 布局 */
+
     .contestpage {
         position: relative;
         width: 100%;
         height: 100%;
         overflow-x: hidden;
         overflow-y: scroll;
+    }
+
+    .mask {
+
     }
 
     .top {
