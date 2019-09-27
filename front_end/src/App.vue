@@ -165,6 +165,15 @@
     :focus {
         outline: 0;
     }
+
+    /*
+        外部字体
+    */
+
+    @font-face {
+        font-family: countdown;
+        src: url("../assets/font/countdown.ttf");
+    }
 </style>
 
 <!--TODO CodeMirror Theme: material nord oceanic-next-->

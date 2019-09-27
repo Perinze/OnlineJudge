@@ -16,12 +16,14 @@ new Vue({
     router: router
 }).$mount("#app"); // VueCLI 3.0
 
-window.onload = function() {
-    var bodyWidth = document.body.clientWidth;
-    var bodyHeight = document.body.clientHeight;
 
-    var exploreName = getExploreName();
-    var allowUA = ['Firefox','Chrome','Safari'];
+
+window.onload = function() {
+    let bodyWidth = document.body.clientWidth;
+    let bodyHeight = document.body.clientHeight;
+
+    let exploreName = getExploreName();
+    let allowUA = ['Firefox','Chrome','Safari'];
 
     if(bodyHeight>bodyWidth || !IsPC()) {
         alert("本系统不支持移动端");
@@ -33,10 +35,10 @@ window.onload = function() {
 };
 
 function IsPC() {
-    var userAgentInfo = navigator.userAgent;
-    var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");
-    var flag = true;
-    for (var v = 0; v < Agents.length; v++) {
+    let userAgentInfo = navigator.userAgent;
+    let Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");
+    let flag = true;
+    for (let v = 0; v < Agents.length; v++) {
         if (userAgentInfo.indexOf(Agents[v]) > 0) {
             flag = false;
             break;
@@ -46,9 +48,9 @@ function IsPC() {
 }
 
 function getExploreName(){
-    var explorer = window.navigator.userAgent ;
-    var ua = window.navigator.userAgent;
-    var isSafari = ua.indexOf("Safari") != -1 && ua.indexOf("Version") != -1;
+    let explorer = window.navigator.userAgent ;
+    let ua = window.navigator.userAgent;
+    let isSafari = ua.indexOf("Safari") != -1 && ua.indexOf("Version") != -1;
     //判断是否为IE浏览器
     if (explorer.indexOf("MSIE") >= 0) {
         return 'IE';

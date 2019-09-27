@@ -1,8 +1,31 @@
 <template>
-    <div class="contestpage">
-        <div class="mask" v-if="!isBegin"></div>
+    <div id="main" class="contestpage">
+        <div id="canvas" class="mask" v-if="!isBegin">
+            <div class="mask-background"></div>
+            <div class="last-time">{{leftTime | formatTime}}</div>
+            <!--<div class="mask-background"></div>-->
+            <!--<div class='logo'></div>-->
+            <!--<div class='circle1'></div>-->
+            <!--<div class='circle2'></div>-->
+            <!--<div class='circle3'></div>-->
+            <!--<div class='circle4'></div>-->
+            <!--<div class='circle5'></div>-->
+            <!--<div class='circle6'></div>-->
+            <!--<div class='circle7'></div>-->
+            <!--<div class='circle8'></div>-->
+            <!--<div class='circle9'></div>-->
+            <!--<div class='circle10'></div>-->
+            <!--<div class='circle11'></div>-->
+            <!--<div class='circle12'></div>-->
+        </div>
         <div class="top">
-            <label class="tips">点击题号查看题面 Please click problem label to see the detail</label>
+            <div class="top-tips">
+                <label class="countdown-label">
+                    <span id="time-before-end">距离比赛结束还有: {{ '2019-11-23 02:12:45' | formatTime }}</span>
+                    <span id="frozen" v-if="isFrozen">&nbsp;&nbsp;已经封榜</span>
+                </label>
+                <label class="tips">点击题号查看题面 Please click problem label to see the detail</label>
+            </div>
             <table class="problem-status-form"
                    cellspacing="10"
                    cellpadding="12"
@@ -201,7 +224,8 @@
                         author: 'author',
                         time: 27
                     },
-                ]
+                ],
+                leftTime: '2019-09-23 00:00:23'
             }
         },
         computed: {
@@ -214,12 +238,24 @@
                 let now = new Date().getTime();
                 if (now >= begin) return true;
                 return false;
+            },
+            isFrozen: function() {
+                return true;
             }
         },
         filters: {
             formatDate(time) {
-                var date = new Date(time);
+                let date = new Date(time);
                 return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
+            },
+            formatTime(time) {
+                let date = new Date(time);
+                return formatDate(date, 'hh:mm:ss');
+            }
+        },
+        methods: {
+            maskBlur() {
+                // stackBlurImage( 'BgImg', 'canvas', 32,'main' );
             }
         }
     }
@@ -241,10 +277,23 @@
         margin: 0 5px;
     }
 
+    .top-tips {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 3px;
+    }
+
     .tips {
         font-size: 12px;
         font-weight: bold;
         float: right;
+    }
+
+    .countdown-label {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: bold;
+        height: 18px;
     }
 
     /* 布局 */
@@ -257,9 +306,71 @@
         overflow-y: scroll;
     }
 
-    .mask {
+    /* 开赛前毛玻璃波纹效果 */
 
+    .mask {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+        /*filter: blur(3px) opacity(80%);*/
+        /*background: white;*/
+        z-index: 999;
     }
+
+    .mask-background {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+        filter: blur(3px) opacity(80%);
+        background: white;
+        z-index: 1;
+        /*position: absolute;*/
+        /*top: 0;*/
+        /*bottom: 0;*/
+        /*left: 0;*/
+        /*right: 0;*/
+        /*background: linear-gradient(140deg, #338bb8, #336F82);*/
+        /*filter: opacity(90%);*/
+        /*filter: blur(500px);*/
+    }
+
+    .last-time {
+        position: absolute;
+        z-index: 1000;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 120px;
+        font-family: countdown;
+    }
+
+    .logo {
+        z-index: 100;
+        box-sizing: border-box;
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        width: 200px;
+        height: 200px;
+        margin-top: -100px;
+        margin-left: -100px;
+        border-radius: 50%;
+        background: white;
+        border: 20px solid #338bb8;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    /* 毛玻璃波纹 END */
 
     .top {
         width: 80%;

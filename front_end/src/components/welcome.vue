@@ -93,7 +93,7 @@
         width: 100%;
         height: 100%;
         background: rgba(34,33,53,0.85);
-        z-index: 1001;
+        z-index: 3003;
     }
 
     #function-mask {

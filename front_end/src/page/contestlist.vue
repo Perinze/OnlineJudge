@@ -1,7 +1,7 @@
 <template>
     <div class="contestlist">
         <!-- TODO 正在进行 -->
-        <div class="contest-card" v-for="index in 6">
+        <div class="contest-card" v-for="index in items.length">
             <div class="contest-content" @click="goto(items[index-1].link)">
                 <span class="contest-title">{{items[index-1].title}}</span>
                 <span class="contest-sub-title">{{items[index-1].time}}</span>
@@ -19,40 +19,17 @@
             return {
                 items: [
                     {
+                        id: '1000',
                         title: '2019年武汉理工大学第二届新生赛',
                         time: '2019.11.16',
                         link: '1000'
-                    },
-                    {
-                        title: '2019年武汉理工大学第二届新生赛',
-                        time: '2019.11.16',
-                        link: ''
-                    },
-                    {
-                        title: '2019年武汉理工大学第二届新生赛',
-                        time: '2019.11.16',
-                        link: ''
-                    },
-                    {
-                        title: '2019年武汉理工大学第二届新生赛',
-                        time: '2019.11.16',
-                        link: ''
-                    },
-                    {
-                        title: '2019年武汉理工大学第二届新生赛',
-                        time: '2019.11.16',
-                        link: ''
-                    },
-                    {
-                        title: '2019年武汉理工大学第二届新生赛',
-                        time: '2019.11.16',
-                        link: ''
                     },
                 ]
             }
         },
         methods: {
             goto: function(link) {
+                if(link=='')return;
                 this.$router.push('/contest/'+link);
             }
         }
@@ -66,6 +43,7 @@
         height: 100%;
         overflow-x: hidden;
         overflow-y: scroll;
+        padding-left: 25px;
     }
 
     .contest-card {
