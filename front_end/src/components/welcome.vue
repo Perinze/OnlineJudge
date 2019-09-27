@@ -81,7 +81,7 @@
                 // }
             },
             close() {
-                // this.display = false;
+                this.display = false;
             }
         }
     }
@@ -223,6 +223,21 @@
         cursor: pointer;
     }
 
+    .login-button:hover {
+        background:rgba(34,33,53,1);
+        color: white;
+        border: none;
+    }
+
+    .login-button:active {
+        background: rgba(76,75,103,1);
+    }
+
+    .login-button:disabled {
+        background:rgba(38,38,38,0);
+        border:1px solid rgba(174,182,192,1);
+    }
+
     .register-guide {
         position: relative;
         top: 126px;
@@ -250,6 +265,11 @@
         filter: brightness(1.05);
     }
 
+    .register-button:disabled {
+        background:rgba(38,38,38,0);
+        border:1px solid rgba(174,182,192,1);
+    }
+
     .tourist-content {
         position: relative;
         top: 242px;
@@ -267,9 +287,20 @@
 
     .tourist-a {
         position: relative;
-        color: gray;
+        color: #262626;
         cursor: pointer;
         margin-top: 14px;
+        opacity: 0.5;
+    }
+
+    .tourist-a:hover, .tourist-a:active {
+        text-decoration: underline;
+        color: rgba(34,33,53,1);
+        opacity: 1;
+    }
+
+    .tourist-a:disabled {
+        color:rgba(188,188,203,1);
     }
 
     .tourist-intro {
