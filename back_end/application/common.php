@@ -30,6 +30,16 @@ define('BANNED', 0);
 define('USING', 1);
 define('CONTEST', 2);
 define('VALID_TIME', 600);
+
+define('Report_Accepted',0);
+define('Report_WrongAnswer ', 1);
+define('Report_TimeLimitExceeded', 2);
+define('Report_MemoryLimitExceeded', 3);
+define('Report_RuntimeError', 4);
+define('Report_CompileError', 5);
+define('Report_SystemError', 6);
+define('Judging', 9);
+
 // 应用公共文件
 function apiReturn($status, $message, $data=[], $httpCode=200)
 {
@@ -38,4 +48,20 @@ function apiReturn($status, $message, $data=[], $httpCode=200)
         'message' => $message,
         'data'    => $data,
     ], $httpCode);
+}
+
+function post($url, $data = array(), $type = 'text') {
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_POST, true);
+    if (!empty($data)) curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+    if ($type == 'json') curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($data))
+    );
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_HEADER, false);
+    $content = curl_exec($curl);
+    curl_close($curl);
+    return $content;
 }
