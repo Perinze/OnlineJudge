@@ -19,7 +19,7 @@
             >
                 <thead>
                     <tr style="height: 42px;">
-                        <th>排名 Rank</th>
+                        <th class="status-rank" @click="$router.push('/rank/' + contest_info.id)">排名 Rank</th>
                         <th>罚时 Penalty</th>
                         <th v-for="index in contest_info.problems.length"
                             class="problem-head"
@@ -111,6 +111,7 @@
         data() {
             return {
                 contest_info: {
+                    id: 1000,
                     begin_time: '2019-09-29 09:57:30', /*比赛开始时间*/
                     end_time: '2019-09-29 15:46:57',
                     frozen: true,
@@ -233,7 +234,7 @@
         filters: {
             formatDate(time) {
                 let date = new Date(time);
-                return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
+                return formatDate(date, 'yyyy.MM.dd hh:mm:ss')
             }
         },
         created() {
@@ -448,6 +449,16 @@
         /*
             TODO 点击后在提交列表内相应题目记录高亮，再次点击消除
         */
+    }
+
+    .status-rank {
+        color: #338bb8;
+        cursor: pointer;
+    }
+
+    .status-rank:hover {
+        color: #5c8db7;
+        text-decoration: underline;
     }
 
     .see-more {
