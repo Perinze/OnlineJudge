@@ -25,3 +25,19 @@ function padLeftZero(str) {
 }
 
 // 日期格式化 END
+
+// 获取错误全称 BEGIN
+
+export function getWholeErrorName(status) {
+    let res = status.toLowerCase();
+    switch(res) {
+        case "ac": return 'Accept';
+        case "wa": return 'Wrong Answer';
+        case "tle": return 'Time Limit Error';
+        case "mle": return 'Memory Limit Error';
+        case "other": return 'Other Error';
+        default: return 'Unknown Error';
+    }
+}
+
+// 获取错误全称 END

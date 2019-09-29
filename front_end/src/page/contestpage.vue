@@ -36,7 +36,7 @@
                         1000
                     </td>
                     <td v-for="index in contest_info.problems.length" class="problem-status">
-
+                        <status-icon :is-success="true" times="12" />
                     </td>
                 </tr>
             </table>
@@ -54,25 +54,33 @@
                         class="submit-log-list-element submit-log-li"
                     >
                         <i :style="{background: 'radial-gradient(circle, rgba(255,255,255,0) 36%, #' + contest_info.colors[contest_info.problems.indexOf(submit_log[index-1].problem)] + ' 40%)'}"></i>
-                        <div>
-                            <span style="display: block;">
-                                {{contestBeginTime + 1000*submit_log[index-1].submit_time | formatDate}}
-                            </span> <!-- Submit Time -->
-                            <span style="font-weight: bold;" class="log-problem-id">
-                                {{String.fromCharCode(contest_info.problems.indexOf(submit_log[index-1].problem) + 65)}}
-                            </span>
-                            <span class="log-time-used">
-                                {{submit_log[index-1].time_used + 'ms'}}
-                            </span> <!-- Time used -->
-                            <span class="log-mem-used">
-                                {{submit_log[index-1].mem_used + 'Mb'}}
-                            </span> <!-- Memory used -->
-                            <span class="log-language">
-                                {{submit_log[index-1].language}}
-                            </span> <!-- Language -->
-                            <span style="font-weight:bold;" :class="submit_log[index-1].status + '-color'" class="log-status">
-                                {{submit_log[index-1].status.toUpperCase()}}
-                            </span> <!-- Result -->
+                        <div class="log-element">
+                            <div class="log-element-left">
+                                <div class="log-element-left-top">
+                                    <span style="font-weight: bold;" class="log-problem-id">
+                                        {{String.fromCharCode(contest_info.problems.indexOf(submit_log[index-1].problem) + 65)}}
+                                    </span>
+                                    <span style="font-weight:bold;" :class="submit_log[index-1].status + '-color'" class="log-status">
+                                        {{getErrorName(submit_log[index-1].status)}}
+                                    </span> <!-- Result -->
+                                </div>
+                                <div class="log-element-left-bottom">
+                                    <span>
+                                        {{contestBeginTime + 1000*submit_log[index-1].submit_time | formatDate}}
+                                    </span> <!-- Submit Time -->
+                                </div>
+                            </div>
+                            <div class="log-element-right">
+                                <span class="log-time-used">
+                                    {{submit_log[index-1].time_used + 'ms'}}
+                                </span> <!-- Time used -->
+                                <span class="log-mem-used">
+                                    {{submit_log[index-1].mem_used + 'Mb'}}
+                                </span> <!-- Memory used -->
+                                <span class="log-language">
+                                    {{submit_log[index-1].language}}
+                                </span> <!-- Language -->
+                            </div>
                         </div>
                     </li>
                 </ul>
@@ -105,8 +113,11 @@
 
 <script>
     import { formatDate } from "../api/common";
+    import { getWholeErrorName } from "../api/common";
+    import StatusIcon from "../components/status-icon";
 
     export default {
+        components: {StatusIcon},
         name: "contestpage",
         data() {
             return {
@@ -312,6 +323,9 @@
                     }
                     this.leftTime =  obj.hou + ':' + obj.min + ':' + obj.sec;
                 }, 1000);
+            },
+            getErrorName(status) {
+                return getWholeErrorName(status);
             }
         }
     }
@@ -443,6 +457,10 @@
         */
     }
 
+    .problem-head:hover {
+        text-decoration: underline;
+    }
+
     .problem-status {
         cursor: pointer;
         border-left: 1px rgba(0,0,0,.2) dashed;
@@ -464,6 +482,10 @@
     .see-more {
         cursor: pointer;
         margin-top: 5px;
+    }
+
+    .see-more:hover {
+        text-decoration: underline;
     }
 
     .submit-log-list {
@@ -526,6 +548,38 @@
         /*background: linear-gradient(360deg, rgba(100,26,56,.7) 3%, rgba(255,255,255,0)),*/
                     /*linear-gradient(90deg, rgba(255,255,255,0) 100%, rgba(255,255,255,0));*/
     }
+
+    .log-element {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        margin-top: -4px;
+    }
+
+    .log-element-left {
+        display: flex;
+        flex-direction: column;
+        width: 40%;
+    }
+
+    .log-element-left-top {
+        /*height: 20px;*/
+    }
+
+    .log-element-left-bottom {
+        font-size: 10px;
+        height: 13px;
+    }
+
+    .log-element-right {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: space-between;
+        width: 40%;
+        /*font-size: 12px;*/
+    }
+
 
     .discuss-card {
         height: 110px;
