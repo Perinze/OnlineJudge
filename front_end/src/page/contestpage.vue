@@ -2,26 +2,12 @@
     <div id="main" class="contestpage">
         <div id="canvas" class="mask" v-if="!isBegin">
             <div class="mask-background"></div>
-            <div class="last-time">{{leftTime | formatTime}}</div>
-            <!--<div class="mask-background"></div>-->
-            <!--<div class='logo'></div>-->
-            <!--<div class='circle1'></div>-->
-            <!--<div class='circle2'></div>-->
-            <!--<div class='circle3'></div>-->
-            <!--<div class='circle4'></div>-->
-            <!--<div class='circle5'></div>-->
-            <!--<div class='circle6'></div>-->
-            <!--<div class='circle7'></div>-->
-            <!--<div class='circle8'></div>-->
-            <!--<div class='circle9'></div>-->
-            <!--<div class='circle10'></div>-->
-            <!--<div class='circle11'></div>-->
-            <!--<div class='circle12'></div>-->
+            <div class="last-time">{{leftBeforeBegin}}</div>
         </div>
         <div class="top">
             <div class="top-tips">
                 <label class="countdown-label">
-                    <span id="time-before-end">距离比赛结束还有: {{ '2019-11-23 02:12:45' | formatTime }}</span>
+                    <span id="time-before-end">距离比赛结束还有: {{ leftTime }}</span>
                     <span id="frozen" v-if="isFrozen">&nbsp;&nbsp;已经封榜</span>
                 </label>
                 <label class="tips">点击题号查看题面 Please click problem label to see the detail</label>
@@ -125,8 +111,8 @@
         data() {
             return {
                 contest_info: {
-                    begin_time: '2019-09-23 10:46:57', /*比赛开始时间*/
-                    end_time: '2019-09-23 15:46:57',
+                    begin_time: '2019-09-29 09:57:30', /*比赛开始时间*/
+                    end_time: '2019-09-29 15:46:57',
                     frozen: true,
                     problems: [1000,1001,1002,1003,1004,1005,1006,1007,1008,1009,1010,1011,1012],
                     colors: ['924726','8cc590','b2c959','59785a','8e8c13','252b04','ccda06','8044a7','27e298','0cef7c','31f335','67f70e','0ea6ff'],
@@ -225,7 +211,8 @@
                         time: 27
                     },
                 ],
-                leftTime: '2019-09-23 00:00:23'
+                leftBeforeBegin: '00:00:00',
+                leftTime: '00:00:00',
             }
         },
         computed: {
@@ -247,15 +234,83 @@
             formatDate(time) {
                 let date = new Date(time);
                 return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
-            },
-            formatTime(time) {
-                let date = new Date(time);
-                return formatDate(date, 'hh:mm:ss');
             }
         },
+        created() {
+            this.countDownToBegin();
+            this.countDownToEnd();
+        },
         methods: {
-            maskBlur() {
-                // stackBlurImage( 'BgImg', 'canvas', 32,'main' );
+            timeFormat(param) {
+                return param < 10 ? '0' + param : param;
+            },
+            countDownToBegin() {
+                var interval = setInterval(() => {
+                    // 获取当前时间，同时得到活动结束时间数组
+                    let newTime = new Date().getTime();
+                    // 对结束时间进行处理渲染到页面
+                    let beginTime = new Date(this.contest_info.begin_time).getTime();
+                    let obj = null;
+                    // 如果活动未结束，对时间进行处理
+                    if (beginTime - newTime > 0) {
+                        let time = (beginTime - newTime) / 1000;
+                        // 获取天、时、分、秒
+                        let hou = parseInt(time % (60 * 60 * 24) / 3600);
+                        let min = parseInt(time % (60 * 60 * 24) % 3600 / 60);
+                        let sec = parseInt(time % (60 * 60 * 24) % 3600 % 60);
+                        obj = {
+                            hou: this.timeFormat(hou),
+                            min: this.timeFormat(min),
+                            sec: this.timeFormat(sec)
+                        };
+                    } else { // 活动已结束，全部设置为'00'
+                        obj = {
+                            hou: '00',
+                            min: '00',
+                            sec: '00'
+                        };
+                        clearInterval(interval);
+                    }
+                    this.leftBeforeBegin =  obj.hou + ':' + obj.min + ':' + obj.sec;
+                }, 1000);
+            },
+            countDownToEnd() {
+                var interval = setInterval(() => {
+                    // 获取当前时间，同时得到活动结束时间数组
+                    let newTime = new Date().getTime();
+                    // 对结束时间进行处理渲染到页面
+                    let beginTime = new Date(this.contest_info.begin_time).getTime();
+                    let endTime = new Date(this.contest_info.end_time).getTime();
+                    let obj = obj = {
+                        hou: '05',
+                        min: '00',
+                        sec: '00'
+                    };
+                    // 活动开始后才倒计时
+                    if(beginTime < newTime) {
+                        // 如果活动未结束，对时间进行处理
+                        if (endTime - newTime > 0) {
+                            let time = (endTime - newTime) / 1000;
+                            // 获取天、时、分、秒
+                            let hou = parseInt(time % (60 * 60 * 24) / 3600);
+                            let min = parseInt(time % (60 * 60 * 24) % 3600 / 60);
+                            let sec = parseInt(time % (60 * 60 * 24) % 3600 % 60);
+                            obj = {
+                                hou: this.timeFormat(hou),
+                                min: this.timeFormat(min),
+                                sec: this.timeFormat(sec)
+                            };
+                        } else { // 活动已结束，全部设置为'00'
+                            obj = {
+                                hou: '00',
+                                min: '00',
+                                sec: '00'
+                            };
+                            clearInterval(interval);
+                        }
+                    }
+                    this.leftTime =  obj.hou + ':' + obj.min + ':' + obj.sec;
+                }, 1000);
             }
         }
     }
@@ -347,27 +402,13 @@
         right: 0;
         top: 0;
         bottom: 0;
+        padding-bottom: 6%;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 120px;
         font-family: countdown;
-    }
-
-    .logo {
-        z-index: 100;
-        box-sizing: border-box;
-        position: absolute;
-        top: 40%;
-        left: 50%;
-        width: 200px;
-        height: 200px;
-        margin-top: -100px;
-        margin-left: -100px;
-        border-radius: 50%;
-        background: white;
-        border: 20px solid #338bb8;
-        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        width:
     }
 
     /* 毛玻璃波纹 END */

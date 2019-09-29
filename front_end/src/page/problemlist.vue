@@ -10,71 +10,99 @@
 </template>
 
 <script>
+    import { getProblemList } from "../api/getData";
+
     export default {
         name: "problemlist",
         data() {
             return {
                 items: [
-                    {
-                        id: 1000,
-                        status: 'ac',
-                        title: '超级玛丽游戏',
-                        statistics: {
-                            ac: 28,
-                            all: 188
-                        }
-                    },
-                    {
-                        id: 1001,
-                        status: 'wa',
-                        title: 'A+B Problem',
-                        statistics: {
-                            ac: 28,
-                            all: 188
-                        }
-                    },
-                    {
-                        id: 1002,
-                        status: 'tle',
-                        title: '过河卒',
-                        statistics: {
-                            ac: 28,
-                            all: 188
-                        }
-                    },
-                    {
-                        id: 1003,
-                        status: 'mle',
-                        title: '铺地毯',
-                        statistics: {
-                            ac: 28,
-                            all: 188
-                        }
-                    },
-                    {
-                        id: 1004,
-                        status: 'other',
-                        title: '方格取数',
-                        statistics: {
-                            ac: 28,
-                            all: 188
-                        }
-                    },
-                    {
-                        id: 1005,
-                        status: 'un',
-                        title: '矩阵取数游戏',
-                        statistics: {
-                            ac: 28,
-                            all: 188
-                        }
-                    }
+                    // {
+                    //     id: 1000,
+                    //     status: 'ac',
+                    //     title: '超级玛丽游戏',
+                    //     statistics: {
+                    //         ac: 28,
+                    //         all: 188
+                    //     }
+                    // },
+                    // {
+                    //     id: 1001,
+                    //     status: 'wa',
+                    //     title: 'A+B Problem',
+                    //     statistics: {
+                    //         ac: 28,
+                    //         all: 188
+                    //     }
+                    // },
+                    // {
+                    //     id: 1002,
+                    //     status: 'tle',
+                    //     title: '过河卒',
+                    //     statistics: {
+                    //         ac: 28,
+                    //         all: 188
+                    //     }
+                    // },
+                    // {
+                    //     id: 1003,
+                    //     status: 'mle',
+                    //     title: '铺地毯',
+                    //     statistics: {
+                    //         ac: 28,
+                    //         all: 188
+                    //     }
+                    // },
+                    // {
+                    //     id: 1004,
+                    //     status: 'other',
+                    //     title: '方格取数',
+                    //     statistics: {
+                    //         ac: 28,
+                    //         all: 188
+                    //     }
+                    // },
+                    // {
+                    //     id: 1005,
+                    //     status: 'un',
+                    //     title: '矩阵取数游戏',
+                    //     statistics: {
+                    //         ac: 28,
+                    //         all: 188
+                    //     }
+                    // }
                 ]
             }
+        },
+        async mounted() {
+            await this.renderProblemList();
         },
         methods: {
             goto: function(link) {
                 this.$router.push('/problem/'+link);
+            },
+            renderProblemList: async function() {
+                let response = await getProblemList();
+                console.log(response);
+                if(response.code == 0) {
+                    // success
+                    let data = JSON.parse(response.data).content;
+                    data.forEach( (val, index) => {
+                        let res = {
+                            id: val.problem_id,
+                            status: 'un',
+                            title: val.title,
+                            statistics: {
+                                ac: val.ac,
+                                all: val.ac + val.wa
+                            }
+                        };
+                        console.log(res);
+                        this.items.push(res);
+                    });
+                }else{
+                    // error
+                }
             }
         }
     }

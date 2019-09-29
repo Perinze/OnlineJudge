@@ -1,6 +1,6 @@
 <template>
     <div id="side-bar">
-        <welcome :display="true" />
+        <welcome :display="false" />
         <div class="logo">
             <div style="position: relative;top: 9px">
                 <img src="../../assets/media/logo.png">

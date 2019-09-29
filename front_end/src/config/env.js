@@ -3,7 +3,7 @@
  *
  * baseUrl: 请求域名前缀
  */
-let baseUrl = '';
+let baseUrl = 'http://acmwhut.com/api/oj/';
 
 export {
     baseUrl,

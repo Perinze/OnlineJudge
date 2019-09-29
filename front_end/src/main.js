@@ -17,6 +17,36 @@ new Vue({
 }).$mount("#app"); // VueCLI 3.0
 
 
+// 防开发者模式 BEGIN
+
+window.onkeydown = window.onkeyup = window.onkeypress = function(event) {
+    if (event.keyCode = 123) {
+        event.preventDefault();
+        window.event.returnValue = false;
+    }
+};
+
+window.oncontextmenu = function() {
+    // event.preventDefault();
+    // return false;
+};
+
+let threshold = 160;
+window.setInterval(function() {
+    if(window.outerWidth - window.innerWidth > threshold
+        || window.outerHeight - window.innerHeight > threshold
+        //|| (window.console && window.console.log)
+    ) {
+        // alert("Please Close Develop Mode! ");
+        // window.location.reload();
+    }
+},5e3);
+
+// 目前无法防止提前打开浮动窗口模式的开发者窗口
+
+// 防开发者模式 END
+
+
 
 window.onload = function() {
     let bodyWidth = document.body.clientWidth;

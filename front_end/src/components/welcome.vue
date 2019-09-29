@@ -27,7 +27,7 @@
                     <button class="register-button" @click="call('register')">Sign up</button>
                     <div class="tourist-content">
                         <span class="tourist-guide">如果您还未准备好注册账户，可以选择</span>
-                        <a class="tourist-a">继续以游客模式访问</a>
+                        <a class="tourist-a" title="暂不可用" disabled>继续以游客模式访问</a>
                         <span class="tourist-intro">您仍可以浏览页面，但个别功能无法使用</span>
                     </div>
                 </div>
