@@ -35,7 +35,9 @@
                     <td>
                         1000
                     </td>
-                    <td v-for="index in contest_info.problems.length" class="problem-status">
+                    <td v-for="index in contest_info.problems.length"
+                        class="problem-status"
+                    >
                         <status-icon :is-success="true" times="12" />
                     </td>
                 </tr>

@@ -16,7 +16,9 @@
                     <td v-for="index in contest_info.problems.length">{{String.fromCharCode(index+64)}}</td>
                 </tr>
             </thead>
-            <tr class="rank-form-element" v-for="index in rank_info.length">
+            <tr class="rank-form-element"
+                v-for="index in rank_info.length"
+            >
                 <td>{{rank_info[index-1].rank}}</td>
                 <td>{{rank_info[index-1].nick}}</td>
                 <td>{{rank_info[index-1].acNum}}</td>
@@ -39,7 +41,8 @@
             return {
                 contest_info: {
                     title: '',
-                    problems: [0,1,2,3,4,5,6,7,8,9]
+                    problems: [0,1,2,3,4,5,6,7,8,9],
+                    prize: [2,3,4],
                 },
                 rank_info: [
                     {
@@ -1226,7 +1229,19 @@
             }
         },
         methods: {
-
+            getStatus: function(rank) {
+                // rank begin from 1
+                if(rank <= this.contest_info.prize[0]) {
+                    return 1; // 金奖
+                }
+                if(rank <= this.contest_info.prize[1]) {
+                    return 2; // 银奖
+                }
+                if(rank <= this.contest_info.prize[2]) {
+                    return 3; // 铜奖
+                }
+                return 4; // 打铁
+            }
         },
         computed: {
             contest_id: function() {
@@ -1239,7 +1254,7 @@
 <style scoped>
     .contest-rank {
         position: relative;
-
+        padding-left: 24px;
     }
 
     .rank-form {

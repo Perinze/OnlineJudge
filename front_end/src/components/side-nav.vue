@@ -56,6 +56,22 @@
         <div id="menu-footer" align="center">
             <span class="menu-footer-content" style="font-size: 14px;font-weight: 300;">ACM@WUT</span>
             <span class="menu-footer-content" style="font-size: 10px;font-weight: 200;">©2019 WUT ACM Developer</span>
+            <div hidden>
+                ********
+
+                WUT OnlineJudge 的所有贡献者
+
+                王熠弘（2017 级）：业务逻辑、OnlineJudge 前端页面、主页
+                李劲巍（2017 级）：业务逻辑、 及部分评测核心对接任务
+                曾嘉豪（2017 级）：项目运维及评测核心对接任务
+                黄 融（2018 级）：评测核心及其对接任务
+                郑文伟（2017 级）：WUTOJ 的设计工作
+                周景尧（2017 级）：OnlineJudge 前端页面
+                冷 瑜（2016 级）：Python 爬虫部分
+                刘福鑫（2017 级）：主页
+
+                ********
+            </div>
         </div>
     </div>
 </template>
