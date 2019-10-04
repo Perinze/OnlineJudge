@@ -8,7 +8,10 @@ use app\oj\model\ContestModel;
 use app\oj\validate\ContestValidate;
 use think\Controller;
 use think\facade\Session;
-
+// 指定允许其他域名访问
+header('Access-Control-Allow-Origin:*');
+// 响应类型
+header('Access-Control-Request-Methods:*');
 class Contest extends Controller
 {
     /**

@@ -10,7 +10,10 @@ use app\oj\model\RankCacheModel;
 use app\oj\model\SubmitModel;
 use app\oj\model\UserModel;
 use think\Controller;
-
+// 指定允许其他域名访问
+header('Access-Control-Allow-Origin:*');
+// 响应类型
+header('Access-Control-Request-Methods:*');
 class Rank extends Controller
 {
     // TODO 更新逻辑可以有多个排序规则

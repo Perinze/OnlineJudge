@@ -14,7 +14,10 @@ use app\oj\validate\GroupValidate;
 use think\Controller;
 use think\facade\Session;
 use think\response\Json;
-
+// 指定允许其他域名访问
+header('Access-Control-Allow-Origin:*');
+// 响应类型
+header('Access-Control-Request-Methods:*');
 class Group extends Controller
 {
 

@@ -13,7 +13,10 @@ use app\oj\model\NoticeModel;
 use app\oj\model\RotationModel;
 use app\oj\model\SubmitlogModel;
 use think\Controller;
-
+// 指定允许其他域名访问
+header('Access-Control-Allow-Origin:*');
+// 响应类型
+header('Access-Control-Request-Methods:*');
 class Index extends Controller
 {
     public function notice()

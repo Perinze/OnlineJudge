@@ -12,7 +12,10 @@ use app\oj\model\UserModel;
 use app\oj\validate\UserValidate;
 use custom\Mailer;
 use think\facade\Session;
-
+// 指定允许其他域名访问
+header('Access-Control-Allow-Origin:*');
+// 响应类型
+header('Access-Control-Request-Methods:*');
 class Login
 {
     public function do_login() {

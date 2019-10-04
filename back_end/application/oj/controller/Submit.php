@@ -15,7 +15,10 @@ use app\oj\model\ProblemModel;
 use app\oj\model\SubmitModel;
 use app\oj\validate\SubmitValidate;
 use think\facade\Session;
-
+// 指定允许其他域名访问
+header('Access-Control-Allow-Origin:*');
+// 响应类型
+header('Access-Control-Request-Methods:*');
 class Submit extends Base
 {
     public function get_submit_info()
