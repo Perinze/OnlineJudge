@@ -14,6 +14,7 @@ use think\Controller;
 header('Access-Control-Allow-Origin:*');
 // 响应类型
 header('Access-Control-Request-Methods:*');
+header('Access-Control-Allow-Headers:x-requested-with,content-type');
 class Rank extends Controller
 {
     // TODO 更新逻辑可以有多个排序规则

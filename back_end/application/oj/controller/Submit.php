@@ -19,6 +19,7 @@ use think\facade\Session;
 header('Access-Control-Allow-Origin:*');
 // 响应类型
 header('Access-Control-Request-Methods:*');
+header('Access-Control-Allow-Headers:x-requested-with,content-type');
 class Submit extends Base
 {
     public function get_submit_info()
