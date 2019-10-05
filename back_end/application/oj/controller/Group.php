@@ -13,12 +13,13 @@ use app\oj\model\UsergroupModel;
 use app\oj\validate\GroupValidate;
 use think\Controller;
 use think\facade\Session;
-use think\response\Json;
+
 // 指定允许其他域名访问
 header('Access-Control-Allow-Origin:*');
 // 响应类型
 header('Access-Control-Request-Methods:*');
 header('Access-Control-Allow-Headers:x-requested-with,content-type');
+
 class Group extends Controller
 {
 
@@ -29,11 +30,12 @@ class Group extends Controller
         $resp = $group_model->get_all_group();
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
+
     public function user_get_all_group()
     {
         $usergroup_model = new UsergroupModel();
         $session = Session::get('user_id');
-        if(empty($session)){
+        if (empty($session)) {
             return apiReturn(CODE_ERROR, '未登录', '');
         }
         $resp = $usergroup_model->find_group($session['id']);
@@ -47,7 +49,7 @@ class Group extends Controller
         $group_model = new GroupModel();
         $req = input('post');
         $result = $group_validate->scene('get_the_group')->check($req);
-        if($result !== true){
+        if ($result !== true) {
             return apiReturn(CODE_ERROR, $group_validate->getError(), '');
         }
         $resp = $usergroup_model->find_user($req['group_id']);
@@ -63,12 +65,12 @@ class Group extends Controller
         $group_validate = new GroupValidate();
         $group_model = new GroupModel();
         $session = Session::get('user_id');
-        if(empty($session)){
+        if (empty($session)) {
             return apiReturn(CODE_ERROR, '未登录', '');
         }
         $req = input('post.');
         $result = $group_validate->scene('add_group')->check($req);
-        if($result !== true){
+        if ($result !== true) {
             return apiReturn(CODE_ERROR, $group_validate->getError(), '');
         }
         $resp = $group_model->newGroup(array(
@@ -84,12 +86,12 @@ class Group extends Controller
         $group_validate = new GroupValidate();
         $usergroup_model = new UsergroupModel();
         $session = Session::get('user_id');
-        if(empty($session)){
+        if (empty($session)) {
             return apiReturn(CODE_ERROR, '未登录', '');
         }
         $req = input('post.');
         $result = $group_validate->scene('join_group')->check($req);
-        if($result !== true){
+        if ($result !== true) {
             return apiReturn(CODE_ERROR, $group_validate->getError(), '');
         }
         // TODO 申请逻辑，若无需审核直接添加，若需审核，加入提醒数据表
@@ -102,12 +104,12 @@ class Group extends Controller
         $group_validate = new GroupValidate();
         $usergroup_model = new UsergroupModel();
         $session = Session::get('user_id');
-        if(empty($session)){
+        if (empty($session)) {
             return apiReturn(CODE_ERROR, '未登录', '');
         }
         $req = input('post.');
         $result = $group_validate->scene('out_group')->check($req);
-        if($result !== true){
+        if ($result !== true) {
             return apiReturn(CODE_ERROR, $group_validate->getError(), '');
         }
         $resp = $usergroup_model->deleRelation($req['group_id'], $session['user_id']);
@@ -120,19 +122,19 @@ class Group extends Controller
         $usergroup_model = new UsergroupModel();
         $group_model = new GroupModel();
         $session = Session::get('user_id');
-        if(empty($session)){
+        if (empty($session)) {
             return apiReturn(CODE_ERROR, '未登录', '');
         }
         $req = input('post.');
         $result = $group_validate->scene('accept_group')->check($req);
-        if($result !== true){
+        if ($result !== true) {
             return apiReturn(CODE_ERROR, $group_validate->getError(), '');
         }
         $resp = $group_model->get_the_group($req['group_id']);
-        if($resp['code'] !== CODE_SUCCESS){
+        if ($resp['code'] !== CODE_SUCCESS) {
             return apiReturn($resp['code'], $resp['msg'], $resp['data']);
         }
-        if($resp['data']['group_creator'] !== $session['user_id']){// TODO 团队管理员权限
+        if ($resp['data']['group_creator'] !== $session['user_id']) {// TODO 团队管理员权限
             return apiReturn(CODE_ERROR, '你没有权限', '');
         }
         $resp = $usergroup_model->addRelation($req['group_id'], $req['user_id']);

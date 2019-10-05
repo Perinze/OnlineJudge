@@ -18,9 +18,9 @@ class SubmitlogModel extends Model
 
     public function add_log($data)
     {
-        try{
+        try {
             $info = $this->strict(false)->insert($data);
-            if($info != true){
+            if ($info != true) {
                 return ['code' => CODE_ERROR, 'msg' => '添加失败', 'data' => ''];
             }
             return ['code' => CODE_SUCCESS, 'msg' => '添加成功', 'data' => $info];
@@ -31,9 +31,9 @@ class SubmitlogModel extends Model
 
     public function get_the_log()
     {
-        try{
+        try {
             $info = $this->whereTime('time', '-96 hours')->select();
-            if($info == false){
+            if ($info == false) {
                 return ['code' => CODE_ERROR, 'msg' => '查询失败', 'data' => ''];
             }
             return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $info->toArray()];
@@ -44,9 +44,9 @@ class SubmitlogModel extends Model
 
     public function get_all_log()
     {
-        try{
+        try {
             $info = $this->whereTime('time', '>', '1900-01-01')->select();
-            if($info == false){
+            if ($info == false) {
                 return ['code' => CODE_ERROR, 'msg' => '查询失败', 'data' => ''];
             }
             return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $info->toArray()];

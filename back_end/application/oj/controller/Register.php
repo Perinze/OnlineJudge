@@ -11,22 +11,25 @@ namespace app\oj\controller;
 use app\oj\model\UserModel;
 use app\oj\validate\UserValidate;
 use think\Controller;
+
 // 指定允许其他域名访问
 header('Access-Control-Allow-Origin:*');
 // 响应类型
 header('Access-Control-Request-Methods:*');
 header('Access-Control-Allow-Headers:x-requested-with,content-type');
+
 class Register extends Controller
 {
-    public function register() {
+    public function register()
+    {
         $req = input('post.');
         $user_validate = new UserValidate();
         $user_model = new UserModel();
         $result = $user_validate->scene('register')->check($req);
-        if($result != VALIDATE_PASS) {
+        if ($result != VALIDATE_PASS) {
             return apiReturn(CODE_ERROR, $user_validate->getError(), '');
         }
-        if($req['password'] !== $req['password_check']){
+        if ($req['password'] !== $req['password_check']) {
             return apiReturn(CODE_ERROR, '两次输入密码不一致', '');
         }
         $resp = $user_model->addUser(array(
@@ -42,6 +45,6 @@ class Register extends Controller
             'wa_problem' => json_encode(array()),
             'submit_data' => json_encode(array()),
         ));
-        return apiReturn($resp['code'],$resp['msg'],$resp['data']);
+        return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 }

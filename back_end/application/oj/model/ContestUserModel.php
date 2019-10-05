@@ -20,7 +20,21 @@ class ContestUserModel extends Model
             } else {
                 return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => ''];
             }
-        } catch (Exception $e){
+        } catch (Exception $e) {
+            return ['code' => CODE_PARAM_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];
+        }
+    }
+
+    public function addInfo($contest_id, $user_id)
+    {
+        try{
+            $info = $this->insert(['contest_id' => $contest_id, 'user_id' => $user_id]);
+            if($info === false){
+                return ['code' => CODE_ERROR, 'msg' => '参加失败，请重试', 'data' => ''];
+            } else {
+                return ['code' => CODE_SUCCESS, 'msg' => '参加成功', 'data' => ''];
+            }
+        } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];
         }
     }

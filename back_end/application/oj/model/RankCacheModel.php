@@ -11,11 +11,13 @@ use think\Model;
 class RankCacheModel extends Model
 {
     protected $cache_time;
+
     public function __construct($data = [])
     {
         parent::__construct($data);
         $this->cache_time = Cache::get('wutoj_cache.rank_cache_time');
     }
+
     public function set_rank_cache($data, $contest_id)
     {
         try {
@@ -32,9 +34,9 @@ class RankCacheModel extends Model
 
     public function get_rank_cache($contest_id)
     {
-        try{
+        try {
             $ok = Cache::store('rank')->get($contest_id);
-            if(!$ok){
+            if (!$ok) {
                 return ['code' => CODE_ERROR, 'msg' => '获取排行榜失败', 'data' => ''];
             } else {
                 return ['code' => CODE_SUCCESS, 'msg' => '获取排行榜成功', 'data' => $ok];

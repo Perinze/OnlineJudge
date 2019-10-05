@@ -5,14 +5,17 @@ namespace app\oj\controller;
 
 
 use app\oj\model\ContestModel;
+use app\oj\model\ContestUserModel;
 use app\oj\validate\ContestValidate;
 use think\Controller;
 use think\facade\Session;
+
 // 指定允许其他域名访问
 header('Access-Control-Allow-Origin:*');
 // 响应类型
 header('Access-Control-Request-Methods:*');
 header('Access-Control-Allow-Headers:x-requested-with,content-type');
+
 class Contest extends Controller
 {
     /**
@@ -34,7 +37,7 @@ class Contest extends Controller
         $contest_validate = new ContestValidate();
         $req = input('post.');
         $result = $contest_validate->scene('getTheContest')->check($req);
-        if($result !== true){
+        if ($result !== true) {
             return apiReturn(CODE_ERROR, $contest_validate->getError(), '');
         }
         $resp = $contest_model->searchContest($req['id']);
@@ -50,7 +53,7 @@ class Contest extends Controller
         $contest_validate = new ContestValidate();
         $req = input('post.');
         $result = $contest_validate->scene('searchContest')->check($req);
-        if($result !== true){
+        if ($result !== true) {
             return apiReturn(CODE_ERROR, $contest_validate->getError(), '');
         }
         $resp = $contest_model->searchContest($req['contest_name']);
@@ -65,15 +68,15 @@ class Contest extends Controller
         $contest_model = new ContestModel();
         $contest_validate = new ContestValidate();
         $session = Session::get('user_id');
-        if(empty($session)){
+        if (empty($session)) {
             return apiReturn(CODE_ERROR, '未登录', '');
         }
-        if($session['identity'] !== ADMINISTRATOR){
+        if ($session['identity'] !== ADMINISTRATOR) {
             return apiReturn(CODE_ERROR, '权限不足', '');
         }
         $req = input('post.');
         $result = $contest_validate->scene('newContest')->check($req);
-        if($result !== true){
+        if ($result !== true) {
             return apiReturn(CODE_ERROR, $contest_validate->getError(), '');
         }
         $resp = $contest_model->newContest(array(
@@ -94,15 +97,15 @@ class Contest extends Controller
         $contest_model = new ContestModel();
         $contest_validate = new ContestValidate();
         $session = Session::get('user_id');
-        if(empty($session)){
+        if (empty($session)) {
             return apiReturn(CODE_ERROR, '未登录', '');
         }
-        if($session['identity'] !== ADMINISTRATOR){
+        if ($session['identity'] !== ADMINISTRATOR) {
             return apiReturn(CODE_ERROR, '权限不足', '');
         }
         $req = input('post.');
         $result = $contest_validate->scene('deleteContest')->check($req);
-        if($result !== true){
+        if ($result !== true) {
             return apiReturn(CODE_ERROR, $contest_validate->getError(), '');
         }
         $resp = $contest_model->deleContest($req['contest_id']);
@@ -117,15 +120,15 @@ class Contest extends Controller
         $contest_model = new ContestModel();
         $contest_validate = new ContestValidate();
         $session = Session::get('user_id');
-        if(empty($session)){
+        if (empty($session)) {
             return apiReturn(CODE_ERROR, '未登录', '');
         }
-        if($session['identity'] !== ADMINISTRATOR){
+        if ($session['identity'] !== ADMINISTRATOR) {
             return apiReturn(CODE_ERROR, '权限不足', '');
         }
         $req = input('post.');
         $result = $contest_validate->scene('updateContest')->check($req);
-        if($result !== true){
+        if ($result !== true) {
             return apiReturn(CODE_ERROR, $contest_validate->getError(), '');
         }
         $resp = $contest_model->editContest($req['contest_id'], array(
@@ -144,6 +147,27 @@ class Contest extends Controller
      */
     public function joinContest()
     {
-        // TODO 逻辑
+        $contest_user_model = new ContestUserModel();
+        $contest_model = new ContestModel();
+        $contest_validate = new ContestValidate();
+        $req = input('post.');
+        $result = $contest_validate->scene('searchContest')->check($req);
+        if ($result !== true) {
+            return apiReturn(CODE_ERROR, $contest_validate->getError(), '');
+        }
+        $user_id = Session::get('user_id');
+        if (empty($user_id)) {
+            return apiReturn(CODE_ERROR, '未登录', '');
+        }
+        $contest_id = $req['contest_id'];
+        $resp = $contest_model->searchContest($contest_id);
+        if($resp['code'] !== CODE_SUCCESS){
+            return apiReturn($resp['code'], $resp['msg'], $resp['data']);
+        }
+        $resp = $contest_user_model->searchUser($contest_id, $user_id);
+        if($resp['code'] === CODE_ERROR){
+            $resp = $contest_user_model->addInfo($contest_id, $user_id);
+        }
+        return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 }

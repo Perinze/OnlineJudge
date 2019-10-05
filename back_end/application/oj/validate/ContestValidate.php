@@ -5,11 +5,13 @@
  * Date: 2019/2/27
  * Time: 下午10:07
  */
+
 namespace app\oj\validate;
 
 use think\Validate;
 
-class ContestValidate extends Validate {
+class ContestValidate extends Validate
+{
     // TODO 添加
     protected $rule = [
         'contest_id' => 'require|number',

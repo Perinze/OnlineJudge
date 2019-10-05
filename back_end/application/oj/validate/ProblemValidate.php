@@ -5,11 +5,13 @@
  * Date: 2019/2/27
  * Time: 下午10:12
  */
+
 namespace app\oj\validate;
 
 use think\Validate;
 
-class ProblemValidate extends Validate {
+class ProblemValidate extends Validate
+{
 
     // TODO fill in
 
@@ -34,6 +36,6 @@ class ProblemValidate extends Validate {
         'displayProblem' => ['problem_id'],
         'search' => ['search'],
         'newProblem' => ['title', 'background', 'describe'],
-        'editProblem' => ['problem_id','title', 'background', 'describe'],
+        'editProblem' => ['problem_id', 'title', 'background', 'describe'],
     ];
 }

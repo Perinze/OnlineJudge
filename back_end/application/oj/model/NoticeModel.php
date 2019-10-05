@@ -15,11 +15,12 @@ use think\Model;
 class NoticeModel extends Model
 {
     protected $table = 'notice';
+
     public function add_notice($data)
     {
-        try{
+        try {
             $info = $this->strict(false)->insert($data);
-            if($info != true){
+            if ($info != true) {
                 return ['code' => CODE_ERROR, 'msg' => '添加失败', 'data' => ''];
             }
             return ['code' => CODE_SUCCESS, 'msg' => '添加成功', 'data' => $info];
@@ -30,42 +31,42 @@ class NoticeModel extends Model
 
     public function delete_notice($id)
     {
-        try{
+        try {
             if (!$this->where('id', $id)->find()) {
                 return ['code' => USERNAME_IS_EXIST, 'msg' => '该公告不存在', 'data' => $this->getError()];
             }
             $info = $this->where('id', $id)->delete();
-            if($info != true){
+            if ($info != true) {
                 return ['code' => CODE_ERROR, 'msg' => '删除失败', 'data' => ''];
             }
             return ['code' => CODE_SUCCESS, 'msg' => '删除成功', 'data' => $info];
-        } catch (Exception $e){
+        } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => ''];
         }
     }
 
     public function get_all_notice()
     {
-        try{
+        try {
             $info = $this->where([['begintime', '< time', time()], ['endtime', '> time', time()]])->select();
-            if($info != true){
+            if ($info != true) {
                 return ['code' => CODE_ERROR, 'msg' => '查询失败', 'data' => ''];
             }
             return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $info->toArray()];
-        } catch (Exception $e){
+        } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => ''];
         }
     }
 
     public function get_the_notice($id)
     {
-        try{
+        try {
             $info = $this->where('id', $id)->find();
-            if(empty($info)){
+            if (empty($info)) {
                 return ['code' => CODE_ERROR, 'msg' => '查询失败', 'data' => ''];
             }
             return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $info];
-        } catch (Exception $e){
+        } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => ''];
         }
     }
