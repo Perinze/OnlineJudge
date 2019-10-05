@@ -14,13 +14,10 @@ namespace think;
 
 // 加载基础文件
 require __DIR__ . '/../thinkphp/base.php';
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization");
+header('Access-Control-Allow-Methods: GET, POST, PUT,DELETE,OPTIONS,PATCH');
 
-if($_SERVER['REQUEST_METHOD'] == 'OPTIONS'){
-		header("Access-Control-Allow-Origin: *");
-		header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization");
-		header('Access-Control-Allow-Methods: GET, POST, PUT,DELETE,OPTIONS,PATCH');
-    exit;
-}
 // 支持事先使用静态方法设置Request对象和Config对象
 
 // 执行应用并响应
