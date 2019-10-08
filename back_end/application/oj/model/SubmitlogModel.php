@@ -32,7 +32,7 @@ class SubmitlogModel extends Model
     public function get_the_log()
     {
         try {
-            $info = $this->whereTime('time', '-96 hours')->select();
+            $info = $this->whereTime('time', '-312 hours')->select();
             if ($info == false) {
                 return ['code' => CODE_ERROR, 'msg' => '查询失败', 'data' => ''];
             }
