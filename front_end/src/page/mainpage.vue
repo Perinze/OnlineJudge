@@ -6,8 +6,9 @@
         <div class="mainpage-content" align="center">
             <div class="main-carousel">
                 <el-carousel :interval="7500" type="card" height="250px" trigger="click">
-                    <el-carousel-item v-for="item in 3" :key="item">
-                        <h3>{{ item }}</h3>
+                    <el-carousel-item v-for="item in carouselItem.length" :key="item">
+                        <!--<h3>{ item }</h3>-->
+                        <div class="carousel-img" :style="{background: 'url('+ item.url +')'}"></div>
                     </el-carousel-item>
                 </el-carousel>
             </div>
@@ -17,13 +18,13 @@
                     <div style="width: 55px;flex: 1 1 auto;"></div>
                     <statistics-card
                             title="提交量"
-                            num="24,587,987"
+                            :num="histogramData.sumData.submit | stdNum"
                     >
                     </statistics-card>
                     <div style="width: 59px;"></div>
                     <statistics-card
                             title="通过量"
-                            num="12,453,566"
+                            :num="histogramData.sumData.ac | stdNum"
                     >
                     </statistics-card>
                     <div style="width: 59px;"></div>
@@ -39,11 +40,12 @@
                 <div class="block-title">Contest</div>
                 <div class="main-contest-list-content">
                     <contest-card
-                            v-for="index in 30"
-                            v-bind:key="index"
-                            contest-nick="大学生程序设计竞赛"
+                            v-for="index in contestData.length"
+                            :key="index"
+                            :contest-nick="contestData[index-1].title"
                             contest-type="ACM"
-                            contest-num="2,244"
+                            :contest-num="contestData[index-1].contestantNum | stdNum"
+                            @click="goto('/contest/'+contestData[index-1].id)"
                     >
                     </contest-card>
                 </div>
@@ -53,12 +55,108 @@
 </template>
 
 <script>
-    import contestCard from "../components/contest-card"
-    import statisticsCard from "../components/main-statistics-card"
+    import contestCard from "../components/contest-card";
+    import statisticsCard from "../components/main-statistics-card";
+    import { getCarousel, getDailydata, getContestList } from "../api/getData";
 
     export default {
         name: "mainpage",
-        components: { statisticsCard, contestCard }
+        components: { statisticsCard, contestCard },
+        data() {
+            return {
+                carouselItem: [
+                    // {
+                    //     url: ''
+                    // }
+                ],
+                histogramData: {
+                    sumData: {
+                        ac: 12453566,
+                        submit: 24587987
+                    },
+                    dailyData: [
+                        // {
+                        //     time: '',
+                        //     ac: '',
+                        //     submit: ''
+                        // }
+                    ]
+                },
+                contestData: [
+                    // {
+                    //     id: 1000,
+                    //     title: '',
+                    //     contestantNum: 2244
+                    // }
+                ]
+            }
+        },
+        methods: {
+            renderCarousel: async function() {
+                let response = await getCarousel();
+                if(response.status == 0) {
+                    // success
+                    let data = response.data;
+                    data.forEach((val, index) => {
+                        if(val.status == 1) {
+                            let res = {
+                                url: val.url
+                            };
+                            this.carouselItem.push(res);
+                        }
+                    });
+                }else{
+                    // error
+                }
+            },
+            renderHistogram: async function() {
+                let response = await getDailydata();
+                if(response.status == 0) {
+                    let data = response.data;
+                    data.forEach((val, index) => {
+                        this.histogramData.dailyData.push(val);
+                    });
+                    console.log(this.histogramData);
+                }else{
+
+                }
+            },
+            renderContest: async function() {
+                let response = await getContestList();
+                if(response.status == 0) {
+                    let data = response.data;
+                    data.forEach((val, index) => {
+                        let res = {
+                            id: val.contesnt_id,
+                            title: val.contest_name,
+                            contestantNum: 2244
+                        };
+                        this.contestData.push(res);
+                    });
+                }else{
+
+                }
+            },
+            goto(link) {
+                this.$router.push(link);
+            }
+        },
+        async mounted() {
+            this.renderCarousel();
+            this.renderHistogram();
+            this.renderContest();
+        },
+        filters: {
+            stdNum: function(num) {
+                var num = (num || 0).toString(), result = '';
+                while (num.length > 3) {
+                    result = ',' + num.slice(-3) + result;
+                    num = num.slice(0, num.length - 3);
+                }
+                if (num) { result = num + result; }
+                return result;
+            }
+        }
     }
 </script>
 

@@ -2,9 +2,9 @@
     <div class="contestlist">
         <!-- TODO 正在进行 -->
         <div class="contest-card" v-for="index in items.length">
-            <div class="contest-content" @click="goto(items[index-1].link)">
+            <div class="contest-content" @click="goto(items[index-1].id)">
                 <span class="contest-title">{{items[index-1].title}}</span>
-                <span class="contest-sub-title">{{items[index-1].time}}</span>
+                <span class="contest-sub-title">{{items[index-1].time | timeFilter}}</span>
             </div>
         </div>
         <!-- TODO 即将到来 -->
@@ -13,24 +13,49 @@
 </template>
 
 <script>
+    import { getContestList } from "../api/getData";
+
     export default {
         name: "contestpage",
         data() {
             return {
                 items: [
-                    {
-                        id: '1000',
-                        title: '2019年武汉理工大学第二届新生赛',
-                        time: '2019.11.16',
-                        link: '1000'
-                    },
+                    // {
+                    //     id: '1000',
+                    //     title: '2019年武汉理工大学第二届新生赛',
+                    //     time: '2019.11.16 test',
+                    // },
                 ]
             }
         },
         methods: {
+            renderList: async function() {
+                let response = await getContestList();
+                if(response.status == 0) {
+                    let data = response.data;
+                    data.forEach((val, index) => {
+                        let res = {
+                            id: val.contesnt_id.toString(),
+                            title: val.contest_name,
+                            time: val.begin_time
+                        };
+                        this.contestData.push(res);
+                    });
+                }else{
+                    // console.log('here');
+                }
+            },
             goto: function(link) {
                 if(link=='')return;
                 this.$router.push('/contest/'+link);
+            }
+        },
+        async mounted() {
+            this.renderList();
+        },
+        filters: {
+            timeFilter: function(val) {
+                return val.slice(0, val.indexOf(' '));
             }
         }
     }

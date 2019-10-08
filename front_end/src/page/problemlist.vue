@@ -83,10 +83,9 @@
             },
             renderProblemList: async function() {
                 let response = await getProblemList();
-                console.log(response);
-                if(response.code == 0) {
+                if(response.status == 0) {
                     // success
-                    let data = JSON.parse(response.data).content;
+                    let data = response.data;
                     data.forEach( (val, index) => {
                         let res = {
                             id: val.problem_id,
@@ -97,7 +96,6 @@
                                 all: val.ac + val.wa
                             }
                         };
-                        console.log(res);
                         this.items.push(res);
                     });
                 }else{
