@@ -22,7 +22,7 @@ class ContestModel extends Model
     {
         try {
             if ($contest_id === 0 && $contest_name === '') {
-                $content = $this->where('state', '<>', 0)->select()->toArray();
+                $content = $this->where('status', '<>', 0)->select()->toArray();
                 return ['code' => CODE_SUCCESS, 'msg' => '查找成功', 'data' => $content];
             } else if ($contest_id !== 0) {
                 $content = $this->where('contest_id', $contest_id)->find();
