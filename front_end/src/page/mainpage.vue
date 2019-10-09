@@ -6,9 +6,8 @@
         <div class="mainpage-content" align="center">
             <div class="main-carousel">
                 <el-carousel :interval="7500" type="card" height="250px" trigger="click">
-                    <el-carousel-item v-for="item in carouselItem.length" :key="item">
-                        <!--<h3>{ item }</h3>-->
-                        <div class="carousel-img" :style="{background: 'url('+ item.url +')'}"></div>
+                    <el-carousel-item v-for="index in carouselItem.length" :key="index">
+                        <img class="carousel-img" :src="carouselItem[index-1].url" width="615px" height="250px">
                     </el-carousel-item>
                 </el-carousel>
             </div>
@@ -19,12 +18,14 @@
                     <statistics-card
                             title="提交量"
                             :num="histogramData.sumData.submit | stdNum"
+                            :predata="histogramSubmit"
                     >
                     </statistics-card>
                     <div style="width: 59px;"></div>
                     <statistics-card
                             title="通过量"
                             :num="histogramData.sumData.ac | stdNum"
+                            :predata="histogramAC"
                     >
                     </statistics-card>
                     <div style="width: 59px;"></div>
@@ -45,7 +46,8 @@
                             :contest-nick="contestData[index-1].title"
                             contest-type="ACM"
                             :contest-num="contestData[index-1].contestantNum | stdNum"
-                            @click="goto('/contest/'+contestData[index-1].id)"
+                            :contest-id="contestData[index-1].id"
+                            style="cursor: pointer;"
                     >
                     </contest-card>
                 </div>
@@ -102,9 +104,12 @@
                             let res = {
                                 url: val.url
                             };
+                            // console.log(res);
                             this.carouselItem.push(res);
+                        }else{
                         }
                     });
+                    // console.log(this.carouselItem);
                 }else{
                     // error
                 }
@@ -116,7 +121,7 @@
                     data.forEach((val, index) => {
                         this.histogramData.dailyData.push(val);
                     });
-                    console.log(this.histogramData);
+                    // console.log(this.histogramData);
                 }else{
 
                 }
@@ -127,7 +132,7 @@
                     let data = response.data;
                     data.forEach((val, index) => {
                         let res = {
-                            id: val.contesnt_id,
+                            id: val.contest_id,
                             title: val.contest_name,
                             contestantNum: 2244
                         };
@@ -136,12 +141,9 @@
                 }else{
 
                 }
-            },
-            goto(link) {
-                this.$router.push(link);
             }
         },
-        async mounted() {
+        async created() {
             this.renderCarousel();
             this.renderHistogram();
             this.renderContest();
@@ -155,6 +157,30 @@
                 }
                 if (num) { result = num + result; }
                 return result;
+            }
+        },
+        computed: {
+            histogramAC() {
+                var ans = [];
+                this.histogramData.dailyData.forEach( (val, index) => {
+                    let res = {
+                        time: val.time,
+                        num: val.ac
+                    };
+                    ans.push(res);
+                });
+                return ans;
+            },
+            histogramSubmit() {
+                var ans = [];
+                this.histogramData.dailyData.forEach( (val, index) => {
+                    let res = {
+                        time: val.time,
+                        num: val.submit
+                    };
+                    ans.push(res);
+                });
+                return ans;
             }
         }
     }

@@ -8,7 +8,15 @@
                 <span class="statistics-percent"></span>
             </span>
         </div>
-        <div class="statistics-card-graph">
+        <div class="statistics-card-graph" v-if="predata.length === 13">
+            <div
+                    class="graph-item"
+                    v-for="index in 13"
+                    v-bind:key="index"
+                    :style="{height: ((predata[13-index].num - numMin)/(numMax - numMin+1)*42+2) +'px'}"
+            ></div>
+        </div>
+        <div class="statistics-card-graph" v-else>
             <div
                     class="graph-item"
                     v-for="index in 13"
@@ -22,7 +30,45 @@
 <script>
     export default {
         name: "main-statistics-card",
-        props: [ 'title', 'num', 'predata']
+        props: {
+            title: {
+                type: String,
+                default: 'Title'
+            },
+            num: {
+                type: Number,
+                default: 0
+            },
+            predata: {
+                type: Array,
+                default: [
+                    {
+                        time: '',
+                        num: 0
+                    }
+                ]
+            }
+        },
+        computed: {
+            numMax() {
+                var ans = 0;
+                this.predata.forEach( (val, index) => {
+                    if(val.num > ans) {
+                        ans = val.num;
+                    }
+                });
+                return ans;
+            },
+            numMin() {
+                var ans = 9999999;
+                this.predata.forEach( (val, index) => {
+                    if(val.num < ans) {
+                        ans = val.num;
+                    }
+                });
+                return ans;
+            }
+        }
     }
 </script>
 

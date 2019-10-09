@@ -1,5 +1,5 @@
 <template>
-    <div class="contest-card">
+    <div class="contest-card" v-on:click="gotoLink('/contest/'+contestId)">
         <div class="contest-card-info">
             <div class="contest-type">{{contestType}}</div>
             <div class="contest-nick">{{contestNick}}</div>
@@ -11,7 +11,12 @@
 <script>
     export default {
         name: "contest-card",
-        props: [ 'contestType', 'contestNick', 'contestNum' ]
+        props: [ 'contestId', 'contestType', 'contestNick', 'contestNum' ],
+        methods: {
+            gotoLink(link) {
+                this.$router.push(link);
+            }
+        }
     }
 </script>
 

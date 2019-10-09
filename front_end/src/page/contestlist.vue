@@ -4,7 +4,7 @@
         <div class="contest-card" v-for="index in items.length">
             <div class="contest-content" @click="goto(items[index-1].id)">
                 <span class="contest-title">{{items[index-1].title}}</span>
-                <span class="contest-sub-title">{{items[index-1].time | timeFilter}}</span>
+                <span class="contest-sub-title">{{items[index-1].begin_time + ' — ' + items[index-1].end_time}}</span>
             </div>
         </div>
         <!-- TODO 即将到来 -->
@@ -23,7 +23,8 @@
                     // {
                     //     id: '1000',
                     //     title: '2019年武汉理工大学第二届新生赛',
-                    //     time: '2019.11.16 test',
+                    //     begin_time: '2019.11.16 test',
+                    //     end_time: '2019.11.16 test',
                     // },
                 ]
             }
@@ -33,13 +34,16 @@
                 let response = await getContestList();
                 if(response.status == 0) {
                     let data = response.data;
+                    // console.log(data);
                     data.forEach((val, index) => {
                         let res = {
-                            id: val.contesnt_id.toString(),
+                            id: val.contest_id.toString(),
                             title: val.contest_name,
-                            time: val.begin_time
+                            begin_time: val.begin_time,
+                            end_time: val.end_time,
                         };
-                        this.contestData.push(res);
+                        // console.log(res);
+                        this.items.push(res);
                     });
                 }else{
                     // console.log('here');
