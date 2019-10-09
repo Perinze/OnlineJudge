@@ -92,8 +92,8 @@
                             status: 'un',
                             title: val.title,
                             statistics: {
-                                ac: val.ac,
-                                all: val.ac + val.wa
+                                ac: new Number(val.ac),
+                                all: new Number(val.ac) + new Number(val.wa)
                             }
                         };
                         this.items.push(res);

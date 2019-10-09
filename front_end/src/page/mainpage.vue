@@ -7,7 +7,11 @@
             <div class="main-carousel">
                 <el-carousel :interval="7500" type="card" height="250px" trigger="click">
                     <el-carousel-item v-for="index in carouselItem.length" :key="index">
-                        <img class="carousel-img" :src="carouselItem[index-1].url" width="615px" height="250px">
+                        <img class="carousel-img"
+                             :src="carouselItem[index-1].url" width="615px" height="250px"
+                             :alt="carouselItem[index-1].title"
+                             :title="carouselItem[index-1].title"
+                        >
                     </el-carousel-item>
                 </el-carousel>
             </div>
@@ -102,6 +106,7 @@
                     data.forEach((val, index) => {
                         if(val.status == 1) {
                             let res = {
+                                title: val.title,
                                 url: val.url
                             };
                             // console.log(res);

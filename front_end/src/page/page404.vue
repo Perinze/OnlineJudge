@@ -43,4 +43,10 @@
         font-size: 20px;
         /*font-weight: bold;*/
     }
+
+    @media screen and (max-height: 700px) {
+        .page404 {
+            padding-bottom: 80px;
+        }
+    }
 </style>
