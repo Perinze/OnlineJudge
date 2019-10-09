@@ -8,7 +8,7 @@
                 <el-carousel :interval="7500" type="card" height="250px" trigger="click">
                     <el-carousel-item v-for="index in carouselItem.length" :key="index">
                         <img class="carousel-img"
-                             :src="carouselItem[index-1].url" width="615px" height="250px"
+                             :src="carouselItem[index-1].url"                            
                              :alt="carouselItem[index-1].title"
                              :title="carouselItem[index-1].title"
                         >
@@ -227,6 +227,11 @@
     .el-carousel__item:nth-child(2n+1) {
         background-color: #d3dce6;
         border-radius: 10px;
+    }
+
+    .carousel-img {
+    	width: 100%;
+    	height: 250px;
     }
 
     /*element-ui carousel END*/
