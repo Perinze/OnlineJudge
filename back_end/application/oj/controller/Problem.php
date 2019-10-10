@@ -10,6 +10,7 @@ namespace app\oj\controller;
 
 use app\oj\model\CommonModel;
 use app\oj\model\ProblemModel;
+use app\oj\model\SampleModel;
 use app\oj\validate\ProblemValidate;
 use think\Controller;
 
@@ -32,14 +33,20 @@ class Problem extends Controller
         $req = input('post.');
         $problem_validate = new ProblemValidate();
         $problem_model = new ProblemModel();
+        $sample_model = new SampleModel();
         $result = $problem_validate->scene('displayProblem')->check($req);
         if ($result !== VALIDATE_PASS) {
             return apiReturn(CODE_ERROR, $problem_validate->getError(), '');
         }
         $resp = $problem_model->searchProblemById($req['problem_id']);
-        if (!empty($resp['data']['status']) && $resp['data']['status'] === USING) {
+        if (empty($resp['data']['status']) || $resp['data']['status'] !== USING) {
             return apiReturn($resp['code'], '题目不可用', '');
         }
+        $sample = $sample_model->searchSampleByProblemID($req['problem_id']);
+        if($sample['code'] !== CODE_SUCCESS){
+            return apiReturn($sample['code'], $sample['msg'], '');
+        }
+        $resp['data']['sample'] = $sample['data'];
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
@@ -55,7 +62,6 @@ class Problem extends Controller
         }
         $resp1 = $problem_model->searchProblemById($req['search']);
         $resp2 = $problem_model->searchProblemByTitle($req['search']);
-        $i = 0;
         if ($resp1['code'] !== CODE_SUCCESS && $resp2['code'] !== CODE_SUCCESS) {
             return apiReturn(CODE_ERROR, '查询失败', '');
         }
