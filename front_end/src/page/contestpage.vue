@@ -125,10 +125,11 @@
         data() {
             return {
                 contest_info: {
-                    id: 1000,
+                    id: this.$route.params.id,
+                    title: '',
                     begin_time: '2019-09-29 09:57:30', /*比赛开始时间*/
                     end_time: '2019-09-29 15:46:57',
-                    frozen: true,
+                    frozen: 0.2,
                     problems: [1000,1001,1002,1003,1004,1005,1006,1007,1008,1009,1010,1011,1012],
                     colors: ['924726','8cc590','b2c959','59785a','8e8c13','252b04','ccda06','8044a7','27e298','0cef7c','31f335','67f70e','0ea6ff'],
                 },
@@ -339,7 +340,12 @@
                 });
                 if(response.status == 0) {
                     let data = response.data;
-                    console.log(data);
+                    this.contest_info.title = data.contest_name;
+                    this.contest_info.begin_time = data.begin_ime;
+                    this.contest_info.end_time = data.end_time;
+                    this.contest_info.frozen = data.frozen;
+                    this.contest_info.problems = data.problems;
+                    this.contest_info.colors = data.colors;
                 }else{
 
                 }
