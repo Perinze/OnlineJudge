@@ -117,6 +117,7 @@
     import { formatDate } from "../api/common";
     import { getWholeErrorName } from "../api/common";
     import StatusIcon from "../components/status-icon";
+    import { getContest } from "../api/getData";
 
     export default {
         components: {StatusIcon},
@@ -132,98 +133,98 @@
                     colors: ['924726','8cc590','b2c959','59785a','8e8c13','252b04','ccda06','8044a7','27e298','0cef7c','31f335','67f70e','0ea6ff'],
                 },
                 submit_log: [
-                    {
-                        runid: 21063965,
-                        problem: 1000,
-                        submit_time: 12, /* 比赛开始后的秒数*/
-                        time_used: 234, /*毫秒数*/
-                        mem_used: 2.54,
-                        language: 'cpp',
-                        status: 'ac',
-                    },
-                    {
-                        runid: 21063965,
-                        problem: 1000,
-                        submit_time: 12, /* 比赛开始后的秒数*/
-                        time_used: 234, /*毫秒数*/
-                        mem_used: 2.54,
-                        language: 'cpp',
-                        status: 'wa',
-                    },
-                    {
-                        runid: 21063965,
-                        problem: 1005,
-                        submit_time: 12, /* 比赛开始后的秒数*/
-                        time_used: 2000, /*毫秒数*/
-                        mem_used: 2.54,
-                        language: 'cpp',
-                        status: 'tle',
-                    },
-                    {
-                        runid: 21063965,
-                        problem: 1010,
-                        submit_time: 12, /* 比赛开始后的秒数*/
-                        time_used: 2, /*毫秒数*/
-                        mem_used: 2.54,
-                        language: 'cpp',
-                        status: 'wa',
-                    },
-                    {
-                        runid: 21063965,
-                        problem: 1000,
-                        submit_time: 12, /* 比赛开始后的秒数*/
-                        time_used: 234, /*毫秒数*/
-                        mem_used: 2.54,
-                        language: 'cpp',
-                        status: 'ac',
-                    },
-                    {
-                        runid: 21063965,
-                        problem: 1000,
-                        submit_time: 12, /* 比赛开始后的秒数*/
-                        time_used: 234, /*毫秒数*/
-                        mem_used: 2.54,
-                        language: 'cpp',
-                        status: 'wa',
-                    },
-                    {
-                        runid: 21063965,
-                        problem: 1005,
-                        submit_time: 12, /* 比赛开始后的秒数*/
-                        time_used: 2000, /*毫秒数*/
-                        mem_used: 2.54,
-                        language: 'cpp',
-                        status: 'tle',
-                    },
-                    {
-                        runid: 21063965,
-                        problem: 1010,
-                        submit_time: 12, /* 比赛开始后的秒数*/
-                        time_used: 2, /*毫秒数*/
-                        mem_used: 2.54,
-                        language: 'cpp',
-                        status: 'wa',
-                    },
+                    // {
+                    //     runid: 21063965,
+                    //     problem: 1000,
+                    //     submit_time: 12, /* 比赛开始后的秒数*/
+                    //     time_used: 234, /*毫秒数*/
+                    //     mem_used: 2.54,
+                    //     language: 'cpp',
+                    //     status: 'ac',
+                    // },
+                    // {
+                    //     runid: 21063965,
+                    //     problem: 1000,
+                    //     submit_time: 12, /* 比赛开始后的秒数*/
+                    //     time_used: 234, /*毫秒数*/
+                    //     mem_used: 2.54,
+                    //     language: 'cpp',
+                    //     status: 'wa',
+                    // },
+                    // {
+                    //     runid: 21063965,
+                    //     problem: 1005,
+                    //     submit_time: 12, /* 比赛开始后的秒数*/
+                    //     time_used: 2000, /*毫秒数*/
+                    //     mem_used: 2.54,
+                    //     language: 'cpp',
+                    //     status: 'tle',
+                    // },
+                    // {
+                    //     runid: 21063965,
+                    //     problem: 1010,
+                    //     submit_time: 12, /* 比赛开始后的秒数*/
+                    //     time_used: 2, /*毫秒数*/
+                    //     mem_used: 2.54,
+                    //     language: 'cpp',
+                    //     status: 'wa',
+                    // },
+                    // {
+                    //     runid: 21063965,
+                    //     problem: 1000,
+                    //     submit_time: 12, /* 比赛开始后的秒数*/
+                    //     time_used: 234, /*毫秒数*/
+                    //     mem_used: 2.54,
+                    //     language: 'cpp',
+                    //     status: 'ac',
+                    // },
+                    // {
+                    //     runid: 21063965,
+                    //     problem: 1000,
+                    //     submit_time: 12, /* 比赛开始后的秒数*/
+                    //     time_used: 234, /*毫秒数*/
+                    //     mem_used: 2.54,
+                    //     language: 'cpp',
+                    //     status: 'wa',
+                    // },
+                    // {
+                    //     runid: 21063965,
+                    //     problem: 1005,
+                    //     submit_time: 12, /* 比赛开始后的秒数*/
+                    //     time_used: 2000, /*毫秒数*/
+                    //     mem_used: 2.54,
+                    //     language: 'cpp',
+                    //     status: 'tle',
+                    // },
+                    // {
+                    //     runid: 21063965,
+                    //     problem: 1010,
+                    //     submit_time: 12, /* 比赛开始后的秒数*/
+                    //     time_used: 2, /*毫秒数*/
+                    //     mem_used: 2.54,
+                    //     language: 'cpp',
+                    //     status: 'wa',
+                    // },
                 ],
                 discusses: [
-                    {
-                        problem: 1001,
-                        title: 'title',
-                        author: 'author',
-                        time: 23
-                    },
-                    {
-                        problem: 1001,
-                        title: 'title',
-                        author: 'author',
-                        time: 27
-                    },
-                    {
-                        problem: 1005,
-                        title: 'title',
-                        author: 'author',
-                        time: 27
-                    },
+                    // {
+                    //     problem: 1001,
+                    //     title: 'title',
+                    //     author: 'author',
+                    //     time: 23
+                    // },
+                    // {
+                    //     problem: 1001,
+                    //     title: 'title',
+                    //     author: 'author',
+                    //     time: 27
+                    // },
+                    // {
+                    //     problem: 1005,
+                    //     title: 'title',
+                    //     author: 'author',
+                    //     time: 27
+                    // },
                 ],
                 leftBeforeBegin: '00:00:00',
                 leftTime: '00:00:00',
@@ -253,6 +254,9 @@
         created() {
             this.countDownToBegin();
             this.countDownToEnd();
+        },
+        async mounted() {
+            this.renderContestInfo();
         },
         methods: {
             timeFormat(param) {
@@ -328,6 +332,17 @@
             },
             getErrorName(status) {
                 return getWholeErrorName(status);
+            },
+            renderContestInfo: async function() {
+                let response = await getContest({
+                    contest_id: this.$route.params.id
+                });
+                if(response.status == 0) {
+                    let data = response.data;
+                    console.log(data);
+                }else{
+
+                }
             }
         }
     }

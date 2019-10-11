@@ -51,18 +51,18 @@
                     input_sample: '这里是输入格式描述',
                     output_sample: '这里是输出格式描述',
                     example: [
-                        {
-                            input: '这里是样例输入#1',
-                            output: '这里是样例输出#1'
-                        },
-                        {
-                            input: '这里是样例输入#2',
-                            output: '这里是样例输出#2'
-                        },
-                        {
-                            input: '这里是样例输入#3',
-                            output: '这里是样例输出#3'
-                        }
+                        // {
+                        //     input: '这里是样例输入#1',
+                        //     output: '这里是样例输出#1'
+                        // },
+                        // {
+                        //     input: '这里是样例输入#2',
+                        //     output: '这里是样例输出#2'
+                        // },
+                        // {
+                        //     input: '这里是样例输入#3',
+                        //     output: '这里是样例输出#3'
+                        // }
                     ],
                     hint: '这里是hint'
                 }
@@ -84,6 +84,9 @@
                     this.problem_info.input_sample = data.input_format;
                     this.problem_info.output_sample = data.output_format;
                     this.problem_info.hint = data.hint;
+                    data.sample.forEach( (val, index) => {
+                    	this.problem_info.example.push(val);
+                    });
                 }else{
 
                 }

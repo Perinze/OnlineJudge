@@ -11,7 +11,7 @@ null
 
 ``` json
 {
-    "code": 0,//0-success, -1-error
+    "status": 0,//0-success, -1-error
     "msg": "查找成功",
     "data": {
         0: {
@@ -48,7 +48,7 @@ null
 
 ```json
 {
-    "id": 1000
+    "contest_id": 1000
 }
 ```
 
@@ -56,7 +56,7 @@ null
 
 ``` json
 {
-    "code": 0,//0-success, -1-error
+    "status": 0,//0-success, -1-error
     "msg": "查找成功",
     "data": {
         "contest_id": 1000,
@@ -91,7 +91,7 @@ null
 
 ``` json
 {
-    "code": 0,//0-success, -1-error
+    "status": 0,//0-success, -1-error
     "msg": "查找成功",
     "data": {
         "contest_id": 0,
@@ -129,7 +129,7 @@ null
 
 ``` json
 {
-    "code": 0,//0-success, -1-error
+    "status": 0,//0-success, -1-error
     "msg": "新增比赛成功",
     "data": ""
 }
@@ -149,7 +149,7 @@ null
 
 ``` json
 {
-    "code": 0,//0-success, -1-error
+    "status": 0,//0-success, -1-error
     "msg": "删除比赛成功",
     "data": ""
 }
@@ -177,7 +177,7 @@ null
 
 ``` json
 {
-    "code": 0,//0-success, -1-error
+    "status": 0,//0-success, -1-error
     "msg": "更新比赛成功",
     "data": ""
 }
@@ -197,7 +197,7 @@ null
 
 ``` json
 {
-    "code": 0,//0-success, -1-error
+    "status": 0,//0-success, -1-error
     "msg": "查询成功",
     "data": {
         "group_id": 0,
@@ -219,7 +219,7 @@ null
 
 ``` json
 {
-    "code": 0,//0-success, -1-error
+    "status": 0,//0-success, -1-error
     "msg": "查询成功",
     "data": {
         "group_id": 0,
@@ -245,7 +245,7 @@ null
 
 ``` json
 {
-    "code": 0,//0-success, -1-error
+    "status": 0,//0-success, -1-error
     "msg": "查询成功",
     "data": {
         "user": {
@@ -300,7 +300,7 @@ null
 
 ``` json
 {
-    "code": 0,//0-success, -1-error
+    "status": 0,//0-success, -1-error
     "msg": "查询成功",
     "data": {
         "user": {
@@ -382,7 +382,7 @@ null
 
 ``` json
 {
-    "code": 0,//0-success, -1-error
+    "status": 0,//0-success, -1-error
     "msg": "查询成功",
     "data": ""
 }
@@ -402,7 +402,7 @@ null
 
 ``` json
 {
-    "code": 0,//0-success, -1-error
+    "status": 0,//0-success, -1-error
     "msg": "加入成功",
     "data": ""
 }
@@ -422,7 +422,7 @@ null
 
 ``` json
 {
-    "code": 0,//0-success, -1-error
+    "status": 0,//0-success, -1-error
     "msg": "退出成功",
     "data": ""
 }
@@ -443,7 +443,7 @@ null
 
 ``` json
 {
-    "code": 0,//0-success, -1-error
+    "status": 0,//0-success, -1-error
     "msg": "操作成功",
     "data": ""
 }
@@ -460,7 +460,7 @@ null
 
 ``` json
 {
-    "code": 0,//0-success, -1-error
+    "status": 0,//0-success, -1-error
     "msg": "操作成功",
     "data": {
         0:{
@@ -484,7 +484,7 @@ null
 
 ``` json
 {
-    "code": 0,//0-success, -1-error
+    "status": 0,//0-success, -1-error
     "msg": "操作成功",
     "data": {
         0:{
@@ -506,7 +506,7 @@ null
 
 ``` json
 {
-    "code": 0,//0-success, -1-error
+    "status": 0,//0-success, -1-error
     "msg": "操作成功",
     "data": {
         0:{
@@ -535,7 +535,7 @@ null
 
 ``` json
 {
-    "code": 0,//0-success, -1-error
+    "status": 0,//0-success, -1-error
     "msg": "登录成功",
     "data": ""
 }
@@ -564,7 +564,7 @@ null
 
 ``` json
 {
-    "code": 0,//0-success, -1-error
+    "status": 0,//0-success, -1-error
     "msg": "发送成功",
     "data": ""
 }
@@ -582,7 +582,7 @@ null
 
 ``` json
 {
-    "code": 0,//0-success, -1-error
+    "status": 0,//0-success, -1-error
     "msg": "操作成功",
     "data": {
         0: {
@@ -617,7 +617,7 @@ null
 
 ``` json
 {
-    "code": 0,//0-success, -1-error
+    "status": 0,//0-success, -1-error
     "msg": "操作成功",
     "data": {
         "problem_id": 1,
@@ -649,7 +649,7 @@ null
 
 ``` json
 {
-    "code": 0,//0-success, -1-error
+    "status": 0,//0-success, -1-error
     "msg": "操作成功",
     "data": {
         0: {
@@ -693,7 +693,7 @@ null
 
 ``` json
 {
-    "code": 0,//0-success, -1-error
+    "status": 0,//0-success, -1-error
     "msg": "添加成功",
     "data": ""
 }
@@ -723,7 +723,7 @@ null
 
 ``` json
 {
-    "code": 0,//0-success, -1-error
+    "status": 0,//0-success, -1-error
     "msg": "修改成功",
     "data": ""
 }
@@ -761,7 +761,7 @@ null
 
 ``` json
 {
-    "code": 0,//0-success, -1-error
+    "status": 0,//0-success, -1-error
     "msg": "注册成功",
     "data": ""
 }
