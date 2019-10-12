@@ -3,7 +3,7 @@
         <topnav :topnavOpacity="topnavOpacity" />
         <sidenav ref="sidenav" />
         <div class="layout-content" ref="parent">
-            <keep-alive>
+            <keep-alive exclude="temp-problem-detail,consteatpage,contest-rank,discusslist,discussdetail,submitpage,submitdetail">
                 <router-view id="combox" class="combox" />
             </keep-alive>
         </div>

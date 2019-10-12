@@ -74,7 +74,7 @@
         methods: {
             renderProblemDetail: async function() {
                 let response = await getProblem({
-                    problem_id: this.$route.params.id
+                    problem_id: new Number(this.$route.params.id)
                 });
                 if(response.status == 0) {
                     let data = response.data;

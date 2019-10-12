@@ -58,7 +58,7 @@ window.onload = function() {
     if(bodyHeight>bodyWidth || !IsPC()) {
         alert("本系统不支持移动端");
     }else if(bodyWidth<1280 || bodyHeight<660) {
-        alert("由于您的网页分辨率过低，该系统暂不支持您的设备");
+        // alert("由于您的网页分辨率过低，该系统暂不支持您的设备");
     }else if(allowUA.indexOf(exploreName) === -1) {
         alert("本网站暂不支持您的浏览器");
     }
