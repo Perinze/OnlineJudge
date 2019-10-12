@@ -56,7 +56,7 @@
         <div id="menu-footer" align="center">
             <span class="menu-footer-content" style="font-size: 14px;font-weight: 300;">ACM@WUT</span>
             <span class="menu-footer-content" style="font-size: 10px;font-weight: 200;">©2019 WUT ACM Developer</span>
-            <div hidden>
+            <div id="surprise" hidden>
                 ********
 
                 WUT OnlineJudge 的所有贡献者

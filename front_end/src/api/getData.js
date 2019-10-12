@@ -31,7 +31,11 @@ export const getCarousel = () => fetch('/Index/rotation');
 
 export const getDailydata = () => fetch('/Index/data');
 
+/**
+ * 获取PV数据（百度统计API）
+ */
 
+export const getPvData = () => fetch('https://api.baidu.com/json/tongji/v1/ReportService/getData');
 
 
 // 题目逻辑
