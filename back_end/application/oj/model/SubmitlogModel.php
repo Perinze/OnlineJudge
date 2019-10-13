@@ -45,11 +45,13 @@ class SubmitlogModel extends Model
     public function get_all_log()
     {
         try {
-            $info = $this->whereTime('time', '>', '1900-01-01')->select();
-            if ($info == false) {
-                return ['code' => CODE_ERROR, 'msg' => '查询失败', 'data' => ''];
-            }
-            return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $info->toArray()];
+            $ac = $this->whereTime('time', '>', '1900-01-01')->sum('ac');
+            $data = $this->whereTime('time', '>', '1900-01-01')->sum('submit');
+            $info = array(
+                'ac' => $ac,
+                'submit' => $data,
+            );
+            return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $info];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getTrace()];
         }

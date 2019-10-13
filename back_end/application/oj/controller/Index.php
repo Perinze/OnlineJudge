@@ -35,6 +35,8 @@ class Index extends Controller
     {
         $submitlog_model = new SubmitlogModel();
         $resp = $submitlog_model->get_the_log();
+        $data = $submitlog_model->get_all_log();
+        $resp['data'][] = $data['data'];
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
