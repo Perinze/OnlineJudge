@@ -14,8 +14,9 @@ let baseUrl = 'http://acmwhut.com/api/oj/';
  * baidu_site_id: 站点id
  */
 
-let baidu_site_id = '';
+let baidu_site_id = '14001473';
 
 export {
     baseUrl,
+    baidu_site_id,
 }

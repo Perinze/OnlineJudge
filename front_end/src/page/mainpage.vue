@@ -63,7 +63,13 @@
 <script>
     import contestCard from "../components/contest-card";
     import statisticsCard from "../components/main-statistics-card";
-    import { getCarousel, getDailydata, getContestList } from "../api/getData";
+    import { baidu_site_id } from "../config/env";
+    import {
+        getCarousel,
+        getDailydata,
+        getContestList,
+        getPvData
+    } from "../api/getData";
 
     export default {
         name: "mainpage",
@@ -87,6 +93,9 @@
                         //     submit: ''
                         // }
                     ]
+                },
+                histogramPV: {
+
                 },
                 contestData: [
                     // {
@@ -146,12 +155,30 @@
                 }else{
 
                 }
+            },
+            renderPV: async function() {
+                let response = await getPvData({
+                    site_id: baidu_site_id,
+                    method: 'trend/time/a',
+                    start_date: '20191010',
+                    end_date: '20191011',
+                    metrics: 'pv_count',
+                    max_results: 13,
+                    gran: 'day'
+                },{
+                    account_type: 1,
+                    password: "dtymw999124723",
+                    token: "你的token",
+                    username: "long4664030@163.com"
+                });
+                console.log(response);
             }
         },
         async created() {
             this.renderCarousel();
             this.renderHistogram();
             this.renderContest();
+            this.renderPV();
         },
         filters: {
             stdNum: function(num) {

@@ -1,8 +1,12 @@
 import { baseUrl } from './env'
 
-export default async function(url = '', method = 'GET', data = {} ){
+export default async function(url = '', method = 'GET', data = {}, headers = {} ){
     // method大写
     method = method.toUpperCase();
+    // headers处理
+    let header_data = headers;
+    header_data['Accept'] = 'application/json';
+    header_data['Content-Type'] = 'application/json';
     // 区分站内外API地址
     if(url.indexOf('https://') == -1) {
         // 站内API
@@ -17,10 +21,7 @@ export default async function(url = '', method = 'GET', data = {} ){
     let requestConfig = {
         credentials: 'include',
         method: method,
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
+        headers: header_data,
         mode: "cors",
         cache: "force-cache"
     };

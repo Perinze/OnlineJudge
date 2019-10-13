@@ -3,8 +3,14 @@
         <!-- TODO 正在进行 -->
         <div class="contest-card" v-for="index in items.length">
             <div class="contest-content" @click="goto(items[index-1].id)">
-                <span class="contest-title">{{items[index-1].title}}</span>
-                <span class="contest-sub-title">{{items[index-1].begin_time + ' — ' + items[index-1].end_time}}</span>
+                <div class="content-words">
+                    <span class="contest-title">{{items[index-1].title}}</span>
+                    <span class="contest-sub-title">{{items[index-1].begin_time + ' — ' + items[index-1].end_time}}</span>
+                </div>
+                <div class="function-btn-group">
+                    <!--disabled-->
+                    <button class="join has-join">已经报名</button>
+                </div>
             </div>
         </div>
         <!-- TODO 即将到来 -->
@@ -117,5 +123,53 @@
         position: relative;
         top: 25px;
         left: 30px;
+    }
+
+    .content-words {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .function-btn-group {
+        margin-top: 50px;
+        width: 100%;
+    }
+
+    .join {
+        /*left: 70%;*/
+        /*position: relative;*/
+        /*top: 95px;*/
+        /*left: 58px;*/
+        position: absolute;
+        height: 40px;
+        width: 120px;
+        border:2px solid rgba(250, 250, 250, 1);
+        box-shadow:0 3px 15px rgba(38, 38, 38, 0);
+        background: rgba(38,38,38,0.3);
+        border-radius: 5px;
+        font-weight: bold;
+        color: white;
+        cursor: pointer;
+        right: 25px;
+        left: auto;
+    }
+
+    .can-join {
+
+    }
+
+    .can-join:hover {
+        text-decoration: underline;
+    }
+
+    .cant-join {
+        text-decoration: none;
+        border:2px solid rgba(188, 188, 188, 1);
+        color: rgba(188, 188, 188, 1);
+    }
+
+    .has-join {
+        border:2px solid rgba(45, 183, 183, 1);
+        color: rgba(45, 183, 183, 1);
     }
 </style>

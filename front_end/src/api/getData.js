@@ -35,7 +35,7 @@ export const getDailydata = () => fetch('/Index/data');
  * 获取PV数据（百度统计API）
  */
 
-export const getPvData = () => fetch('https://api.baidu.com/json/tongji/v1/ReportService/getData');
+export const getPvData = (data, header) => fetch('https://api.baidu.com/json/tongji/v1/ReportService/getData', 'post', data ,header);
 
 
 // 题目逻辑
