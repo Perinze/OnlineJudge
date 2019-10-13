@@ -90,7 +90,7 @@
             <div class="discuss-list">
                 <span class="title">
                     讨论板 Discuss list
-                    <span class="see-more tips">点我查看更多, 提问问题</span>
+                    <span class="see-more tips" @click="$router.push('/discuss/'+contest_info.id)">点我查看更多, 提问问题</span>
                 </span>
                 <!-- TODO 改成卡片样式 -->
                 <ol>
