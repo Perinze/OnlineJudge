@@ -42,6 +42,7 @@ class Login extends Controller
             // 验证成功，session分配
             session('user_id', $result['data']['user_id']);
             session('nick', $result['data']['nick']);
+            session('identity', $result['data']['identity']);
         }
         return apiReturn($result['code'], $result['msg'], $result['data']);
     }
