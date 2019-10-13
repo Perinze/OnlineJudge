@@ -2,14 +2,6 @@
     <div class="welcome" v-if="display">
         <div id="function-mask" @click="close"></div>
         <div class="welcome-main" ref="card">
-            <!--<div id="bezier-background">-->
-                <!--<svg width="883px" height="580px" xmlns="http://www.w3.org/2000/svg" version="1.1">-->
-                    <!--<path d="M0,360 C 235,340 328,70 883,280" stroke='blue' stroke-width='2' fill='none' />-->
-                    <!--<path d="M0,300 C 380,175 400,460 883,340" stroke='blue' stroke-width='2' fill='none' />-->
-                    <!--<path d="M0,360 C 230,345 328,70 883,280" stroke='blue' stroke-width='2' fill='none' />-->
-                    <!--<path d="M0,360 C 230,345 328,70 883,280" stroke='blue' stroke-width='2' fill='none' />-->
-                <!--</svg>-->
-            <!--</div>-->
             <div class="welcome-view">
                 <div class="welcome-view-content">
                     <span class="welcome-title">欢迎</span>
@@ -19,24 +11,54 @@
                 </div>
             </div>
             <div class="welcome-interact">
-                <div class="welcome-interact-guide fade-in-out" ref="default">
-                    <span class="login-guide-1">我们将引导您完成注册步骤</span>
-                    <span class="login-guide-2">如果您已有账户可以选择：</span>
-                    <button class="login-button" @click="call('login')">Login</button>
-                    <span class="register-guide">点击下方"Sign up"按钮即可开始注册</span>
-                    <button class="register-button" @click="call('register')">Sign up</button>
-                    <div class="tourist-content">
-                        <span class="tourist-guide">如果您还未准备好注册账户，可以选择</span>
-                        <a class="tourist-a" title="暂不可用" disabled>继续以游客模式访问</a>
-                        <span class="tourist-intro">您仍可以浏览页面，但个别功能无法使用</span>
+                <transition name="fadeinteract" mode="out-in">
+                    <div class="welcome-interact-guide welcome-interact-element" v-if="activeInteract == 'default'" key="default">
+                        <span class="login-guide-1">我们将引导您完成注册步骤</span>
+                        <span class="login-guide-2">如果您已有账户可以选择：</span>
+                        <button class="login-button" @click="activeInteract = 'login'">Login</button>
+                        <span class="register-guide">点击下方"Sign up"按钮即可开始注册</span>
+                        <button class="register-button" @click="activeInteract = 'register'">Sign up</button>
+                        <div class="tourist-content">
+                            <span class="tourist-guide">如果您还未准备好注册账户，可以选择</span>
+                            <a class="tourist-a" title="暂不可用" disabled>继续以游客模式访问</a>
+                            <span class="tourist-intro">您仍可以浏览页面，但个别功能无法使用</span>
+                        </div>
                     </div>
-                </div>
-                <!--<div class="welcome-interact-login fade-in-out" ref="login">-->
-                    <!--login-->
-                <!--</div>-->
-                <!--<div class="welcome-interact-register fade-in-out" ref="register">-->
-                    <!--register-->
-                <!--</div>-->
+                    <div class="welcome-interact-login welcome-interact-element" v-if="activeInteract == 'login'" key="login">
+                        <div class="backward-btn" @click="activeInteract = 'default'">
+                            <img src="../../assets/icon/backward.svg" width="23" height="23" alt="backward">
+                        </div>
+                        <div class="login-icon"></div>
+                        <div class="function-input-group">
+                            <div class="info-input-container">
+                                <img src="">
+                                <input class="info-input"
+                                       type="text"
+                                       placeholder="Account"
+                                >
+                            </div>
+                            <div class="info-input-container">
+                                <img src="">
+                                <input class="info-input"
+                                       :type="[seePass?'text':'password']"
+                                       placeholder="Password"
+                                >
+                                <!--查看密码-->
+                                <img :src="[seePass?icons.eyeHide:icons.eye]" height="25" @click="seePass = !seePass">
+                            </div>
+                            <button class="do-login-btn">Log in</button>
+                            <div class="forget-passwd-btn">
+                                <!--<span>忘记密码</span>-->
+                                <span>Forget Password</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="welcome-interact-register welcome-interact-element" v-if="activeInteract == 'register'" key="register">
+                        <div class="backward-btn" @click="activeInteract = 'default'">
+                            <img src="../../assets/icon/backward.svg" width="23" height="23" alt="backward">
+                        </div>
+                    </div>
+                </transition>
             </div>
         </div>
     </div>
@@ -48,38 +70,20 @@
         props: {
             display: {
                 type: Boolean,
-                default: false
+                default: false,
             }
         },
         data() {
             return {
-                activeInteract: "default"
+                activeInteract: "login",
+                seePass: false,
+                icons: {
+                    eye: require('../../assets/icon/eye.svg'),
+                    eyeHide: require('../../assets/icon/eye-hide.svg'),
+                }
             }
         },
         methods: {
-            call(anchor) {
-                // console.log("here");
-                // switch(anchor) {
-                //     case "login":
-                //         // this.activeInteract = "login";
-                //         this.$refs.default.style.opacity = 0;
-                //         this.$refs.register.style.opacity = 0;
-                //         this.$refs.login.style.opacity = 1;
-                //         return;
-                //     case "register":
-                //         // this.activeInteract = "register";
-                //         this.$refs.default.style.opacity = 0;
-                //         this.$refs.login.style.opacity = 0;
-                //         this.$refs.register.style.opacity = 1;
-                //         return;
-                //     default:
-                //         // this.activeInteract = "default";
-                //         this.$refs.login.style.opacity = 0;
-                //         this.$refs.register.style.opacity = 0;
-                //         this.$refs.default.style.opacity = 1;
-                //         return;
-                // }
-            },
             close() {
                 this.display = false;
             }
@@ -135,6 +139,15 @@
         background:rgba(255,255,255,.7);
     }
 
+    .welcome-interact-element {
+        position: absolute;
+        width: 400px;
+        height: 580px;
+        /*width: 100%;*/
+        /*height: 100%;*/
+        opacity: 1;
+    }
+
     .welcome-interact-guide {
     }
 
@@ -143,11 +156,66 @@
     }
 
     .welcome-interact-login {
-        opacity: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .welcome-interact-register {
-        opacity: 0;
+        display: flex;
+    }
+
+    .info-input-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height: 35px;
+        margin-bottom: 15px;
+    }
+
+    .info-input-container::after {
+        position: absolute;
+        content: '';
+        margin-top: calc(35px / 2);
+        width: 240px;
+        height: 1px;
+        background: white;
+    }
+
+    .info-input {
+        background: none;
+        border: none;
+        height: 100%;
+        width: 180px;
+    }
+
+    .do-login-btn {
+        border-radius: 1em;
+        width: 250px;
+        height: 34px;
+    }
+
+    .do-login-btn:hover {
+
+    }
+
+    .forget-passwd-btn {
+        cursor: pointer;
+        text-align: center;
+    }
+    
+    .forget-passwd-btn > span {
+        display: block;
+    }
+
+    .forget-passwd-btn:hover {
+        text-decoration: underline;
+    }
+
+    .backward-btn {
+        position: absolute;
+        left: 0;
+        cursor: pointer;
     }
 
     /* 字体 */
@@ -308,20 +376,14 @@
         margin-top: 13px;
     }
 
-    /* 贝塞尔曲线 */
-
-    #bezier-background {
-        z-index: 1004;
-        position: fixed;
-        /*background: url("../../assets/media/login_bg.png");*/
-        /*width: 100%;*/
-        /*height: 100%;*/
-    }
-
     /* Animation */
 
-    .fade-in-out {
-        transition: all .2s ease;
+    .fadeinteract-leave-active, .fadeinteract-enter-active {
+        transition: opacity .3s ease;
+    }
+
+    .fadeinteract-enter, .fadeinteract-leave-to {
+        opacity: 0;
     }
 
     /* 移动端适配 */
