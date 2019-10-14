@@ -44,7 +44,14 @@ class Login extends Controller
             session('nick', $result['data']['nick']);
             session('identity', $result['data']['identity']);
         }
-        return apiReturn($result['code'], $result['msg'], $result['data']);
+        $data = array(
+            'userId' => $result['data']['user_id'],
+            'nick' => $result['data']['nick'],
+            'desc' => $result['data']['desc'],
+            'acCnt' => count($result['data']['ac_problem']),
+            'waCnt' => count($result['data']['wa_problem']),
+        );
+        return apiReturn($result['code'], $result['msg'], $data);
     }
 
     public function do_logout()
