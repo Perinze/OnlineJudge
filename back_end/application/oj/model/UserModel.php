@@ -80,7 +80,7 @@ class UserModel extends Model
     {
         // uncheck
         try {
-            $res = $this->where($req)->find();
+            $res = $this->where([['nick', '=', $req['nick']], ['password', '=', $req['password']]])->find();
             if ($res) {
                 return ['code' => CODE_SUCCESS, 'msg' => '登陆成功', 'data' => $res];
             } else {
