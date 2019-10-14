@@ -4,8 +4,8 @@ const state = {
     nick: null,
     desc: null,
     avator: null,
-    acNum: null,
-    waNum: null
+    acCnt: null,
+    waCnt: null
 };
 
 const getters = {
@@ -16,8 +16,8 @@ const getters = {
             nick: state.nick,
             desc: state.desc,
             avator: state.avator,
-            acNum: state.acNum,
-            waNum: state.waNum
+            acCnt: state.acCnt,
+            waCnt: state.waCnt
         }
     }
 };
@@ -29,10 +29,10 @@ const mutations = {
     userData(state, data) {
         state.userId = data.userId;
         state.nick = data.nick;
-        state.desc = data.desc;
-        state.avator = data.avator;
-        state.acNum = new Number(data.acNum);
-        state.waNum = new Number(data.waNum);
+        state.desc = data.desc==null?'You blow me away.':data.desc;
+        state.avator = data.avator==undefined?'../../assets/media/avator.png':data.avator;
+        state.acCnt = data.acCnt;
+        state.waCnt = data.waCnt;
     }
 };
 

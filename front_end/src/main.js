@@ -25,10 +25,15 @@ window.Vue = new Vue({
 
 router.beforeEach((to, from, next) => {
     let getFlag = localStorage.getItem("Flag");
-
     if(getFlag === "isLogin") {
         // 已经登陆
-        store.state.isLogin = true;
+        store.state.login.isLogin = true;
+        store.state.login.userId = localStorage.getItem("userId");
+        store.state.login.nick = localStorage.getItem("nick");
+        store.state.login.desc = localStorage.getItem("desc");
+        store.state.login.avator = localStorage.getItem("avator");
+        store.state.login.acCnt = localStorage.getItem("acCnt");
+        store.state.login.waCnt = localStorage.getItem("waCnt");
         next();
 
         if(!to.meta.isLogin) {

@@ -22,7 +22,7 @@
                 <div class="data-item">
                     <strong class="data-font">提交量</strong>
                     <br>
-                    <strong id="submit-num" class="data-num">{{userData.acCnt + userData.waCnt}}</strong>
+                    <strong id="submit-num" class="data-num">{{new Number(userData.acCnt) + new Number(userData.waCnt)}}</strong>
                 </div>
                 <div class="data-item">
                     <strong class="data-font">通过量</strong>
@@ -80,6 +80,8 @@
     import MenuItem from "./menu-item";
     import welcome from "../components/welcome";
     import { logout } from "../api/getData";
+    import { mapGetters } from "vuex";
+    import store from '../store';
 
     export default {
         components: { MenuItem, welcome },
@@ -121,25 +123,28 @@
                 userinfo: {
                     avator: '/assets/media/avator.png',
                 },
-                userData: {
-                    userId: '213',
-                    nick: 'Lemo Zheng',
-                    desc: 'You blow me away.',
-                    acCnt: '',
-                    waCnt: ''
-                }
+                // userData: {
+                //     userId: '213',
+                //     nick: 'Lemo Zheng',
+                //     desc: 'You blow me away.',
+                //     acCnt: 214,
+                //     waCnt: 1654
+                // }
             }
+        },
+        created() {
+            this.initUser();
         },
         methods: {
             recvLoginData: function(data) {
                 // let data = {id: 'test'};
                 console.log(data);
-                this.$store.dispatch("userInfoStorage", data);
-                this.userData.userId = data.userId;
-                this.userData.nick = data.nick;
-                this.userData.desc = data.desc==null?'You blow me away.':data.nick;
-                this.userData.acCnt = new Number(data.acCnt);
-                this.userData.waCnt = new Number(data.waCnt);
+                this.$store.dispatch("login/userInfoStorage", data);
+                // this.userData.userId = data.userId;
+                // this.userData.nick = data.nick;
+                // this.userData.desc = data.desc==null?'You blow me away.':data.nick;
+                // this.userData.acCnt = data.acCnt;
+                // this.userData.waCnt = data.waCnt;
                 // console.log(data);
                 this.userinfo.isLogin = true;
             },
@@ -147,18 +152,44 @@
                 let response = await logout();
                 if(response.status == 0) {
                     // ok
-                    localStorage.removeItem("Flag");
-                    this.userinfo.isLogin = false;
-                    this.userData = {
-                        userId: '',
-                        nick: '',
-                        desc: '',
-                        acCnt: '',
-                        waCnt: ''
-                    };
+                    let procedure = new Promise( (resolve, reject) => {
+                        localStorage.removeItem("Flag");
+                        localStorage.removeItem("userId");
+                        localStorage.removeItem("nick");
+                        localStorage.removeItem("desc");
+                        localStorage.removeItem("avator");
+                        localStorage.removeItem("acCnt");
+                        localStorage.removeItem("waCnt");
+                        resolve();
+                    });
+                    procedure.then( (successMessage) => {
+                        this.initUser();
+                    });
+                    // this.userinfo.isLogin = false;
+                    // this.userData = {
+                    //     userId: '',
+                    //     nick: '',
+                    //     desc: '',
+                    //     acCnt: '',
+                    //     waCnt: ''
+                    // };
                 }else{
                     //error
                 }
+            },
+            initUser() {
+                let tmp = localStorage.getItem('Flag');
+                if(tmp==="isLogin") {
+                    store.state.login.isLogin = true;
+                }else{
+                    store.state.login.isLogin = false;
+                }
+                store.state.login.userId = localStorage.getItem("userId");
+                store.state.login.nick = localStorage.getItem("nick");
+                store.state.login.desc = localStorage.getItem("desc");
+                store.state.login.avator = localStorage.getItem("avator");
+                store.state.login.acCnt = localStorage.getItem("acCnt");
+                store.state.login.waCnt = localStorage.getItem("waCnt");
             }
         },
         computed: {
@@ -173,21 +204,26 @@
                     case '/group': return 4;
                     default: console.log('fault in side-nav component');
                 }
+                return null;
             },
             acPercent: function() {
-                let ac = this.userData.acCnt;
-                let total = ac + this.userData.waCnt;
+                let ac = new Number(this.userData.acCnt);
+                let total = ac + new Number(this.userData.waCnt);
                 if(total==0) {
                     return 0;
                 }else{
-                    return ac/total;
+                    return (ac/total).toFixed(3) * 100;
                 }
             },
-            isLogin: function() {
-                let tmp = localStorage.getItem("Flag");
-                if(tmp === "isLogin") return true;
-                return false;
-            }
+            // isLogin: function() {
+            //     let tmp = this.$store.isLogin;
+            //     if(tmp === "isLogin") return true;
+            //     return false;
+            // },
+            ...mapGetters('login', {
+                userData: 'userInfo',
+                isLogin: 'isLogin'
+            }),
         }
 
     }

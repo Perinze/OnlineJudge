@@ -341,7 +341,7 @@
                 if(response.status == 0) {
                     let data = response.data;
                     this.contest_info.title = data.contest_name;
-                    this.contest_info.begin_time = data.begin_ime;
+                    this.contest_info.begin_time = data.begin_time;
                     this.contest_info.end_time = data.end_time;
                     this.contest_info.frozen = data.frozen;
                     this.contest_info.problems = data.problems;

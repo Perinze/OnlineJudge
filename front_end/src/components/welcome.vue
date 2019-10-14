@@ -68,6 +68,7 @@
 
 <script>
     import { login } from "../api/getData";
+    // import { mapGetters,  mapActions } from 'vuex';
 
     export default {
         name: "welcome",
@@ -114,8 +115,14 @@
                     let response = await login(this.loginInfo);
                     if(response.status == 0) {
                         // 成功登陆
-                        this.$store.dispatch("userLogin", true);
+                        this.$store.dispatch("login/userLogin", true);
                         localStorage.setItem("Flag", "isLogin");
+                        localStorage.setItem("userId", response.data.userId);
+                        localStorage.setItem("nick", response.data.nick);
+                        localStorage.setItem("desc", response.data.desc);
+                        localStorage.setItem("avator", response.data.avator);
+                        localStorage.setItem("acCnt", response.data.acCnt);
+                        localStorage.setItem("waCnt", response.data.waCnt);
                         this.$emit('logged', response.data);
                         // console.log('log success');
                     }else{
