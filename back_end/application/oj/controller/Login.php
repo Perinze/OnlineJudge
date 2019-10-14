@@ -38,19 +38,20 @@ class Login extends Controller
         $req['password'] = md5(base64_encode($req['password']));
         // 身份验证
         $result = $user_model->loginCheck($req);
+        $data = array();
         if ($result['code'] === CODE_SUCCESS) {
             // 验证成功，session分配
             session('user_id', $result['data']['user_id']);
             session('nick', $result['data']['nick']);
             session('identity', $result['data']['identity']);
+            $data = array(
+                'userId' => $result['data']['user_id'],
+                'nick' => $result['data']['nick'],
+                'desc' => $result['data']['desc'],
+                'acCnt' => count(json_decode($result['data']['ac_problem'], true)),
+                'waCnt' => count(json_decode($result['data']['wa_problem'], true)),
+            );
         }
-        $data = array(
-            'userId' => $result['data']['user_id'],
-            'nick' => $result['data']['nick'],
-            'desc' => $result['data']['desc'],
-            'acCnt' => count($result['data']['ac_problem']),
-            'waCnt' => count($result['data']['wa_problem']),
-        );
         return apiReturn($result['code'], $result['msg'], $data);
     }
 
