@@ -57,7 +57,8 @@ class Login extends Controller
 
     public function do_logout()
     {
-        session('user_id', null);
+        session(null);
+        return apiReturn(CODE_SUCCESS, '注销成功', '');
     }
 
     public function forgetPassword()

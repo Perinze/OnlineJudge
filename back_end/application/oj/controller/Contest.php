@@ -35,7 +35,7 @@ class Contest extends Controller
         if ($result !== true) {
             return apiReturn(CODE_ERROR, $contest_validate->getError(), '');
         }
-        $resp = $contest_model->searchContest($req['id']);
+        $resp = $contest_model->searchContest($req['contest_id']);
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
