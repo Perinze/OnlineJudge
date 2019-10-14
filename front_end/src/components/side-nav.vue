@@ -1,6 +1,6 @@
 <template>
     <div id="side-bar">
-        <welcome :display="true" />
+        <welcome :display="!userinfo.isLogin" :logged="recvLoginData"/>
         <div class="logo">
             <div style="position: relative;top: 9px">
                 <img src="../../assets/media/logo.png">
@@ -15,7 +15,7 @@
             <div class="user-info" align="center">
                 <span id="user-nick">Lomo Zheng</span>
                 <br>
-                <span id="user-desc">You blow me away.</span>
+                <span id="user-desc" @click="doLogout">You blow me away.</span>
             </div>
             <div class="user-data" v-if="userinfo.isLogin">
                 <div style="width: 12px"></div>
@@ -79,6 +79,7 @@
 <script>
     import MenuItem from "./menu-item";
     import welcome from "../components/welcome";
+    import { logout } from "../api/getData";
 
     export default {
         components: { MenuItem, welcome },
@@ -118,9 +119,16 @@
                     },
                 ],
                 userinfo: {
-                    isLogin: true,
+                    isLogin: false,
                     avator: '/assets/media/avator.png',
                 },
+                userData: {
+                    userId: '',
+                    nick: '',
+                    desc: '',
+                    acCnt: '',
+                    waCnt: ''
+                }
             }
         },
         computed: {
@@ -134,6 +142,26 @@
                     case '/rank': return 3;
                     case '/group': return 4;
                     default: console.log('fault in side-nav component');
+                }
+            },
+            recvLoginData: function(data) {
+                this.userData = data;
+                this.userinfo.isLogin = true;
+            },
+            doLogout: async function() {
+                let response = await logout();
+                if(response.status == 0) {
+                    // ok
+                    this.userinfo.isLogin = false;
+                    this.userData = {
+                        userId: '',
+                        nick: '',
+                        desc: '',
+                        acCnt: '',
+                        waCnt: ''
+                    };
+                }else{
+                    //error
                 }
             }
         }

@@ -6,9 +6,13 @@ import fetch from '../config/fetch';
  * 登陆
  */
 
-export const login = data => fetch('/Login/login', 'post', data);
+export const login = data => fetch('/Login/do_login', 'post', data);
 
+/**
+ * 登出
+ */
 
+export const logout = () => fetch('/Login/do_logout', 'post', {});
 
 
 // 业务逻辑
