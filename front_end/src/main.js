@@ -1,20 +1,57 @@
 import Vue from 'vue'
+import Vuex from 'vuex'
 import ElementUI from 'element-ui';
 import App from './App'
 import 'element-ui/lib/theme-chalk/index.css';
 import 'ant-design-vue/dist/antd.css';
 import router from './router/router';
+import store from './store';
 
 Vue.config.productionTip = false;
 
+Vue.use(Vuex);
 Vue.use(ElementUI);
 
 /* eslint-disable no-new */
 window.Vue = new Vue({
     el: '#app',
     render: c => c(App),
-    router: router
+    router,
+    store,
 }).$mount("#app"); // VueCLI 3.0
+
+
+// 登陆检测
+
+router.beforeEach((to, from, next) => {
+    let getFlag = localStorage.getItem("Flag");
+
+    if(getFlag === "isLogin") {
+        // 已经登陆
+        store.state.isLogin = true;
+        next();
+
+        if(!to.meta.isLogin) {
+            // 已经登陆过
+            console.log("已经登陆");
+        }
+    }else{
+        // 未登陆
+        if(to.meta.isLogin){
+            next({
+                path: '/main',
+            });
+            console.log('请登录');
+        }else{
+            //用户进入无需登录的界面，则跳转继续
+            next()
+        }
+    }
+});
+
+router.afterEach(route => {
+    window.scroll(0,0);
+});
 
 
 // 防开发者模式 BEGIN

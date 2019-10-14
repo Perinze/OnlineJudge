@@ -1,6 +1,6 @@
 <template>
     <div id="side-bar">
-        <welcome :display="!userinfo.isLogin" @logged="recvLoginData"/>
+        <welcome :display="!isLogin" @logged="recvLoginData"/>
         <div class="logo">
             <div style="position: relative;top: 9px">
                 <img src="../../assets/media/logo.png">
@@ -17,7 +17,7 @@
                 <br>
                 <span id="user-desc" @click="doLogout">{{userData.desc}}</span>
             </div>
-            <div class="user-data" v-if="userinfo.isLogin">
+            <div class="user-data" v-if="isLogin">
                 <div style="width: 12px"></div>
                 <div class="data-item">
                     <strong class="data-font">提交量</strong>
@@ -119,7 +119,6 @@
                     },
                 ],
                 userinfo: {
-                    isLogin: false,
                     avator: '/assets/media/avator.png',
                 },
                 userData: {
@@ -135,6 +134,7 @@
             recvLoginData: function(data) {
                 // let data = {id: 'test'};
                 console.log(data);
+                this.$store.dispatch("userInfoStorage", data);
                 this.userData.userId = data.userId;
                 this.userData.nick = data.nick;
                 this.userData.desc = data.desc==null?'You blow me away.':data.nick;
@@ -147,6 +147,7 @@
                 let response = await logout();
                 if(response.status == 0) {
                     // ok
+                    localStorage.removeItem("Flag");
                     this.userinfo.isLogin = false;
                     this.userData = {
                         userId: '',
@@ -181,6 +182,11 @@
                 }else{
                     return ac/total;
                 }
+            },
+            isLogin: function() {
+                let tmp = localStorage.getItem("Flag");
+                if(tmp === "isLogin") return true;
+                return false;
             }
         }
 

@@ -114,11 +114,14 @@
                     let response = await login(this.loginInfo);
                     if(response.status == 0) {
                         // 成功登陆
+                        this.$store.dispatch("userLogin", true);
+                        localStorage.setItem("Flag", "isLogin");
                         this.$emit('logged', response.data);
                         // console.log('log success');
                     }else{
                         // 用户名密码错误
                         // 已经登陆
+                        console.log(this.$store);
                     }
                     // console.log(response);
                 });

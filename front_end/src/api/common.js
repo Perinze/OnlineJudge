@@ -1,4 +1,9 @@
-// 日期格式化 BEGIN
+/**
+ * 日期格式化
+ * @param date
+ * @param fmt
+ * @returns {*}
+ */
 
 export function formatDate(date, fmt) {
     if (/(y+)/.test(fmt)) {
@@ -18,15 +23,18 @@ export function formatDate(date, fmt) {
         }
     }
     return fmt;
-};
+}
 
 function padLeftZero(str) {
     return ('00' + str).substr(str.length);
 }
 
-// 日期格式化 END
 
-// 获取错误全称 BEGIN
+/**
+ * 获取错误全称
+ * @param status
+ * @returns {string}
+ */
 
 export function getWholeErrorName(status) {
     let res = status.toLowerCase();
@@ -39,5 +47,3 @@ export function getWholeErrorName(status) {
         default: return 'Unknown Error';
     }
 }
-
-// 获取错误全称 END

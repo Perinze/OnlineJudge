@@ -23,57 +23,90 @@ const routes = [
     {
         // 主页
         path: '/main',
-        component: mainpage
+        component: mainpage,
+        meta: {
+            isLogin: false
+        }
     },
     {
         // 题目列表
         path: '/problem',
-        component: problemlist
+        component: problemlist,
+        meta: {
+            isLogin: false
+        }
     },
     {
         // 题目详情
         path: '/problem/:id',
-        component: problemdetail
+        component: problemdetail,
+        meta: {
+            isLogin: false
+        }
     },
     {
         // 比赛列表
         path: '/contest',
-        component: contestlist
+        component: contestlist,
+        meta: {
+            isLogin: false
+        }
     },
     {
         // 比赛主页
         path: '/contest/:id',
-        component: contestpage
+        component: contestpage,
+        meta: {
+            isLogin: true
+        }
     },
     {
         // 比赛排行榜
         path: '/rank/:id',
-        component: contestrank
+        component: contestrank,
+        meta: {
+            isLogin: true
+        }
     },
     {
         // (某场比赛)讨论板列表
         path: '/discuss/:id',
-        component: discusslist
+        component: discusslist,
+        meta: {
+            isLogin: true
+        }
     },
     {
         // (某场比赛)讨论板单条详情
         path: '/discuss/:id/:did',
-        component: discussdetail
+        component: discussdetail,
+        meta: {
+            isLogin: true
+        }
     },
     {
         //  提交页面 redirect
         path: '/submit',
-        redirect: '/submit/1000'
+        redirect: '/submit/1000',
+        meta: {
+            isLogin: true
+        }
     },
     {
         // 提交页面
         path: '/submit/:pid',
-        component: submitpage
+        component: submitpage,
+        meta: {
+            isLogin: true
+        }
     },
     {
         // default
         path: '*',
-        component: page404
+        component: page404,
+        meta: {
+            isLogin: false
+        }
     }
 ];
 
