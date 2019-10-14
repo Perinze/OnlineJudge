@@ -17,7 +17,7 @@
                         <span class="login-guide-2">如果您已有账户可以选择：</span>
                         <button class="login-button" @click="activeInteract = 'login'">Login</button>
                         <span class="register-guide">点击下方"Sign up"按钮即可开始注册</span>
-                        <button class="register-button" @click="activeInteract = 'register'">Sign up</button>
+                        <button class="register-button" @click="activeInteract = 'register'" disabled>Sign up</button>
                         <div class="tourist-content">
                             <span class="tourist-guide">如果您还未准备好注册账户，可以选择</span>
                             <a class="tourist-a" title="暂不可用" disabled>继续以游客模式访问</a>
@@ -31,22 +31,24 @@
                         <div class="login-icon"></div>
                         <div class="function-input-group">
                             <div class="info-input-container">
-                                <img src="">
+                                <img src="../../assets/icon/account.svg" width="23">
                                 <input class="info-input"
                                        type="text"
                                        placeholder="Account"
+                                       v-model="loginInfo.nick"
                                 >
                             </div>
                             <div class="info-input-container">
-                                <img src="">
+                                <img src="../../assets/icon/lock.svg" width="23">
                                 <input class="info-input"
                                        :type="[seePass?'text':'password']"
                                        placeholder="Password"
+                                       v-model="loginInfo.password"
                                 >
                                 <!--查看密码-->
-                                <img :src="[seePass?icons.eyeHide:icons.eye]" height="25" @click="seePass = !seePass">
+                                <img :src="[seePass?icons.eyeHide:icons.eye]" height="23" @click="seePass = !seePass" style="cursor: pointer;">
                             </div>
-                            <button class="do-login-btn">Log in</button>
+                            <button class="do-login-btn" @click="do_login">Log in</button>
                             <div class="forget-passwd-btn">
                                 <!--<span>忘记密码</span>-->
                                 <span>Forget Password</span>
@@ -65,6 +67,8 @@
 </template>
 
 <script>
+    import { login } from "../api/getData";
+
     export default {
         name: "welcome",
         props: {
@@ -80,12 +84,42 @@
                 icons: {
                     eye: require('../../assets/icon/eye.svg'),
                     eyeHide: require('../../assets/icon/eye-hide.svg'),
+                },
+                loginInfo: {
+                    nick: '',
+                    password: ''
                 }
             }
         },
         methods: {
             close() {
                 this.display = false;
+            },
+            do_login: async function() {
+                let checkInfoPromise = new Promise((resolve, reject) => {
+                    let data = this.loginInfo;
+                    if(data.nick.length > 25 || data.nick.length < 1) {
+                        reject("用户名为1-25个字符");
+                    }
+                    if(data.password.length < 6) {
+                        reject("密码最少6位");
+                    }
+                    resolve("success");
+                });
+                checkInfoPromise.catch( async (errorMessage) => {
+                    // console.log(errorMessage);
+                    alert(errorMessage);
+                });
+                checkInfoPromise.then( async (successMessage) => {
+                    let response = await login(this.loginInfo);
+                    if(response.status == 0) {
+                        // 成功登陆
+                        this.$emit('logged', response.data);
+                    }else{
+                        // 用户名密码错误
+                    }
+                    console.log(response);
+                });
             }
         }
     }
@@ -159,6 +193,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
     }
 
     .welcome-interact-register {
@@ -170,33 +205,46 @@
         flex-direction: row;
         align-items: center;
         height: 35px;
-        margin-bottom: 15px;
+        margin-bottom: 17px;
     }
 
     .info-input-container::after {
         position: absolute;
         content: '';
         margin-top: calc(35px / 2);
-        width: 240px;
-        height: 1px;
-        background: white;
+        width: 250px;
+        height: 2px;
+        border-radius: 2px;
+        background: rgba(34,33,53,1);
     }
 
     .info-input {
         background: none;
         border: none;
         height: 100%;
-        width: 180px;
+        width: calc(250px - 23px * 2 - 7px - 1px);
+        margin-left: 7px;
     }
 
     .do-login-btn {
-        border-radius: 1em;
+        transition: all .2s ease;
+        border: none;
+        border-radius: 37px;
         width: 250px;
-        height: 34px;
+        height: 37px;
+        cursor: pointer;
+        background: rgba(34,33,53,1);
+        color: white;
+        font-weight: lighter;
+        margin: 10px 0 4px 0;
     }
 
     .do-login-btn:hover {
+        background: rgba(34,33,53,.9);
+    }
 
+    .do-login-btn:active {
+        background: rgba(34,33,53,.7);
     }
 
     .forget-passwd-btn {
@@ -212,9 +260,15 @@
         text-decoration: underline;
     }
 
+    .forget-passwd-btn:disabled {
+        text-decoration: none;
+        color: gray;
+    }
+
     .backward-btn {
         position: absolute;
-        left: 0;
+        top: 20px;
+        left: 20px;
         cursor: pointer;
     }
 
@@ -336,6 +390,8 @@
     .register-button:disabled {
         background:rgba(38,38,38,0);
         border:1px solid rgba(174,182,192,1);
+        color: rgba(174,182,192,1);
+        box-shadow: none;
     }
 
     .tourist-content {
