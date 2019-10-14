@@ -115,10 +115,12 @@
                     if(response.status == 0) {
                         // 成功登陆
                         this.$emit('logged', response.data);
+                        // console.log('log success');
                     }else{
                         // 用户名密码错误
+                        // 已经登陆
                     }
-                    console.log(response);
+                    // console.log(response);
                 });
             }
         }

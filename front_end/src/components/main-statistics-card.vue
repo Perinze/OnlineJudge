@@ -36,17 +36,19 @@
                 default: 'Title'
             },
             num: {
-                type: Number,
-                default: 0
+                type: String,
+                default: ""
             },
             predata: {
                 type: Array,
-                default: [
-                    {
-                        time: '',
-                        num: 0
-                    }
-                ]
+                default: function() {
+                    return [
+                        {
+                            time: '',
+                            num: 0
+                        }
+                    ];
+                }
             }
         },
         computed: {

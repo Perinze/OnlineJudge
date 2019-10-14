@@ -20,7 +20,8 @@ window.Vue = new Vue({
 // 防开发者模式 BEGIN
 
 window.onkeydown = window.onkeyup = window.onkeypress = function(event) {
-    if (event.keyCode = 123) {
+    // 防止f12
+    if (event.keyCode === 123) {
         event.preventDefault();
         window.event.returnValue = false;
     }

@@ -1,6 +1,6 @@
 <template>
     <div id="side-bar">
-        <welcome :display="!userinfo.isLogin" :logged="recvLoginData"/>
+        <welcome :display="!userinfo.isLogin" @logged="recvLoginData"/>
         <div class="logo">
             <div style="position: relative;top: 9px">
                 <img src="../../assets/media/logo.png">
@@ -13,26 +13,26 @@
                 </div>
             </div>
             <div class="user-info" align="center">
-                <span id="user-nick">Lomo Zheng</span>
+                <span id="user-nick">{{userData.nick}}</span>
                 <br>
-                <span id="user-desc" @click="doLogout">You blow me away.</span>
+                <span id="user-desc" @click="doLogout">{{userData.desc}}</span>
             </div>
             <div class="user-data" v-if="userinfo.isLogin">
                 <div style="width: 12px"></div>
                 <div class="data-item">
                     <strong class="data-font">提交量</strong>
                     <br>
-                    <strong id="submit-num" class="data-num">1214</strong>
+                    <strong id="submit-num" class="data-num">{{userData.acCnt + userData.waCnt}}</strong>
                 </div>
                 <div class="data-item">
                     <strong class="data-font">通过量</strong>
                     <br>
-                    <strong id="ac-num"  class="data-num">416</strong>
+                    <strong id="ac-num"  class="data-num">{{userData.acCnt}}</strong>
                 </div>
                 <div class="data-item">
                     <strong class="data-font">正确率</strong>
                     <br>
-                    <strong id="ac-percent" class="data-num">100%</strong>
+                    <strong id="ac-percent" class="data-num">{{acPercent}}%</strong>
                 </div>
                 <div style="width: 5px"></div>
             </div>
@@ -123,9 +123,9 @@
                     avator: '/assets/media/avator.png',
                 },
                 userData: {
-                    userId: '',
-                    nick: '',
-                    desc: '',
+                    userId: '213',
+                    nick: 'Lemo Zheng',
+                    desc: 'You blow me away.',
                     acCnt: '',
                     waCnt: ''
                 }
@@ -133,7 +133,14 @@
         },
         methods: {
             recvLoginData: function(data) {
-                this.userData = data;
+                // let data = {id: 'test'};
+                console.log(data);
+                this.userData.userId = data.userId;
+                this.userData.nick = data.nick;
+                this.userData.desc = data.desc==null?'You blow me away.':data.nick;
+                this.userData.acCnt = new Number(data.acCnt);
+                this.userData.waCnt = new Number(data.waCnt);
+                // console.log(data);
                 this.userinfo.isLogin = true;
             },
             doLogout: async function() {
@@ -166,6 +173,15 @@
                     default: console.log('fault in side-nav component');
                 }
             },
+            acPercent: function() {
+                let ac = this.userData.acCnt;
+                let total = ac + this.userData.waCnt;
+                if(total==0) {
+                    return 0;
+                }else{
+                    return ac/total;
+                }
+            }
         }
 
     }

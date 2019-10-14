@@ -1,7 +1,6 @@
 <template>
     <div
             :name="keyName"
-            @click="onClick()"
     >
         <div style="width: 40px;"></div>
         <img class="icon" :src="imgSrc" width="18px" height="19px" :class="{'icon-active': isActive}">
