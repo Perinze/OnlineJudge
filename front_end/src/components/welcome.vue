@@ -79,7 +79,7 @@
         },
         data() {
             return {
-                activeInteract: "login",
+                activeInteract: "default",
                 seePass: false,
                 icons: {
                     eye: require('../../assets/icon/eye.svg'),

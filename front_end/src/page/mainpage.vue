@@ -133,7 +133,11 @@
                 if(response.status == 0) {
                     let data = response.data;
                     data.forEach((val, index) => {
-                        this.histogramData.dailyData.push(val);
+                        if(index>=13) {
+                            this.histogramData.sumData = val;
+                        }else {
+                            this.histogramData.dailyData.push(val);
+                        }
                     });
                     // console.log(this.histogramData);
                 }else{

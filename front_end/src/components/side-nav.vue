@@ -131,19 +131,7 @@
                 }
             }
         },
-        computed: {
-            activeIndex: function() {
-                let res = this.$route.path + "/";
-                let path = res.slice(0, res.indexOf("/", 1));
-                switch(path) {
-                    case '/main': return 0;
-                    case '/problem': return 1;
-                    case '/contest': return 2;
-                    case '/rank': return 3;
-                    case '/group': return 4;
-                    default: console.log('fault in side-nav component');
-                }
-            },
+        methods: {
             recvLoginData: function(data) {
                 this.userData = data;
                 this.userinfo.isLogin = true;
@@ -164,6 +152,20 @@
                     //error
                 }
             }
+        },
+        computed: {
+            activeIndex: function() {
+                let res = this.$route.path + "/";
+                let path = res.slice(0, res.indexOf("/", 1));
+                switch(path) {
+                    case '/main': return 0;
+                    case '/problem': return 1;
+                    case '/contest': return 2;
+                    case '/rank': return 3;
+                    case '/group': return 4;
+                    default: console.log('fault in side-nav component');
+                }
+            },
         }
 
     }
