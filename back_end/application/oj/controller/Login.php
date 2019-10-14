@@ -44,7 +44,7 @@ class Login extends Controller
             session('nick', $result['data']['nick']);
             session('identity', $result['data']['identity']);
         }
-        return apiReturn($result['code'], $result['msg'], $result['data']);
+        return apiReturn($result['code'], $result['msg'], '');
     }
 
     public function do_logout()
