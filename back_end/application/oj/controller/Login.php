@@ -45,11 +45,11 @@ class Login extends Controller
             session('identity', $result['data']['identity']);
         }
         $data = array(
-            'user_id' => $result['data']['user_id'],
+            'userId' => $result['data']['user_id'],
             'nick' => $result['data']['nick'],
             'desc' => $result['data']['desc'],
-            'ac_cnt' => count($result['data']['ac_problem']),
-            'wa_cnt' => count($result['data']['wa_problem']),
+            'acCnt' => count($result['data']['ac_problem']),
+            'waCnt' => count($result['data']['wa_problem']),
         );
         return apiReturn($result['code'], $result['msg'], $data);
     }
