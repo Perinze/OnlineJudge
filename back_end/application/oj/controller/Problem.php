@@ -56,7 +56,7 @@ class Problem extends Controller
         $problem_validate = new ProblemValidate();
         $problem_model = new ProblemModel();
         $req = input('post.');
-        $result = $problem_validate->scene('searchProblem')->check($req);
+        $result = $problem_validate->scene('search')->check($req);
         if ($result !== VALIDATE_PASS) {
             return apiReturn(CODE_ERROR, $problem_validate->getError(), '');
         }

@@ -20,6 +20,12 @@ class Contest extends Controller
     {
         $contest_model = new ContestModel();
         $resp = $contest_model->searchContest();
+        if(is_array($resp)){
+            foreach ($resp['data'] as &$item){
+                $item['problems'] = json_decode($item['problems'], true);
+                $item['colors'] = json_decode($item['colors'], true);
+            }
+        }
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
@@ -36,6 +42,12 @@ class Contest extends Controller
             return apiReturn(CODE_ERROR, $contest_validate->getError(), '');
         }
         $resp = $contest_model->searchContest($req['contest_id']);
+        if(isset($resp['data']['problems'])){
+            $resp['data']['problems'] = json_decode($resp['data']['problems'], true);
+        }
+        if(isset($resp['data']['colors'])){
+            $resp['data']['colors'] = json_decode($resp['data']['colors'], true);
+        }
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
@@ -51,7 +63,13 @@ class Contest extends Controller
         if ($result !== true) {
             return apiReturn(CODE_ERROR, $contest_validate->getError(), '');
         }
-        $resp = $contest_model->searchContest($req['contest_name']);
+        $resp = $contest_model->searchContest(0, $req['contest_name']);
+        if(is_array($resp['data'])){
+            foreach ($resp['data'] as &$item){
+                $item['problems'] = json_decode($item['problems'], true);
+                $item['colors'] = json_decode($item['colors'], true);
+            }
+        }
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 

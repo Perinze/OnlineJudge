@@ -38,7 +38,7 @@ class ContestValidate extends Validate
     ];
 
     protected $scene = [
-        'searchContest' => ['contest_id'],
+        'searchContest' => ['contest_name'],
         'deleContest' => ['contest_id'],
         'newContest' => ['contest_name', 'begin_time', 'end_time', 'frozen', 'problems'],
         'editContest' => ['contest_id', 'contest_name', 'begin_time', 'end_time', 'frozen', 'problems'],
