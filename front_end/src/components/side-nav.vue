@@ -1,6 +1,6 @@
 <template>
     <div id="side-bar">
-        <welcome :display="!isLogin" @logged="recvLoginData"/>
+        <welcome :display="displayWelcome&&(!isLogin)" @logged="recvLoginData" @close="displayWelcome=false;"/>
         <div class="logo">
             <div style="position: relative;top: 9px">
                 <img src="../../assets/media/logo.png">
@@ -12,7 +12,7 @@
                     <img src="../../assets/media/avator.png" height="40" width="40"/>
                 </div>
             </div>
-            <div class="user-info" align="center">
+            <div class="user-info" align="center" v-if="isLogin">
                 <span id="user-nick">{{userData.nick}}</span>
                 <br>
                 <span id="user-desc" @click="doLogout">{{userData.desc}}</span>
@@ -35,6 +35,11 @@
                     <strong id="ac-percent" class="data-num">{{acPercent}}%</strong>
                 </div>
                 <div style="width: 5px"></div>
+            </div>
+            <div class="function-btn-group" v-show="!isLogin">
+                <span id="unlog-guide">您还没登陆</span>
+                <br>
+                <button @click="displayWelcome = true;">注册/登录</button>
             </div>
         </div>
         <div>
@@ -123,6 +128,7 @@
                 userinfo: {
                     avator: '/assets/media/avator.png',
                 },
+                displayWelcome: false
                 // userData: {
                 //     userId: '213',
                 //     nick: 'Lemo Zheng',
@@ -137,15 +143,7 @@
         },
         methods: {
             recvLoginData: function(data) {
-                // let data = {id: 'test'};
-                console.log(data);
                 this.$store.dispatch("login/userInfoStorage", data);
-                // this.userData.userId = data.userId;
-                // this.userData.nick = data.nick;
-                // this.userData.desc = data.desc==null?'You blow me away.':data.nick;
-                // this.userData.acCnt = data.acCnt;
-                // this.userData.waCnt = data.waCnt;
-                // console.log(data);
                 this.userinfo.isLogin = true;
             },
             doLogout: async function() {
@@ -165,14 +163,6 @@
                     procedure.then( (successMessage) => {
                         this.initUser();
                     });
-                    // this.userinfo.isLogin = false;
-                    // this.userData = {
-                    //     userId: '',
-                    //     nick: '',
-                    //     desc: '',
-                    //     acCnt: '',
-                    //     waCnt: ''
-                    // };
                 }else{
                     //error
                 }
@@ -215,11 +205,6 @@
                     return (ac/total).toFixed(3) * 100;
                 }
             },
-            // isLogin: function() {
-            //     let tmp = this.$store.isLogin;
-            //     if(tmp === "isLogin") return true;
-            //     return false;
-            // },
             ...mapGetters('login', {
                 userData: 'userInfo',
                 isLogin: 'isLogin'
@@ -364,6 +349,26 @@
     
     #menu-footer >span {
         display: block;
+    }
+
+    .function-btn-group {
+        position: relative;
+        top: 27px;
+        /*margin-top: 50px;*/
+    }
+
+    .function-btn-group > button {
+        background: #4288ce;
+        border: none;
+        border-radius: 1.5em;
+        color: white;
+        height: 28px;
+        width: 150px;
+        margin-top: 20px;
+    }
+
+    #unlog-guide {
+        font-size: 13px;
     }
 
     /*TODO 660 warning*/

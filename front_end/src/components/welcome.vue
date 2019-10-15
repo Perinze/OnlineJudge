@@ -17,7 +17,7 @@
                         <span class="login-guide-2">如果您已有账户可以选择：</span>
                         <button class="login-button" @click="activeInteract = 'login'">Login</button>
                         <span class="register-guide">点击下方"Sign up"按钮即可开始注册</span>
-                        <button class="register-button" @click="activeInteract = 'register'" disabled>Sign up</button>
+                        <button class="register-button" @click="activeInteract = 'register'">Sign up</button>
                         <div class="tourist-content">
                             <span class="tourist-guide">如果您还未准备好注册账户，可以选择</span>
                             <a class="tourist-a" title="暂不可用" disabled>继续以游客模式访问</a>
@@ -48,7 +48,18 @@
                                 <!--查看密码-->
                                 <img :src="[seePass?icons.eyeHide:icons.eye]" height="23" @click="seePass = !seePass" style="cursor: pointer;">
                             </div>
-                            <button class="do-login-btn" @click="do_login">Log in</button>
+                            <div class="login-btn-container">
+                                <transition name="loading">
+                                    <button class="do-login-btn" :class="{'loading-login-btn': loading}" @click="do_login">
+                                        <span v-show="!loading">Log in</span>
+                                        <div class="lds-ripple" v-show="loading">
+                                            <div></div>
+                                            <div></div>
+                                        </div>
+                                    </button>
+                                </transition>
+                            </div>
+
                             <div class="forget-passwd-btn">
                                 <!--<span>忘记密码</span>-->
                                 <span>Forget Password</span>
@@ -59,6 +70,7 @@
                         <div class="backward-btn" @click="activeInteract = 'default'">
                             <img src="../../assets/icon/backward.svg" width="23" height="23" alt="backward">
                         </div>
+                        <div class="lds-ripple"><div></div><div></div></div>
                     </div>
                 </transition>
             </div>
@@ -68,7 +80,6 @@
 
 <script>
     import { login } from "../api/getData";
-    // import { mapGetters,  mapActions } from 'vuex';
 
     export default {
         name: "welcome",
@@ -89,12 +100,13 @@
                 loginInfo: {
                     nick: '',
                     password: ''
-                }
+                },
+                loading: false,
             }
         },
         methods: {
             close() {
-                this.display = false;
+                this.$emit('close');
             },
             do_login: async function() {
                 let checkInfoPromise = new Promise((resolve, reject) => {
@@ -105,16 +117,26 @@
                     if(data.password.length < 6) {
                         reject("密码最少6位");
                     }
-                    resolve("success");
+                    resolve();
                 });
                 checkInfoPromise.catch( async (errorMessage) => {
-                    // console.log(errorMessage);
                     alert(errorMessage);
                 });
                 checkInfoPromise.then( async (successMessage) => {
+                    this.loading = true;
+                    return;
+                }).then( async () => {
                     let response = await login(this.loginInfo);
+                    // console.log('begin');
+                    // setTimeout(() => {
+                    //     this.loading=false;
+                    //     console.log('work');
+                    // }, 10000);
+                    // console.log('end');
                     if(response.status == 0) {
                         // 成功登陆
+                        this.loading = false;
+
                         this.$store.dispatch("login/userLogin", true);
                         localStorage.setItem("Flag", "isLogin");
                         localStorage.setItem("userId", response.data.userId);
@@ -124,13 +146,13 @@
                         localStorage.setItem("acCnt", response.data.acCnt);
                         localStorage.setItem("waCnt", response.data.waCnt);
                         this.$emit('logged', response.data);
-                        // console.log('log success');
                     }else{
                         // 用户名密码错误
                         // 已经登陆
-                        console.log(this.$store);
+                        this.loading = false;
+
+                        console.log("已经登陆过");
                     }
-                    // console.log(response);
                 });
             }
         }
@@ -138,6 +160,47 @@
 </script>
 
 <style scoped>
+    /* Loding Animation BEGIN */
+
+    .lds-ripple {
+        /*margin-top: 100px;*/
+        display: inline-block;
+        position: relative;
+        width: 38px;
+        height: 38px;
+    }
+
+    .lds-ripple div {
+        position: absolute;
+        border: 3px solid #fff;
+        opacity: 1;
+        border-radius: 50%;
+        animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+    }
+
+    .lds-ripple div:nth-child(2) {
+        animation-delay: -0.5s;
+    }
+
+    @keyframes lds-ripple {
+        0% {
+            top: 18px;
+            left: 18px;
+            width: 0;
+            height: 0;
+            opacity: 1;
+        }
+        100% {
+            top: 0px;
+            left: 0px;
+            width: 38px;
+            height: 38px;
+            opacity: 0;
+        }
+    }
+
+    /* Loding Animation END */
+
     .welcome {
         position: fixed;
         width: 100%;
@@ -238,25 +301,40 @@
         margin-left: 7px;
     }
 
+    .login-btn-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     .do-login-btn {
-        transition: all .2s ease;
+        transition: background-color .2s ease;
+        transition: width .4s ease;
         border: none;
-        border-radius: 37px;
+        border-radius: 38px;
         width: 250px;
-        height: 37px;
+        height: 38px;
         cursor: pointer;
-        background: rgba(34,33,53,1);
+        background-color: rgba(34,33,53,1);
         color: white;
         font-weight: lighter;
         margin: 10px 0 4px 0;
     }
 
     .do-login-btn:hover {
-        background: rgba(34,33,53,.9);
+        background-color: rgba(34,33,53,.9);
     }
 
     .do-login-btn:active {
-        background: rgba(34,33,53,.7);
+        background-color: rgba(34,33,53,.7);
+    }
+
+    .loading-login-btn {
+        /*position: relative;*/
+        /*left: calc(250px - 19px);*/
+        margin: 10px auto 4px auto;
+        width: 38px;
+        padding: 0 0;
     }
 
     .forget-passwd-btn {
