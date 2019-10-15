@@ -37,7 +37,7 @@ class Contest extends Controller
         $contest_model = new ContestModel();
         $contest_validate = new ContestValidate();
         $req = input('post.');
-        $result = $contest_validate->scene('searchContest')->check($req);
+        $result = $contest_validate->scene('searchContest1')->check($req);
         if ($result !== true) {
             return apiReturn(CODE_ERROR, $contest_validate->getError(), '');
         }
