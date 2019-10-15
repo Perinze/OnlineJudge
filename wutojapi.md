@@ -13,32 +13,36 @@ null
 {
     "status": 0,//0-success, -1-error
     "message": "查找成功",
-    "data": {
-        0: {
+    "data": [
+        {
             "contest_id": 0,
             "contest_name": "wyh女装",
             "begin_time": "2019-11-16 12:30:00",
             "end_time": "2019-11-16 17:30:00",
             "frozen": 0.2,//封榜百分比
-            "problems":{
-                0: 1000,
-                1: 1001,
-            },
+            "problems":[
+                "1000",
+                "1001",
+            ],
             "state": 0// 0-有效，1-比赛被禁止
         },
-        1: {
+        {
             "contest_id": 0,
             "contest_name": "wyh女装",
             "begin_time": "2019-11-16 12:30:00",
             "end_time": "2019-11-16 17:30:00",
             "frozen": 0.2,//封榜百分比
-            "problems":{
-                0: 1000,
-                1: 1001,
-            },
+            "problems":[
+                "1000",
+                "1001",
+            ],
+            "colors": [
+                "#FFFFFF",
+                "#FF00FF"
+            ],
             "state": 0// 0-有效，1-比赛被禁止
         }
-    }
+    ]
 }
 ```
 
@@ -64,15 +68,15 @@ null
         "begin_time": "2019-11-16 12:30:00",
         "end_time": "2019-11-16 17:30:00",
         "frozen": 0.2,//封榜百分比
-        "problems":{
-            0: 1000,
-            1: 1001,
-        },
-        "colors": {
-            0: '#eeeeee',
-            1: '#aaaaaa'
-        },
-        "status": 0// 0-有效，1-比赛被禁止
+        "problems":[
+            "1000",
+            "1001",
+        ],
+        "colors": [
+            "#eeeeee",
+            "#aaaaaa"
+        ],
+        "status": 1// 1-有效，0-比赛被禁止
     }
 }
 ```
@@ -93,18 +97,22 @@ null
 {
     "status": 0,//0-success, -1-error
     "message": "查找成功",
-    "data": {
+    "data": [
         "contest_id": 0,
         "contest_name": "wyh女装",
         "begin_time": "2019-11-16 12:30:00",
         "end_time": "2019-11-16 17:30:00",
         "frozen": 0.2,//封榜百分比
-        "problems":{
-            0: 1000,
-            1: 1001,
-        },
-        "state": 0// 0-有效，1-比赛被禁止
-    }
+        "problems":[
+            "1000",
+            "1001",
+        ],
+        "colors": [
+            "#eeeeee",
+            "#aaaaaa"
+        ],
+        "state": 1// 1-有效，0-比赛被禁止
+    ]
 }
 ```
 
@@ -118,10 +126,14 @@ null
     "begin_time": "2019-11-17 12:30:00",
     "end_time": "2019-11-17 17:30:00",
     "frozen": 0.2,
-    "problems":{
-        0: 1000,
-        1: 1001,
-    }
+    "problems":[
+        "1000",
+        "1001",
+    ],
+    "colors": [
+        "#eeeeee",
+        "#aaaaaa"
+    ],
 }
 ```
 
@@ -166,10 +178,15 @@ null
     "begin_time": "2019-11-17 12:30:00",
     "end_time": "2019-11-17 17:30:00",
     "frozen": 0.2,
-    "problems":{
-        0: 1000,
-        1: 1001,
-    }
+    "problems":[
+        "1000",
+        "1001",
+    ],
+    "colors": [
+        "#eeeeee",
+        "#aaaaaa"
+    ],
+    "state": 1// 1-有效，0-比赛被禁止
 }
 ```
 
@@ -486,14 +503,32 @@ null
 {
     "status": 0,//0-success, -1-error
     "message": "操作成功",
-    "data": {
-        0:{
+    "data": [
+        {
             "id": 1,
-            "title": "wyh女装",
-            "link": "",
-            "status": 1//1-有效
+            "title": "test",
+            "url": "xxx",
+            "status": 1// 1-有效
+        },
+        {
+            "id": 3,
+            "title": "test",
+            "url": "xxxxx",
+            "status": 1
+        },
+        {
+            "id": 4,
+            "title": "test",
+            "url": "xxxx",
+            "status": 1
+        },
+        {
+            "id": 5,
+            "title": "test",
+            "url": "xxxxx",
+            "status": 1
         }
-    }
+    ]
 }
 ```
 
@@ -508,13 +543,77 @@ null
 {
     "status": 0,//0-success, -1-error
     "message": "操作成功",
-    "data": {
-        0:{
-            "time": "2019-11-16 00:00:00",
-            "ac": 1000,
-            "submit": 10000,
+    "data": [
+        {
+            "time": "2019-10-14 00:00:00",
+            "ac": 0,
+            "submit": 0
+        },
+        {
+            "time": "2019-10-15 00:00:00",
+            "ac": 0,
+            "submit": 0
+        },
+        {
+            "time": "2019-10-13 00:00:00",
+            "ac": 0,
+            "submit": 0
+        },
+        {
+            "time": "2019-10-12 00:00:00",
+            "ac": 0,
+            "submit": 0
+        },
+        {
+            "time": "2019-10-11 00:00:00",
+            "ac": 0,
+            "submit": 0
+        },
+        {
+            "time": "2019-10-10 00:00:00",
+            "ac": 0,
+            "submit": 0
+        },
+        {
+            "time": "2019-10-09 00:00:00",
+            "ac": 0,
+            "submit": 0
+        },
+        {
+            "time": "2019-10-08 00:00:00",
+            "ac": 0,
+            "submit": 0
+        },
+        {
+            "time": "2019-10-07 00:00:00",
+            "ac": 0,
+            "submit": 0
+        },
+        {
+            "time": "2019-10-06 00:00:00",
+            "ac": 0,
+            "submit": 0
+        },
+        {
+            "time": "2019-10-05 00:00:00",
+            "ac": 0,
+            "submit": 0
+        },
+        {
+            "time": "2019-10-04 00:00:00",
+            "ac": 0,
+            "submit": 0
+        },
+        {
+            "time": "2019-10-03 00:00:00",
+            "ac": 0,
+            "submit": 0
+        },
+        {
+            "ac": 2715,
+            "submit": 38271
         }
-    }
+    ]
 }
 ```
 
@@ -537,7 +636,13 @@ null
 {
     "status": 0,//0-success, -1-error
     "message": "登录成功",
-    "data": ""
+    "data": {
+        "userId": 1,
+        "nick": "123",
+        "desc": null,
+        "acCnt": 0,
+        "waCnt": 0
+    }
 }
 ```
 
@@ -547,7 +652,14 @@ null
 null
 
 *response:*
-null
+
+``` json
+{
+    "status": 0,
+    "message": "注销成功",
+    "data": ""
+}
+```
 
 * forget_password
 
@@ -584,22 +696,22 @@ null
 {
     "status": 0,//0-success, -1-error
     "message": "操作成功",
-    "data": {
-        0: {
-        "problem_id": 1,
-        "title": "wyh女装",
-        "ac": 100,
-        "wa": 1000,
-        "tag": "女装"
+    "data": [
+        {
+            "problem_id": 1001,
+            "title": "wyhsb",
+            "ac": 0,
+            "wa": 0,
+            "tag": null
         },
-        1: {
-        "problem_id": 2,
-        "title": "wyh女装",
-        "ac": 100,
-        "wa": 1000,
-        "tag": "女装"
+        {
+            "problem_id": 1002,
+            "title": "wyhsb",
+            "ac": 0,
+            "wa": 0,
+            "tag": null
         }
-    }
+    ]
 }
 ```
 
@@ -609,7 +721,7 @@ null
 
 ``` json
 {
-    "problem_id": 1,
+    "problem_id": 1001,
 }
 ```
 
@@ -620,17 +732,33 @@ null
     "status": 0,//0-success, -1-error
     "message": "操作成功",
     "data": {
-        "problem_id": 1,
-        "title": "wyh女装",
-        "background": "wyh想要女装了",
-        "describe": "描述",
-        "input_format": "sxxsasfc",
-        "output_format": "ssdds",
-        "hint": "",
-        "ac": 100,
-        "wa": 1000,
-        "tag": "女装",
-        "status": 1//1-有效
+        "problem_id": 1001,
+        "title": "wyhsb",
+        "background": "wyhsb",
+        "describe": "wyhsb",
+        "input_format": "wyhsb",
+        "output_format": "wyhsb",
+        "hint": "wyhsb",
+        "public": 1,
+        "source": null,
+        "ac": 0,
+        "wa": 0,
+        "tag": null,
+        "status": 1,
+        "sample": [
+            {
+                "sample_id": 1,
+                "problem_id": 1001,
+                "input": "wyhsb",
+                "output": "wyhsb"
+            },
+            {
+                "sample_id": 2,
+                "problem_id": 1001,
+                "input": "wyhsb",
+                "output": "wyhsb"
+            }
+        ]
     }
 }
 ```
@@ -651,22 +779,22 @@ null
 {
     "status": 0,//0-success, -1-error
     "message": "操作成功",
-    "data": {
-        0: {
-        "problem_id": 1,
-        "title": "wyh女装",
-        "ac": 100,
-        "wa": 1000,
-        "tag": "女装"
+    "data": [
+        {
+            "problem_id": 1001,
+            "title": "wyhsb",
+            "ac": 0,
+            "wa": 0,
+            "tag": null
         },
-        1: {
-        "problem_id": 2,
-        "title": "wyh女装",
-        "ac": 100,
-        "wa": 1000,
-        "tag": "女装"
+        {
+            "problem_id": 1002,
+            "title": "wyhsb",
+            "ac": 0,
+            "wa": 0,
+            "tag": null
         }
-    }
+    ]
 }
 ```
 
@@ -774,3 +902,164 @@ null
 * edituser
 
 * change_password
+
+## discuss
+
+* add_discuss
+
+*request:*
+
+```json
+{
+    "contest_id": "1001",
+    "problem_id": "1001",
+    "content": "xxxxx",
+    "title": "wyh",
+}
+```
+
+*response:*
+
+``` json
+{
+    "status": 0,//0-success, -1-error
+    "message": "添加成功",
+    "data": ""
+}
+```
+
+* add_reply
+
+*request:*
+
+```json
+{
+    "id": "1",
+    "content": "xxxxx",
+}
+```
+
+*response:*
+
+``` json
+{
+    "status": 0,//0-success, -1-error
+    "message": "添加成功",
+    "data": ""
+}
+```
+
+* getAlldiscuss
+
+*request:*
+
+```json
+{
+    "contest_id": "1001",
+}
+```
+
+*response:*
+
+``` json
+{
+    "status": 0,//0-success, -1-error
+    "message": "查询成功",
+    "data": [
+        {
+            "id": 1,
+            "contest_id": 1001,
+            "problem_id": 1001,
+            "user_id": 1,
+            "title": "wyhsb",
+            "content": "wyhsb",
+            "time": "2019-10-13 15:49:45",
+            "status": 1
+        },
+        {
+            "id": 2,
+            "contest_id": 1001,
+            "problem_id": 1001,
+            "user_id": 1,
+            "title": "wyhsb",
+            "content": "wyhsb",
+            "time": "2019-10-13 15:56:46",
+            "status": 0
+        },
+        {
+            "id": 3,
+            "contest_id": 1001,
+            "problem_id": 1001,
+            "user_id": 1,
+            "title": "ssss",
+            "content": "wyhsb",
+            "time": "2019-10-13 15:59:34",
+            "status": 0
+        },
+        {
+            "id": 4,
+            "contest_id": 1001,
+            "problem_id": 1001,
+            "user_id": 1,
+            "title": "ssss",
+            "content": "wyhsb",
+            "time": "2019-10-13 16:00:31",
+            "status": 8
+        }
+    ]
+}
+```
+
+* getThediscuss
+
+*request:*
+
+```json
+{
+    "discuss_id": "1",
+}
+```
+
+*response:*
+
+``` json
+{
+    "status": 0,//0-success, -1-error
+    "message": "注册成功",
+    "data": [
+        {
+            "id": 1,
+            "contest_id": 1001,
+            "problem_id": 1001,
+            "user_id": 1,
+            "title": "wyhsb",
+            "content": "wyhsb",
+            "time": "2019-10-13 15:49:45",
+            "status": 1
+        },
+        [
+            {
+                "id": 1,
+                "discuss_id": 1,
+                "user_id": 1,
+                "content": "wyhqssb",
+                "time": "2019-10-13 15:52:12"
+            },
+            {
+                "id": 2,
+                "discuss_id": 1,
+                "user_id": 1,
+                "content": "wyhsb",
+                "time": "2019-10-13 16:02:05"
+            },
+            {
+                "id": 3,
+                "discuss_id": 1,
+                "user_id": 1,
+                "content": "wyhsb",
+                "time": "2019-10-13 16:02:43"
+            }
+        ]
+    ]
+}
+```
