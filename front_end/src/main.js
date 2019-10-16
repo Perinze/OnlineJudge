@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import ElementUI from 'element-ui';
+import { Carousel, CarouselItem } from 'element-ui';
 import App from './App'
 import 'element-ui/lib/theme-chalk/index.css';
 import 'ant-design-vue/dist/antd.css';
@@ -10,7 +10,8 @@ import store from './store';
 Vue.config.productionTip = false;
 
 Vue.use(Vuex);
-Vue.use(ElementUI);
+Vue.use(Carousel);
+Vue.use(CarouselItem);
 
 /* eslint-disable no-new */
 window.Vue = new Vue({
