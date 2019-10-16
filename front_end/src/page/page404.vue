@@ -1,8 +1,32 @@
 <template>
     <div class="page404">
-        <span class="title-404">404</span>
-        <span class="detail-en">Can't found the page</span>
-        <span class="detail">网页丢失</span>
+        <img src="../../assets/icon/404.svg" alt="404" width="270" id="404-icon">
+        <div id="blank-div"></div>
+        <div id="404-content">
+            <span class="title-404">404</span>
+            <span class="detail-en">LOOKS LIKE YOU'RE LOST</span>
+            <span class="subdetail-en">The page you are looking for not avalible!</span>
+            <!--<span class="detail">网页丢失</span>-->
+            <div class="function-text" @click="$router.go(-1)">
+                <span class="guide-text">GO TO Previous Page</span>
+                <!-- 右箭头 -->
+                <svg width="16px" height="11px" viewBox="0 0 16 11" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round">
+                        <g id="404" transform="translate(-499.000000, -429.000000)" stroke="#000000" stroke-width="2">
+                            <g id="404-+-Looks-like-you’re-lo" transform="translate(170.000000, 164.000000)">
+                                <g id="GO-TO-HOME-+-Line-+-Path-73" transform="translate(248.000000, 261.000000)">
+                                    <g id="Line-+-Path-73" transform="translate(82.000000, 5.000000)">
+                                        <path d="M0.5,4 L11.5453606,4" id="Line"></path>
+                                        <polyline id="Path-73" points="9.41381836 0.0925292969 13.3696672 4.04837812 9.30577409 8.11227122"></polyline>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </svg>
+                <!-- 右箭头 END -->
+            </div>
+        </div>
     </div>
 </template>
 
@@ -16,15 +40,29 @@
     .page404 {
         width: 100%;
         height: 100%;
-        padding-left: 24px;
-        padding-bottom: 130px;
+        padding-left: 18px;
+        padding-bottom: 115px;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
         justify-content: center;
     }
 
+    #404-icon {
+        /*margin-right: 30px;*/
+    }
+
+    #blank-div {
+        width: 10%;
+    }
+
+    #404-content {
+        /*padding-left: 50px;*/
+    }
+
     .title-404 {
+        font-family: DINCondensed;
+        color: #1951FC;
         display: block;
         font-size: 155px;
         font-weight: bold;
@@ -33,9 +71,20 @@
     }
 
     .detail-en {
+        font-family: DINCondensed;
+        color: #212121;
         display: block;
         font-size: 28px;
         font-weight: bold;
+        letter-spacing: 0.93px;
+        /*line-height: 28px;*/
+    }
+
+    .subdetail-en {
+        display: inline-block;
+        font-family: dinnext;
+        color: #ABB1BF;
+        /*line-height: 18px;*/
     }
 
     .detail {
@@ -44,9 +93,27 @@
         /*font-weight: bold;*/
     }
 
+    .function-text {
+        cursor: pointer;
+    }
+
+    .function-text > svg {
+        margin-left: 7px;
+    }
+
+    .guide-text {
+        display: inline-block;
+        font-family: DINCondensed;
+        font-weight: bold;
+        color: black;
+        font-size: 15px;
+        margin-top: 40px;
+        letter-spacing: 0.2px;
+    }
+
     @media screen and (max-height: 700px) {
         .page404 {
-            padding-bottom: 80px;
+            padding-bottom: 70px;
         }
     }
 </style>

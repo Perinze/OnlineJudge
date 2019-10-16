@@ -174,6 +174,16 @@
         font-family: countdown;
         src: url("../assets/font/countdown.ttf");
     }
+
+    @font-face {
+        font-family: dinnext;
+        src: url("../assets/font/DINNext.otf");
+    }
+
+    @font-face {
+        font-family: DINCondensed;
+        src: url("../assets/font/DINCondensed.otf");
+    }
 </style>
 
 <!--TODO CodeMirror Theme: material nord oceanic-next-->
