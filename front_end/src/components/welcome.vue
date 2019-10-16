@@ -147,31 +147,29 @@
                     return;
                 }).then( async () => {
                     let response = await login(this.loginInfo);
-                    if(response.status == 0) {
-                        // 成功登陆
-                        this.loading = false;
+                    // 至少两秒
+                    setTimeout( () => {
+                        if(response.status == 0) {
+                            // 成功登陆
+                            this.loading = false;
 
-                        this.$store.dispatch("login/userLogin", true);
-                        localStorage.setItem("Flag", "isLogin");
-                        localStorage.setItem("userId", response.data.userId);
-                        localStorage.setItem("nick", response.data.nick);
-                        localStorage.setItem("desc", response.data.desc);
-                        localStorage.setItem("avator", response.data.avator);
-                        localStorage.setItem("acCnt", response.data.acCnt);
-                        localStorage.setItem("waCnt", response.data.waCnt);
-                        this.$emit('logged', response.data);
-                    }else{
-                        // 用户名密码错误
-                        // 已经登陆
-                        this.loading = false;
-                        if(response.message == "用户名或密码错误") {
-                            this.errorMsg.type="password";
-                            this.errorMsg.content="用户名或密码错误";
+                            this.$store.dispatch("login/userLogin", true);
+                            localStorage.setItem("Flag", "isLogin");
+                            localStorage.setItem("userId", response.data.userId);
+                            localStorage.setItem("nick", response.data.nick);
+                            localStorage.setItem("desc", response.data.desc);
+                            localStorage.setItem("avator", response.data.avator);
+                            localStorage.setItem("acCnt", response.data.acCnt);
+                            localStorage.setItem("waCnt", response.data.waCnt);
+                            this.$emit('logged', response.data);
                         }else{
-                            // pass;
+                            // 用户名密码错误
+                            // 已经登陆
+                            this.loading = false;
+                            this.errorMsg.type="password";
+                            this.errorMsg.content=response.message;
                         }
-                        // console.log("已经登陆过");
-                    }
+                    }, 2000);
                 });
             }
         }
@@ -412,7 +410,7 @@
         top: 139px;
         left: 62px;
         line-height: 28px;
-        font-weight: 400;
+        font-weight: 200;
     }
 
     .welcome-intro {
@@ -422,7 +420,7 @@
         width: 329px;
         height: 106px;
         font-size: 16px;
-        font-weight: 400;
+        font-weight: 200;
         line-height: 28px;
     }
 

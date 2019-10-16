@@ -26,8 +26,11 @@
         align-items: flex-start;
         width: 228px;
         height: 137px;
-        background:rgba(80,161,204,1);
-        box-shadow:0px 5px 10px rgba(0,0,0,0.3);
+        /* TODO 找个背景svg */
+        background:rgba(80,161,204,0.3);
+        -webkit-box-shadow:0px 2px 15px rgba(0,0,0,0.08);
+        -moz-box-shadow: 0px 2px 15px rgba(0,0,0,0.08);
+        box-shadow: 0px 2px 15px rgba(0,0,0,0.08);
         margin: 0 10px 41px 11px;
         border-radius: 10px;
     }

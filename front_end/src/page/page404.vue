@@ -4,11 +4,11 @@
         <div id="blank-div"></div>
         <div id="404-content">
             <span class="title-404">404</span>
-            <span class="detail-en">LOOKS LIKE YOU'RE LOST</span>
-            <span class="subdetail-en">The page you are looking for not avalible!</span>
+            <span class="detail-en">看起来你好像迷路了呢</span>
+            <span class="subdetail-en">请求网页不可访问哟</span>
             <!--<span class="detail">网页丢失</span>-->
             <div class="function-text" @click="$router.go(-1)">
-                <span class="guide-text">GO TO Previous Page</span>
+                <span class="guide-text">回到上一页</span>
                 <!-- 右箭头 -->
                 <svg width="16px" height="11px" viewBox="0 0 16 11" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round">
@@ -62,7 +62,8 @@
 
     .title-404 {
         font-family: DINCondensed;
-        color: #1951FC;
+        /*color: #1951FC;*/
+        color: #4288ce;
         display: block;
         font-size: 155px;
         font-weight: bold;
