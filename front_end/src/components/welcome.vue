@@ -50,7 +50,7 @@
                                            v-model="loginInfo.password"
                                     >
                                     <!--查看密码-->
-                                    <img :src="[seePass?icons.eyeHide:icons.eye]"
+                                    <img :src="[!seePass?icons.eyeHide:icons.eye]"
                                          height="23"
                                          @click="seePass = !seePass"
                                          style="cursor: pointer;"

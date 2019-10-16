@@ -93,6 +93,7 @@
         min-width: 875px;
         max-width: 990px;
         cursor: pointer;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.08);
     }
 
     .contest-card:first-child {
