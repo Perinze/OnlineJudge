@@ -4,8 +4,11 @@
 namespace app\oj\controller;
 
 
+use app\oj\model\ContestModel;
+use app\oj\model\ContestUserModel;
 use app\oj\model\DiscussModel;
 use app\oj\model\ReplyModel;
+use app\oj\validate\ContestValidate;
 use app\oj\validate\DiscussValidate;
 use app\oj\validate\ReplyValidate;
 use think\Controller;
@@ -74,7 +77,7 @@ class Discuss extends Controller
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
-    public function getAlldiscuss()
+    public function getAllDiscuss()
     {
         $discuss_model = new DiscussModel();
         $req = input('post.');
@@ -85,7 +88,7 @@ class Discuss extends Controller
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
-    public function getThediscuss()
+    public function getTheDiscuss()
     {
         $discuss_model = new DiscussModel();
         $reply_model = new ReplyModel();
@@ -101,5 +104,34 @@ class Discuss extends Controller
         $resp = $reply_model->get_the_discuss($req['discuss_id']);
         $data[] = $resp['data'];
         return apiReturn($resp['code'], $resp['msg'], $data);
+    }
+
+    public function getUserDiscuss()
+    {
+        $discuss_model = new DiscussModel();
+        $req = input('post.');
+        $user_id = Session::get('user_id');
+        if (empty($user_id)) {
+            return apiReturn(CODE_ERROR, '未登录', '');
+        }
+        if(!isset($req['contest_id'])){
+            return apiReturn(CODE_ERROR, '未填写比赛id', '');
+        }
+        $contest_id = $req['contest_id'];
+        $info = $this->checkContest($contest_id, $user_id);
+        if($info['code'] !== CODE_SUCCESS){
+            return apiReturn($info['code'], $info['msg'], $info['data']);
+        }
+        $resp = $discuss_model->get_user_discuss($user_id, $contest_id);
+        return apiReturn($resp['code'], $resp['msg'], $resp['data']);
+    }
+
+    /**
+     * 检查参加比赛状态
+     */
+    private function checkContest($contest_id, $user_id)
+    {
+        $contest_user_model = new ContestUserModel();
+        return $contest_user_model->searchUser($contest_id, $user_id);
     }
 }
