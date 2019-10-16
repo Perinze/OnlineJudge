@@ -31,22 +31,32 @@
                         <div class="login-icon"></div>
                         <div class="function-input-group">
                             <div class="info-input-container">
-                                <img src="../../assets/icon/account.svg" width="23">
-                                <input class="info-input"
-                                       type="text"
-                                       placeholder="Account"
-                                       v-model="loginInfo.nick"
-                                >
+                                <div>
+                                    <img src="../../assets/icon/account.svg" width="23">
+                                    <input class="info-input"
+                                           type="text"
+                                           placeholder="Account"
+                                           v-model="loginInfo.nick"
+                                    >
+                                </div>
+                                <span class="error-tips" v-show="errorMsg.type==='account'">{{errorMsg.content}}</span>
                             </div>
                             <div class="info-input-container">
-                                <img src="../../assets/icon/lock.svg" width="23">
-                                <input class="info-input"
-                                       :type="[seePass?'text':'password']"
-                                       placeholder="Password"
-                                       v-model="loginInfo.password"
-                                >
-                                <!--查看密码-->
-                                <img :src="[seePass?icons.eyeHide:icons.eye]" height="23" @click="seePass = !seePass" style="cursor: pointer;">
+                                <div>
+                                    <img src="../../assets/icon/lock.svg" width="23">
+                                    <input class="info-input"
+                                           :type="[seePass?'text':'password']"
+                                           placeholder="Password"
+                                           v-model="loginInfo.password"
+                                    >
+                                    <!--查看密码-->
+                                    <img :src="[seePass?icons.eyeHide:icons.eye]"
+                                         height="23"
+                                         @click="seePass = !seePass"
+                                         style="cursor: pointer;"
+                                    >
+                                </div>
+                                <span class="error-tips" v-show="errorMsg.type==='password'">{{errorMsg.content}}</span>
                             </div>
                             <div class="login-btn-container">
                                 <transition name="loading">
@@ -102,6 +112,10 @@
                     password: ''
                 },
                 loading: false,
+                errorMsg: {
+                    type: '',
+                    content: ''
+                }
             }
         },
         methods: {
@@ -109,18 +123,24 @@
                 this.$emit('close');
             },
             do_login: async function() {
+                this.errorMsg.type='';
+                this.errorMsg.content='';
                 let checkInfoPromise = new Promise((resolve, reject) => {
                     let data = this.loginInfo;
                     if(data.nick.length > 25 || data.nick.length < 1) {
-                        reject("用户名为1-25个字符");
+                        reject("account:用户名为1-25个字符");
                     }
                     if(data.password.length < 6) {
-                        reject("密码最少6位");
+                        reject("password:密码最少6位");
                     }
                     resolve();
                 });
                 checkInfoPromise.catch( async (errorMessage) => {
-                    alert(errorMessage);
+                    // alert(errorMessage);
+                    console.log(errorMessage);
+                    this.errorMsg.type = errorMessage.slice(0, errorMessage.indexOf(':'));
+                    this.errorMsg.content = errorMessage.slice(errorMessage.indexOf(':')+1);
+                    console.log(this.errorMsg);
                 });
                 checkInfoPromise.then( async (successMessage) => {
                     this.loading = true;
@@ -144,8 +164,13 @@
                         // 用户名密码错误
                         // 已经登陆
                         this.loading = false;
-
-                        console.log("已经登陆过");
+                        if(response.message == "用户名或密码错误") {
+                            this.errorMsg.type="password";
+                            this.errorMsg.content="用户名或密码错误";
+                        }else{
+                            // pass;
+                        }
+                        // console.log("已经登陆过");
                     }
                 });
             }
@@ -269,15 +294,28 @@
         display: flex;
     }
 
+    .error-tips {
+        position: relative;
+        display: inline-block;
+        color: red;
+        font-size: 12px;
+        top: 8px;
+    }
+
     .info-input-container {
         display: flex;
-        flex-direction: row;
-        align-items: center;
+        flex-direction: column;
         height: 35px;
         margin-bottom: 17px;
     }
 
-    .info-input-container::after {
+    .info-input-container > div {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .info-input-container > div::after {
         position: absolute;
         content: '';
         margin-top: calc(35px / 2);

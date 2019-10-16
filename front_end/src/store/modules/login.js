@@ -29,7 +29,7 @@ const mutations = {
     userData(state, data) {
         state.userId = data.userId;
         state.nick = data.nick;
-        state.desc = data.desc==null?'You blow me away.':data.desc=='null'?'You blow me away.':data.desc;
+        state.desc = data.desc==null?'null':data.desc;
         state.avator = data.avator==undefined?'../../assets/media/avator.png':data.avator;
         state.acCnt = data.acCnt;
         state.waCnt = data.waCnt;
