@@ -147,25 +147,29 @@
                 this.userinfo.isLogin = true;
             },
             doLogout: async function() {
-                let response = await logout();
-                if(response.status == 0) {
-                    // ok
-                    let procedure = new Promise( (resolve, reject) => {
-                        localStorage.removeItem("Flag");
-                        localStorage.removeItem("userId");
-                        localStorage.removeItem("nick");
-                        localStorage.removeItem("desc");
-                        localStorage.removeItem("avator");
-                        localStorage.removeItem("acCnt");
-                        localStorage.removeItem("waCnt");
-                        resolve();
-                    });
-                    procedure.then( (successMessage) => {
-                        this.initUser();
-                    });
-                }else{
-                    //error
-                }
+                this.$loading.open();
+                setTimeout(() =>{
+                    this.$loading.hide();
+                },5000)
+                // let response = await logout();
+                // if(response.status == 0) {
+                //     // ok
+                //     let procedure = new Promise( (resolve, reject) => {
+                //         localStorage.removeItem("Flag");
+                //         localStorage.removeItem("userId");
+                //         localStorage.removeItem("nick");
+                //         localStorage.removeItem("desc");
+                //         localStorage.removeItem("avator");
+                //         localStorage.removeItem("acCnt");
+                //         localStorage.removeItem("waCnt");
+                //         resolve();
+                //     });
+                //     procedure.then( (successMessage) => {
+                //         this.initUser();
+                //     });
+                // }else{
+                //     //error
+                // }
             },
             initUser() {
                 let tmp = localStorage.getItem('Flag');

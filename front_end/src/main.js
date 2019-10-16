@@ -6,12 +6,16 @@ import 'element-ui/lib/theme-chalk/index.css';
 import 'ant-design-vue/dist/antd.css';
 import router from './router/router';
 import store from './store';
+import loadingPlugin from './plugins/loading';
 
 Vue.config.productionTip = false;
 
 Vue.use(Vuex);
 Vue.use(Carousel);
 Vue.use(CarouselItem);
+Vue.use(loadingPlugin, {
+    progressColor: '#4288ce'
+});
 
 /* eslint-disable no-new */
 window.Vue = new Vue({
