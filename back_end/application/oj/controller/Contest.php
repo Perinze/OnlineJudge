@@ -6,6 +6,7 @@ namespace app\oj\controller;
 
 use app\oj\model\ContestModel;
 use app\oj\model\ContestUserModel;
+use app\oj\model\SubmitModel;
 use app\oj\validate\ContestValidate;
 use think\Controller;
 use think\facade\Session;
@@ -37,7 +38,7 @@ class Contest extends Controller
         $contest_model = new ContestModel();
         $contest_validate = new ContestValidate();
         $req = input('post.');
-        $result = $contest_validate->scene('searchContest')->check($req);
+        $result = $contest_validate->scene('searchContest1')->check($req);
         if ($result !== true) {
             return apiReturn(CODE_ERROR, $contest_validate->getError(), '');
         }
@@ -183,4 +184,26 @@ class Contest extends Controller
         }
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
+
+    /**
+     * 检查参加比赛状态
+     */
+    public function checkContest()
+    {
+        $contest_user_model = new ContestUserModel();
+        $contest_validate = new ContestValidate();
+        $req = input('post.');
+        $result = $contest_validate->scene('searchContest')->check($req);
+        if ($result !== true) {
+            return apiReturn(CODE_ERROR, $contest_validate->getError(), '');
+        }
+        $user_id = Session::get('user_id');
+        if (empty($user_id)) {
+            return apiReturn(CODE_ERROR, '未登录', '');
+        }
+        $contest_id = $req['contest_id'];
+        $resp = $contest_user_model->searchUser($contest_id, $user_id);
+        return apiReturn($resp['code'], $resp['msg'], $resp['data']);
+    }
+
 }

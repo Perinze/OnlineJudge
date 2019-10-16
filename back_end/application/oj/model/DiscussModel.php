@@ -58,4 +58,15 @@ class DiscussModel extends Model
             return ['code' => CODE_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];
         }
     }
+
+    public function get_user_discuss($user_id, $contest_id)
+    {
+        try{
+            $where = '(`contest_id` = '.$contest_id.' AND `user_id` = '.(string)$user_id.')'.'OR (`contest_id` = '.$contest_id.' AND `status` = 8)';
+            $info = $this->where($where)->select()->toArray();
+            return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $info];
+        } catch (Exception $e) {
+            return ['code' => CODE_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];
+        }
+    }
 }

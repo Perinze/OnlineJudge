@@ -28,16 +28,21 @@ class Submit extends Base
         }
         $where = [];
         $user_id = Session::get('user_id');
+        $identify = Session::get('identify');
         if (empty($user_id)) {
             return apiReturn(CODE_ERROR, '未登录', '');
         }
         // TODO 检查是否在比赛期间
         // TODO 检查权限
         if (isset($req['contest_id'])) {
+
             $where[] = ['contest_id', '=', $req['contest_id']];
         }
         if (isset($req['user_id'])) {
-            $where[] = ['user_id', '=', $req['user_id']];
+            if($identify === ADMINISTRATOR){
+                $user_id = $req['user_id'];
+            }
+            $where[] = ['user_id', '=', $user_id];
         }
         $resp = $submit_model->get_the_submit($where);
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
@@ -71,13 +76,13 @@ class Submit extends Base
         if ($problem['data']['status'] === CONTEST) {
             if (isset($req['contest_id'])) {
                 $contest_id = $req['contest_id'];
-                $info = $contest_user_model->searchUser($contest_id, $user_id);
-                if ($info['code'] !== CODE_SUCCESS) {
-                    return apiReturn($info['code'], $info['msg'], $info['data']);
-                }
                 $contest = $contest_model->searchContest($contest_id);
                 if ($contest['code'] !== CODE_SUCCESS) {
                     return apiReturn($contest['code'], $contest['msg'], $contest['data']);
+                }
+                $info = $contest_user_model->searchUser($contest_id, $user_id);
+                if ($info['code'] !== CODE_SUCCESS) {
+                    return apiReturn($info['code'], $info['msg'], $info['data']);
                 }
                 if ($time < $contest['data']['begin_time']) {
                     return apiReturn(CODE_ERROR, '比赛未开始', '');
