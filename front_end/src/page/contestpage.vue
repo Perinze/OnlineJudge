@@ -257,7 +257,7 @@
             this.countDownToEnd();
         },
         async mounted() {
-            // this.renderContestInfo();
+            this.renderContestInfo();
         },
         methods: {
             timeFormat(param) {
