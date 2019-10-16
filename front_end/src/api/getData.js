@@ -15,6 +15,8 @@ export const login = data => fetch('/Login/do_login', 'post', data);
 export const logout = () => fetch('/Login/do_logout', 'post', {});
 
 
+
+
 // 业务逻辑
 
 /**
@@ -39,7 +41,9 @@ export const getDailydata = () => fetch('/Index/data');
  * 获取PV数据（百度统计API）
  */
 
-export const getPvData = (data, header) => fetch('https://api.baidu.com/json/tongji/v1/ReportService/getData', 'post', data ,header);
+export const getPvData = (data, header) => fetch('https://api.baidu.com/json/tongji/v1/ReportService/getData', 'post', data, header);
+
+
 
 
 // 题目逻辑
@@ -73,3 +77,19 @@ export const getContestList = () => fetch('/Contest/getAllContest');
 
 export const getContest = data => fetch('/Contest/getTheContest', 'post', data);
 
+
+
+
+// 讨论板
+
+/**
+ * 获取某场比赛的讨论列表
+ */
+
+export const getDiscussList = data => fetch('/discuss/getAlldiscuss', 'post', data);
+
+/**
+ * 获取某场比赛的某个讨论内容
+ */
+
+export const getDiscussDetail = data => fetch('/discuss/getThediscuss', 'post', data);

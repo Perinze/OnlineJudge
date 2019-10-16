@@ -17,7 +17,7 @@
                         <span class="login-guide-2">如果您已有账户可以选择：</span>
                         <button class="login-button" @click="activeInteract = 'login'">Login</button>
                         <span class="register-guide">点击下方"Sign up"按钮即可开始注册</span>
-                        <button class="register-button" @click="activeInteract = 'register'">Sign up</button>
+                        <button class="register-button" @click="activeInteract = 'register'" disabled>Sign up</button>
                         <div class="tourist-content">
                             <span class="tourist-guide">如果您还未准备好注册账户，可以选择</span>
                             <a class="tourist-a" title="暂不可用" disabled>继续以游客模式访问</a>
@@ -70,7 +70,7 @@
                         <div class="backward-btn" @click="activeInteract = 'default'">
                             <img src="../../assets/icon/backward.svg" width="23" height="23" alt="backward">
                         </div>
-                        <div class="lds-ripple"><div></div><div></div></div>
+                        <!--<div class="lds-ripple"><div></div><div></div></div>-->
                     </div>
                 </transition>
             </div>
@@ -127,12 +127,6 @@
                     return;
                 }).then( async () => {
                     let response = await login(this.loginInfo);
-                    // console.log('begin');
-                    // setTimeout(() => {
-                    //     this.loading=false;
-                    //     console.log('work');
-                    // }, 10000);
-                    // console.log('end');
                     if(response.status == 0) {
                         // 成功登陆
                         this.loading = false;

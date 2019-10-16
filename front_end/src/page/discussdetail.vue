@@ -1,13 +1,63 @@
 <template>
-    
+    <div class="discuss-detail">
+
+    </div>
 </template>
 
 <script>
+    import { getDiscussDetail } from "../api/getData";
+
     export default {
-        name: "discussdetail"
+        name: "discussdetail",
+        data() {
+            return {
+                themeInfo: {
+                    id: '',
+                    contest_id: '',
+                    problem_id: '',
+                    user_id: '',
+                    title: '',
+                    content: '',
+                    time: '',
+                    status: '',
+                },
+                replyItems: [
+                    // {
+                    //     id: '',
+                    //     discuss_id: '',
+                    //     user_id: '',
+                    //     content: '',
+                    //     time: ''
+                    // },
+                ]
+            }
+        },
+        mounted() {
+            this.renderContent();
+        },
+        methods: {
+            renderContent: async function() {
+                let response = await getDiscussDetail({
+                    discuss_id: this.$route.params.did
+                });
+                console.log(response);
+                if(response.status == 0) {
+                    this.themeInfo = response.data[0];
+                    response.data[1].forEach( (val, index) => {
+                        this.replyItems.push(val);
+                    });
+                    // console.log(this.themeInfo);
+                    // console.log(this.replyItems);
+                }else{
+
+                }
+            }
+        }
     }
 </script>
 
 <style scoped>
+    .discuss-detail {
 
+    }
 </style>

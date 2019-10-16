@@ -180,7 +180,7 @@
                 store.state.login.avator = localStorage.getItem("avator");
                 store.state.login.acCnt = localStorage.getItem("acCnt");
                 store.state.login.waCnt = localStorage.getItem("waCnt");
-            }
+            },
         },
         computed: {
             activeIndex: function() {
@@ -365,6 +365,7 @@
         height: 28px;
         width: 150px;
         margin-top: 20px;
+        cursor: pointer;
     }
 
     #unlog-guide {

@@ -36,10 +36,10 @@ router.beforeEach((to, from, next) => {
         store.state.login.waCnt = localStorage.getItem("waCnt");
         next();
 
-        if(!to.meta.isLogin) {
-            // 已经登陆过
-            console.log("已经登陆");
-        }
+        // if(!to.meta.isLogin) {
+        //     // 已经登陆过
+        //     console.log("已经登陆");
+        // }
     }else{
         // 未登陆
         if(to.meta.isLogin){

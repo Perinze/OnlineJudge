@@ -2,17 +2,62 @@
     <div class="discuss-list">
         <div class="list">
             <div class="element-card"
-                 v-for="index in 3"
+                 v-for="index in items.length"
+                 @click="$router.push('/discuss/' + contest_id + '/' + items[index-1].id)"
             >
-
+                <div class="title">{{items[index-1].title}}</div>
+                <div class="content">{{items[index-1].content}}</div>
+                <div class="time">{{items[index-1].time}}</div>
+                <div class="user-nick">{{items[index-1].user_id}}</div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import { getDiscussList } from "../api/getData";
+
     export default {
-        name: "discusslist"
+        name: "discusslist",
+        data() {
+            return {
+                items: [
+                    // {
+                    //     id: '',
+                    //     problem_id: '',
+                    //     contest_id: '',
+                    //     user_id: '',
+                    //     time: '',
+                    //     title: '',
+                    //     content: '',
+                    //     status: ''
+                    // }
+                ]
+            }
+        },
+        mounted() {
+            this.renderList();
+        },
+        methods: {
+            renderList: async function() {
+                let response = await getDiscussList({
+                    contest_id: this.$route.params.id
+                });
+                // console.log(response);
+                if(response.status == 0) {
+                    response.data.forEach( (val, index) => {
+                        this.items.push(val);
+                    });
+                }else{
+
+                }
+            }
+        },
+        computed: {
+            contest_id: function() {
+                return this.$route.params.id;
+            }
+        }
     }
 </script>
 

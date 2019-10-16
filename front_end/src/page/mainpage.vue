@@ -182,7 +182,7 @@
             this.renderCarousel();
             this.renderHistogram();
             this.renderContest();
-            this.renderPV();
+            // this.renderPV();
         },
         filters: {
             stdNum: function(num) {
