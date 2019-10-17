@@ -225,10 +225,10 @@
         },
         computed: {
             firefoxCheck: function() {
-                let explorer = window.navigator.userAgent ;
-                if (explorer.indexOf("Firefox") >= 0) {
-                    return true;
-                }
+                // let explorer = window.navigator.userAgent ;
+                // if (explorer.indexOf("Firefox") >= 0) {
+                //     return true;
+                // }
                 return false;
             }
         }
