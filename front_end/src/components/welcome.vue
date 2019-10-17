@@ -1,5 +1,5 @@
 <template>
-    <div class="welcome" v-if="display">
+    <div class="welcome" v-if="display" @click.right="rejectContext($event)">
         <div id="function-mask" @click="close"></div>
         <div class="welcome-main" ref="card">
             <div class="welcome-view">
@@ -12,7 +12,11 @@
             </div>
             <div class="welcome-interact">
                 <transition name="fadeinteract" mode="out-in">
-                    <div class="welcome-interact-guide welcome-interact-element" v-if="activeInteract == 'default'" key="default">
+                    <!-- 导航菜单 -->
+                    <div class="welcome-interact-guide welcome-interact-element"
+                         v-if="activeInteract == 'default'"
+                         key="default"
+                    >
                         <span class="login-guide-1">我们将引导您完成注册步骤</span>
                         <span class="login-guide-2">如果您已有账户可以选择：</span>
                         <button class="login-button" @click="activeInteract = 'login'">Login</button>
@@ -24,10 +28,15 @@
                             <span class="tourist-intro">您仍可以浏览页面，但个别功能无法使用</span>
                         </div>
                     </div>
-                    <div class="welcome-interact-login welcome-interact-element" v-if="activeInteract == 'login'" key="login">
+                    <!-- 登陆菜单 -->
+                    <div class="welcome-interact-login welcome-interact-element"
+                         v-if="activeInteract == 'login'"
+                         key="login"
+                    >
                         <div class="backward-btn" @click="activeInteract = 'default'">
                             <img src="../../assets/icon/backward.svg" width="23" height="23" alt="backward">
                         </div>
+                        <!--<span class="welcome-title" style="position: absolute;">登录</span>-->
                         <div class="login-icon"></div>
                         <div class="function-input-group">
                             <div class="info-input-container">
@@ -70,13 +79,22 @@
                                 </transition>
                             </div>
 
-                            <div class="forget-passwd-btn">
-                                <!--<span>忘记密码</span>-->
-                                <span>Forget Password</span>
+                            <div class="sub-function-btn">
+                                <div class="forget-passwd-btn sub-function-btn-element">
+                                    <span>忘记密码</span>
+                                    <!--<span>Forget Password</span>-->
+                                </div>
+                                <div class="login-to-register sub-function-btn-element">
+                                    <span>注册账号</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="welcome-interact-register welcome-interact-element" v-if="activeInteract == 'register'" key="register">
+                    <!-- 注册菜单 -->
+                    <div class="welcome-interact-register welcome-interact-element"
+                         v-if="activeInteract == 'register'"
+                         key="register"
+                    >
                         <div class="backward-btn" @click="activeInteract = 'default'">
                             <img src="../../assets/icon/backward.svg" width="23" height="23" alt="backward">
                         </div>
@@ -171,6 +189,9 @@
                         }
                     }, 2000);
                 });
+            },
+            rejectContext: function(e) {
+                e.preventDefault();
             }
         }
     }
@@ -367,20 +388,23 @@
         padding: 0 0;
     }
 
-    .forget-passwd-btn {
-        cursor: pointer;
-        text-align: center;
-    }
-    
-    .forget-passwd-btn > span {
-        display: block;
+    .sub-function-btn {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-top: 3px;
+        padding: 0 5px;
     }
 
-    .forget-passwd-btn:hover {
+    .sub-function-btn-element {
+        cursor: pointer;
+    }
+
+    .sub-function-btn-element:hover {
         text-decoration: underline;
     }
 
-    .forget-passwd-btn:disabled {
+    .sub-function-btn-disabled {
         text-decoration: none;
         color: gray;
     }
