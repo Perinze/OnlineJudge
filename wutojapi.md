@@ -1063,3 +1063,166 @@ null
     ]
 }
 ```
+
+## submit
+
+* get_submit_info
+
+*request:*
+
+```json
+{
+    "contest_id": "1",//可选
+    "user_id": "1", //可选
+}
+```
+
+*response:*
+
+* contest_id and user_id 获取指定用户比赛提交，若在比赛期间，只有管理员可使用，其他调用返回个人提交，若比赛结束，普通用户和管理员等效
+
+``` json
+{
+    "status": 0,
+    "message": "查询成功",
+    "data": {
+        "submit_info": [
+            {
+                "user_id": 1,
+                "nick": "123",
+                "problem_id": 1001,
+                "language": 1,
+                "status": "AC",
+                "time": "",
+                "memory": "",
+                "submit_time": "2019-03-31 13:00:00"
+            },
+            {
+                "user_id": 1,
+                "nick": "123",
+                "problem_id": 1002,
+                "language": 1,
+                "status": "WA",
+                "time": "",
+                "memory": "",
+                "submit_time": "2019-03-31 13:00:00"
+            }
+        ],
+        "penalty": {
+            "nick": "123",
+            "penalty": -17205167,
+            "acnum": 1,
+            "problem": {
+                "A": {
+                    "success_time": -17205167,
+                    "times": 0
+                },
+                "B": {
+                    "success_time": "",
+                    "times": 1
+                }
+            }
+        }
+    }
+}
+```
+
+* user_id 获取指定用户非比赛提交
+
+``` json
+{
+    "status": 0,
+    "message": "查询成功",
+    "data": [
+        {
+            "user_id": 1,
+            "nick": "123",
+            "problem_id": 1001,
+            "language": 1,
+            "status": "AC",
+            "time": "",
+            "memory": "",
+            "submit_time": "2019-03-31 13:00:00"
+        },
+        {
+            "user_id": 1,
+            "nick": "123",
+            "problem_id": 1002,
+            "language": 1,
+            "status": "WA",
+            "time": "",
+            "memory": "",
+            "submit_time": "2019-03-31 13:00:00"
+        }
+    ]
+}
+```
+
+* contest_id 如果是管理员或比赛已结束则得到指定比赛的所有提交，如果是普通用户在比赛时间内则返回普通用户该场比赛提交
+
+``` json
+{
+    "status": 0,
+    "message": "查询成功",
+    "data": {
+        "submit_info": [
+            {
+                "user_id": 1,
+                "nick": "123",
+                "problem_id": 1001,
+                "language": 1,
+                "status": "AC",
+                "time": "",
+                "memory": "",
+                "submit_time": "2019-03-31 13:00:00"
+            },
+            {
+                "user_id": 1,
+                "nick": "123",
+                "problem_id": 1002,
+                "language": 1,
+                "status": "WA",
+                "time": "",
+                "memory": "",
+                "submit_time": "2019-03-31 13:00:00"
+            }
+        ],
+        "penalty": {
+            "nick": "123",
+            "penalty": -17205167,
+            "acnum": 1,
+            "problem": {
+                "A": {
+                    "success_time": -17205167,
+                    "times": 0
+                },
+                "B": {
+                    "success_time": "",
+                    "times": 1
+                }
+            }
+        }
+    }
+}
+```
+
+* null 得到所有非比赛提交
+
+``` json
+{
+    "status": 0,
+    "message": "查询成功",
+    "data": [
+        {
+            "user_id": 1,
+            "nick": "123",
+            "problem_id": 123,
+            "language": 1,
+            "status": "1",
+            "time": "",
+            "memory": "",
+            "submit_time": "2019-03-31 14:09:47"
+        }
+    ]
+}
+```

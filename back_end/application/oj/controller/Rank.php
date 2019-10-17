@@ -67,10 +67,15 @@ class Rank extends Controller
     public function handle_rank($data, $begin_time, $problem)
     {
         $rank = [];
+        $begin_time = strtotime($begin_time);
         // 数据清理
         foreach ($data as $item) {
             $user_id = $item['user_id'];
-            $problem_id = $item['problem_id'];
+            $problem_id = array_search($item['problem_id'], $problem, false);
+            if($problem_id === false){
+                continue;
+            }
+            $problem_id = chr($problem_id + 65);
             if (!isset($rank[$user_id])) {
                 $rank[$user_id] = ['nick' => $item['nick'], 'penalty' => 0, 'ac_num' => 0];
             }
@@ -82,10 +87,9 @@ class Rank extends Controller
             if (empty($rank[$user_id][$problem_id]['success_time'])) {
                 if ($item['status'] !== 'AC') {
                     $rank[$user_id][$problem_id]['times']++;
-                    $rank[$user_id]['penalty'] += 1200;
                 } else {
-                    $rank[$user_id][$problem_id]['success_time'] = $item['submit_time'] - $begin_time;
-                    $rank[$user_id]['penalty'] += $item['submit_time'] - $begin_time;
+                    $rank[$user_id][$problem_id]['success_time'] = strtotime($item['submit_time']) - $begin_time;
+                    $rank[$user_id]['penalty'] += strtotime($item['submit_time']) - $begin_time + $rank[$user_id][$problem_id]['times'] * 1200;
                     $rank[$user_id]['ac_num']++;
                 }
             }

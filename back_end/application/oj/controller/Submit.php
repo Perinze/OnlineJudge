@@ -22,29 +22,50 @@ class Submit extends Base
     public function get_submit_info()
     {
         $submit_model = new SubmitModel();
+        $contest_model = new ContestModel();
         $req = input('post.');
-        if (!isset($req['contest_id']) && !isset($req['user_id'])) {
-            return apiReturn(CODE_ERROR, '缺少查询数据', '');
-        }
         $where = [];
         $user_id = Session::get('user_id');
         $identify = Session::get('identify');
+        $time = time();
         if (empty($user_id)) {
             return apiReturn(CODE_ERROR, '未登录', '');
         }
-        // TODO 检查是否在比赛期间
-        // TODO 检查权限
+        if(!isset($req['contest_id']) && !isset($req['user_id'])){
+            $resp = $submit_model->get_the_submit(array(
+                'contest_id' => 0
+            ));
+            return apiReturn($resp['code'], $resp['msg'], $resp['data']);
+        }
         if (isset($req['contest_id'])) {
-
-            $where[] = ['contest_id', '=', $req['contest_id']];
-        }
-        if (isset($req['user_id'])) {
-            if($identify === ADMINISTRATOR){
-                $user_id = $req['user_id'];
+            $contest_id = $req['contest_id'];
+            $contest = $contest_model->searchContest($contest_id);
+            if ($contest['code'] !== CODE_SUCCESS) {
+                return apiReturn($contest['code'], $contest['msg'], $contest['data']);
             }
-            $where[] = ['user_id', '=', $user_id];
+            if ($time < $contest['data']['begin_time']) {
+                return apiReturn(CODE_ERROR, '比赛未开始', '');
+            }
+            $where[] = ['contest_id', '=', $req['contest_id']];
+            if (!($identify === ADMINISTRATOR || $time > strtotime($contest['data']['end_time']))) {
+                $user_id = isset($req['user_id']) ? $req['user_id'] : $user_id;
+                $where[] = ['submit.user_id', '=', $user_id];
+            } else {
+                if(isset($req['user_id'])){
+                    $where[] = ['submit.user_id', '=', $req['user_id']];
+                }
+            }
+            $resp = $submit_model->get_the_submit($where);
+            $temp = $resp['data'];
+            unset($resp['data']);
+            $resp['data']['submit_info'] = $temp;
+            $resp['data']['penalty'] = $this->handle_data($resp['data']['submit_info'],  $contest['data']['begin_time'], json_decode($contest['data']['problems'], true));
+        } else {
+            if(isset($req['user_id'])){
+                $where[] = ['submit.user_id', '=', $req['user_id']];
+            }
+            $resp = $submit_model->get_the_submit($where);
         }
-        $resp = $submit_model->get_the_submit($where);
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
@@ -119,5 +140,36 @@ class Submit extends Base
             ]
         ), true));
         return apiReturn(CODE_SUCCESS, '提交成功', '');
+    }
+
+    private function handle_data($data, $begin_time, $problem)
+    {
+        $begin_time = strtotime($begin_time);
+        $re_data = array(
+            'nick' => isset($data[0]['nick']) ? $data[0]['nick'] : '',
+            'penalty' => 0,
+            'acnum' => 0,
+            'problem' => array(),
+        );
+        foreach ($data as $item){
+            $p = array_search($item['problem_id'], $problem, false);
+            if($p === false){
+                continue;
+            }
+            $p = chr($p + 65);
+            if(!isset($re_data['problem'][$p])){
+                $re_data['problem'][$p] = ['success_time' => '', 'times' => 0];
+            }
+            if(empty($re_data['problem'][$p]['success_time'])){
+                if($item['status'] !== 'AC'){
+                    $re_data['problem'][$p]['times']++;
+                } else {
+                    $re_data['problem'][$p]['success_time'] = strtotime($item['submit_time']) - $begin_time;
+                    $re_data['penalty'] += strtotime($item['submit_time']) - $begin_time + $re_data['problem'][$p]['times'] * 1200;
+                    $re_data['acnum']++;
+                }
+            }
+        }
+        return $re_data;
     }
 }
