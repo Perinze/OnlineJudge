@@ -49,7 +49,7 @@
                         <!--<span class="welcome-title" style="position: absolute;">登录</span>-->
                         <div class="login-icon"></div>
                         <div class="function-input-group">
-                            <div class="info-input-container">
+                            <div :class="[firefoxCheck?'-moz-info-input-container':'info-input-container']">
                                 <div>
                                     <img src="../../assets/icon/account.svg" width="23">
                                     <input class="info-input"
@@ -60,7 +60,7 @@
                                 </div>
                                 <span class="error-tips" v-show="errorMsg.type==='account'">{{errorMsg.content}}</span>
                             </div>
-                            <div class="info-input-container">
+                            <div :class="[firefoxCheck?'-moz-info-input-container':'info-input-container']">
                                 <div>
                                     <img src="../../assets/icon/lock.svg" width="23">
                                     <input class="info-input"
@@ -218,6 +218,15 @@
             rejectContext: function(e) {
                 e.preventDefault();
             }
+        },
+        computed: {
+            firefoxCheck: function() {
+                let explorer = window.navigator.userAgent ;
+                if (explorer.indexOf("Firefox") >= 0) {
+                    return true;
+                }
+                return false;
+            }
         }
     }
 </script>
@@ -368,6 +377,33 @@
         border-radius: 2px;
         background: rgba(34,33,53,1);
     }
+
+    /* -moz- firefox兼容 */
+
+    .-moz-info-input-container {
+        display: flex;
+        flex-direction: column;
+        height: 35px;
+        margin-bottom: 17px;
+    }
+
+    .-moz-info-input-container > div {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .-moz-info-input-container > div:after {
+        position: absolute;
+        content: '';
+        margin-top: 30px;
+        width: 250px;
+        height: 2px;
+        border-radius: 2px;
+        background: rgba(34,33,53,1);
+    }
+
+    /* -moz- firefox 兼容 END */
 
     .info-input {
         background: none;
