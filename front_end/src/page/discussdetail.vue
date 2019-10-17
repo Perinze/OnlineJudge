@@ -1,6 +1,20 @@
 <template>
     <div class="discuss-detail">
-
+        <ul class="discuss-content">
+            <li class="content-head">
+                <div class="head-title">{{themeInfo.problem_id}}  {{themeInfo.title}}</div>
+                <div class="head-content">{{themeInfo.content}}</div>
+                <div class="head-user">{{themeInfo.user_id}}</div>
+                <div class="head-time">{{themeInfo.time}}</div>
+            </li>
+            <li class="content-element"
+                v-for="index in replyItems.length"
+            >
+                <div class="element-content">{{replyItems[index-1].content}}</div>
+                <div class="element-user">{{replyItems[index-1].user_id}}</div>
+                <div class="element-time">{{replyItems[index-1].time}}</div>
+            </li>
+        </ul>
     </div>
 </template>
 
@@ -65,6 +79,38 @@
 
 <style scoped>
     .discuss-detail {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        padding-left: 25px;
+    }
 
+    .discuss-content {
+        margin: 88px auto 88px auto;
+        width: 80%;
+        border-radius: .6em;
+        overflow: hidden;
+        background: white;
+        -webkit-box-shadow:0px 2px 15px rgba(0,0,0,0.08);
+        -moz-box-shadow: 0px 2px 15px rgba(0,0,0,0.08);
+        box-shadow: 0px 2px 15px rgba(0,0,0,0.08);
+    }
+
+    ul {
+        padding-left: 0;
+    }
+
+    li {
+        list-style-type: none;
+        height: 170px;
+        border-top: 1px dashed gray;
+        padding: 18px 20px;
+    }
+
+    .content-head {
+        height: 250px;
+        border-top: none;
     }
 </style>
