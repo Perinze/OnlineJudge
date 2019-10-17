@@ -32,7 +32,7 @@
                 ]
             }
         },
-        mounted() {
+        beforeMount() {
             this.renderContent();
         },
         methods: {

@@ -74,7 +74,7 @@
                 ]
             }
         },
-        async mounted() {
+        async beforeMount() {
             await this.renderProblemList();
         },
         methods: {

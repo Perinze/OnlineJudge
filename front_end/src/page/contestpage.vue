@@ -256,7 +256,7 @@
             this.countDownToBegin();
             this.countDownToEnd();
         },
-        async mounted() {
+        async beforeMount() {
             this.renderContestInfo();
         },
         methods: {

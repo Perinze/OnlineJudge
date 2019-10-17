@@ -38,7 +38,7 @@
                 ]
             }
         },
-        mounted() {
+        beforeMount() {
             this.renderList();
         },
         methods: {

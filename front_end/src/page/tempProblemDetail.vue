@@ -68,7 +68,7 @@
                 }
             }
         },
-        async mounted() {
+        async beforeMount() {
             this.renderProblemDetail();
         },
         methods: {

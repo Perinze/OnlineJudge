@@ -58,7 +58,11 @@ router.beforeEach((to, from, next) => {
             next({
                 path: '/main',
             });
-            console.log('请登录');
+            Vue.prototype.$message({
+                message: '请先登录',
+                type: 'error'
+            });
+            // console.log('请登录');
         }else{
             //用户进入无需登录的界面，则跳转继续
             next()

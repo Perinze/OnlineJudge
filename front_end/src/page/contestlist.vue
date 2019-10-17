@@ -60,7 +60,7 @@
                 this.$router.push('/contest/'+link);
             }
         },
-        async mounted() {
+        async beforeMount() {
             this.renderList();
         },
         filters: {
