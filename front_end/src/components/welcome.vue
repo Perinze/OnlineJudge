@@ -19,12 +19,22 @@
                     >
                         <span class="login-guide-1">我们将引导您完成注册步骤</span>
                         <span class="login-guide-2">如果您已有账户可以选择：</span>
-                        <button class="login-button" @click="activeInteract = 'login'">Login</button>
+                        <button class="login-button"
+                                @click="activeInteract = 'login'"
+                                :disabled="!functionAvailable.login"
+                        >
+                            Login
+                        </button>
                         <span class="register-guide">点击下方"Sign up"按钮即可开始注册</span>
-                        <button class="register-button" @click="activeInteract = 'register'" disabled>Sign up</button>
+                        <button class="register-button"
+                                @click="activeInteract = 'register'"
+                                :disabled="!functionAvailable.register"
+                        >
+                            Sign up
+                        </button>
                         <div class="tourist-content">
                             <span class="tourist-guide">如果您还未准备好注册账户，可以选择</span>
-                            <a class="tourist-a" title="暂不可用" disabled>继续以游客模式访问</a>
+                            <a class="tourist-a" title="暂不可用" :disabled="!functionAvailable.tourist">继续以游客模式访问</a>
                             <span class="tourist-intro">您仍可以浏览页面，但个别功能无法使用</span>
                         </div>
                     </div>
@@ -69,7 +79,11 @@
                             </div>
                             <div class="login-btn-container">
                                 <transition name="loading">
-                                    <button class="do-login-btn" :class="{'loading-login-btn': loading}" @click="do_login">
+                                    <button class="do-login-btn"
+                                            :class="{'loading-login-btn': loading}"
+                                            @click="do_login"
+                                            :disabled="!functionAvailable.login"
+                                    >
                                         <span v-show="!loading">Log in</span>
                                         <div class="lds-ripple" v-show="loading">
                                             <div></div>
@@ -81,11 +95,16 @@
 
                             <div class="sub-function-btn">
                                 <div class="forget-passwd-btn sub-function-btn-element">
-                                    <span>忘记密码</span>
+                                    <a :disabled="!functionAvailable.forgetPassword">忘记密码</a>
                                     <!--<span>Forget Password</span>-->
                                 </div>
-                                <div class="login-to-register sub-function-btn-element">
-                                    <span>注册账号</span>
+                                <div class="login-to-register sub-function-btn-element"
+                                >
+                                    <a @click="activeInteract = 'register'"
+                                       :disabled="!functionAvailable.register"
+                                    >
+                                        注册账号
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -133,6 +152,12 @@
                 errorMsg: {
                     type: '',
                     content: ''
+                },
+                functionAvailable: {
+                    login: true,
+                    register: false,
+                    forgetPassword: false,
+                    tourist: false
                 }
             }
         },
@@ -400,11 +425,11 @@
         cursor: pointer;
     }
 
-    .sub-function-btn-element:hover {
+    .sub-function-btn-element > a:hover {
         text-decoration: underline;
     }
 
-    .sub-function-btn-disabled {
+    .sub-function-btn-element > a:disabled {
         text-decoration: none;
         color: gray;
     }
