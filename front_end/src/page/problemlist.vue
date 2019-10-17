@@ -140,14 +140,18 @@
         content: ' ';
         width: 27px;
         text-align: center;
-        font-weight: bold;
-        font-style: normal;
-        font-size: 18px;
+        font: {
+            style: normal;
+            size: 18px;
+            weight: bold;
+        }
     }
 
     .problem-id {
-        font-weight: bold;
-        font-style: italic;
+        font: {
+            weight: bold;
+            style: italic;
+        }
         margin-left: 7px;
     }
 

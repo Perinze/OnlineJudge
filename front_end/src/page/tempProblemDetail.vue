@@ -108,9 +108,6 @@
 </script>
 
 <style lang="scss" scoped>
-    .problem-detail-container {
-    }
-
     .temp-problem-detail {
         position: relative;
         background: white;
@@ -125,8 +122,10 @@
     .title {
         display: flex;
         flex-direction: column;
-        font-weight: bold;
-        font-size: 32px;
+        font: {
+            weight: bold;
+            size: 32px;
+        }
         &::after {
              content: '';
              position: absolute;

@@ -1260,8 +1260,10 @@
     .rank-form {
         width: 85%;
         margin: 88px auto 60px auto;
-        border-color: gray;
-        border-radius: 1em;
+        border: {
+            color: gray;
+            radius: 1em;
+        }
         background: rgb(250, 250, 250);
         text-align: center;
         box-shadow: 0 2px 15px rgba(0,0,0,0.08);

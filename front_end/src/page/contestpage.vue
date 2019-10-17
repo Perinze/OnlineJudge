@@ -376,15 +376,19 @@
     }
 
     .tips {
-        font-size: 12px;
-        font-weight: bold;
+        font: {
+            size: 12px;
+            weight: bold;
+        }
         float: right;
     }
 
     .countdown-label {
         display: inline-block;
-        font-size: 12px;
-        font-weight: bold;
+        font: {
+            size: 12px;
+            weight: bold;
+        }
         height: 18px;
     }
 
@@ -408,23 +412,21 @@
         right: 0;
         overflow: hidden;
         z-index: 999;
-    }
-
-    .mask-background {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        overflow: hidden;
-        filter: blur(3px) opacity(80%);
-        background: white;
-        z-index: 1;
+        &-background {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            overflow: hidden;
+            filter: blur(3px) opacity(80%);
+            background: white;
+            z-index: 1;
+        }
     }
 
     .last-time {
         position: absolute;
-        z-index: 1000;
         left: 0;
         right: 0;
         top: 0;
@@ -433,8 +435,11 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 120px;
-        font-family: countdown;
+        font: {
+            size: 120px;
+            family: countdown;
+        }
+        z-index: 1000;
         /*width:*/
     }
 
@@ -551,27 +556,23 @@
         flex-direction: row;
         width: 100%;
         margin-top: -4px;
+        &-left {
+            display: flex;
+            flex-direction: column;
+            width: 40%;
+            &-bottom {
+                font-size: 10px;
+                height: 13px;
+            }
+        }
+        &-right {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-end;
+            justify-content: space-between;
+            width: 40%;
+        }
     }
-
-    .log-element-left {
-        display: flex;
-        flex-direction: column;
-        width: 40%;
-    }
-
-    .log-element-left-bottom {
-        font-size: 10px;
-        height: 13px;
-    }
-
-    .log-element-right {
-        display: flex;
-        flex-direction: row;
-        align-items: flex-end;
-        justify-content: space-between;
-        width: 40%;
-    }
-
 
     .discuss-card {
         height: 110px;

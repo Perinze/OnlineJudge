@@ -53,21 +53,25 @@
     }
 
     .title-404 {
-        font-family: DINCondensed;
         /*color: #1951FC;*/
         color: #4288ce;
         display: block;
-        font-size: 155px;
-        font-weight: bold;
+        font: {
+            family: DINCondensed;
+            size: 155px;
+            weight: bold;
+        }
         line-height: 140px;
     }
 
     .detail-en {
-        font-family: DINCondensed;
         color: #212121;
         display: block;
-        font-size: 28px;
-        font-weight: bold;
+        font: {
+            size: 28px;
+            weight: bold;
+            family: DINCondensed;
+        }
         letter-spacing: 0.93px;
         /*line-height: 28px;*/
     }
@@ -94,10 +98,12 @@
 
     .guide-text {
         display: inline-block;
-        font-family: DINCondensed;
-        font-weight: bold;
+        font: {
+            family: DINCondensed;
+            size: 15px;
+            weight: bold;
+        }
         color: black;
-        font-size: 15px;
         margin-top: 40px;
         letter-spacing: 0.2px;
     }

@@ -160,10 +160,6 @@
         left: auto;
     }
 
-    .can-join {
-
-    }
-
     .can-join:hover {
         text-decoration: underline;
     }

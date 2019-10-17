@@ -28,25 +28,28 @@
         height: 137px;
         /* TODO 找个背景svg */
         background:rgba(80,161,204,0.3);
-        -webkit-box-shadow:0px 2px 15px rgba(0,0,0,0.08);
-        -moz-box-shadow: 0px 2px 15px rgba(0,0,0,0.08);
-        box-shadow: 0px 2px 15px rgba(0,0,0,0.08);
+        -webkit-box-shadow:0 2px 15px rgba(0,0,0,0.08);
+        -moz-box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+        box-shadow: 0 2px 15px rgba(0,0,0,0.08);
         margin: 0 10px 41px 11px;
         border-radius: 10px;
         .contest-card-info {
+            position: relative;
             width:126px;
             height:49px;
-            font-size:14px;
-            font-weight: bold;
-            line-height:17px;
-            color:rgba(255,255,255,1);
-            opacity:1;
-            position: relative;
             left: 16px;
             top: 74px;
+            font: {
+                size: 14px;
+                weight: bold;
+            }
+            line-height: 17px;
+            color: rgba(255,255,255,1);
             .contest-type {
-                font-size: 23px;
-                font-weight: 400;
+                font: {
+                    size: 23px;
+                    weight: 400;
+                }
             }
             .contest-nick {
                 margin-top: 9px;
@@ -54,15 +57,15 @@
         }
         .contest-card-num {
             position: sticky;
-            margin-top: 6px;
-            margin-left: auto;
-            margin-right: 12px;
-            width:37px;
-            height:20px;
-            font-size:14px;
-            font-weight:600;
-            line-height:20px;
-            color:rgba(255,255,255,1);
+            margin: 6px 12px 0 auto;
+            width: 37px;
+            height: 20px;
+            font: {
+                size: 14px;
+                weight: 600;
+            }
+            line-height: 20px;
+            color: rgba(255,255,255,1);
         }
     }
 </style>
