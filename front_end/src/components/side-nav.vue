@@ -7,6 +7,14 @@
             </div>
         </div>
         <div class="menu-userbar" align="center">
+            <img class="logout-btn"
+                 src="../../assets/icon/logout.svg"
+                 v-if="isLogin"
+                 width="23"
+                 height="23"
+                 alt="登出"
+                 @click="doLogout"
+            >
             <div class="user-alias-border">
                 <div class="user-alias">
                     <img src="../../assets/media/avator.png" height="40" width="40"/>
@@ -15,7 +23,7 @@
             <div class="user-info" align="center" v-if="isLogin">
                 <span id="user-nick">{{userData.nick}}</span>
                 <br>
-                <span id="user-desc" @click="doLogout">{{userData.desc}}</span>
+                <span id="user-desc">{{userData.desc}}</span>
             </div>
             <div class="user-data" v-if="isLogin">
                 <div style="width: 12px"></div>
@@ -248,6 +256,13 @@
         align-items: center;
         text-align: center;
         height: 60px;
+    }
+
+    .logout-btn {
+        position: fixed;
+        top: 94px;
+        left: 32px;
+        cursor: pointer;
     }
 
     .menu-userbar {

@@ -3,7 +3,7 @@ import { baseUrl } from './env'
 export default async function(url = '', method = 'GET', data = {}, headers = {} ){
     // 超时时间配置
     // var timeout = 60 * 1000;
-    var timeout = 60 * 1000;
+    var timeout = 40 * 1000;
     let controller = new AbortController();
     let signal = controller.signal;
 
