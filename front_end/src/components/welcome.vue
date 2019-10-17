@@ -180,10 +180,10 @@
                 });
                 checkInfoPromise.catch( async (errorMessage) => {
                     // alert(errorMessage);
-                    console.log(errorMessage);
+                    // console.log(errorMessage);
                     this.errorMsg.type = errorMessage.slice(0, errorMessage.indexOf(':'));
                     this.errorMsg.content = errorMessage.slice(errorMessage.indexOf(':')+1);
-                    console.log(this.errorMsg);
+                    // console.log(this.errorMsg);
                 });
                 checkInfoPromise.then( async (successMessage) => {
                     this.loading = true;

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { Carousel, CarouselItem } from 'element-ui';
+import { Carousel, CarouselItem, Message } from 'element-ui';
 import App from './App'
 import 'element-ui/lib/theme-chalk/index.css';
 import 'ant-design-vue/dist/antd.css';
@@ -10,9 +10,16 @@ import loadingPlugin from './plugins/loading';
 
 Vue.config.productionTip = false;
 
+// Element-ui-Message add Install function to mount
+Message.install = function (Vue, options) {
+    Vue.prototype.$message = Message
+};
+
+// 引入
 Vue.use(Vuex);
 Vue.use(Carousel);
 Vue.use(CarouselItem);
+Vue.use(Message);
 Vue.use(loadingPlugin, {
     progressColor: '#4288ce'
 });
