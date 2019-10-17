@@ -208,9 +208,13 @@
                         }else{
                             // 用户名密码错误
                             // 已经登陆
-                            this.loading = false;
                             this.errorMsg.type="password";
-                            this.errorMsg.content=response.message;
+                            if(response.status===504) {
+                                this.errorMsg.content='请求超时';
+                            }else{
+                                this.errorMsg.content=response.message;
+                            }
+                            this.loading = false;
                         }
                     }, 2000);
                 });

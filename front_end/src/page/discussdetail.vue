@@ -37,6 +37,7 @@
         },
         methods: {
             renderContent: async function() {
+                this.$loading.open();
                 let response = await getDiscussDetail({
                     discuss_id: this.$route.params.did
                 });
@@ -49,8 +50,14 @@
                     // console.log(this.themeInfo);
                     // console.log(this.replyItems);
                 }else{
-
+                    if(response.status===504) {
+                        this.$message({
+                            message: '请求超时',
+                            type: 'error'
+                        });
+                    }
                 }
+                this.$loading.hide();
             }
         }
     }

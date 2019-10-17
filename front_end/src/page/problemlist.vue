@@ -82,6 +82,7 @@
                 this.$router.push('/problem/'+link);
             },
             renderProblemList: async function() {
+                this.$loading.open();
                 let response = await getProblemList();
                 if(response.status == 0) {
                     // success
@@ -100,7 +101,14 @@
                     });
                 }else{
                     // error
+                    if(response.status===504) {
+                        this.$message({
+                            message: '请求超时',
+                            type: 'error'
+                        })
+                    }
                 }
+                this.$loading.hide();
             }
         }
     }

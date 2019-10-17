@@ -43,6 +43,7 @@
         },
         methods: {
             renderList: async function() {
+                this.$loading.open();
                 let response = await getDiscussList({
                     contest_id: this.$route.params.id
                 });
@@ -52,8 +53,14 @@
                         this.items.push(val);
                     });
                 }else{
-
+                    if(response.status===504) {
+                        this.$message({
+                            message: '请求超时',
+                            type: 'error'
+                        })
+                    }
                 }
+                this.$loading.hide();
             }
         },
         computed: {

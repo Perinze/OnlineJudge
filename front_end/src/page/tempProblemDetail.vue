@@ -45,11 +45,11 @@
             return {
                 problem_info: {
                     id: this.$route.params.id,
-                    title: '超级玛丽游戏',
-                    background: '这里是题目背景',
-                    describe: '这里是题目描述',
-                    input_sample: '这里是输入格式描述',
-                    output_sample: '这里是输出格式描述',
+                    title: '',
+                    background: '',
+                    describe: '',
+                    input_sample: '',
+                    output_sample: '',
                     example: [
                         // {
                         //     input: '这里是样例输入#1',
@@ -64,7 +64,7 @@
                         //     output: '这里是样例输出#3'
                         // }
                     ],
-                    hint: '这里是hint'
+                    hint: ''
                 }
             }
         },
@@ -73,6 +73,7 @@
         },
         methods: {
             renderProblemDetail: async function() {
+                this.$loading.open();
                 let response = await getProblem({
                     problem_id: new Number(this.$route.params.id)
                 });
@@ -88,8 +89,14 @@
                     	this.problem_info.example.push(val);
                     });
                 }else{
-
+                    if(response.status===504){
+                        this.$message({
+                            message: '请求超时',
+                            type: 'error'
+                        });
+                    }
                 }
+                this.$loading.hide();
             }
         },
         computed: {
