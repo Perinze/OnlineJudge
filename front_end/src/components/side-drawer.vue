@@ -11,10 +11,8 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .side-drawer {
 
     }
-
-
 </style>

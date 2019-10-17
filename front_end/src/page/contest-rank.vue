@@ -1251,7 +1251,7 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .contest-rank {
         position: relative;
         padding-left: 24px;
@@ -1266,11 +1266,10 @@
         text-align: center;
         box-shadow: 0 2px 15px rgba(0,0,0,0.08);
         /*filter: blur(30px) brightness(1.15) opacity(0.80);*/
-    }
-
-    .rank-form > thead {
-        font-weight: bold;
-        font-style: italic;
+        > thead {
+            font-weight: bold;
+            font-style: italic;
+        }
     }
 
     .solved-info-data {

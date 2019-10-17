@@ -37,6 +37,7 @@
         },
         methods: {
             renderList: async function() {
+                this.$loading.open();
                 let response = await getContestList();
                 if(response.status == 0) {
                     let data = response.data;
@@ -48,12 +49,17 @@
                             begin_time: val.begin_time,
                             end_time: val.end_time,
                         };
-                        // console.log(res);
                         this.items.push(res);
                     });
                 }else{
-                    // console.log('here');
+                    if(response.status === 504) {
+                        this.$message({
+                            content: '请求超时',
+                            type: 'error'
+                        })
+                    }
                 }
+                this.$loading.hide();
             },
             goto: function(link) {
                 if(link=='')return;
@@ -71,7 +77,7 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .contestlist {
         position: relative;
         width: 100%;
@@ -94,10 +100,9 @@
         max-width: 990px;
         cursor: pointer;
         box-shadow: 0 2px 15px rgba(0,0,0,0.08);
-    }
-
-    .contest-card:first-child {
-        margin-top: 88px;
+        &:first-child {
+            margin-top: 88px;
+        }
     }
 
     .contest-content {

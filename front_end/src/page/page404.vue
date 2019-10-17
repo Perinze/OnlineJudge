@@ -36,7 +36,7 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .page404 {
         width: 100%;
         height: 100%;
@@ -48,16 +48,8 @@
         justify-content: center;
     }
 
-    #404-icon {
-        /*margin-right: 30px;*/
-    }
-
     #blank-div {
         width: 10%;
-    }
-
-    #404-content {
-        /*padding-left: 50px;*/
     }
 
     .title-404 {
@@ -67,7 +59,6 @@
         display: block;
         font-size: 155px;
         font-weight: bold;
-        /*font-family: countdown;*/
         line-height: 140px;
     }
 
@@ -96,10 +87,9 @@
 
     .function-text {
         cursor: pointer;
-    }
-
-    .function-text > svg {
-        margin-left: 7px;
+        > svg {
+            margin-left: 7px;
+        }
     }
 
     .guide-text {

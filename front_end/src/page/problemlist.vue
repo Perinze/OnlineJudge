@@ -114,7 +114,7 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .problemlist {
         position: relative;
     }
@@ -131,10 +131,9 @@
         padding: 0 5px;
         min-width: 875px;
         max-width: 990px;
-    }
-
-    .problem-element:first-child {
-        margin-top: 88px;
+        &:first-child {
+            margin-top: 88px;
+        }
     }
 
     .icon {

@@ -107,7 +107,7 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .problem-detail-container {
     }
 
@@ -127,15 +127,14 @@
         flex-direction: column;
         font-weight: bold;
         font-size: 32px;
-    }
-
-    .title::after {
-        content: '';
-        position: absolute;
-        top: 65px;
-        height: 1px;
-        background: gray;
-        width: 70%;
+        &::after {
+             content: '';
+             position: absolute;
+             top: 65px;
+             height: 1px;
+             background: gray;
+             width: 70%;
+         }
     }
 
     .sub-title {
@@ -160,10 +159,9 @@
         background: #4288ce;
         color: white;
         border: solid 1px #4288ce;
-    }
-
-    .submit-btn:hover {
-        text-decoration: underline;
+        &:hover {
+            text-decoration: underline;
+        }
     }
 
     .example-data-element {

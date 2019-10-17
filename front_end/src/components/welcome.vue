@@ -235,7 +235,7 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     /* Loding Animation BEGIN */
 
     .lds-ripple {
@@ -244,18 +244,16 @@
         position: relative;
         width: 38px;
         height: 38px;
-    }
-
-    .lds-ripple div {
-        position: absolute;
-        border: 3px solid #fff;
-        opacity: 1;
-        border-radius: 50%;
-        animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
-    }
-
-    .lds-ripple div:nth-child(2) {
-        animation-delay: -0.5s;
+        div {
+            position: absolute;
+            border: 3px solid #fff;
+            opacity: 1;
+            border-radius: 50%;
+            animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+            &:nth-child(2) {
+                animation-delay: -0.5s;
+            }
+        }
     }
 
     @keyframes lds-ripple {
@@ -333,11 +331,8 @@
         opacity: 1;
     }
 
-    .welcome-interact-guide {
-    }
-
     .welcome-interact-guide > span {
-        display: block;
+            display: block;
     }
 
     .welcome-interact-login {
@@ -364,22 +359,20 @@
         flex-direction: column;
         height: 35px;
         margin-bottom: 17px;
-    }
-
-    .info-input-container > div {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
-
-    .info-input-container > div::after {
-        position: absolute;
-        content: '';
-        margin-top: calc(35px / 2);
-        width: 250px;
-        height: 2px;
-        border-radius: 2px;
-        background: rgba(34,33,53,1);
+        > div {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            &::after {
+                position: absolute;
+                content: '';
+                margin-top: calc(35px / 2);
+                width: 250px;
+                height: 2px;
+                border-radius: 2px;
+                background: rgba(34,33,53,1);
+            }
+        }
     }
 
     /* -moz- firefox兼容 */
@@ -389,22 +382,20 @@
         flex-direction: column;
         height: 35px;
         margin-bottom: 17px;
-    }
-
-    .-moz-info-input-container > div {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
-
-    .-moz-info-input-container > div:after {
-        position: absolute;
-        content: '';
-        margin-top: 30px;
-        width: 250px;
-        height: 2px;
-        border-radius: 2px;
-        background: rgba(34,33,53,1);
+        > div {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            &::after {
+                position: absolute;
+                content: '';
+                margin-top: 30px;
+                width: 250px;
+                height: 2px;
+                border-radius: 2px;
+                background: rgba(34,33,53,1);
+            }
+        }
     }
 
     /* -moz- firefox 兼容 END */
@@ -435,14 +426,12 @@
         color: white;
         font-weight: lighter;
         margin: 10px 0 4px 0;
-    }
-
-    .do-login-btn:hover {
-        background-color: rgba(34,33,53,.9);
-    }
-
-    .do-login-btn:active {
-        background-color: rgba(34,33,53,.7);
+        &:hover {
+            background-color: rgba(34,33,53,.9);
+        }
+        &:active {
+            background-color: rgba(34,33,53,.7);
+        }
     }
 
     .loading-login-btn {
@@ -463,15 +452,15 @@
 
     .sub-function-btn-element {
         cursor: pointer;
-    }
-
-    .sub-function-btn-element > a:hover {
-        text-decoration: underline;
-    }
-
-    .sub-function-btn-element > a:disabled {
-        text-decoration: none;
-        color: gray;
+        > a {
+            &:hover {
+                text-decoration: underline;
+            }
+            &:disabled {
+                text-decoration: none;
+                color: gray;
+            }
+        }
     }
 
     .backward-btn {
@@ -552,21 +541,18 @@
         background: transparent;
         border-radius: 5px;
         cursor: pointer;
-    }
-
-    .login-button:hover {
-        background:rgba(34,33,53,1);
-        color: white;
-        border: none;
-    }
-
-    .login-button:active {
-        background: rgba(76,75,103,1);
-    }
-
-    .login-button:disabled {
-        background:rgba(38,38,38,0);
-        border:1px solid rgba(174,182,192,1);
+        &:hover {
+            background:rgba(34,33,53,1);
+            color: white;
+            border: none;
+        }
+        &:active {
+            background: rgba(76,75,103,1);
+        }
+        &:disabled {
+            background:rgba(38,38,38,0);
+            border:1px solid rgba(174,182,192,1);
+        }
     }
 
     .register-guide {
@@ -594,13 +580,12 @@
         color: white;
         cursor: pointer;
         filter: brightness(1.05);
-    }
-
-    .register-button:disabled {
-        background:rgba(38,38,38,0);
-        border:1px solid rgba(174,182,192,1);
-        color: rgba(174,182,192,1);
-        box-shadow: none;
+        &:disabled {
+            background:rgba(38,38,38,0);
+            border:1px solid rgba(174,182,192,1);
+            color: rgba(174,182,192,1);
+            box-shadow: none;
+        }
     }
 
     .tourist-content {
@@ -624,16 +609,14 @@
         cursor: pointer;
         margin-top: 14px;
         opacity: 0.5;
-    }
-
-    .tourist-a:hover, .tourist-a:active {
-        text-decoration: underline;
-        color: rgba(34,33,53,1);
-        opacity: 1;
-    }
-
-    .tourist-a:disabled {
-        color:rgba(188,188,203,1);
+        &:hover, &:active {
+            text-decoration: underline;
+            color: rgba(34,33,53,1);
+            opacity: 1;
+        }
+        &:disabled {
+            color:rgba(188,188,203,1);
+        }
     }
 
     .tourist-intro {

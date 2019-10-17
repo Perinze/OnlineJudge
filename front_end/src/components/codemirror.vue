@@ -43,7 +43,7 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .codesql {
         font-size: 11pt;
         font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;

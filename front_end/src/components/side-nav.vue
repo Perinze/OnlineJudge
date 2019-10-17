@@ -234,7 +234,7 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     #side-bar {
         height: 100%;
         width: 200px;
@@ -254,51 +254,44 @@
         text-align: center;
         height: 220px;
         border-bottom: 1px solid rgba(0,0,0,0.05);
-    }
-
-    .menu-userbar .user-alias-border {
-        position: relative;
-        left: 75px;
-        top: 20px;
-        border-radius: 25px;
-        border: 2px solid #5c8db7;
-        height: 50px;
-        width: 50px;
-    }
-
-    .menu-userbar .user-alias-border .user-alias {
-        position: relative;
-        top: 3px;
-        left: 3px;
-        height: 40px;
-        width: 40px;
-        border-radius: 20px;
-        overflow: hidden;
-    }
-
-    .menu-userbar .user-info {
-        position: relative;
-        top: 25px;
-    }
-
-    .menu-userbar .user-info #user-nick {
-        font-weight: bold;
-        font-size: 16px;
-    }
-
-    .menu-userbar .user-info #user-desc {
-        font-weight: 300;
-        font-size: 10px;
-    }
-
-    .menu-userbar .user-data {
-        position: relative;
-        top: 50px;
-        display: flex;
-    }
-
-    .menu-userbar .user-data .data-item {
-        flex: 1 1 auto;
+        .user-alias-border {
+            position: relative;
+            left: 75px;
+            top: 20px;
+            border-radius: 25px;
+            border: 2px solid #5c8db7;
+            height: 50px;
+            width: 50px;
+            .user-alias {
+                position: relative;
+                top: 3px;
+                left: 3px;
+                height: 40px;
+                width: 40px;
+                border-radius: 20px;
+                overflow: hidden;
+            }
+        }
+        .user-info {
+            position: relative;
+            top: 25px;
+            #user-nick {
+                font-weight: bold;
+                font-size: 16px;
+            }
+            #user-desc {
+                font-weight: 300;
+                font-size: 10px;
+            }
+        }
+        .user-data {
+            position: relative;
+            top: 50px;
+            display: flex;
+            .data-item {
+                flex: 1 1 auto;
+            }
+        }
     }
 
     .menu-footer-content {
@@ -322,17 +315,16 @@
         align-items: center;
         height: 60px;
         border-left: 7px solid transparent;
-    }
-
-    .menu-item:hover {
-        transform: translate3d(0, 0, 0);
-        -webkit-transition: all .6s ease 0s;
-        -moz-transition: all .6s ease 0s;
-        -o-transition: all .6s ease 0s;
-        transition: all .6s ease 0s;
-        background: #f5f5f5;
-        border-left: 7px solid transparent;
-        box-shadow:inset -10px 0 15px -16px rgba(0,0,0,0.3);
+        &:hover {
+            transform: translate3d(0, 0, 0);
+            -webkit-transition: all .6s ease 0s;
+            -moz-transition: all .6s ease 0s;
+            -o-transition: all .6s ease 0s;
+            transition: all .6s ease 0s;
+            background: #f5f5f5;
+            border-left: 7px solid transparent;
+            box-shadow:inset -10px 0 15px -16px rgba(0,0,0,0.3);
+        }
     }
 
     .menu-item-active {
@@ -349,14 +341,15 @@
         box-shadow:inset -10px 0 15px -16px rgba(0,0,0,0.3);
     }
 
-    .data-item .data-font {
-        font-size: 12px;
-        font-weight: 500;
-    }
-
-    .data-item .data-num {
-        font-size: 22px;
-        font-weight: 500;
+    .data-item {
+        .data-font {
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .data-num {
+            font-size: 22px;
+            font-weight: 500;
+        }
     }
 
     #menu-footer {
@@ -365,27 +358,24 @@
         display: block;
         position: absolute;
         bottom: 3.4%;
-    }
-    
-    #menu-footer >span {
-        display: block;
+        > span {
+            display: block;
+        }
     }
 
     .function-btn-group {
         position: relative;
         top: 27px;
-        /*margin-top: 50px;*/
-    }
-
-    .function-btn-group > button {
-        background: #4288ce;
-        border: none;
-        border-radius: 1.5em;
-        color: white;
-        height: 28px;
-        width: 150px;
-        margin-top: 20px;
-        cursor: pointer;
+        > button {
+            background: #4288ce;
+            border: none;
+            border-radius: 1.5em;
+            color: white;
+            height: 28px;
+            width: 150px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
     }
 
     #unlog-guide {

@@ -20,7 +20,7 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .contest-card {
         display: flex;
         align-items: flex-start;
@@ -33,40 +33,36 @@
         box-shadow: 0px 2px 15px rgba(0,0,0,0.08);
         margin: 0 10px 41px 11px;
         border-radius: 10px;
-    }
-
-    .contest-card .contest-card-info {
-        width:126px;
-        height:49px;
-        font-size:14px;
-        font-weight: bold;
-        line-height:17px;
-        color:rgba(255,255,255,1);
-        opacity:1;
-        position: relative;
-        left: 16px;
-        top: 74px;
-    }
-
-    .contest-card .contest-card-info .contest-type {
-        font-size: 23px;
-        font-weight: 400;
-    }
-
-    .contest-card .contest-card-info .contest-nick {
-        margin-top: 9px;
-    }
-
-    .contest-card .contest-card-num {
-        position: sticky;
-        margin-top: 6px;
-        margin-left: auto;
-        margin-right: 12px;
-        width:37px;
-        height:20px;
-        font-size:14px;
-        font-weight:600;
-        line-height:20px;
-        color:rgba(255,255,255,1);
+        .contest-card-info {
+            width:126px;
+            height:49px;
+            font-size:14px;
+            font-weight: bold;
+            line-height:17px;
+            color:rgba(255,255,255,1);
+            opacity:1;
+            position: relative;
+            left: 16px;
+            top: 74px;
+            .contest-type {
+                font-size: 23px;
+                font-weight: 400;
+            }
+            .contest-nick {
+                margin-top: 9px;
+            }
+        }
+        .contest-card-num {
+            position: sticky;
+            margin-top: 6px;
+            margin-left: auto;
+            margin-right: 12px;
+            width:37px;
+            height:20px;
+            font-size:14px;
+            font-weight:600;
+            line-height:20px;
+            color:rgba(255,255,255,1);
+        }
     }
 </style>

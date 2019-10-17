@@ -87,7 +87,7 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .discuss-list {
         position: relative;
         width: 100%;
@@ -98,11 +98,9 @@
     }
 
     .list {
-
-    }
-
-    .list:first-child {
-        margin-top: 88px;
+        &:first-child {
+            margin-top: 88px;
+        }
     }
 
     .element-card {
@@ -119,10 +117,9 @@
         cursor: pointer;
         padding: 16px 50px;
         box-shadow: 0 2px 15px rgba(0,0,0,0.08);
-    }
-
-    .element-card > div {
-        width: 100%;
+        > div {
+            width: 100%;
+        }
     }
 
     .problem-tag {

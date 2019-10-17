@@ -75,7 +75,7 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .statistics-card {
         background: white;
         border-radius: 10px;
@@ -99,12 +99,11 @@
         width: 228px;
         top: auto;
         bottom: 23px;
-    }
-
-    .statistics-card .statistics-card-info >span {
-        position: relative;
-        left: 20px;
-        display: block;
+        >span {
+            position: relative;
+            left: 20px;
+            display: block;
+        }
     }
 
     .statistics-card .statistics-card-info .card-info-title {

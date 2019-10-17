@@ -21,7 +21,7 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .icon-active{
         filter: invert(1) sepia(1) saturate(2) hue-rotate(175deg);
     }

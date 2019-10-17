@@ -354,7 +354,7 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     ul, ol {
         position: relative;
         list-style-type: none;
@@ -364,10 +364,9 @@
 
     li {
         cursor: pointer;
-    }
-
-    li > span {
-        margin: 0 5px;
+        > span {
+            margin: 0 5px;
+        }
     }
 
     .top-tips {
@@ -408,8 +407,6 @@
         left: 0;
         right: 0;
         overflow: hidden;
-        /*filter: blur(3px) opacity(80%);*/
-        /*background: white;*/
         z-index: 999;
     }
 
@@ -423,14 +420,6 @@
         filter: blur(3px) opacity(80%);
         background: white;
         z-index: 1;
-        /*position: absolute;*/
-        /*top: 0;*/
-        /*bottom: 0;*/
-        /*left: 0;*/
-        /*right: 0;*/
-        /*background: linear-gradient(140deg, #338bb8, #336F82);*/
-        /*filter: opacity(90%);*/
-        /*filter: blur(500px);*/
     }
 
     .last-time {
@@ -446,7 +435,7 @@
         justify-content: center;
         font-size: 120px;
         font-family: countdown;
-        width:
+        /*width:*/
     }
 
     /* 毛玻璃波纹 END */
@@ -475,13 +464,12 @@
     .problem-head {
         cursor: pointer;
         border-left: 1px rgba(0,0,0,.2) dashed;
+        &:hover {
+            text-decoration: underline;
+        }
         /*
             TODO 点击后弹出题目
         */
-    }
-
-    .problem-head:hover {
-        text-decoration: underline;
     }
 
     .problem-status {
@@ -495,20 +483,18 @@
     .status-rank {
         color: #338bb8;
         cursor: pointer;
-    }
-
-    .status-rank:hover {
-        color: #5c8db7;
-        text-decoration: underline;
+        &:hover {
+            color: #5c8db7;
+            text-decoration: underline;
+        }
     }
 
     .see-more {
         cursor: pointer;
         margin-top: 5px;
-    }
-
-    .see-more:hover {
-        text-decoration: underline;
+        &:hover {
+            text-decoration: underline;
+        }
     }
 
     .submit-log-list {
@@ -523,29 +509,26 @@
         background: white;
     }
 
-    .submit-log-li:last-child {
-        border: none;
-    }
-
     .submit-log-li {
         height: 50px;
-        border-bottom: 1px solid rgb(0,0,0,.1);
+        border-bottom: 1px solid rgba(0,0,0,.1);
         display: flex;
         align-items: center;
-    }
-
-    .submit-log-li > i {
-        content: '';
-        position: absolute;
-        height: 16px;
-        width: 16px;
-        border-radius: 10px;
-        margin-left: 11px;
-        filter: brightness(130%);
-    }
-
-    .submit-log-li > div {
-        margin-left: 35px;
+        &:last-child {
+            border: none;
+        }
+        > i {
+            content: '';
+            position: absolute;
+            height: 16px;
+            width: 16px;
+            border-radius: 10px;
+            margin-left: 11px;
+            filter: brightness(130%);
+        }
+        > div {
+            margin-left: 35px;
+        }
     }
 
     #submit-log-tips {
@@ -563,15 +546,6 @@
         font-size: 16px;
     }
 
-    .function-btn-group {
-
-    }
-
-    .submit-log-list-element {
-        /*background: linear-gradient(360deg, rgba(100,26,56,.7) 3%, rgba(255,255,255,0)),*/
-                    /*linear-gradient(90deg, rgba(255,255,255,0) 100%, rgba(255,255,255,0));*/
-    }
-
     .log-element {
         display: flex;
         flex-direction: row;
@@ -585,10 +559,6 @@
         width: 40%;
     }
 
-    .log-element-left-top {
-        /*height: 20px;*/
-    }
-
     .log-element-left-bottom {
         font-size: 10px;
         height: 13px;
@@ -600,7 +570,6 @@
         align-items: flex-end;
         justify-content: space-between;
         width: 40%;
-        /*font-size: 12px;*/
     }
 
 
@@ -613,18 +582,6 @@
         margin-bottom: 20px;
         background: white;
     }
-
-    /*.discuss-card::after {*/
-        /*content: '';*/
-        /*position: absolute;*/
-        /*left: 0;*/
-        /*right: 0;*/
-        /*top: 0;*/
-        /*bottom: 0;*/
-        /*background: white;*/
-        /*filter: blur(10px) opacity(0.5);*/
-        /*z-index: -1;*/
-    /*}*/
 
     .discuss-problem-id {
         position: relative;
@@ -644,12 +601,4 @@
         left: 75%;
         top: 75px;
     }
-
-    /*th {*/
-        /*background: yellow;*/
-    /*}*/
-
-    /*td {*/
-        /*background: red;*/
-    /*}*/
 </style>

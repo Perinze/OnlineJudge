@@ -222,7 +222,7 @@
     }
 </script>
 
-<style>
+<style lang="scss">
 
     /*element-ui carousel START*/
 

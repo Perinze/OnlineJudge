@@ -77,7 +77,7 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .discuss-detail {
         position: relative;
         width: 100%;

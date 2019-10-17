@@ -15,7 +15,7 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .status-icon {
         display: flex;
         align-items: center;
@@ -24,11 +24,10 @@
 
     .icon {
         position: absolute;
-    }
-
-    .icon > img {
-        width: 20px;
-        height: 20px;
+        > img {
+            width: 20px;
+            height: 20px;
+        }
     }
 
     .times {
