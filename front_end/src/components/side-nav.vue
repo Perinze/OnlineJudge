@@ -17,7 +17,7 @@
             >
             <div class="user-alias-border">
                 <div class="user-alias">
-                    <img src="../../assets/media/avator.png" height="40" width="40"/>
+                    <img :src="avatorComputed" height="40" width="40"/>
                 </div>
             </div>
             <div class="user-info" align="center" v-if="isLogin">
@@ -92,6 +92,7 @@
 <script>
     import MenuItem from "./menu-item";
     import welcome from "../components/welcome";
+    import { logoutWork } from "../api/common";
     import { logout, testRequest } from "../api/getData";
     import { mapGetters } from "vuex";
     import store from '../store';
@@ -136,7 +137,11 @@
                 userinfo: {
                     avator: '/assets/media/avator.png',
                 },
-                displayWelcome: false
+                displayWelcome: false,
+                imgs: {
+                    testAvator: require('../../assets/media/avator.png'),
+                    defaultAvator: require('../../assets/media/defualt-avator.png')
+                },
                 // userData: {
                 //     userId: '213',
                 //     nick: 'Lemo Zheng',
@@ -164,13 +169,7 @@
                 if(response.status == 0) {
                     // ok
                     let procedure = new Promise( (resolve, reject) => {
-                        localStorage.removeItem("Flag");
-                        localStorage.removeItem("userId");
-                        localStorage.removeItem("nick");
-                        localStorage.removeItem("desc");
-                        localStorage.removeItem("avator");
-                        localStorage.removeItem("acCnt");
-                        localStorage.removeItem("waCnt");
+                        logoutWork();
                         resolve();
                     });
                     procedure.then( (successMessage) => {
@@ -237,6 +236,13 @@
                 userData: 'userInfo',
                 isLogin: 'isLogin'
             }),
+            avatorComputed: function() {
+                if(this.isLogin) {
+                    return this.imgs.testAvator;
+                }else{
+                    return this.imgs.defaultAvator;
+                }
+            }
         }
 
     }

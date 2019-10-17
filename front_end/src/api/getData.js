@@ -97,6 +97,17 @@ export const getDiscussDetail = data => fetch('/discuss/getThediscuss', 'post', 
 
 
 
+// 状态
+
+/**
+ * 获取提交返回
+ */
+
+export const getSubmitInfo = data => fetch('/submit/get_submit_info', 'post', data);
+
+
+
+
 // Test
 
 /**

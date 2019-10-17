@@ -115,9 +115,9 @@
 
 <script>
     import { formatDate } from "../api/common";
-    import { getWholeErrorName } from "../api/common";
+    import { getWholeErrorName, logoutWork } from "../api/common";
     import StatusIcon from "../components/status-icon";
-    import { getContest } from "../api/getData";
+    import { getContest, getSubmitInfo } from "../api/getData";
 
     export default {
         components: {StatusIcon},
@@ -255,6 +255,7 @@
         created() {
             this.countDownToBegin();
             this.countDownToEnd();
+            this.renderStatusList();
         },
         async beforeMount() {
             this.renderContestInfo();
@@ -349,6 +350,32 @@
                 }else{
 
                 }
+            },
+            renderStatusList: async function() {
+                let response = await getSubmitInfo({
+                    contest_id: this.$route.params.id,
+                    // 保证传回来的是自己相关的状态（本页面的业务需求）
+                    user_id: localStorage.getItem('userId')
+                });
+                if(response.status == 0 ) {
+
+                }else{
+                    if(response.status === 504) {
+                        // timeout
+                    }else{
+                        if(response.message == "未登录") {
+                            logoutWork();
+                            this.$router.push('/main');
+                            this.$message({
+                                message: '登陆状态过期，请重新登录',
+                                type: 'error'
+                            });
+                        }else{
+
+                        }
+                    }
+                }
+                console.log(response);
             }
         }
     }

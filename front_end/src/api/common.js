@@ -1,3 +1,5 @@
+import store from '../store';
+
 /**
  * 日期格式化
  * @param date
@@ -46,4 +48,26 @@ export function getWholeErrorName(status) {
         case "other": return 'Other Error';
         default: return 'Unknown Error';
     }
+}
+
+
+/**
+ * 执行登出操作后前端需要做的工作
+ */
+
+export function logoutWork() {
+    localStorage.removeItem("Flag");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("nick");
+    localStorage.removeItem("desc");
+    localStorage.removeItem("avator");
+    localStorage.removeItem("acCnt");
+    localStorage.removeItem("waCnt");
+    store.state.login.isLogin = false;
+    store.state.login.userId = localStorage.getItem("userId");
+    store.state.login.nick = localStorage.getItem("nick");
+    store.state.login.desc = localStorage.getItem("desc");
+    store.state.login.avator = localStorage.getItem("avator");
+    store.state.login.acCnt = localStorage.getItem("acCnt");
+    store.state.login.waCnt = localStorage.getItem("waCnt");
 }

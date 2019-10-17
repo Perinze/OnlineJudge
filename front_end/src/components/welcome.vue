@@ -56,6 +56,7 @@
                                            type="text"
                                            placeholder="Account"
                                            v-model="loginInfo.nick"
+                                           maxlength="25"
                                     >
                                 </div>
                                 <span class="error-tips" v-show="errorMsg.type==='account'">{{errorMsg.content}}</span>
@@ -69,7 +70,7 @@
                                            v-model="loginInfo.password"
                                     >
                                     <!--查看密码-->
-                                    <img :src="[!seePass?icons.eyeHide:icons.eye]"
+                                    <img :src="eyeOrHide"
                                          height="23"
                                          @click="seePass = !seePass"
                                          style="cursor: pointer;"
@@ -225,11 +226,14 @@
         },
         computed: {
             firefoxCheck: function() {
-                // let explorer = window.navigator.userAgent ;
-                // if (explorer.indexOf("Firefox") >= 0) {
-                //     return true;
-                // }
+                let explorer = window.navigator.userAgent ;
+                if (explorer.indexOf("Firefox") >= 0) {
+                    return true;
+                }
                 return false;
+            },
+            eyeOrHide: function() {
+                return (!this.seePass)?this.icons.eyeHide:this.icons.eye;
             }
         }
     }
