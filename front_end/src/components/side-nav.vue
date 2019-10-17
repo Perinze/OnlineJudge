@@ -84,7 +84,7 @@
 <script>
     import MenuItem from "./menu-item";
     import welcome from "../components/welcome";
-    import { logout } from "../api/getData";
+    import { logout, testRequest } from "../api/getData";
     import { mapGetters } from "vuex";
     import store from '../store';
 
@@ -140,6 +140,7 @@
         },
         created() {
             this.initUser();
+            // this.testTimeout();
         },
         methods: {
             recvLoginData: function(data) {
@@ -185,6 +186,21 @@
                 store.state.login.acCnt = localStorage.getItem("acCnt");
                 store.state.login.waCnt = localStorage.getItem("waCnt");
             },
+            testTimeout: async function() {
+                this.$loading.open();
+                let response = await testRequest();
+                if(response.status==0) {
+                    // case success
+                    console.log('get success');
+                    // this.$loading.hide();
+                }else{
+                    if(response.status===504) {
+                        // case timeout
+                        console.log('timeout');
+                    }
+                }
+                this.$loading.hide();
+            }
         },
         computed: {
             activeIndex: function() {

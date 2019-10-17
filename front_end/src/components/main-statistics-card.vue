@@ -13,6 +13,7 @@
                     class="graph-item"
                     v-for="index in 13"
                     v-bind:key="index"
+                    style="transition: height .6s ease;"
                     :style="{height: ((predata[13-index].num - numMin)/(numMax - numMin+1)*42+2) +'px'}"
             ></div>
         </div>

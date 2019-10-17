@@ -93,3 +93,15 @@ export const getDiscussList = data => fetch('/discuss/getAlldiscuss', 'post', da
  */
 
 export const getDiscussDetail = data => fetch('/discuss/getThediscuss', 'post', data);
+
+
+
+
+// Test
+
+/**
+ * Twitter API
+ * close VPN to test timeout
+ */
+
+export const testRequest = () => fetch('https://analytics.twitter.com/tpm/p?_=1571277967228');
