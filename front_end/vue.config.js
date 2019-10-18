@@ -1,5 +1,7 @@
 // const webpack = require('webpack')
-const StatsPlugin = require('stats-webpack-plugin')
+const CompressionPlugin = require("compression-webpack-plugin");
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const StatsPlugin = require('stats-webpack-plugin');
 module.exports = {
 	productionSourceMap: false,
 
@@ -8,7 +10,8 @@ module.exports = {
 	},
 
     configureWebpack: {
-      plugins: [new StatsPlugin('stats.json', {
+      plugins: [
+          new StatsPlugin('stats.json', {
             chunkModules: true,
             chunks: true,
             assets: false, 
@@ -16,6 +19,22 @@ module.exports = {
             children: true,
             chunksSort: true, 
             assetsSort: true
-        })]
+          }),
+          new CompressionPlugin({
+              test:/.(js|css|svg|woff|ttf|json|html|otf)$/,
+              threshold:10240,
+              deleteOriginalAssets:false,
+          }),
+          new UglifyJsPlugin({
+              uglifyOptions: {
+                  compress: {
+                      drop_debugger: true,
+                      drop_console: true
+                  }
+              },
+              sourceMap: false,
+              parallel: true
+          })
+      ]
     },
 }

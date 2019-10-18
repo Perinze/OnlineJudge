@@ -15,6 +15,9 @@
     import 'codemirror/lib/codemirror.css';
     require('codemirror/mode/clike/clike.js');
     require("codemirror/mode/python/python.js");
+    require("codemirror/addon/edit/matchbrackets.js");
+    require("codemirror/addon/selection/active-line");
+    require("codemirror/theme/material.css");
     // require('codemirror/addon/fold/foldcode.js');
     // require('codemirror/addon/fold/foldgutter.js');
     // require("codemirror/addon/fold/foldgutter.css");
@@ -23,10 +26,7 @@
     // require('codemirror/addon/fold/indent-fold.js');
     // require('codemirror/addon/fold/markdown-fold.js');
     // require('codemirror/addon/fold/comment-fold.js');
-    require("codemirror/addon/edit/matchbrackets.js");
     // require("codemirror/addon/edit/closeBrackets");
-    require("codemirror/addon/selection/active-line");
-    require("codemirror/theme/material.css");
     export default {
         name: "mycodemirror",
         props: {
