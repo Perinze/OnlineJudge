@@ -76,7 +76,7 @@
         },
         mounted() {
             this.editor.focus();
-            console.log(this.editor);
+            // console.log(this.editor);
         }
     }
 </script>

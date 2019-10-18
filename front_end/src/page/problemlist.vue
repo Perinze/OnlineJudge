@@ -93,8 +93,8 @@
                             status: 'un',
                             title: val.title,
                             statistics: {
-                                ac: new Number(val.ac),
-                                all: new Number(val.ac) + new Number(val.wa)
+                                ac: parseInt(val.ac),
+                                all: parseInt(val.ac) + parseInt(val.wa)
                             }
                         };
                         this.items.push(res);

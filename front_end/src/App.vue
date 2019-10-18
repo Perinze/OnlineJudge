@@ -127,35 +127,35 @@
     */
 
     .ac-color {
-        color: limegreen;
+        color: #80DFC5;
     }
 
     .wa-color {
-        color: #e94040;
+        color: #F77669;
     }
 
     .tle-color {
-        color: dodgerblue;
+        color: #82B1FF;
     }
 
     .mle-color {
-        color: darkorange;
+        color: #DECB6B;
     }
 
     .ac-background {
-        background: limegreen;
+        background: #80DFC5;
     }
 
     .wa-background {
-        background: #e94040;
+        background: #F77669;
     }
 
     .tle-background {
-        background: dodgerblue;
+        background: #82B1FF;
     }
 
     .mle-background {
-        background: darkorange;
+        background: #DECB6B;
     }
 
     /*

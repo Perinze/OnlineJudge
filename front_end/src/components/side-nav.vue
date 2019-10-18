@@ -30,7 +30,7 @@
                 <div class="data-item">
                     <strong class="data-font">提交量</strong>
                     <br>
-                    <strong id="submit-num" class="data-num">{{new Number(userData.acCnt) + new Number(userData.waCnt)}}</strong>
+                    <strong id="submit-num" class="data-num">{{parseInt(userData.acCnt) + parseInt(userData.waCnt)}}</strong>
                 </div>
                 <div class="data-item">
                     <strong class="data-font">通过量</strong>
@@ -190,8 +190,8 @@
                 store.state.login.nick = localStorage.getItem("nick");
                 store.state.login.desc = localStorage.getItem("desc");
                 store.state.login.avator = localStorage.getItem("avator");
-                store.state.login.acCnt = localStorage.getItem("acCnt");
-                store.state.login.waCnt = localStorage.getItem("waCnt");
+                store.state.login.acCnt = parseInt(localStorage.getItem("acCnt"));
+                store.state.login.waCnt = parseInt(localStorage.getItem("waCnt"));
             },
             testTimeout: async function() {
                 this.$loading.open();
@@ -224,8 +224,8 @@
                 return null;
             },
             acPercent: function() {
-                let ac = new Number(this.userData.acCnt);
-                let total = ac + new Number(this.userData.waCnt);
+                let ac = parseInt(this.userData.acCnt);
+                let total = ac + parseInt(this.userData.waCnt);
                 if(total==0) {
                     return 0;
                 }else{

@@ -62,7 +62,7 @@
                             <div class="log-element-left">
                                 <div class="log-element-left-top">
                                     <span style="font-weight: bold;" class="log-problem-id">
-                                        {{String.fromCharCode(contest_info.problems.indexOf(submit_log[index-1].problem) + 66)}}
+                                        {{String.fromCharCode(contest_info.problems.indexOf(submit_log[index-1].problem) + 65)}}
                                     </span>
                                     <span style="font-weight:bold;" :class="submit_log[index-1].status + '-color'" class="log-status">
                                         {{getErrorName(submit_log[index-1].status)}}
@@ -99,7 +99,7 @@
                     <li>
                         <div class="discuss-card" v-for="index in discusses.length">
                             <span class="discuss-problem-id">
-                                {{String.fromCharCode(contest_info.problems.indexOf(discusses[index-1].problem) + 66)}}
+                                {{String.fromCharCode(contest_info.problems.indexOf(discusses[index-1].problem) + 65)}}
                             </span>
                             <span class="discuss-title">
                                 {{discusses[index-1].title}}
@@ -345,8 +345,9 @@
                     this.contest_info.begin_time = data.begin_time;
                     this.contest_info.end_time = data.end_time;
                     this.contest_info.frozen = data.frozen;
-                    this.contest_info.problems = data.problems;
+                    this.contest_info.problems = data.problems.map(x => parseInt(x));
                     this.contest_info.colors = data.colors;
+                    console.log(this.contest_info.problems);
                 }else{
 
                 }
