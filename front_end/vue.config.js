@@ -1,6 +1,12 @@
 // const webpack = require('webpack')
 const StatsPlugin = require('stats-webpack-plugin')
 module.exports = {
+	productionSourceMap: false,
+
+	css: {
+		sourceMap: false,
+	},
+
     configureWebpack: {
       plugins: [new StatsPlugin('stats.json', {
             chunkModules: true,
