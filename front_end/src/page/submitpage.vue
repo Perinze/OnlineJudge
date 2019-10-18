@@ -72,17 +72,10 @@
             getCMLang() {
                 let res = this.langItems.map(function(e) {return e.value}).indexOf(this.lang);
                 if(res===-1) {
-                    return "text/x-csrc"
+                    return "text/x-csrc";
                 }else{
                     return this.langItems[res].cmValue;
                 }
-                // switch(this.lang) {
-                //     case "c": return "text/x-csrc";
-                //     case "c++11": return 'text/x-c++src';
-                //     case "java": return 'text/x-java';
-                //     case "python": return 'python';
-                //     default: return "text/x-csrc";
-                // }
             },
         },
         mounted() {

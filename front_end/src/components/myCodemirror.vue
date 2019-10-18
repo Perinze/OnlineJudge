@@ -15,15 +15,15 @@
     import 'codemirror/lib/codemirror.css';
     require('codemirror/mode/clike/clike.js');
     require("codemirror/mode/python/python.js");
-    require('codemirror/addon/fold/foldcode.js');
-    require('codemirror/addon/fold/foldgutter.js');
-    require("codemirror/addon/fold/foldgutter.css");
-    require('codemirror/addon/fold/brace-fold.js');
-    require('codemirror/addon/fold/xml-fold.js');
-    require('codemirror/addon/fold/indent-fold.js');
-    require('codemirror/addon/fold/markdown-fold.js');
-    require('codemirror/addon/fold/comment-fold.js');
-    require("codemirror/addon/edit/matchbrackets");
+    // require('codemirror/addon/fold/foldcode.js');
+    // require('codemirror/addon/fold/foldgutter.js');
+    // require("codemirror/addon/fold/foldgutter.css");
+    // require('codemirror/addon/fold/brace-fold.js');
+    // require('codemirror/addon/fold/xml-fold.js');
+    // require('codemirror/addon/fold/indent-fold.js');
+    // require('codemirror/addon/fold/markdown-fold.js');
+    // require('codemirror/addon/fold/comment-fold.js');
+    require("codemirror/addon/edit/matchbrackets.js");
     // require("codemirror/addon/edit/closeBrackets");
     require("codemirror/addon/selection/active-line");
     require("codemirror/theme/material.css");
@@ -43,17 +43,17 @@
                 code: '',
                 cmOptions: {
                     mode: {
-                        name: 'text/x-csrc',                // 语言
+                        name: 'text/x-csrc',            // 语言
                         json: true
                     },
                     theme: 'material',                  // 主题
-                    indentUnit: 4,
-                    tabSize: 4,
-                    indentWithTabs: true,
-                    smartIndent: true,
+                    indentUnit: 4,                      // 默认缩进宽度
+                    tabSize: 4,                         // tab宽度
+                    indentWithTabs: true,               // 用Tab替换缩进
+                    smartIndent: true,                  // 智能缩进
                     lineNumbers: true,                  // 显示行号
                     matchBrackets: true,                // 括号匹配
-                    lineWrapping: true,                 // 代码折叠
+                    lineWrapping: true,                 // 自动换行
                     extraKeys: {
                         'Ctrl-Space': 'autocomplete'    // ctrl+space自动补全
                     },
@@ -76,7 +76,6 @@
         },
         mounted() {
             this.editor.focus();
-            // this.editor.doc.lastWrapHeight = 50;
             console.log(this.editor);
         }
     }
