@@ -54,6 +54,7 @@
         },
         computed: {
             numMax() {
+                // TODO 之后调整为平均值
                 var ans = 0;
                 this.predata.forEach( (val, index) => {
                     if(val.num > ans) {

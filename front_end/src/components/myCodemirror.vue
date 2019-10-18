@@ -1,0 +1,99 @@
+<template>
+    <!--<div>-->
+        <codemirror
+                ref="mycode"
+                class="-codeMirrorEditor"
+                v-model="code"
+                :options="cmOptions"
+        >
+        </codemirror>
+    <!--</div>-->
+</template>
+
+<script>
+    import { codemirror } from 'vue-codemirror-lite';
+    import 'codemirror/lib/codemirror.css';
+    require('codemirror/mode/clike/clike.js');
+    require("codemirror/mode/python/python.js");
+    require('codemirror/addon/fold/foldcode.js');
+    require('codemirror/addon/fold/foldgutter.js');
+    require("codemirror/addon/fold/foldgutter.css");
+    require('codemirror/addon/fold/brace-fold.js');
+    require('codemirror/addon/fold/xml-fold.js');
+    require('codemirror/addon/fold/indent-fold.js');
+    require('codemirror/addon/fold/markdown-fold.js');
+    require('codemirror/addon/fold/comment-fold.js');
+    require("codemirror/addon/edit/matchbrackets");
+    // require("codemirror/addon/edit/closeBrackets");
+    require("codemirror/addon/selection/active-line");
+    require("codemirror/theme/material.css");
+    export default {
+        name: "mycodemirror",
+        props: {
+            lang: {
+                type: String,
+                default: 'clike'
+            }
+        },
+        components: {
+            codemirror
+        },
+        data () {
+            return {
+                code: '',
+                cmOptions: {
+                    mode: {
+                        name: 'text/x-csrc',                // 语言
+                        json: true
+                    },
+                    theme: 'material',                  // 主题
+                    indentUnit: 4,
+                    tabSize: 4,
+                    indentWithTabs: true,
+                    smartIndent: true,
+                    lineNumbers: true,                  // 显示行号
+                    matchBrackets: true,                // 括号匹配
+                    lineWrapping: true,                 // 代码折叠
+                    extraKeys: {
+                        'Ctrl-Space': 'autocomplete'    // ctrl+space自动补全
+                    },
+                }
+            }
+        },
+        computed: {
+            editor() {
+                return this.$refs.mycode.editor;
+            }
+        },
+        watch: {
+            lang: function(val) {
+                this.cmOptions.mode.name = val;
+                this.editor.setOption("mode",{
+                    name: val,
+                    json: true
+                });
+            }
+        },
+        mounted() {
+            this.editor.focus();
+            // this.editor.doc.lastWrapHeight = 50;
+            console.log(this.editor);
+        }
+    }
+</script>
+
+<style lang="scss">
+    .-codeMirrorEditor {
+        font: {
+            size: 11pt;
+            family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+        }
+    }
+
+    .CodeMirror {
+        border: 1px solid #eee;
+        border-radius: .5em;
+        height: 480px;
+        overflow: hidden;
+    }
+</style>

@@ -23,6 +23,7 @@
                         <th>罚时 Penalty</th>
                         <th v-for="index in contest_info.problems.length"
                             class="problem-head"
+                            @click="$router.push('/problem/'+contest_info.problems[index-1])"
                         >
                             {{String.fromCharCode(64 + index)}}
                         </th>
@@ -56,7 +57,7 @@
                         v-bind:title="'RunID: '+ submit_log[index-1].runid"
                         class="submit-log-list-element submit-log-li"
                     >
-                        <i :style="{background: 'radial-gradient(circle, rgba(255,255,255,0) 36%, #' + contest_info.colors[contest_info.problems.indexOf(submit_log[index-1].problem)] + ' 40%)'}"></i>
+                        <!--<i :style="{background: 'radial-gradient(circle, rgba(255,255,255,0) 36%, #' + contest_info.colors[contest_info.problems.indexOf(submit_log[index-1].problem)] + ' 40%)'}"></i>-->
                         <div class="log-element">
                             <div class="log-element-left">
                                 <div class="log-element-left-top">
@@ -257,8 +258,6 @@
             this.countDownToBegin();
             this.countDownToEnd();
             this.renderStatusList();
-        },
-        async beforeMount() {
             this.renderContestInfo();
         },
         methods: {
@@ -358,15 +357,20 @@
                     // 保证传回来的是自己相关的状态（本页面的业务需求）
                     user_id: localStorage.getItem('userId')
                 });
-                if(response.status == 0 ) {
+                if(response.status == 0) {
+                    response.data.penalty.problem.forEach( (val, index) => {
 
+                    });
+                    response.data['submit_info'].forEach( (val, index) => {
+
+                    });
                 }else{
                     if(response.status === 504) {
                         // timeout
                     }else{
                         if(response.message == "未登录") {
                             logoutWork();
-                            this.$router.push('/main');
+                            this.$router.go(-1);
                             this.$message({
                                 message: '登陆状态过期，请重新登录',
                                 type: 'error'
@@ -376,7 +380,7 @@
                         }
                     }
                 }
-                console.log(response);
+                // console.log(response);
             }
         }
     }

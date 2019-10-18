@@ -7,6 +7,8 @@ import 'ant-design-vue/dist/antd.css';
 import router from './router/router';
 import store from './store';
 import loadingPlugin from './plugins/loading';
+import { codemirror } from 'vue-codemirror-lite'
+import 'codemirror/lib/codemirror.css'
 
 Vue.config.productionTip = false;
 
@@ -20,6 +22,7 @@ Vue.use(Vuex);
 Vue.use(Carousel);
 Vue.use(CarouselItem);
 Vue.use(Message);
+Vue.use(codemirror);
 Vue.use(loadingPlugin, {
     progressColor: '#4288ce'
 });
@@ -77,13 +80,14 @@ router.afterEach(route => {
 
 // 防开发者模式 BEGIN
 
-window.onkeydown = window.onkeyup = window.onkeypress = function(event) {
-    // 防止f12
-    if (event.keyCode === 123) {
-        event.preventDefault();
-        window.event.returnValue = false;
-    }
-};
+// window.onkeydown = window.onkeyup = window.onkeypress = function(event) {
+    // TODO 防止f12 但在MAC系统下会阻止输入大括号
+    // if (event.keyCode === 123) {
+        // console.log('here');
+        // event.preventDefault();
+        // window.event.returnValue = false;
+    // }
+// };
 
 window.oncontextmenu = function() {
     // event.preventDefault();

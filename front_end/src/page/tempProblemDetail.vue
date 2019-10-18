@@ -30,7 +30,7 @@
                 <span class="content">{{problem_info.hint}}</span>
             </div>
             <div class="function-btn-group">
-                <button class="submit-btn">Submit</button>
+                <button class="submit-btn" @click="$router.push('/submit/'+$route.params.id)">Submit</button>
             </div>
         </div>
     </div>
@@ -68,7 +68,7 @@
                 }
             }
         },
-        async beforeMount() {
+        created() {
             this.renderProblemDetail();
         },
         methods: {
