@@ -2,13 +2,14 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { Carousel, CarouselItem, Message } from 'element-ui';
 import App from './App'
-import 'element-ui/lib/theme-chalk/index.css';
-import 'ant-design-vue/dist/antd.css';
 import router from './router/router';
 import store from './store';
 import loadingPlugin from './plugins/loading';
-import { codemirror } from 'vue-codemirror-lite'
-import 'codemirror/lib/codemirror.css'
+import codemirror from 'vue-codemirror-lite';
+// 清理无用的css
+// import 'codemirror/lib/codemirror.css'
+// import 'ant-design-vue/dist/antd.css';
+// import 'element-ui/lib/theme-chalk/index.css';
 
 Vue.config.productionTip = false;
 
