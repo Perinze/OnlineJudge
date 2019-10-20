@@ -75,15 +75,33 @@
                                 </div>
                             </div>
                             <div class="log-element-right">
-                                <span class="log-time-used">
-                                    {{submit_log[index-1].time_used + 'ms'}}
-                                </span> <!-- Time used -->
-                                <span class="log-mem-used">
-                                    {{submit_log[index-1].mem_used + 'Mb'}}
-                                </span> <!-- Memory used -->
-                                <span class="log-language">
-                                    {{submit_log[index-1].language}}
-                                </span> <!-- Language -->
+                                <div>
+                                    <!-- Time used -->
+                                    <span class="log-label">
+                                        Time
+                                    </span>
+                                    <span class="log-time-used">
+                                        {{submit_log[index-1].time_used + 'ms'}}
+                                    </span>
+                                </div>
+                                <div>
+                                    <!-- Memory used -->
+                                    <span class="log-label">
+                                        Memory
+                                    </span>
+                                    <span class="log-mem-used">
+                                        {{submit_log[index-1].mem_used + 'Mb'}}
+                                    </span>
+                                </div>
+                                <div>
+                                    <!-- Language -->
+                                    <span class="log-label">
+                                        Language
+                                    </span>
+                                    <span class="log-language">
+                                        {{submit_log[index-1].language}}
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </li>
@@ -142,7 +160,7 @@
                         submit_time: 12, /* 比赛开始后的秒数*/
                         time_used: 234, /*毫秒数*/
                         mem_used: 2.54,
-                        language: 'cpp',
+                        language: 'C++11',
                         status: 'ac',
                     },
                     {
@@ -151,7 +169,7 @@
                         submit_time: 12, /* 比赛开始后的秒数*/
                         time_used: 234, /*毫秒数*/
                         mem_used: 2.54,
-                        language: 'cpp',
+                        language: 'C++11',
                         status: 'wa',
                     },
                     {
@@ -160,7 +178,7 @@
                         submit_time: 12, /* 比赛开始后的秒数*/
                         time_used: 2000, /*毫秒数*/
                         mem_used: 2.54,
-                        language: 'cpp',
+                        language: 'C++11',
                         status: 'tle',
                     },
                     {
@@ -169,7 +187,7 @@
                         submit_time: 12, /* 比赛开始后的秒数*/
                         time_used: 2, /*毫秒数*/
                         mem_used: 2.54,
-                        language: 'cpp',
+                        language: 'Python',
                         status: 'wa',
                     },
                     {
@@ -178,7 +196,7 @@
                         submit_time: 12, /* 比赛开始后的秒数*/
                         time_used: 234, /*毫秒数*/
                         mem_used: 2.54,
-                        language: 'cpp',
+                        language: 'C',
                         status: 'ac',
                     },
                     {
@@ -187,7 +205,7 @@
                         submit_time: 12, /* 比赛开始后的秒数*/
                         time_used: 234, /*毫秒数*/
                         mem_used: 2.54,
-                        language: 'cpp',
+                        language: 'C',
                         status: 'wa',
                     },
                     {
@@ -196,7 +214,7 @@
                         submit_time: 12, /* 比赛开始后的秒数*/
                         time_used: 2000, /*毫秒数*/
                         mem_used: 2.54,
-                        language: 'cpp',
+                        language: 'Python',
                         status: 'tle',
                     },
                     {
@@ -205,7 +223,7 @@
                         submit_time: 12, /* 比赛开始后的秒数*/
                         time_used: 2, /*毫秒数*/
                         mem_used: 2.54,
-                        language: 'cpp',
+                        language: 'Java',
                         status: 'wa',
                     },
                 ],
@@ -567,7 +585,7 @@
             filter: brightness(130%);
         }
         > div {
-            margin-left: 35px;
+            margin-left: 15px;
         }
     }
 
@@ -594,7 +612,7 @@
         &-left {
             display: flex;
             flex-direction: column;
-            width: 40%;
+            width: 37%;
             &-bottom {
                 font-size: 10px;
                 height: 13px;
@@ -605,7 +623,24 @@
             flex-direction: row;
             align-items: flex-end;
             justify-content: space-between;
-            width: 40%;
+            width: 55%;
+            > div {
+                display: flex;
+                flex-direction: column;
+                width: 33.3%;
+                > span {
+                    &:last-child {
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
+
+    .log-label {
+        font: {
+            size: 12px;
+            /*weight: bold;*/
         }
     }
 

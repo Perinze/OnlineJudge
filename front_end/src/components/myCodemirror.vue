@@ -95,4 +95,10 @@
         height: 480px;
         overflow: hidden;
     }
+
+    @media screen and (min-height: 780px) {
+        .CodeMirror {
+            height: 600px;
+        }
+    }
 </style>

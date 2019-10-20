@@ -140,8 +140,15 @@
                     size: 12px;
                 }
             }
-            > select {
+            > div > select {
+                appearance: none;
+                background: url("../../assets/icon/arrow-bottom.svg") no-repeat scroll right center transparent;
+                background-size: 14px 14px;
                 margin-right: 1px;
+                margin-left: 5px;
+                border: 1px solid gray;
+                border-radius: .2em;
+                padding: 0 15px 0 7px;
             }
         }
         #codeEditor {
