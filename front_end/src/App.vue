@@ -177,12 +177,14 @@
 
     @font-face {
         font-family: dinnext;
-        src: url("../assets/font/DINNext.otf");
+        /*src: url("../assets/font/DINNext.otf");*/
+        src: url("../assets/font/DINNext_min.ttf");
     }
 
     @font-face {
         font-family: DINCondensed;
-        src: url("../assets/font/DINCondensed.otf");
+        /*src: url("../assets/font/DINCondensed.otf");*/
+        src: url("../assets/font/DINCondensed_min.ttf");
     }
 </style>
 
