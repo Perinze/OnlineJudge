@@ -10,20 +10,7 @@ module.exports = {
 	},
 
     configureWebpack: config => {
-        let devPlugin = [
-        	new webpack.HotModuleReplacementPlugin(),
-	        new StatsPlugin('stats.json', {
-	            chunkModules: true,
-	            chunks: true,
-	            assets: false,
-	            modules: true,
-	            children: true,
-	            chunksSort: true,
-	            assetsSort: true
-	        }),
-        ];
         let proPlugin = [
-        	new webpack.HotModuleReplacementPlugin(),
 	        new CompressionPlugin({
 				test:/.(js|css|svg|woff|ttf|json|html|otf)$/,
 				threshold:10240,
@@ -37,14 +24,26 @@ module.exports = {
 					}},
 				sourceMap: false,
 				parallel: true
-			})
+			}),
+			new StatsPlugin('stats.json', {
+	            chunkModules: true,
+	            chunks: true,
+	            assets: false,
+	            modules: true,
+	            children: true,
+	            chunksSort: true,
+	            assetsSort: true
+	        })
+		];
+		let devPlugin = [
+        	new webpack.HotModuleReplacementPlugin(),
 		]
-    	if(process.env.NODE_ENV === 'production') {
+    	if(process.env.NODE_ENV === 'test') {
+    		// 开发环境
+    		config.plugins = [...config.plugins, ...devPlugin];
+    	}else{
     		// 生产环境
 			config.plugins = [...config.plugins, ...proPlugin];
-    	}else{
-    		// 开发环境
-			config.plugins = [...config.plugins, ...devPlugin];
     	}
       
     },

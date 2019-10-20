@@ -672,4 +672,10 @@
         left: 75%;
         top: 75px;
     }
+
+    @media screen and (max-width: 1290px) {
+        .discuss-author {
+            left: 70%;
+        }
+    }
 </style>
