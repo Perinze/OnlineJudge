@@ -115,7 +115,10 @@
                 <!-- TODO 改成卡片样式 -->
                 <ol>
                     <li>
-                        <div class="discuss-card" v-for="index in discusses.length">
+                        <div class="discuss-card"
+                             v-for="index in discusses.length"
+                             @click="$router.push('/discuss/'+contest_info.id+ '/'+discusses[index-1].id)"
+                        >
                             <span class="discuss-problem-id">
                                 {{String.fromCharCode(contest_info.problems.indexOf(discusses[index-1].problem) + 65)}}
                             </span>
@@ -229,18 +232,21 @@
                 ],
                 discusses: [
                     {
+                        id: '1',
                         problem: 1001,
                         title: 'title',
                         author: 'author',
                         time: 23
                     },
                     {
+                        id: '1',
                         problem: 1001,
                         title: 'title',
                         author: 'author',
                         time: 27
                     },
                     {
+                        id: '1',
                         problem: 1005,
                         title: 'title',
                         author: 'author',
