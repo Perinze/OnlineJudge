@@ -59,9 +59,7 @@ router.beforeEach((to, from, next) => {
     }else{
         // 未登陆
         if(to.meta.isLogin){
-            next({
-                path: '/main',
-            });
+            next(false);
             Vue.prototype.$message({
                 message: '请先登录',
                 type: 'error'
