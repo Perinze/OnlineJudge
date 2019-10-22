@@ -202,6 +202,71 @@ null
 
 * joinContest
 
+*request:*
+
+``` json
+{
+    "contest_id": 1000,
+}
+```
+
+*response:*
+
+``` json
+{
+    "status": 0,//0-成功，1-失败
+    "message": "已参加比赛",
+    "data": ""
+}
+```
+
+* checkContest
+
+*request:*
+
+``` json
+{
+    "contest_id": 1000,
+}
+```
+
+*response:*
+
+``` json
+{
+    "status": 0,//0-成功，1-失败
+    "message": "已参加比赛",
+    "data": ""
+}
+```
+
+* getUserContest
+
+*request:*
+
+null
+
+*response:*
+
+``` json
+{
+    "status": 0,
+    "message": "查询成功",
+    "data": [
+        {
+            "id": 1,
+            "contest_id": 1001,
+            "user_id": 1
+        },
+        {
+            "id": 3,
+            "contest_id": 1002,
+            "user_id": 1
+        }
+    ]
+}
+```
+
 ## Group
 
 * get_all_group
@@ -1088,6 +1153,7 @@ null
     "data": {
         "submit_info": [
             {
+                "runid": 1,
                 "user_id": 1,
                 "nick": "123",
                 "problem_id": 1001,
@@ -1098,6 +1164,7 @@ null
                 "submit_time": "2019-03-31 13:00:00"
             },
             {
+                "runid": 1,
                 "user_id": 1,
                 "nick": "123",
                 "problem_id": 1002,
@@ -1135,6 +1202,7 @@ null
     "message": "查询成功",
     "data": [
         {
+            "runid": 1,
             "user_id": 1,
             "nick": "123",
             "problem_id": 1001,
@@ -1145,6 +1213,7 @@ null
             "submit_time": "2019-03-31 13:00:00"
         },
         {
+            "runid": 1,
             "user_id": 1,
             "nick": "123",
             "problem_id": 1002,
@@ -1167,6 +1236,7 @@ null
     "data": {
         "submit_info": [
             {
+                "runid": 1,
                 "user_id": 1,
                 "nick": "123",
                 "problem_id": 1001,
@@ -1177,6 +1247,7 @@ null
                 "submit_time": "2019-03-31 13:00:00"
             },
             {
+                "runid": 1,
                 "user_id": 1,
                 "nick": "123",
                 "problem_id": 1002,
@@ -1214,6 +1285,7 @@ null
     "message": "查询成功",
     "data": [
         {
+            "runid": 1,
             "user_id": 1,
             "nick": "123",
             "problem_id": 123,

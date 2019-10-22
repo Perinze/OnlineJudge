@@ -22,7 +22,7 @@ class Login extends Controller
     {
         // 检测重复登录
         if (Session::has('user_id')) {
-            return apiReturn(CODE_ERROR, '已有账号登录', '');
+            return apiReturn(CODE_ERROR, '已有账号登录', Session::get('data'));
         }
         // 正常登陆逻辑
         $user_validate = new UserValidate();
@@ -44,6 +44,7 @@ class Login extends Controller
             session('user_id', $result['data']['user_id']);
             session('nick', $result['data']['nick']);
             session('identity', $result['data']['identity']);
+            session('data', $result['data']);
             $data = array(
                 'userId' => $result['data']['user_id'],
                 'nick' => $result['data']['nick'],
