@@ -6,10 +6,6 @@ import router from './router/router';
 import store from './store';
 import loadingPlugin from './plugins/loading';
 import codemirror from 'vue-codemirror-lite';
-// 清理无用的css
-// import 'codemirror/lib/codemirror.css'
-// import 'ant-design-vue/dist/antd.css';
-// import 'element-ui/lib/theme-chalk/index.css';
 
 Vue.config.productionTip = false;
 

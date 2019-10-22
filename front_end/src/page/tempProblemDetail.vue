@@ -2,32 +2,49 @@
     <div class="problem-detail-container">
         <div class="temp-problem-detail">
             <div class="title">{{problem_info.id}} {{problem_info.title}}</div>
-            <div class="problem-background">
-                <span class="sub-title">题目背景</span>
-                <span class="content" v-html="Marked(problem_info.background)"></span>
-            </div>
-            <div class="describe">
-                <span class="sub-title">题目描述</span>
-                <span class="content" v-html="Marked(problem_info.describe)"></span>
-            </div>
-            <div class="io-standard">
-                <span class="sub-title">输入格式</span>
-                <span class="content" v-html="Marked(problem_info.input_sample)"></span>
-            </div>
-            <div class="io-standard">
-                <span class="sub-title">输出格式</span>
-                <span class="content" v-html="Marked(problem_info.output_sample)"></span>
+            <div id="render-latex-content">
+                <div class="problem-background">
+                    <span class="sub-title">题目背景</span>
+                    <span class="content" v-html="Marked(problem_info.background)"></span>
+                </div>
+                <div class="describe">
+                    <span class="sub-title">题目描述</span>
+                    <span class="content" v-html="Marked(problem_info.describe)"></span>
+                </div>
+                <div class="io-standard">
+                    <span class="sub-title">输入格式</span>
+                    <span class="content" v-html="Marked(problem_info.input_sample)"></span>
+                </div>
+                <div class="io-standard">
+                    <span class="sub-title">输出格式</span>
+                    <span class="content" v-html="Marked(problem_info.output_sample)"></span>
+                </div>
             </div>
             <div class="example-data">
                 <span class="sub-title">样例</span>
                 <div class="example-data-element" v-for="index in problem_info.example.length">
-                    <div class="input-example sub-example">{{problem_info.example[index-1].input}}</div>
-                    <div class="output-example sub-example">{{problem_info.example[index-1].output}}</div>
+                    <label :for="'example'+index">{{'Case #'+index}}</label>
+                    <div :id="'example'+index" class="example-content">
+                        <div>
+                            <div class="example-top">
+                                <span>Input:</span>
+                                <button class="example-copy-btn" @click="copy(problem_info.example[index-1].input)">复制</button>
+                            </div>
+                            <div class="input-example sub-example">{{problem_info.example[index-1].input}}</div>
+                        </div>
+                        <div>
+                            <div class="example-top">
+                                <span>Output:</span>
+                                <button class="example-copy-btn" @click="copy(problem_info.example[index-1].output)">复制</button>
+                            </div>
+                            <div class="output-example sub-example">{{problem_info.example[index-1].output}}</div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="hint">
                 <span class="sub-title">Hint</span>
-                <span class="content" v-html="Marked(problem_info.hint)"></span>
+                <span class="content" v-html="Marked(problem_info.hint)" id="render-latex-hint"></span>
             </div>
             <div class="function-btn-group">
                 <button class="submit-btn" @click="$router.push('/submit/'+$route.params.id)">Submit</button>
@@ -38,6 +55,7 @@
 
 <script>
     import { getProblem } from "../api/getData";
+    import { Clipboard } from "../api/common";
     import marked from 'marked';
 
     export default {
@@ -98,9 +116,30 @@
                     }
                 }
                 this.$loading.hide();
+                this.LaTeXed();
             },
             Marked: function(content) {
                 return marked(content);
+            },
+            LaTeXed: function() {
+                // 使用$nextTick等组件数据渲染完之后再调用MathJax渲染方法
+                this.$nextTick(() => {
+                    window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, document.getElementById('render-latex-content')]);
+                    window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, document.getElementById('render-latex-hint')]);
+                });
+            },
+            copy: function(val) {
+                if(Clipboard.copy(val)) {
+                    this.$message({
+                        message: '复制成功',
+                        type: 'info'
+                    });
+                }else{
+                    this.$message({
+                        message: '复制失败, 请手动复制',
+                        type: 'warning'
+                    });
+                }
             }
         },
         computed: {
@@ -169,16 +208,51 @@
 
     .example-data-element {
         width: 53%;
+        margin: 20px 0;
+        > label {
+            font: {
+                size: 15px;
+                weight: bold;
+            }
+        }
+        > div {
+            display: flex;
+            justify-content: flex-start;
+        }
+        .example-content {
+            > div:last-child {
+                margin-left: 40px;
+            }
+        }
+    }
+
+    .example-top {
         display: flex;
         justify-content: space-between;
-        margin: 20px 0;
+        align-items: center;
+        margin-bottom: 2px;
     }
 
     .sub-example {
         background: #eeeeee;
         border: 1px solid #aaaaaa;
         border-radius: .4em;
-        padding: 10px 25px;
+        padding: 10px 0 10px 15px;
+        width: 250px;
+        user-select: text;
+    }
+
+    .example-copy-btn {
+        background: none;
+        border: 1px solid #4288ce;
+        border-radius: .3em;
+        color: #4288ce;
+        width: 50px;
+        cursor: pointer;
+        line-height: 18px;
+        &:hover {
+            text-decoration: underline;
+        }
     }
 
     .function-btn-group {

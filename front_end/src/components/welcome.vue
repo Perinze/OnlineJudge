@@ -82,10 +82,9 @@
                                 <transition name="loading">
                                     <button class="do-login-btn"
                                             :class="{'loading-login-btn': loading}"
-                                            @click="do_login"
                                             :disabled="!functionAvailable.login"
                                     >
-                                        <span v-show="!loading">Log in</span>
+                                        <span v-show="!loading" @click="do_login">Log in</span>
                                         <div class="lds-ripple" v-show="loading">
                                             <div></div>
                                             <div></div>
@@ -240,10 +239,9 @@
                                 <transition name="loading">
                                     <button class="do-login-btn"
                                             :class="{'loading-login-btn': loading}"
-                                            @click="do_register"
                                             :disabled="!functionAvailable.register"
                                     >
-                                        <span v-show="!loading">Sign up</span>
+                                        <span v-show="!loading"  @click="do_register">Sign up</span>
                                         <div class="lds-ripple" v-show="loading">
                                             <div></div>
                                             <div></div>
@@ -300,10 +298,9 @@
                                 <transition name="loading">
                                     <button class="do-login-btn"
                                             :class="{'loading-login-btn': loading}"
-                                            @click="do_forgetPassword"
                                             :disabled="!functionAvailable.forgetPassword"
                                     >
-                                        <span v-show="!loading">找回密码</span>
+                                        <span v-show="!loading" @click="do_forgetPassword">找回密码</span>
                                         <div class="lds-ripple" v-show="loading">
                                             <div></div>
                                             <div></div>

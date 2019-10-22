@@ -113,6 +113,7 @@
         border-radius: 10px;
         color: #4288ce;
         width: 80px;
+        cursor: pointer;
         &:hover {
             text-decoration: underline;
         }
