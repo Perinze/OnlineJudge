@@ -83,8 +83,9 @@
                                     <button class="do-login-btn"
                                             :class="{'loading-login-btn': loading}"
                                             :disabled="!functionAvailable.login"
+                                            @click="do_login"
                                     >
-                                        <span v-show="!loading" @click="do_login">Log in</span>
+                                        <span v-show="!loading">Log in</span>
                                         <div class="lds-ripple" v-show="loading">
                                             <div></div>
                                             <div></div>
@@ -240,8 +241,9 @@
                                     <button class="do-login-btn"
                                             :class="{'loading-login-btn': loading}"
                                             :disabled="!functionAvailable.register"
+                                            @click="do_register"
                                     >
-                                        <span v-show="!loading"  @click="do_register">Sign up</span>
+                                        <span v-show="!loading" >Sign up</span>
                                         <div class="lds-ripple" v-show="loading">
                                             <div></div>
                                             <div></div>
@@ -299,8 +301,9 @@
                                     <button class="do-login-btn"
                                             :class="{'loading-login-btn': loading}"
                                             :disabled="!functionAvailable.forgetPassword"
+                                            @click="do_forgetPassword"
                                     >
-                                        <span v-show="!loading" @click="do_forgetPassword">找回密码</span>
+                                        <span v-show="!loading">找回密码</span>
                                         <div class="lds-ripple" v-show="loading">
                                             <div></div>
                                             <div></div>
@@ -376,6 +379,7 @@
                 e.preventDefault();
             },
             do_login: async function() {
+                if(this.loading) return;
                 this.errorMsg.type='';
                 this.errorMsg.content='';
                 let checkInfoPromise = new Promise((resolve, reject) => {
@@ -427,6 +431,7 @@
                 });
             },
             do_register: async function() {
+                if(this.loading) return;
                 this.errorMsg.type='';
                 this.errorMsg.content='';
                 let checkInfoPromise = new Promise( (resolve, reject) => {
@@ -500,6 +505,7 @@
                 });
             },
             do_forgetPassword: async function() {
+                if(this.loading) return;
                 this.errorMsg.type='';
                 this.errorMsg.content='';
                 let checkInfoPromise = new Promise((resolve, reject) => {

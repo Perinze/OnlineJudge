@@ -105,7 +105,7 @@
                         type: 'success'
                     });
                 }else{
-                    this.$messgae({
+                    this.$message({
                         message: '参加比赛失败: ' + response.message,
                         type: 'error'
                     })
