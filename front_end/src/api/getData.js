@@ -20,6 +20,12 @@ export const logout = () => fetch('/Login/do_logout', 'post', {});
 
 export const register = data => fetch('/Register/register', 'post', data);
 
+/**
+ * 找回密码
+ */
+
+export const forgetPassword = data => fetch('/Login/forgetPassword', 'post', data);
+
 
 
 
