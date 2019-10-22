@@ -7,10 +7,22 @@
                     <span class="contest-title">{{items[index-1].title}}</span>
                     <span class="contest-sub-title">{{items[index-1].begin_time + ' — ' + items[index-1].end_time}}</span>
                 </div>
-                <div class="function-btn-group">
-                    <!--disabled-->
-                    <button class="join has-join">已经报名</button>
-                </div>
+            </div>
+            <div class="function-btn-group">
+                <!--disabled-->
+                <button class="join"
+                        :class="[(items[index-1].status===1 && (new Date(items[index-1].begin_time).getTime() > new Date().getTime()))?'can-join':'cant-join']"
+                        @click="doJoinContest(index-1)"
+                        v-show="!items[index-1].hasJoin"
+                >
+                    {{(items[index-1].status===1 && (new Date(items[index-1].begin_time).getTime() > new Date().getTime()))?'点我报名':'不可报名'}}
+                </button>
+                <button class="join"
+                        :class="[(items[index-1].status===1 && (new Date(items[index-1].begin_time).getTime() > new Date().getTime()))?'has-join':'cant-join']"
+                        v-show="items[index-1].hasJoin"
+                >
+                    已经报名
+                </button>
             </div>
         </div>
         <!-- TODO 即将到来 -->
@@ -19,7 +31,7 @@
 </template>
 
 <script>
-    import { getContestList } from "../api/getData";
+    import { getContestList, getUserContest, joinContest } from "../api/getData";
 
     export default {
         name: "contestpage",
@@ -31,6 +43,8 @@
                     //     title: '2019年武汉理工大学第二届新生赛',
                     //     begin_time: '2019.11.16 test',
                     //     end_time: '2019.11.16 test',
+                    //     hasJoin: false,
+                    //     status: 1
                     // },
                 ]
             }
@@ -41,13 +55,14 @@
                 let response = await getContestList();
                 if(response.status == 0) {
                     let data = response.data;
-                    // console.log(data);
                     data.forEach((val, index) => {
                         let res = {
                             id: val.contest_id.toString(),
                             title: val.contest_name,
                             begin_time: val.begin_time,
                             end_time: val.end_time,
+                            hasJoin: false,
+                            status: parseInt(val.status)
                         };
                         this.items.push(res);
                     });
@@ -61,13 +76,50 @@
                 }
                 this.$loading.hide();
             },
+            getUserContestList: async function() {
+                let response = await getUserContest();
+                if(response.status == 0) {
+                    response.data.forEach( (val, index) => {
+                        let itemsIndex = this.items.map(x => parseInt(x.id)).indexOf(parseInt(val.contest_id));
+                        this.items[itemsIndex].hasJoin = true;
+                    });
+                }else{
+                    if(response.message=='无比赛数据'){
+                        // pass
+                    }
+                }
+            },
+            doJoinContest: async function(index) {
+                this.$loading.open();
+                console.log({
+                    contest_id: this.items[index].id
+                });
+                let response = await joinContest({
+                    contest_id: this.items[index].id
+                });
+                if(response.status == 0){
+                    console.log(response);
+                    this.items[index].hasJoin = true;
+                    this.$message({
+                        message: '参加比赛成功, 请记得按时参赛',
+                        type: 'success'
+                    });
+                }else{
+                    this.$messgae({
+                        message: '参加比赛失败: ' + response.message,
+                        type: 'error'
+                    })
+                }
+                this.$loading.hide();
+            },
             goto: function(link) {
                 if(link=='')return;
                 this.$router.push('/contest/'+link);
             }
         },
         async beforeMount() {
-            this.renderList();
+            await this.renderList();
+            this.getUserContestList();
         },
         filters: {
             timeFilter: function(val) {
@@ -137,8 +189,8 @@
     }
 
     .function-btn-group {
+        position: relative;
         margin-top: 50px;
-        width: 100%;
     }
 
     .join {

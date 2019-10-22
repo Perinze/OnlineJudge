@@ -89,6 +89,23 @@ export const getContestList = () => fetch('/Contest/getAllContest');
 
 export const getContest = data => fetch('/Contest/getTheContest', 'post', data);
 
+/**
+ * 获取用户参加比赛的数据
+ */
+
+export const getUserContest = () => fetch('/Contest/getUserContest');
+
+/**
+ * 检查用户是否参加了某场比赛
+ */
+
+export const checkUserContest = data => fetch('/Contest/checkContest', 'post', data);
+
+/**
+ * 加入比赛
+ */
+
+export const joinContest = data => fetch('/Contest/joinContest', 'post', data);
 
 
 

@@ -140,7 +140,7 @@
     import { formatDate } from "../api/common";
     import { getWholeErrorName, logoutWork } from "../api/common";
     import StatusIcon from "../components/status-icon";
-    import { getContest, getSubmitInfo } from "../api/getData";
+    import { getContest, getSubmitInfo, checkUserContest } from "../api/getData";
 
     export default {
         components: {StatusIcon},
@@ -284,11 +284,12 @@
                 return formatDate(date, 'yyyy.MM.dd hh:mm:ss')
             }
         },
-        created() {
+        async created() {
             this.countDownToBegin();
             this.countDownToEnd();
-            this.renderStatusList();
+            await this.checkJoin();
             this.renderContestInfo();
+            this.renderStatusList();
         },
         methods: {
             timeFormat(param) {
@@ -411,6 +412,21 @@
                     }
                 }
                 // console.log(response);
+            },
+            checkJoin: async function() {
+                let response = await checkUserContest({
+                    contest_id: this.$route.params.id
+                });
+                if(response.status == 0) {
+                    // 已参加比赛
+                    // pass
+                }else{
+                    this.$message({
+                        message: '您尚未参加本场比赛',
+                        type: 'error'
+                    });
+                    this.$router.go(-1);
+                }
             }
         }
     }
@@ -569,7 +585,7 @@
     }
 
     .submit-log-list {
-        width: 47%;
+        width: 51%;
     }
 
     .submit-log-ul {
@@ -627,7 +643,7 @@
         &-left {
             display: flex;
             flex-direction: column;
-            width: 37%;
+            width: 38%;
             &-bottom {
                 font-size: 10px;
                 height: 13px;
@@ -638,7 +654,7 @@
             flex-direction: row;
             align-items: flex-end;
             justify-content: space-between;
-            width: 55%;
+            width: 58%;
             > div {
                 display: flex;
                 flex-direction: column;
