@@ -165,7 +165,7 @@ class Contest extends Controller
         $contest_model = new ContestModel();
         $contest_validate = new ContestValidate();
         $req = input('post.');
-        $result = $contest_validate->scene('searchContest')->check($req);
+        $result = $contest_validate->scene('searchContest1')->check($req);
         if ($result !== true) {
             return apiReturn(CODE_ERROR, $contest_validate->getError(), '');
         }
@@ -193,7 +193,7 @@ class Contest extends Controller
         $contest_user_model = new ContestUserModel();
         $contest_validate = new ContestValidate();
         $req = input('post.');
-        $result = $contest_validate->scene('searchContest')->check($req);
+        $result = $contest_validate->scene('searchContest1')->check($req);
         if ($result !== true) {
             return apiReturn(CODE_ERROR, $contest_validate->getError(), '');
         }
@@ -203,7 +203,18 @@ class Contest extends Controller
         }
         $contest_id = $req['contest_id'];
         $resp = $contest_user_model->searchUser($contest_id, $user_id);
+        //halt($user_id);
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
+    public function getUserContest()
+    {
+        $contest_user_model = new ContestUserModel();
+        $user_id = Session::get('user_id');
+        if (empty($user_id)) {
+            return apiReturn(CODE_ERROR, '未登录', '');
+        }
+        $resp = $contest_user_model->searchUserContest($user_id);
+        return apiReturn($resp['code'], $resp['msg'], $resp['data']);
+    }
 }

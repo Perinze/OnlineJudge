@@ -31,7 +31,7 @@ class SubmitModel extends Model
     public function get_the_submit($where)
     {
         try {
-            $info = $this->field(['submit.user_id as user_id','users.nick as nick', 'problem_id', 'language', 'submit.status as status', 'time', 'memory', 'submit_time'])
+            $info = $this->field(['submit.id as runid','submit.user_id as user_id','users.nick as nick', 'problem_id', 'language', 'submit.status as status', 'time', 'memory', 'submit_time'])
                 ->where($where)->order('submit_time')->join('users','submit.user_id = users.user_id')->buildSql();
             $info = Db::query($info);
             return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $info];
