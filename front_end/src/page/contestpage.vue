@@ -34,7 +34,7 @@
                         1
                     </td>
                     <td>
-                        1000
+                        {{userData.penalty}}
                     </td>
                     <td v-for="index in contest_info.problems.length"
                         class="problem-status"
@@ -155,6 +155,9 @@
                     frozen: 0.2,
                     problems: [1000,1001,1002,1003,1004,1005,1006,1007,1008,1009,1010,1011,1012],
                     colors: ['924726','8cc590','b2c959','59785a','8e8c13','252b04','ccda06','8044a7','27e298','0cef7c','31f335','67f70e','0ea6ff'],
+                },
+                userData: {
+                    penalty: 0
                 },
                 submit_log: [
                     {
@@ -389,11 +392,20 @@
                     user_id: localStorage.getItem('userId')
                 });
                 if(response.status == 0) {
+                    this.userData.penalty = response.data.penalty.penalty;
                     response.data.penalty.problem.forEach( (val, index) => {
-
+                        // TODO 
                     });
                     response.data['submit_info'].forEach( (val, index) => {
-
+                        this.submit_log.push({
+                            runid: val.runid,
+                            problem: val.problem_id,
+                            submit_time: val.submit_time, // TODO fix
+                            time_used: val.time_used,
+                            mem_used: val.memory,
+                            language: val.language,
+                            status: val.status.toLowerCase(),
+                        });
                     });
                 }else{
                     if(response.status === 504) {

@@ -234,11 +234,12 @@
     }
 
     .sub-example {
+        overflow-x: scroll;
         background: #eeeeee;
         border: 1px solid #aaaaaa;
         border-radius: .4em;
         padding: 10px 0 10px 15px;
-        width: 250px;
+        width: 300px;
         user-select: text;
     }
 
