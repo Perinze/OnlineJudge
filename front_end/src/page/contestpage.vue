@@ -115,7 +115,10 @@
                 <!-- TODO 改成卡片样式 -->
                 <ol>
                     <li>
-                        <div class="discuss-card" v-for="index in discusses.length">
+                        <div class="discuss-card"
+                             v-for="index in discusses.length"
+                             @click="$router.push('/discuss/'+contest_info.id+ '/'+discusses[index-1].id)"
+                        >
                             <span class="discuss-problem-id">
                                 {{String.fromCharCode(contest_info.problems.indexOf(discusses[index-1].problem) + 65)}}
                             </span>
@@ -229,18 +232,21 @@
                 ],
                 discusses: [
                     {
+                        id: '1',
                         problem: 1001,
                         title: 'title',
                         author: 'author',
                         time: 23
                     },
                     {
+                        id: '1',
                         problem: 1001,
                         title: 'title',
                         author: 'author',
                         time: 27
                     },
                     {
+                        id: '1',
                         problem: 1005,
                         title: 'title',
                         author: 'author',
@@ -263,7 +269,13 @@
                 return false;
             },
             isFrozen: function() {
-                return true;
+                let res = this.leftTime;
+                let left = 1000*((parseInt(res.slice(0,2))*60 + parseInt(res.slice(3,5)))*60 + parseInt(res.slice(6,8)));
+                let beginTime = new Date(this.contest_info.begin_time).getTime();
+                let endTime = new Date(this.contest_info.end_time).getTime();
+                let total = endTime-beginTime;
+                if(left <= total * this.contest_info.frozen) return true;
+                return false;
             }
         },
         filters: {
@@ -362,10 +374,9 @@
                     this.contest_info.title = data.contest_name;
                     this.contest_info.begin_time = data.begin_time;
                     this.contest_info.end_time = data.end_time;
-                    this.contest_info.frozen = data.frozen;
+                    this.contest_info.frozen = parseFloat(data.frozen);
                     this.contest_info.problems = data.problems.map(x => parseInt(x));
                     this.contest_info.colors = data.colors;
-                    console.log(this.contest_info.problems);
                 }else{
 
                 }
@@ -500,6 +511,10 @@
         width: 80%;
         max-width: 990px;
         margin: 88px auto 0 auto;
+    }
+
+    #frozen {
+        color: red;
     }
 
     .bottom {

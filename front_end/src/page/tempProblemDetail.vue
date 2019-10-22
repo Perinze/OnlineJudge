@@ -4,19 +4,19 @@
             <div class="title">{{problem_info.id}} {{problem_info.title}}</div>
             <div class="problem-background">
                 <span class="sub-title">题目背景</span>
-                <span class="content">{{problem_info.background}}</span>
+                <span class="content" v-html="Marked(problem_info.background)"></span>
             </div>
             <div class="describe">
                 <span class="sub-title">题目描述</span>
-                <span class="content">{{problem_info.describe}}</span>
+                <span class="content" v-html="Marked(problem_info.describe)"></span>
             </div>
             <div class="io-standard">
                 <span class="sub-title">输入格式</span>
-                <span class="content">{{problem_info.input_sample}}</span>
+                <span class="content" v-html="Marked(problem_info.input_sample)"></span>
             </div>
             <div class="io-standard">
                 <span class="sub-title">输出格式</span>
-                <span class="content">{{problem_info.output_sample}}</span>
+                <span class="content" v-html="Marked(problem_info.output_sample)"></span>
             </div>
             <div class="example-data">
                 <span class="sub-title">样例</span>
@@ -27,7 +27,7 @@
             </div>
             <div class="hint">
                 <span class="sub-title">Hint</span>
-                <span class="content">{{problem_info.hint}}</span>
+                <span class="content" v-html="Marked(problem_info.hint)"></span>
             </div>
             <div class="function-btn-group">
                 <button class="submit-btn" @click="$router.push('/submit/'+$route.params.id)">Submit</button>
@@ -38,6 +38,7 @@
 
 <script>
     import { getProblem } from "../api/getData";
+    import marked from 'marked';
 
     export default {
         name: "temp-problem-detail",
@@ -75,7 +76,7 @@
             renderProblemDetail: async function() {
                 this.$loading.open();
                 let response = await getProblem({
-                    problem_id: new Number(this.$route.params.id)
+                    problem_id: parseInt(this.$route.params.id)
                 });
                 if(response.status == 0) {
                     let data = response.data;
@@ -97,6 +98,9 @@
                     }
                 }
                 this.$loading.hide();
+            },
+            Marked: function(content) {
+                return marked(content);
             }
         },
         computed: {

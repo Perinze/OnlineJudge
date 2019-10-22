@@ -47,7 +47,6 @@
                             <img src="../../assets/icon/backward.svg" width="23" height="23" alt="backward">
                         </div>
                         <!--<span class="welcome-title" style="position: absolute;">登录</span>-->
-                        <div class="login-icon"></div>
                         <div class="function-input-group">
                             <div :class="[firefoxCheck?'-moz-info-input-container':'info-input-container']">
                                 <div>
@@ -78,6 +77,7 @@
                                 </div>
                                 <span class="error-tips" v-show="errorMsg.type==='password'">{{errorMsg.content}}</span>
                             </div>
+
                             <div class="login-btn-container">
                                 <transition name="loading">
                                     <button class="do-login-btn"
@@ -93,10 +93,9 @@
                                     </button>
                                 </transition>
                             </div>
-
                             <div class="sub-function-btn">
                                 <div class="forget-passwd-btn sub-function-btn-element">
-                                    <a :disabled="!functionAvailable.forgetPassword">忘记密码</a>
+                                    <a :disabled="!functionAvailable.forgetPassword" @click="activeInteract = 'forgetpasswd'">忘记密码</a>
                                     <!--<span>Forget Password</span>-->
                                 </div>
                                 <div class="login-to-register sub-function-btn-element"
@@ -118,7 +117,161 @@
                         <div class="backward-btn" @click="activeInteract = 'default'">
                             <img src="../../assets/icon/backward.svg" width="23" height="23" alt="backward">
                         </div>
-                        <!--<div class="lds-ripple"><div></div><div></div></div>-->
+                        <div class="function-input-group">
+                            <!-- nickname -->
+                            <div :class="[firefoxCheck?'-moz-info-input-container':'info-input-container']">
+                                <div>
+                                    <img src="../../assets/icon/account.svg" width="23">
+                                    <input class="info-input"
+                                           type="text"
+                                           placeholder="您的昵称, 登录名"
+                                           v-model="registerInfo.nick"
+                                           maxlength="25"
+                                    >
+                                </div>
+                                <span class="error-tips" v-show="errorMsg.type==='account'">{{errorMsg.content}}</span>
+                            </div>
+                            <!-- password -->
+                            <div :class="[firefoxCheck?'-moz-info-input-container':'info-input-container']">
+                                <div>
+                                    <img src="../../assets/icon/lock.svg" width="23">
+                                    <input class="info-input"
+                                           :type="[seePass?'text':'password']"
+                                           placeholder="请输入登录密码"
+                                           v-model="registerInfo.password"
+                                           oncopy="return false"
+                                    >
+                                    <!--查看密码-->
+                                    <img :src="eyeOrHide"
+                                         height="23"
+                                         @click="seePass = !seePass"
+                                         style="cursor: pointer;"
+                                    >
+                                </div>
+                                <span class="error-tips" v-show="errorMsg.type==='password'">{{errorMsg.content}}</span>
+                            </div>
+                            <!-- password check -->
+                            <div :class="[firefoxCheck?'-moz-info-input-container':'info-input-container']">
+                                <div>
+                                    <img src="../../assets/icon/unlock.svg" width="23">
+                                    <input class="info-input"
+                                           type="password"
+                                           placeholder="请再次输入密码"
+                                           v-model="registerInfo.password_check"
+                                           oncopy="return false"
+                                    >
+                                </div>
+                                <span class="error-tips" v-show="errorMsg.type==='passwordCheck'">{{errorMsg.content}}</span>
+                            </div>
+                            <!-- realname -->
+                            <div :class="[firefoxCheck?'-moz-info-input-container':'info-input-container']">
+                                <div>
+                                    <img src="../../assets/icon/info.svg" width="23">
+                                    <input class="info-input"
+                                           type="text"
+                                           placeholder="真实姓名"
+                                           v-model="registerInfo.realname"
+                                    >
+                                </div>
+                                <span class="error-tips" v-show="errorMsg.type==='realname'">{{errorMsg.content}}</span>
+                            </div>
+                            <!-- school -->
+                            <div :class="[firefoxCheck?'-moz-info-input-container':'info-input-container']">
+                                <div>
+                                    <img src="../../assets/icon/school.svg" width="23">
+                                    <input class="info-input"
+                                           type="text"
+                                           placeholder="学校全称"
+                                           v-model="registerInfo.school"
+                                    >
+                                </div>
+                                <span class="error-tips" v-show="errorMsg.type==='school'">{{errorMsg.content}}</span>
+                            </div>
+                            <!-- major -->
+                            <div :class="[firefoxCheck?'-moz-info-input-container':'info-input-container']">
+                                <div>
+                                    <img src="../../assets/icon/major.svg" width="23">
+                                    <input class="info-input"
+                                           type="text"
+                                           placeholder="专业全称"
+                                           v-model="registerInfo.major"
+                                    >
+                                </div>
+                                <span class="error-tips" v-show="errorMsg.type==='major'">{{errorMsg.content}}</span>
+                            </div>
+                            <!-- class -->
+                            <div :class="[firefoxCheck?'-moz-info-input-container':'info-input-container']">
+                                <div>
+                                    <img src="../../assets/icon/class.svg" width="23">
+                                    <input class="info-input"
+                                           type="text"
+                                           placeholder="班级简称"
+                                           v-model="registerInfo.class"
+                                    >
+                                </div>
+                                <span class="error-tips" v-show="errorMsg.type==='class'">{{errorMsg.content}}</span>
+                            </div>
+                            <!-- contact -->
+                            <div :class="[firefoxCheck?'-moz-info-input-container':'info-input-container']">
+                                <div>
+                                    <img src="../../assets/icon/contac.svg" width="23">
+                                    <input class="info-input"
+                                           type="text"
+                                           placeholder="手机号码"
+                                           v-model="registerInfo.contact"
+                                    >
+                                </div>
+                                <span class="error-tips" v-show="errorMsg.type==='contac'">{{errorMsg.content}}</span>
+                            </div>
+                            <!-- mail -->
+                            <div :class="[firefoxCheck?'-moz-info-input-container':'info-input-container']">
+                                <div>
+                                    <img src="../../assets/icon/mail.svg" width="23">
+                                    <input class="info-input"
+                                           type="text"
+                                           placeholder="电子邮件地址, 用于密码找回"
+                                           v-model="registerInfo.mail"
+                                    >
+                                </div>
+                                <span class="error-tips" v-show="errorMsg.type==='mail'">{{errorMsg.content}}</span>
+                            </div>
+
+                            <div class="login-btn-container">
+                                <transition name="loading">
+                                    <button class="do-login-btn"
+                                            :class="{'loading-login-btn': loading}"
+                                            @click="do_register"
+                                            :disabled="!functionAvailable.register"
+                                    >
+                                        <span v-show="!loading">Sign up</span>
+                                        <div class="lds-ripple" v-show="loading">
+                                            <div></div>
+                                            <div></div>
+                                        </div>
+                                    </button>
+                                </transition>
+                            </div>
+                            <div class="sub-function-btn">
+                                <div class="sub-function-btn-element"
+                                >
+                                    <a @click="activeInteract = 'login'"
+                                       :disabled="!functionAvailable.login"
+                                    >
+                                        已有账号, 点我登录
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 找回密码 -->
+                    <div class="welcome-interact-forgetpasswd welcome-interact-element"
+                        v-if="activeInteract == 'forgetpasswd'"
+                         key="forgetpasswd"
+                    >
+                        <div class="backward-btn" @click="activeInteract = 'default'">
+                            <img src="../../assets/icon/backward.svg" width="23" height="23" alt="backward">
+                        </div>
+                        forget password
                     </div>
                 </transition>
             </div>
@@ -127,7 +280,7 @@
 </template>
 
 <script>
-    import { login } from "../api/getData";
+    import { login, register } from "../api/getData";
 
     export default {
         name: "welcome",
@@ -149,6 +302,17 @@
                     nick: '',
                     password: ''
                 },
+                registerInfo: {
+                    nick: '',
+                    password: '',
+                    password_check: '',
+                    realname: '',
+                    school: '',
+                    major: '',
+                    class: '',
+                    contact: '',
+                    mail: ''
+                },
                 loading: false,
                 errorMsg: {
                     type: '',
@@ -156,7 +320,7 @@
                 },
                 functionAvailable: {
                     login: true,
-                    register: false,
+                    register: true,
                     forgetPassword: false,
                     tourist: false
                 }
@@ -165,6 +329,10 @@
         methods: {
             close() {
                 this.$emit('close');
+            },
+            rejectContext: function(e) {
+                // 阻止右键
+                e.preventDefault();
             },
             do_login: async function() {
                 this.errorMsg.type='';
@@ -220,8 +388,78 @@
                     }, 2000);
                 });
             },
-            rejectContext: function(e) {
-                e.preventDefault();
+            do_register: async function() {
+                this.errorMsg.type='';
+                this.errorMsg.content='';
+                let checkInfoPromise = new Promise( (resolve, reject) => {
+                    let data = this.registerInfo;
+                    if(data.nick.length > 25 || data.nick.length < 1) {
+                        reject("account:用户名为1-25个字符");
+                    }
+                    if(data.password.length < 6) {
+                        reject("password:密码最少6位");
+                    }
+                    if(data.password_check !== data.password) {
+                        reject("passwordCheck:两次输入不一致");
+                    }
+                    if(data.realname.length < 1) {
+                        reject("realname:必须输入真实姓名");
+                    }
+                    if(data.school.length < 1) {
+                        reject("school:必须输入学校全称");
+                    }
+                    if(data.major.length < 1) {
+                        reject("major:必须输入专业全称");
+                    }
+                    if(data.class.length < 1) {
+                        reject("major:必须输入班级简称");
+                    }
+                    if(data.contact.length<1) {
+                        reject("contac:请输入手机号码");
+                        let pattern = /^(1.[0-9]{9})$/;
+                        if(pattern.test(data.contac)) {
+                            reject("contac:请输入正确的手机号码");
+                        }
+                    }
+                    if(data.mail.length<1) {
+                        reject("mail:请输入电子邮件地址");
+                        let pattern = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+                        if(pattern.test(data.mail)) {
+                            reject("mail:请输入正确的电子邮件地址");
+                        }
+                    }
+                    resolve();
+                });
+                checkInfoPromise.catch( async (errorMessage) => {
+                    this.errorMsg.type = errorMessage.slice(0, errorMessage.indexOf(':'));
+                    this.errorMsg.content = errorMessage.slice(errorMessage.indexOf(':')+1);
+                });
+                checkInfoPromise.then( async (successMessage) => {
+                    this.loading = true;
+                    return;
+                }).then( async () => {
+                    let response = await register(this.registerInfo);
+                    // 至少两秒
+                    setTimeout( () => {
+                        if(response.status == 0) {
+                            // 成功注册
+                            this.loading = false;
+                            this.$message({
+                                message: '注册成功',
+                                type: 'success'
+                            });
+                            this.activeInteract = 'login';
+                        }else{
+                            this.errorMsg.type="mail";
+                            if(response.status===504) {
+                                this.errorMsg.content='请求超时';
+                            }else{
+                                this.errorMsg.content=response.message;
+                            }
+                            this.loading = false;
+                        }
+                    }, 2000);
+                });
             }
         },
         computed: {
@@ -356,14 +594,43 @@
                 /*height: 100%;*/
                 opacity: 1;
             }
-            &-login {
+            &-login, &-register {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
             }
             &-register {
-                display: flex;
+                .function-input-group {
+                    padding-top: 20px;
+                    .info-input-container{
+                        margin-bottom: 8px;
+                        > div {
+                            &::after {
+                                height: 1px;
+                                margin-top: calc(30px / 2);
+                            }
+                        }
+                        > span {
+                            margin-top: -4px;
+                        }
+                    }
+                    .-moz-info-input-container{
+                        margin-bottom: 5px;
+                        > div {
+                            &::after {
+                                height: 1px;
+                                margin-top: 27px;
+                            }
+                        }
+                    }
+
+                    .sub-function-btn {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                }
             }
             &-guide > span {
                 display: block;

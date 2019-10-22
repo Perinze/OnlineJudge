@@ -14,6 +14,12 @@ export const login = data => fetch('/Login/do_login', 'post', data);
 
 export const logout = () => fetch('/Login/do_logout', 'post', {});
 
+/**
+ * 注册
+ */
+
+export const register = data => fetch('/Register/register', 'post', data);
+
 
 
 
