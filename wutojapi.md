@@ -945,7 +945,7 @@ null
     "school": "女装",
     "major": "女装",
     "class": "女装1班",
-    "contac": "13132545445",
+    "contact": "13132545445",
     "mail": "wyhnz@163.com",
 }
 ```
