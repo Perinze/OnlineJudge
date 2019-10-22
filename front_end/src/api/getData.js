@@ -123,6 +123,18 @@ export const getDiscussList = data => fetch('/discuss/getAlldiscuss', 'post', da
 
 export const getDiscussDetail = data => fetch('/discuss/getThediscuss', 'post', data);
 
+/**
+ * 提问问题/发表讨论板
+ */
+
+export const addDiscuss = data => fetch('/discuss/add_discuss', 'post', data);
+
+/**
+ * 回复问题
+ */
+
+export const addReply = data => fetch('/discuss/add_reply', 'post', data);
+
 
 
 
