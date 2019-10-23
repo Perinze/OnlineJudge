@@ -21,17 +21,17 @@
             >
                 <td
                         :class="[rank_info[index-1].rank===''?'':
-                        rank_info[index-1].rank<=prizeNum()[0]?'rank-au':
-                        rank_info[index-1].rank<=prizeNum()[1]?'rank-ag':
-                        rank_info[index-1].rank<=prizeNum()[2]?'rank-cu':'']"
+                        rank_info[index-1].rank<=prizeNum[0]?'rank-au':
+                        rank_info[index-1].rank<=prizeNum[1]?'rank-ag':
+                        rank_info[index-1].rank<=prizeNum[2]?'rank-cu':'']"
                 >
                     {{rank_info[index-1].rank}}
                 </td>
                 <td
                         :class="[rank_info[index-1].rank===''?'':
-                        rank_info[index-1].rank<=prizeNum()[0]?'rank-au':
-                        rank_info[index-1].rank<=prizeNum()[1]?'rank-ag':
-                        rank_info[index-1].rank<=prizeNum()[2]?'rank-cu':'']"
+                        rank_info[index-1].rank<=prizeNum[0]?'rank-au':
+                        rank_info[index-1].rank<=prizeNum[1]?'rank-ag':
+                        rank_info[index-1].rank<=prizeNum[2]?'rank-cu':'']"
                 >
                     {{rank_info[index-1].nick}}
                 </td>
@@ -63,7 +63,538 @@
                 rank_info: [
                     {
                         id: 0,
-                        rank: '1',
+                        rank: 1,
+                        nick: 'ljwsb',
+                        acNum: 1,
+                        penalty: 1000,
+                        solveInfo: [
+                            {
+                                problem_id: 0,
+                                success_time: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            }
+                        ]
+                    },
+                    {
+                        id: 0,
+                        rank: 2,
+                        nick: 'ljwsb',
+                        acNum: 1,
+                        penalty: 1000,
+                        solveInfo: [
+                            {
+                                problem_id: 0,
+                                success_time: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            }
+                        ]
+                    },
+                    {
+                        id: 0,
+                        rank: 3,
+                        nick: 'ljwsb',
+                        acNum: 1,
+                        penalty: 1000,
+                        solveInfo: [
+                            {
+                                problem_id: 0,
+                                success_time: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            }
+                        ]
+                    },
+                    {
+                        id: 0,
+                        rank: 4,
+                        nick: 'ljwsb',
+                        acNum: 1,
+                        penalty: 1000,
+                        solveInfo: [
+                            {
+                                problem_id: 0,
+                                success_time: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            }
+                        ]
+                    },
+                    {
+                        id: 0,
+                        rank: 5,
+                        nick: 'ljwsb',
+                        acNum: 1,
+                        penalty: 1000,
+                        solveInfo: [
+                            {
+                                problem_id: 0,
+                                success_time: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            }
+                        ]
+                    },
+                    {
+                        id: 0,
+                        rank: 6,
+                        nick: 'ljwsb',
+                        acNum: 1,
+                        penalty: 1000,
+                        solveInfo: [
+                            {
+                                problem_id: 0,
+                                success_time: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            }
+                        ]
+                    },
+                    {
+                        id: 0,
+                        rank: 7,
+                        nick: 'ljwsb',
+                        acNum: 1,
+                        penalty: 1000,
+                        solveInfo: [
+                            {
+                                problem_id: 0,
+                                success_time: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            }
+                        ]
+                    },
+                    {
+                        id: 0,
+                        rank: 8,
+                        nick: 'ljwsb',
+                        acNum: 1,
+                        penalty: 1000,
+                        solveInfo: [
+                            {
+                                problem_id: 0,
+                                success_time: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            }
+                        ]
+                    },
+                    {
+                        id: 0,
+                        rank: 9,
+                        nick: 'ljwsb',
+                        acNum: 1,
+                        penalty: 1000,
+                        solveInfo: [
+                            {
+                                problem_id: 0,
+                                success_time: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            },
+                            {
+                                id: 0,
+                                successTime: 100,
+                                times: 1
+                            }
+                        ]
+                    },
+                    {
+                        id: 0,
+                        rank: 10,
                         nick: 'ljwsb',
                         acNum: 1,
                         penalty: 1000,
@@ -148,7 +679,7 @@
             },
             renderRankList: async function() {
                 this.total = 0;
-                this.rank_info = [];
+                // this.rank_info = [];
                 let response = await getContestRank({
                     contest_id: this.$route.params.id
                 });
