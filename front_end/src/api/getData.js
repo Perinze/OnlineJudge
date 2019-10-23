@@ -109,6 +109,17 @@ export const joinContest = data => fetch('/Contest/joinContest', 'post', data);
 
 
 
+
+// 排名
+
+/**
+ * 比赛排名list
+ */
+
+export const getContestRank = data => fetch('/Rank/contest_rank', 'post', data);
+
+
+
 // 讨论板
 
 /**
