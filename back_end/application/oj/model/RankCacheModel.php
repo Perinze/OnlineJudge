@@ -15,7 +15,7 @@ class RankCacheModel extends Model
     public function __construct($data = [])
     {
         parent::__construct($data);
-        $this->cache_time = Cache::get('wutoj_cache.rank_cache_time');
+        $this->cache_time = config('wutoj_cache.rank_cache_time');
     }
 
     public function set_rank_cache($data, $contest_id)
