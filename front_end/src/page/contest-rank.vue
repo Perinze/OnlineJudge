@@ -35,7 +35,7 @@
 </template>
 
 <script>
-    import { getContestRank } from "../api/getData";
+    import { getContestRank, getContest } from "../api/getData";
 
     export default {
         name: "contest-rank",
@@ -106,28 +106,35 @@
                             }
                         ]
                     },
-                ]
+                ],
+                total: 0
             }
         },
-        created() {
+        async created() {
+            await this.getContestInfo();
             this.renderRankList();
         },
         methods: {
-            getStatus: function(rank) {
-                // rank begin from 1
-                if(rank <= this.contest_info.prize[0]) {
-                    return 1; // 金奖
+            getContestInfo: async function() {
+                let response = await getContest({
+                    contest_id: this.$route.params.id
+                });
+                if(response.status==0){
+                    this.contest_info = {
+                        title: response.data.contest_name,
+                        problems: response.data.problems,
+                        prize: response.data.prize
+                    }
+                }else{
+                    this.$message({
+                        message: response.message,
+                        type: 'error'
+                    })
                 }
-                if(rank <= this.contest_info.prize[1]) {
-                    return 2; // 银奖
-                }
-                if(rank <= this.contest_info.prize[2]) {
-                    return 3; // 铜奖
-                }
-                return 4; // 打铁
             },
             renderRankList: async function() {
-                this.$loading.open();
+                this.total = 0;
+                this.rank_info = [];
                 let response = await getContestRank({
                     contest_id: this.$route.params.id
                 });
@@ -148,18 +155,46 @@
                             cnt++;
                         }
                     });
+                    this.total = cnt-1;
                 }else{
                     this.$message({
                         message: response.message,
                         type: 'error'
-                    })
+                    });
                 }
-                this.$loading.hide();
             }
         },
         computed: {
             contest_id: function() {
                 return this.$route.params.id;
+            },
+            /**
+             * 返回金银铜排名
+             * @returns {Array}[3] = [Au last rank, Ag last rank, Cu last rank]
+             */
+            prizeNum: function() {
+                let total = this.total;
+                let data = this.contest_info.prize;
+                let res = [];
+                for(let i=0;i<3;i++) {
+                    let num = 0;
+                    if(String(data[i]).indexOf('.')!==-1) {
+                        // 小数
+                        num = total * parseFloat(data[i]);
+                    }else if(String(data[i]).indexOf('%')!==-1) {
+                        // 百分数
+                        num = total * parseFloat(String(data[i]).replace("%", ""))/100;
+                    }else{
+                        // 整数
+                        num = parseInt(data[i]);
+                    }
+
+                    res[i] = num;
+                    if(i!==0){
+                        res[i]+=res[i-1];
+                    }
+                }
+                return res;
             }
         }
     }
