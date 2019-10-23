@@ -31,9 +31,13 @@ class SubmitModel extends Model
     public function get_the_submit($where)
     {
         try {
+            $language = ['c', 'c++', 'c++11', 'c++14', 'python', 'python3', 'java'];
             $info = $this->field(['submit.id as runid','submit.user_id as user_id','users.nick as nick', 'problem_id', 'language', 'submit.status as status', 'time', 'memory', 'submit_time'])
                 ->where($where)->order('submit_time')->join('users','submit.user_id = users.user_id')->buildSql();
             $info = Db::query($info);
+            foreach ($info as &$item){
+                $item['language'] = $language[$item['language']];
+            }
             return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $info];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getTrace()];

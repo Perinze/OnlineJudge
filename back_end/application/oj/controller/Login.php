@@ -44,7 +44,6 @@ class Login extends Controller
             session('user_id', $result['data']['user_id']);
             session('nick', $result['data']['nick']);
             session('identity', $result['data']['identity']);
-            session('data', $result['data']);
             $data = array(
                 'userId' => $result['data']['user_id'],
                 'nick' => $result['data']['nick'],
@@ -52,6 +51,8 @@ class Login extends Controller
                 'acCnt' => count(json_decode($result['data']['ac_problem'], true)),
                 'waCnt' => count(json_decode($result['data']['wa_problem'], true)),
             );
+            session('data', $data);
+
         }
         return apiReturn($result['code'], $result['msg'], $data);
     }

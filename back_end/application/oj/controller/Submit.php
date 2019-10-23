@@ -76,11 +76,15 @@ class Submit extends Base
         $submit_validate = new SubmitValidate();
         $contest_model = new ContestModel();
         $contest_user_model = new ContestUserModel();
+        $language = ['c', 'c++', 'c++11', 'c++14', 'python', 'python3', 'java'];
         $time = time();
         $req = input('post.');
         $result = $submit_validate->scene('submit')->check($req);
         if ($result !== VALIDATE_PASS) {
             return apiReturn(CODE_ERROR, $submit_validate->getError(), '');
+        }
+        if(array_search($req['language'], $language, false) === false){
+            return apiReturn(CODE_ERROR, '暂不支持该语言', '');
         }
         $problem = $problem_model->searchProblemById($req['problem_id']);
         if ($problem['code'] !== CODE_SUCCESS) {

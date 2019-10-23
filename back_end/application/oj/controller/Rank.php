@@ -34,7 +34,7 @@ class Rank extends Controller
         $submit_model = new SubmitModel();
         $contest_model = new ContestModel();
         $rankCache_model = new RankCacheModel();
-        $req = input('post');
+        $req = input('post.');
         if (!isset($req['contest_id'])) {
             return apiReturn(CODE_ERROR, '缺少contest字段', '');
         }
@@ -47,31 +47,32 @@ class Rank extends Controller
         if ($info['code'] !== CODE_SUCCESS) {
             return apiReturn($info['code'], $info['msg'], $info['data']);
         }
-        if (time() > $info['data']['begin_time']) {
+        if (time() < $info['data']['begin_time']) {
             return apiReturn(CODE_ERROR, '比赛还没开放', '');
         }
-        if ($info['data']['end_time'] > time()) {
+        if ($info['data']['end_time'] < time()) {
             $where = [];
         } else {
-            $where = ['submit_time', '<= time', $info['data']['begin_time']
-                + ($info['data']['end_time'] - $info['data']['begin_time']) * $info['data']['frozen']];
+            $where = ['submit_time', '<= time', strtotime($info['data']['begin_time'])
+                + (strtotime($info['data']['end_time']) - strtotime($info['data']['begin_time'])) * $info['data']['frozen']];
         }
         $resp = $submit_model->get_all_submit($where);
         // TODO 处理榜单
-        $data = $this->handle_rank($resp['data'], $info['data']['begin_time'], $info['data']['problem']);
+        $problems = json_decode($info['data']['problems'], true);
+        $data = $this->handle_rank($resp['data'], $info['data']['begin_time'], $problems);
         // 缓存表单数据，失败没有影响
         $cache = $rankCache_model->set_rank_cache($data, $req['contest_id']);
         return apiReturn($resp['code'], $resp['msg'], $data);
     }
 
-    public function handle_rank($data, $begin_time, $problem)
+    public function handle_rank($data, $begin_time, $problems)
     {
         $rank = [];
         $begin_time = strtotime($begin_time);
         // 数据清理
         foreach ($data as $item) {
             $user_id = $item['user_id'];
-            $problem_id = array_search($item['problem_id'], $problem, false);
+            $problem_id = array_search($item['problem_id'], $problems, false);
             if($problem_id === false){
                 continue;
             }
@@ -124,7 +125,7 @@ class Rank extends Controller
         // TODO 按照run_id排序
         usort($new_rank, [$this, 'compare_arr']);
         //var_dump($new_rank);
-        $new_rank['problems'] = json_decode($problem, true);
+        $new_rank['problems'] = $problems;
         return $new_rank;
     }
 

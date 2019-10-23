@@ -1014,7 +1014,7 @@ null
 }
 ```
 
-* getAlldiscuss
+* getAllDiscuss
 
 *request:*
 
@@ -1075,7 +1075,7 @@ null
 }
 ```
 
-* getThediscuss
+* getTheDiscuss
 
 *request:*
 
@@ -1129,6 +1129,61 @@ null
 }
 ```
 
+* getUserDiscuss
+
+  *request:*
+
+  ``` json
+  {
+      "contest_id": 1001
+  }
+  ```
+
+  
+
+  *response:*
+
+  ``` json
+  {
+      "status": 0,
+      "message": "查询成功",
+      "data": [
+          {
+              "id": 1,
+              "contest_id": 1001,
+              "problem_id": 1001,
+              "user_id": 1,
+              "title": "wyhsb",
+              "content": "wyhsb",
+              "time": "2019-10-13 15:49:45",
+              "status": 1
+          },
+          {
+              "id": 2,
+              "contest_id": 1001,
+              "problem_id": 1001,
+              "user_id": 1,
+              "title": "wyhsb",
+              "content": "wyhsb",
+              "time": "2019-10-13 15:56:46",
+              "status": 0
+          },
+          {
+              "id": 4,
+              "contest_id": 1001,
+              "problem_id": 1001,
+              "user_id": 1,
+              "title": "ssss",
+              "content": "wyhsb",
+              "time": "2019-10-13 16:00:31",
+              "status": 8
+          }
+      ]
+  }
+  ```
+
+  
+
 ## submit
 
 * get_submit_info
@@ -1157,7 +1212,7 @@ null
                 "user_id": 1,
                 "nick": "123",
                 "problem_id": 1001,
-                "language": 1,
+                "language": "c++",
                 "status": "AC",
                 "time": "",
                 "memory": "",
@@ -1168,7 +1223,7 @@ null
                 "user_id": 1,
                 "nick": "123",
                 "problem_id": 1002,
-                "language": 1,
+                "language": "c++",
                 "status": "WA",
                 "time": "",
                 "memory": "",
@@ -1206,7 +1261,7 @@ null
             "user_id": 1,
             "nick": "123",
             "problem_id": 1001,
-            "language": 1,
+            "language": "c++",
             "status": "AC",
             "time": "",
             "memory": "",
@@ -1217,7 +1272,7 @@ null
             "user_id": 1,
             "nick": "123",
             "problem_id": 1002,
-            "language": 1,
+            "language": "c++",
             "status": "WA",
             "time": "",
             "memory": "",
@@ -1240,7 +1295,7 @@ null
                 "user_id": 1,
                 "nick": "123",
                 "problem_id": 1001,
-                "language": 1,
+                "language": "c++",
                 "status": "AC",
                 "time": "",
                 "memory": "",
@@ -1251,7 +1306,7 @@ null
                 "user_id": 1,
                 "nick": "123",
                 "problem_id": 1002,
-                "language": 1,
+                "language": "c++",
                 "status": "WA",
                 "time": "",
                 "memory": "",
@@ -1289,7 +1344,7 @@ null
             "user_id": 1,
             "nick": "123",
             "problem_id": 123,
-            "language": 1,
+            "language": "c++",
             "status": "1",
             "time": "",
             "memory": "",

@@ -21,7 +21,7 @@ class RankCacheModel extends Model
     public function set_rank_cache($data, $contest_id)
     {
         try {
-            $ok = Cache::store('rank')->set($contest_id, $data, $this->cache_time);
+            $ok = Cache::store('redis')->set($contest_id, $data, $this->cache_time);
             if (!$ok) {
                 return ['code' => CODE_ERROR, 'msg' => '更新排行榜失败', 'data' => $data];
             } else {
@@ -35,7 +35,7 @@ class RankCacheModel extends Model
     public function get_rank_cache($contest_id)
     {
         try {
-            $ok = Cache::store('rank')->get($contest_id);
+            $ok = Cache::store('redis')->get($contest_id);
             if (!$ok) {
                 return ['code' => CODE_ERROR, 'msg' => '获取排行榜失败', 'data' => ''];
             } else {
