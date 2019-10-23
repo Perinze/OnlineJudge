@@ -144,6 +144,43 @@
     .content-head {
         height: 250px;
         border-top: none;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .head {
+        &-title {
+            /*line-height: 2;*/
+            width: 100%;
+            font: {
+                size: 17px;
+                weight: bold;
+            }
+        }
+        &-content {
+            width: 100%;
+            height: calc(100% - 25px - 19px - 19px);
+        }
+        &-user, &-time {
+            font-size: 13px;
+        }
+    }
+
+    .content-element {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .element {
+        &-content {
+            width: 100%;
+            height: calc(100% - 19px - 19px);
+        }
+        &-user, &-time {
+            font-size: 13px;
+        }
     }
 
     .reply-input-group {
