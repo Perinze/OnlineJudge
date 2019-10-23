@@ -425,7 +425,27 @@
                             if(response.status===504) {
                                 this.errorMsg.content='请求超时';
                             }else{
-                                this.errorMsg.content=response.message;
+                                if(response.status==-1) {
+                                    if(response.message=="已有账号登录"){
+                                        this.$store.dispatch("login/userLogin", true);
+                                        localStorage.setItem("Flag", "isLogin");
+                                        localStorage.setItem("userId", response.data.userId);
+                                        localStorage.setItem("nick", response.data.nick);
+                                        localStorage.setItem("desc", response.data.desc);
+                                        localStorage.setItem("avator", response.data.avator);
+                                        localStorage.setItem("acCnt", response.data.acCnt);
+                                        localStorage.setItem("waCnt", response.data.waCnt);
+                                        this.$message({
+                                            message: '已有账号登录',
+                                            type: 'warning'
+                                        });
+                                        this.$emit('logged', response.data);
+                                    }else{
+                                        this.errorMsg.content = response.message;
+                                    }
+                                }else {
+                                    this.errorMsg.content = response.message;
+                                }
                             }
                             this.loading = false;
                         }

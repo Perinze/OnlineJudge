@@ -57,7 +57,6 @@
                         v-bind:title="'RunID: '+ submit_log[index-1].runid"
                         class="submit-log-list-element submit-log-li"
                     >
-                        <!--<i :style="{background: 'radial-gradient(circle, rgba(255,255,255,0) 36%, #' + contest_info.colors[contest_info.problems.indexOf(submit_log[index-1].problem)] + ' 40%)'}"></i>-->
                         <div class="log-element">
                             <div class="log-element-left">
                                 <div class="log-element-left-top">
@@ -119,15 +118,16 @@
                              v-for="index in discusses.length"
                              @click="$router.push('/discuss/'+contest_info.id+ '/'+discusses[index-1].id)"
                         >
-                            <span class="discuss-problem-id">
+                            <div class="discuss-problem-id">
                                 {{String.fromCharCode(contest_info.problems.indexOf(discusses[index-1].problem) + 65)}}
-                            </span>
-                            <span class="discuss-title">
+                            </div>
+                            <div class="discuss-title">
                                 {{discusses[index-1].title}}
-                            </span>
-                            <span class="discuss-author">
+                            </div>
+                            <div class="discuss-author">
+                                <span style="color: orange;" v-if="discusses[index-1].status === 8">{{"\<管理员公示\>&nbsp;"}}</span>
                                 {{discusses[index-1].author}}
-                            </span>
+                            </div>
                         </div>
                     </li>
                 </ol>
@@ -140,7 +140,7 @@
     import { formatDate } from "../api/common";
     import { getWholeErrorName, logoutWork } from "../api/common";
     import StatusIcon from "../components/status-icon";
-    import { getContest, getSubmitInfo, checkUserContest } from "../api/getData";
+    import { getContest, getSubmitInfo, checkUserContest, getUserDiscuss } from "../api/getData";
 
     export default {
         components: {StatusIcon},
@@ -234,27 +234,14 @@
                     },
                 ],
                 discusses: [
-                    {
-                        id: '1',
-                        problem: 1001,
-                        title: 'title',
-                        author: 'author',
-                        time: 23
-                    },
-                    {
-                        id: '1',
-                        problem: 1001,
-                        title: 'title',
-                        author: 'author',
-                        time: 27
-                    },
-                    {
-                        id: '1',
-                        problem: 1005,
-                        title: 'title',
-                        author: 'author',
-                        time: 27
-                    },
+                    // {
+                    //     id: '1',
+                    //     problem: 1001,
+                    //     title: 'title',
+                    //     author: 'author',
+                    //     time: 23,
+                    //     status: 1,
+                    // }
                 ],
                 leftBeforeBegin: '00:00:00',
                 leftTime: '00:00:00',
@@ -293,6 +280,7 @@
             await this.checkJoin();
             this.renderContestInfo();
             this.renderStatusList();
+            this.renderDiscussList();
         },
         methods: {
             timeFormat(param) {
@@ -391,6 +379,7 @@
                     // 保证传回来的是自己相关的状态（本页面的业务需求）
                     user_id: localStorage.getItem('userId')
                 });
+                // console.log(response);
                 if(response.status == 0) {
                     this.userData.penalty = response.data.penalty.penalty;
                     response.data.penalty.problem.forEach( (val, index) => {
@@ -424,6 +413,26 @@
                     }
                 }
                 // console.log(response);
+            },
+            renderDiscussList: async function() {
+                let response = await getUserDiscuss({
+                    contest_id: this.$route.params.id
+                });
+                if(response.status==0) {
+                    this.discusses = [];
+                    response.data.forEach( (val, index) => {
+                        this.discusses.push({
+                            id: val.id,
+                            problem: val.problem_id,
+                            title: val.title,
+                            author: val.user_id,
+                            time: val.time,
+                            status: parseInt(val.status)
+                        });
+                    });
+                }else{
+
+                }
             },
             checkJoin: async function() {
                 let response = await checkUserContest({
@@ -680,6 +689,11 @@
         }
     }
 
+    .log-language {
+        // 开头字母大写
+        text-transform: capitalize;
+    }
+
     .log-label {
         font: {
             size: 12px;
@@ -695,30 +709,25 @@
         overflow: hidden;
         margin-bottom: 20px;
         background: white;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        padding: 7px 10px;
     }
 
     .discuss-problem-id {
-        position: relative;
-        top: 5px;
-        left: 10px;
+        /*top: 5px;*/
+        /*left: 10px;*/
+        width: 100%;
         font-size: 20px;
     }
 
     .discuss-title {
-        position: relative;
-        top: 25px;
-        left: 20px;
+        width: 100%;
+        height: calc(100% - 19px);
     }
 
     .discuss-author {
-        position: relative;
-        left: 75%;
-        top: 75px;
-    }
-
-    @media screen and (max-width: 1290px) {
-        .discuss-author {
-            left: 70%;
-        }
+        font-size: 13px;
     }
 </style>

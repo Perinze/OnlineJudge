@@ -124,6 +124,12 @@ export const getDiscussList = data => fetch('/discuss/getAlldiscuss', 'post', da
 export const getDiscussDetail = data => fetch('/discuss/getThediscuss', 'post', data);
 
 /**
+ * 获取某场比赛用户相关讨论列表
+ */
+
+export const getUserDiscuss = data => fetch('/discuss/getUserDiscuss', 'post', data);
+
+/**
  * 提问问题/发表讨论板
  */
 
