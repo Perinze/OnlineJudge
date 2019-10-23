@@ -59,7 +59,7 @@ export default async function(url = '', method = 'GET', data = {}, headers = {} 
         const ret = Promise.race([timeoutPromise(timeout), requestPromise(url, requestConfig)])
             .then(async (resp) => {
                 // console.log(resp.status);
-                if(resp.status == 504) {
+                if(resp.status === 504) {
                     // case timeout
                     const responseJson = {
                         status: 504,
@@ -68,9 +68,19 @@ export default async function(url = '', method = 'GET', data = {}, headers = {} 
                     };
                     return responseJson;
                 }else{
-                    // case success
-                    const responseJson = await resp.json();
-                    return responseJson;
+                    if(resp.status === 200) {
+                        // case success
+                        const responseJson = await resp.json();
+                        return responseJson;
+                    }else{
+                        // case 404 500
+                        const responseJson = {
+                            status: resp.status,
+                            message: '请求错误: '+resp.status,
+                            data: null
+                        };
+                        return responseJson
+                    }
                 }
                 // console.log('success');
                 // console.log(responseJson);

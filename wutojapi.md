@@ -726,7 +726,7 @@ null
 }
 ```
 
-* forget_password
+* forgetPassword
 
 *request:*
 

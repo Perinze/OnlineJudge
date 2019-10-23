@@ -34,7 +34,7 @@
                         1
                     </td>
                     <td>
-                        1000
+                        {{userData.penalty}}
                     </td>
                     <td v-for="index in contest_info.problems.length"
                         class="problem-status"
@@ -140,7 +140,7 @@
     import { formatDate } from "../api/common";
     import { getWholeErrorName, logoutWork } from "../api/common";
     import StatusIcon from "../components/status-icon";
-    import { getContest, getSubmitInfo } from "../api/getData";
+    import { getContest, getSubmitInfo, checkUserContest } from "../api/getData";
 
     export default {
         components: {StatusIcon},
@@ -155,6 +155,9 @@
                     frozen: 0.2,
                     problems: [1000,1001,1002,1003,1004,1005,1006,1007,1008,1009,1010,1011,1012],
                     colors: ['924726','8cc590','b2c959','59785a','8e8c13','252b04','ccda06','8044a7','27e298','0cef7c','31f335','67f70e','0ea6ff'],
+                },
+                userData: {
+                    penalty: 0
                 },
                 submit_log: [
                     {
@@ -284,11 +287,12 @@
                 return formatDate(date, 'yyyy.MM.dd hh:mm:ss')
             }
         },
-        created() {
+        async created() {
             this.countDownToBegin();
             this.countDownToEnd();
-            this.renderStatusList();
+            await this.checkJoin();
             this.renderContestInfo();
+            this.renderStatusList();
         },
         methods: {
             timeFormat(param) {
@@ -388,11 +392,20 @@
                     user_id: localStorage.getItem('userId')
                 });
                 if(response.status == 0) {
+                    this.userData.penalty = response.data.penalty.penalty;
                     response.data.penalty.problem.forEach( (val, index) => {
-
+                        // TODO 
                     });
                     response.data['submit_info'].forEach( (val, index) => {
-
+                        this.submit_log.push({
+                            runid: val.runid,
+                            problem: val.problem_id,
+                            submit_time: val.submit_time, // TODO fix
+                            time_used: val.time_used,
+                            mem_used: val.memory,
+                            language: val.language,
+                            status: val.status.toLowerCase(),
+                        });
                     });
                 }else{
                     if(response.status === 504) {
@@ -411,6 +424,21 @@
                     }
                 }
                 // console.log(response);
+            },
+            checkJoin: async function() {
+                let response = await checkUserContest({
+                    contest_id: this.$route.params.id
+                });
+                if(response.status == 0) {
+                    // 已参加比赛
+                    // pass
+                }else{
+                    this.$message({
+                        message: '您尚未参加本场比赛',
+                        type: 'error'
+                    });
+                    this.$router.go(-1);
+                }
             }
         }
     }
@@ -569,7 +597,7 @@
     }
 
     .submit-log-list {
-        width: 47%;
+        width: 51%;
     }
 
     .submit-log-ul {
@@ -627,7 +655,7 @@
         &-left {
             display: flex;
             flex-direction: column;
-            width: 37%;
+            width: 38%;
             &-bottom {
                 font-size: 10px;
                 height: 13px;
@@ -638,7 +666,7 @@
             flex-direction: row;
             align-items: flex-end;
             justify-content: space-between;
-            width: 55%;
+            width: 58%;
             > div {
                 display: flex;
                 flex-direction: column;

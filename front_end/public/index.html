@@ -19,19 +19,32 @@
                 _hmt.push(['_trackPageview', '/main']);
             }
         </script>
+        <!-- MathJax -->
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({
+                showProcessingMessages: false, //关闭js加载过程信息
+                messageStyle: "none", //不显示信息
+                jax: ["input/TeX", "output/HTML-CSS"],
+                tex2jax: {
+                    inlineMath: [["$", "$"], ["\\(", "\\)"]], //行内公式选择符
+                    displayMath: [["$$", "$$"], ["\\[", "\\]"]], //段内公式选择符
+                    skipTags: ["script", "noscript", "style", "textarea", "pre", "code", "a"] //避开某些标签
+                },
+                "HTML-CSS": {
+                    availableFonts: ["STIX", "TeX"], //可选字体
+                    showMathMenu: false //关闭右击菜单显示
+                }
+            });
+        </script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
     </head>
     <body style="background: #f0f0f7;">
         <noscript>
             <strong>We're sorry but WUT OnlineJudge doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
         </noscript>
         <div id="app"></div>
+
         <!-- built files will be auto injected -->
-        <script type="text/x-mathjax-config">
-            MathJax.Hub.Config({ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
-        </script>
-        <script type="text/javascript"
-                src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-        </script>
     </body>
     <style>
         html {

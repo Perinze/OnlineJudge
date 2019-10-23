@@ -1,5 +1,15 @@
 <template>
     <div class="discuss-list">
+        <div class="question-bar">
+            <div>
+                <input type="text" placeholder="在此键入提问标题(至少5个字符)..." v-model="question.title">
+                <textarea placeholder="在此键入提问内容(至少15个字符)..." v-model="question.content"></textarea>
+                <select v-model="question.problem_id">
+                    <option v-for="index in problems.length" :value="problems[index-1]">{{String.fromCharCode(64 + index)}}</option>
+                </select>
+                <button class="submit-ques-btn" @click="doQuestion">Submit</button>
+            </div>
+        </div>
         <div class="list">
             <div class="element-card"
                  v-for="index in items.length"
@@ -18,12 +28,18 @@
 </template>
 
 <script>
-    import { getDiscussList } from "../api/getData";
+    import { getDiscussList, addDiscuss, getContest } from "../api/getData";
 
     export default {
         name: "discusslist",
         data() {
             return {
+                display: false,
+                question: {
+                    title: '',
+                    content: '',
+                    problem_id: ''
+                },
                 items: [
                     // {
                     //     id: '',
@@ -35,15 +51,21 @@
                     //     content: '',
                     //     status: ''
                     // }
-                ]
+                ],
+                problems: []
             }
         },
         beforeMount() {
             this.renderList();
+            this.getProblemList();
         },
         methods: {
+            test() {
+                console.log(this.question);
+            },
             renderList: async function() {
                 this.$loading.open();
+                this.items = [];
                 let response = await getDiscussList({
                     contest_id: this.$route.params.id
                 });
@@ -59,6 +81,55 @@
                             type: 'error'
                         })
                     }
+                }
+                this.$loading.hide();
+            },
+            getProblemList: async function() {
+                let response = await getContest({
+                    contest_id: this.contest_id
+                });
+                if(response.status == 0) {
+                    this.problems = response.data.problems;
+                    this.question.problem_id = response.data.problems[0];
+                }else{
+                    this.$message({
+                        message: 'System error: '+response.message,
+                        type: 'error'
+                    })
+                }
+            },
+            doQuestion: async function() {
+                this.$loading.open();
+                if(this.question.content.length < 15 || this.question.title.length < 5) {
+                    this.$loading.hide();
+                    console.log(this.question);
+                    this.$message({
+                        message: '填入信息不完整',
+                        type: 'warning'
+                    });
+                    return;
+                }
+                let response = await addDiscuss({
+                    contest_id: this.contest_id,
+                    problem_id: this.question.problem_id,
+                    content: this.question.content,
+                    title: this.question.title
+                });
+                if(response.status == 0) {
+                    this.question = {
+                        title: '',
+                        content: '',
+                        problem_id: this.problems[0]
+                    };
+                    this.$message({
+                        message: '发布讨论板成功',
+                        type: 'success'
+                    });
+                }else{
+                    this.$message({
+                        message: '发布讨论板失败，请联系管理员: '+response.message,
+                        type: 'error'
+                    });
                 }
                 this.$loading.hide();
             }
@@ -97,9 +168,66 @@
         padding-left: 25px;
     }
 
-    .list {
-        &:first-child {
-            margin-top: 88px;
+    .question-bar {
+        margin-top: 88px;
+        margin-bottom: 30px;
+        > div {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            margin: 0 auto;
+            width: 90%;
+            height: 300px;
+            background: white;
+            border-radius: .5em;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            min-width: 875px;
+            max-width: 990px;
+            overflow: hidden;
+            > input, > textarea {
+                width: 100%;
+                background: none;
+                border: none;
+                padding-left: 10px;
+            }
+            > input {
+                height: 50px;
+                border-bottom: 1px dashed gray;
+            }
+            > textarea {
+                height: calc(100% - 50px);
+                resize: none;
+                padding: 7px 10px;
+            }
+            > select {
+                position: absolute;
+                height: 26px;
+                width: 50px;
+                margin-left: -110px;
+                margin-top: 257px;
+                appearance: none;
+                background: url("../../assets/icon/arrow-bottom.svg") no-repeat scroll right center transparent;
+                background-size: 14px 14px;
+                margin-right: 1px;
+                border: 1px solid gray;
+                border-radius: .2em;
+                padding: 0 15px 0 7px;
+            }
+            .submit-ques-btn {
+                position: absolute;
+                background: none;
+                margin-left: -20px;
+                margin-top: 255px;
+                height: 30px;
+                border: 1px solid #4288ce;
+                border-radius: 10px;
+                color: #4288ce;
+                width: 80px;
+                cursor: pointer;
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
         }
     }
 

@@ -20,6 +20,12 @@ export const logout = () => fetch('/Login/do_logout', 'post', {});
 
 export const register = data => fetch('/Register/register', 'post', data);
 
+/**
+ * 找回密码
+ */
+
+export const forgetPassword = data => fetch('/Login/forgetPassword', 'post', data);
+
 
 
 
@@ -83,6 +89,23 @@ export const getContestList = () => fetch('/Contest/getAllContest');
 
 export const getContest = data => fetch('/Contest/getTheContest', 'post', data);
 
+/**
+ * 获取用户参加比赛的数据
+ */
+
+export const getUserContest = () => fetch('/Contest/getUserContest');
+
+/**
+ * 检查用户是否参加了某场比赛
+ */
+
+export const checkUserContest = data => fetch('/Contest/checkContest', 'post', data);
+
+/**
+ * 加入比赛
+ */
+
+export const joinContest = data => fetch('/Contest/joinContest', 'post', data);
 
 
 
@@ -99,6 +122,18 @@ export const getDiscussList = data => fetch('/discuss/getAlldiscuss', 'post', da
  */
 
 export const getDiscussDetail = data => fetch('/discuss/getThediscuss', 'post', data);
+
+/**
+ * 提问问题/发表讨论板
+ */
+
+export const addDiscuss = data => fetch('/discuss/add_discuss', 'post', data);
+
+/**
+ * 回复问题
+ */
+
+export const addReply = data => fetch('/discuss/add_reply', 'post', data);
 
 
 

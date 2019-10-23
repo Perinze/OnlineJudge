@@ -67,6 +67,7 @@
                                            :type="[seePass?'text':'password']"
                                            placeholder="Password"
                                            v-model="loginInfo.password"
+                                           @keyup.enter="do_login"
                                     >
                                     <!--查看密码-->
                                     <img :src="eyeOrHide"
@@ -82,8 +83,8 @@
                                 <transition name="loading">
                                     <button class="do-login-btn"
                                             :class="{'loading-login-btn': loading}"
-                                            @click="do_login"
                                             :disabled="!functionAvailable.login"
+                                            @click="do_login"
                                     >
                                         <span v-show="!loading">Log in</span>
                                         <div class="lds-ripple" v-show="loading">
@@ -240,10 +241,10 @@
                                 <transition name="loading">
                                     <button class="do-login-btn"
                                             :class="{'loading-login-btn': loading}"
-                                            @click="do_register"
                                             :disabled="!functionAvailable.register"
+                                            @click="do_register"
                                     >
-                                        <span v-show="!loading">Sign up</span>
+                                        <span v-show="!loading" >Sign up</span>
                                         <div class="lds-ripple" v-show="loading">
                                             <div></div>
                                             <div></div>
@@ -271,7 +272,47 @@
                         <div class="backward-btn" @click="activeInteract = 'default'">
                             <img src="../../assets/icon/backward.svg" width="23" height="23" alt="backward">
                         </div>
-                        forget password
+                        <div class="function-input-group">
+                            <div :class="[firefoxCheck?'-moz-info-input-container':'info-input-container']">
+                                <div>
+                                    <img src="../../assets/icon/account.svg" width="23">
+                                    <input class="info-input"
+                                           type="text"
+                                           placeholder="Account"
+                                           v-model="forgetInfo.nick"
+                                           maxlength="25"
+                                    >
+                                </div>
+                                <span class="error-tips" v-show="errorMsg.type==='account'">{{errorMsg.content}}</span>
+                            </div>
+                            <div :class="[firefoxCheck?'-moz-info-input-container':'info-input-container']">
+                                <div>
+                                    <img src="../../assets/icon/mail.svg" width="23">
+                                    <input class="info-input"
+                                           type="text"
+                                           placeholder="E-mail"
+                                           v-model="forgetInfo.mail"
+                                    >
+                                </div>
+                                <span class="error-tips" v-show="errorMsg.type==='mail'">{{errorMsg.content}}</span>
+                            </div>
+
+                            <div class="login-btn-container">
+                                <transition name="loading">
+                                    <button class="do-login-btn"
+                                            :class="{'loading-login-btn': loading}"
+                                            :disabled="!functionAvailable.forgetPassword"
+                                            @click="do_forgetPassword"
+                                    >
+                                        <span v-show="!loading">找回密码</span>
+                                        <div class="lds-ripple" v-show="loading">
+                                            <div></div>
+                                            <div></div>
+                                        </div>
+                                    </button>
+                                </transition>
+                            </div>
+                        </div>
                     </div>
                 </transition>
             </div>
@@ -280,7 +321,7 @@
 </template>
 
 <script>
-    import { login, register } from "../api/getData";
+    import { login, register, forgetPassword } from "../api/getData";
 
     export default {
         name: "welcome",
@@ -313,6 +354,10 @@
                     contact: '',
                     mail: ''
                 },
+                forgetInfo: {
+                    nick: '',
+                    mail: ''
+                },
                 loading: false,
                 errorMsg: {
                     type: '',
@@ -321,7 +366,7 @@
                 functionAvailable: {
                     login: true,
                     register: true,
-                    forgetPassword: false,
+                    forgetPassword: true,
                     tourist: false
                 }
             }
@@ -335,6 +380,8 @@
                 e.preventDefault();
             },
             do_login: async function() {
+                if(this.loading) return;
+                if(!this.functionAvailable.login)return;
                 this.errorMsg.type='';
                 this.errorMsg.content='';
                 let checkInfoPromise = new Promise((resolve, reject) => {
@@ -348,11 +395,8 @@
                     resolve();
                 });
                 checkInfoPromise.catch( async (errorMessage) => {
-                    // alert(errorMessage);
-                    // console.log(errorMessage);
                     this.errorMsg.type = errorMessage.slice(0, errorMessage.indexOf(':'));
                     this.errorMsg.content = errorMessage.slice(errorMessage.indexOf(':')+1);
-                    // console.log(this.errorMsg);
                 });
                 checkInfoPromise.then( async (successMessage) => {
                     this.loading = true;
@@ -389,6 +433,8 @@
                 });
             },
             do_register: async function() {
+                if(this.loading) return;
+                if(!this.functionAvailable.register)return;
                 this.errorMsg.type='';
                 this.errorMsg.content='';
                 let checkInfoPromise = new Promise( (resolve, reject) => {
@@ -449,6 +495,56 @@
                                 type: 'success'
                             });
                             this.activeInteract = 'login';
+                        }else{
+                            this.errorMsg.type="mail";
+                            if(response.status===504) {
+                                this.errorMsg.content='请求超时';
+                            }else{
+                                this.errorMsg.content=response.message;
+                            }
+                            this.loading = false;
+                        }
+                    }, 2000);
+                });
+            },
+            do_forgetPassword: async function() {
+                if(this.loading) return;
+                if(!this.functionAvailable.forgetPassword)return;
+                this.errorMsg.type='';
+                this.errorMsg.content='';
+                let checkInfoPromise = new Promise((resolve, reject) => {
+                    let data = this.forgetInfo;
+                    if(data.nick.length > 25 || data.nick.length < 1) {
+                        reject("account:用户名为1-25个字符");
+                    }
+                    if(data.mail.length < 1) {
+                        reject("mail:请输入电子邮件地址");
+                        let pattern = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+                        if(pattern.test(data.mail)) {
+                            reject("mail:请输入正确的电子邮件地址");
+                        }
+                    }
+                    resolve();
+                });
+                checkInfoPromise.catch( async (errorMessage) => {
+                    this.errorMsg.type = errorMessage.slice(0, errorMessage.indexOf(':'));
+                    this.errorMsg.content = errorMessage.slice(errorMessage.indexOf(':')+1);
+                });
+                checkInfoPromise.then( async (successMessage) => {
+                    this.loading = true;
+                    return;
+                }).then( async () => {
+                    let response = await forgetPassword(this.forgetInfo);
+                    console.log(response);
+                    // 至少两秒
+                    setTimeout( () => {
+                        if(response.status == 0) {
+                            // 成功
+                            this.loading = false;
+                            this.$message({
+                                message: '邮件已发送, 请前往查看',
+                                type: 'success'
+                            })
                         }else{
                             this.errorMsg.type="mail";
                             if(response.status===504) {
@@ -594,7 +690,7 @@
                 /*height: 100%;*/
                 opacity: 1;
             }
-            &-login, &-register {
+            &-login, &-register, &-forgetpasswd {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
