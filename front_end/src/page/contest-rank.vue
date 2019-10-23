@@ -19,8 +19,22 @@
             <tr class="rank-form-element"
                 v-for="index in rank_info.length"
             >
-                <td>{{rank_info[index-1].rank}}</td>
-                <td>{{rank_info[index-1].nick}}</td>
+                <td
+                        :class="[rank_info[index-1].rank===''?'':
+                        rank_info[index-1].rank<=prizeNum()[0]?'rank-au':
+                        rank_info[index-1].rank<=prizeNum()[1]?'rank-ag':
+                        rank_info[index-1].rank<=prizeNum()[2]?'rank-cu':'']"
+                >
+                    {{rank_info[index-1].rank}}
+                </td>
+                <td
+                        :class="[rank_info[index-1].rank===''?'':
+                        rank_info[index-1].rank<=prizeNum()[0]?'rank-au':
+                        rank_info[index-1].rank<=prizeNum()[1]?'rank-ag':
+                        rank_info[index-1].rank<=prizeNum()[2]?'rank-cu':'']"
+                >
+                    {{rank_info[index-1].nick}}
+                </td>
                 <td>{{rank_info[index-1].acNum}}</td>
                 <td>{{rank_info[index-1].penalty}}</td>
                 <td v-for="problemIndex in contest_info.problems.length">
@@ -201,6 +215,11 @@
 </script>
 
 <style lang="scss" scoped>
+    // sass变量
+    $auColor: rgb(242,192,86);
+    $agColor: rgb(233,233,216);
+    $cuColor: rgb(186,110,64);
+
     .contest-rank {
         position: relative;
         padding-left: 24px;
@@ -220,6 +239,18 @@
         > thead {
             font-weight: bold;
             font-style: italic;
+        }
+    }
+
+    .rank {
+        &-au {
+            color: $auColor;
+        }
+        &-ag {
+            color: $agColor;
+        }
+        &-cu {
+            color: $cuColor;
         }
     }
 
