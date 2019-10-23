@@ -67,6 +67,7 @@
                                            :type="[seePass?'text':'password']"
                                            placeholder="Password"
                                            v-model="loginInfo.password"
+                                           @keyup.enter="do_login"
                                     >
                                     <!--查看密码-->
                                     <img :src="eyeOrHide"
@@ -380,6 +381,7 @@
             },
             do_login: async function() {
                 if(this.loading) return;
+                if(!this.functionAvailable.login)return;
                 this.errorMsg.type='';
                 this.errorMsg.content='';
                 let checkInfoPromise = new Promise((resolve, reject) => {
@@ -432,6 +434,7 @@
             },
             do_register: async function() {
                 if(this.loading) return;
+                if(!this.functionAvailable.register)return;
                 this.errorMsg.type='';
                 this.errorMsg.content='';
                 let checkInfoPromise = new Promise( (resolve, reject) => {
@@ -506,6 +509,7 @@
             },
             do_forgetPassword: async function() {
                 if(this.loading) return;
+                if(!this.functionAvailable.forgetPassword)return;
                 this.errorMsg.type='';
                 this.errorMsg.content='';
                 let checkInfoPromise = new Promise((resolve, reject) => {
