@@ -15,11 +15,15 @@
                 <div class="element-time">{{replyItems[index-1].time}}</div>
             </li>
         </ul>
+        <div class="reply-input-group">
+            <textarea placeholder="在此填入回复内容(至少10个字符)..." v-model="replyContent"></textarea>
+            <button class="submit-reply-btn" @click="do_addReply">Reply</button>
+        </div>
     </div>
 </template>
 
 <script>
-    import { getDiscussDetail } from "../api/getData";
+    import { getDiscussDetail, addReply } from "../api/getData";
 
     export default {
         name: "discussdetail",
@@ -43,7 +47,8 @@
                     //     content: '',
                     //     time: ''
                     // },
-                ]
+                ],
+                replyContent: ''
             }
         },
         beforeMount() {
@@ -72,6 +77,35 @@
                     }
                 }
                 this.$loading.hide();
+            },
+            do_addReply: async function() {
+                this.$loading.open();
+                if(this.replyContent.length < 10) {
+                    this.$message({
+                        message: '回复内容不应少于10字符',
+                        type: 'warning'
+                    });
+                    this.$loading.hide();
+                    return;
+                }
+                let response = await addReply({
+                    id: this.$route.params.did,
+                    content: this.replyContent
+                });
+                console.log(response);
+                if(response.status==0) {
+                    this.replyContent = '';
+                    this.$message({
+                        message: '添加回复成功',
+                        type: 'success'
+                    });
+                }else{
+                    this.$message({
+                        message: '添加回复失败: ' + response.message,
+                        type: 'error'
+                    });
+                }
+                this.$loading.hide();
             }
         }
     }
@@ -88,13 +122,11 @@
     }
 
     .discuss-content {
-        margin: 88px auto 88px auto;
+        margin: 88px auto 30px auto;
         width: 80%;
         border-radius: .6em;
         overflow: hidden;
         background: white;
-        -webkit-box-shadow:0px 2px 15px rgba(0,0,0,0.08);
-        -moz-box-shadow: 0px 2px 15px rgba(0,0,0,0.08);
         box-shadow: 0px 2px 15px rgba(0,0,0,0.08);
     }
 
@@ -112,5 +144,38 @@
     .content-head {
         height: 250px;
         border-top: none;
+    }
+
+    .reply-input-group {
+        background: white;
+        width: 80%;
+        height: 280px;
+        margin: 30px auto 88px auto;
+        overflow: hidden;
+        border-radius: .6em;
+        box-shadow: 0px 2px 15px rgba(0,0,0,0.08);
+        > textarea {
+            resize: none;
+            border: none;
+            background: none;
+            height: 100%;
+            width: 100%;
+            padding: 7px 10px;
+        }
+        .submit-reply-btn {
+            position: absolute;
+            background: none;
+            margin-left: -100px;
+            margin-top: 235px;
+            height: 30px;
+            border: 1px solid #4288ce;
+            border-radius: 10px;
+            color: #4288ce;
+            width: 80px;
+            cursor: pointer;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
     }
 </style>

@@ -116,6 +116,11 @@
                     title: this.question.title
                 });
                 if(response.status == 0) {
+                    this.question = {
+                        title: '',
+                        content: '',
+                        problem_id: this.problems[0]
+                    };
                     this.$message({
                         message: '发布讨论板成功',
                         type: 'success'
