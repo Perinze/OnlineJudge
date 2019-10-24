@@ -1,7 +1,7 @@
 <template>
     <div class="contest-rank">
         <table class="rank-form"
-               rules="all"
+               rules="rows"
                frame="none"
                cellpadding="10"
                cellspacing="0"
@@ -39,8 +39,9 @@
                 <td>{{rank_info[index-1].penalty}}</td>
                 <td v-for="problemIndex in contest_info.problems.length">
                     <div class="solved-info-data">
-                         <!--v-if="rank_info[index-1].solveInfo[problemIndex-1]"-->
-                    <!--&gt;-->
+                        <div v-if="rank_info[index-1].solveInfo.map(x => x.problem_id).indexOf(contest_info.problems[problemIndex-1])!==-1">
+                            test
+                        </div>
                     </div>
                 </td>
             </tr>
@@ -58,7 +59,7 @@
                 contest_info: {
                     title: '',
                     problems: [0,1,2,3,4,5,6,7,8,9],
-                    prize: [2,3,4],
+                    prize: ['10%',0.3,4],
                 },
                 rank_info: [
                     {
@@ -74,7 +75,7 @@
                                 times: 1
                             },
                             {
-                                id: 0,
+                                problem_id: 1,
                                 successTime: 100,
                                 times: 1
                             },
@@ -679,7 +680,7 @@
             },
             renderRankList: async function() {
                 this.total = 0;
-                // this.rank_info = [];
+                this.rank_info = [];
                 let response = await getContestRank({
                     contest_id: this.$route.params.id
                 });
@@ -739,6 +740,7 @@
                         res[i]+=res[i-1];
                     }
                 }
+                console.log(res);
                 return res;
             }
         }
@@ -748,7 +750,7 @@
 <style lang="scss" scoped>
     // sass变量
     $auColor: rgb(242,192,86);
-    $agColor: rgb(233,233,216);
+    $agColor: rgb(133,133,116);
     $cuColor: rgb(186,110,64);
 
     .contest-rank {
@@ -759,17 +761,18 @@
     .rank-form {
         width: 85%;
         margin: 88px auto 60px auto;
-        border: {
-            color: gray;
-            radius: 1em;
-        }
-        background: rgb(250, 250, 250);
+        border-radius: 1em;
+        background: rgba(250, 250, 250, 0.7);
+        backdrop-filter: blur(22px);
         text-align: center;
         box-shadow: 0 2px 15px rgba(0,0,0,0.08);
-        /*filter: blur(30px) brightness(1.15) opacity(0.80);*/
+        overflow: hidden;
         > thead {
             font-weight: bold;
             font-style: italic;
+        }
+        > tr:hover {
+            background: rgba(200, 200, 200, .7);
         }
     }
 
