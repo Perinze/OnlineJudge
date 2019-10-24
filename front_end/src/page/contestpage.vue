@@ -129,6 +129,7 @@
                                 {{discusses[index-1].author}}
                             </div>
                         </div>
+                        <div v-if="discusses.length === 0">暂无与您相关的讨论内容</div>
                     </li>
                 </ol>
             </div>
@@ -277,8 +278,8 @@
         async created() {
             this.countDownToBegin();
             this.countDownToEnd();
+            await this.renderContestInfo();
             await this.checkJoin();
-            this.renderContestInfo();
             this.renderStatusList();
             this.renderDiscussList();
         },
@@ -442,11 +443,17 @@
                     // 已参加比赛
                     // pass
                 }else{
-                    this.$message({
-                        message: '您尚未参加本场比赛',
-                        type: 'error'
-                    });
-                    this.$router.go(-1);
+                    if(new Date(this.contest_info.end_time).getTime() <= new Date().getTime()) {
+                        // 比赛结束
+                        // pass
+                    }else {
+                        // 无权查看比赛
+                        this.$message({
+                            message: '您尚未参加本场比赛',
+                            type: 'error'
+                        });
+                        this.$router.go(-1);
+                    }
                 }
             }
         }
