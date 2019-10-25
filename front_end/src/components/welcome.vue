@@ -296,6 +296,19 @@
                                 </div>
                                 <span class="error-tips" v-show="errorMsg.type==='mail'">{{errorMsg.content}}</span>
                             </div>
+                            <div :class="[firefoxCheck?'-moz-info-input-container':'info-input-container']">
+                                <div>
+                                    <img src="../../assets/icon/unlock.svg" width="23">
+                                    <input class="info-input"
+                                           type="text"
+                                           placeholder="验证码"
+                                           v-model="forgetInfo.captcha"
+                                           style="width:144px;"
+                                    >
+                                    <button class="captcha-btn" @click="do_getCaptcha">发送验证码</button>
+                                </div>
+                                <span class="error-tips" v-show="errorMsg.type==='capthca'">{{errorMsg.content}}</span>
+                            </div>
 
                             <div class="login-btn-container">
                                 <transition name="loading">
@@ -321,7 +334,7 @@
 </template>
 
 <script>
-    import { login, register, forgetPassword } from "../api/getData";
+    import { login, register, getCaptcha, forgetPassword } from "../api/getData";
 
     export default {
         name: "welcome",
@@ -356,7 +369,8 @@
                 },
                 forgetInfo: {
                     nick: '',
-                    mail: ''
+                    mail: '',
+                    captcha: ''
                 },
                 loading: false,
                 errorMsg: {
@@ -527,7 +541,7 @@
                     }, 2000);
                 });
             },
-            do_forgetPassword: async function() {
+            do_getCaptcha: async function() {
                 if(this.loading) return;
                 if(!this.functionAvailable.forgetPassword)return;
                 this.errorMsg.type='';
@@ -554,7 +568,7 @@
                     this.loading = true;
                     return;
                 }).then( async () => {
-                    let response = await forgetPassword(this.forgetInfo);
+                    let response = await getCaptcha(this.forgetInfo);
                     console.log(response);
                     // 至少两秒
                     setTimeout( () => {
@@ -562,7 +576,7 @@
                             // 成功
                             this.loading = false;
                             this.$message({
-                                message: '邮件已发送, 请前往查看',
+                                message: '验证码邮件已发送, 请前往查看',
                                 type: 'success'
                             })
                         }else{
@@ -575,6 +589,39 @@
                             this.loading = false;
                         }
                     }, 2000);
+                });
+            },
+            do_forgetPassword: async function() {
+                if(this.loading) return;
+                if(!this.functionAvailable.forgetPassword)return;
+                this.errorMsg.type='';
+                this.errorMsg.content='';
+                let checkPromise = new Promise( (resolve, reject) => {
+                    let data = this.forgetInfo;
+                    if(data.nick.length > 25 || data.nick.length < 1) {
+                        reject("account:用户名为1-25个字符");
+                    }
+                    if(data.mail.length < 1) {
+                        reject("mail:请输入电子邮件地址");
+                        let pattern = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+                        if(pattern.test(data.mail)) {
+                            reject("mail:请输入正确的电子邮件地址");
+                        }
+                    }
+                    if(data.captcha.length !== 10) {
+                        reject("captcha:请正确输入验证码");
+                    }
+                    resolve();
+                });
+                checkPromise.catch( (errorMessage) => {
+                    this.errorMsg.type = errorMessage.slice(0, errorMessage.indexOf(':'));
+                    this.errorMsg.content = errorMessage.slice(errorMessage.indexOf(':')+1);
+                });
+                checkPromise.then( async (successMessage) => {
+                    this.loading = true;
+                    return;
+                }).then( async () => {
+                    
                 });
             }
         },
@@ -882,6 +929,18 @@
         top: 20px;
         left: 20px;
         cursor: pointer;
+    }
+
+    .captcha-btn {
+        background: #660066;
+        color: white;
+        border-radius: 5px;
+        width: 90px;
+        margin-left: -15px;
+        cursor: pointer;
+        &:hover {
+            text-decoration: underline;
+        }
     }
 
     /* 字体 */

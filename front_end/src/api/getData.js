@@ -21,11 +21,16 @@ export const logout = () => fetch('/Login/do_logout', 'post', {});
 export const register = data => fetch('/Register/register', 'post', data);
 
 /**
- * 找回密码
+ * 找回密码-发送验证码
+ */
+
+export const getCaptcha = data => fetch('/Login/forgetPassword', 'post', data);
+
+/**
+ * 找回密码-验证验证码
  */
 
 export const forgetPassword = data => fetch('/Login/forgetPassword', 'post', data);
-
 
 
 

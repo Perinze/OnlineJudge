@@ -947,7 +947,7 @@ null
       "status": 0,
       "message": "获取排行榜成功",
       "data": {
-          "0": {
+          "array": ["0": {
               "user_id": 1,
               "nick": "",
               "penalty": -17205167,
@@ -977,7 +977,7 @@ null
                       "times": 1
                   }
               ]
-          },
+          },]
           "problems": [
               "1001",
               "1002"
