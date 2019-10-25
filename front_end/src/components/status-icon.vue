@@ -37,8 +37,7 @@
         top: 9px;
         left: 0;
         bottom: 0;
-        margin-left: auto;
-        margin-right: 0;
+        margin-left: 12px;
         /*padding: 10px 0 0 15px;*/
     }
 </style>
