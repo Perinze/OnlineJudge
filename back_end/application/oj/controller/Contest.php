@@ -49,6 +49,9 @@ class Contest extends Controller
         if(isset($resp['data']['colors'])){
             $resp['data']['colors'] = json_decode($resp['data']['colors'], true);
         }
+        if(isset($resp['data']['prize'])){
+            $resp['data']['prize'] = json_decode($resp['data']['prize'], true);
+        }
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 

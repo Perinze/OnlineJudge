@@ -125,7 +125,6 @@ class Rank extends Controller
         // TODO 按照run_id排序
         usort($new_rank, [$this, 'compare_arr']);
         //var_dump($new_rank);
-        $new_rank['problems'] = $problems;
         return $new_rank;
     }
 

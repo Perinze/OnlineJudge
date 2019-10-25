@@ -1086,14 +1086,15 @@ null
 
 ``` json
 {
-    "status": 0,//0-success, -1-error
+    "status": 0,
     "message": "查询成功",
     "data": [
         {
             "id": 1,
-            "contest_id": 1001,
             "problem_id": 1001,
+            "contest_id": 1001,
             "user_id": 1,
+            "nick": "123",
             "title": "wyhsb",
             "content": "wyhsb",
             "time": "2019-10-13 15:49:45",
@@ -1101,9 +1102,10 @@ null
         },
         {
             "id": 2,
-            "contest_id": 1001,
             "problem_id": 1001,
+            "contest_id": 1001,
             "user_id": 1,
+            "nick": "123",
             "title": "wyhsb",
             "content": "wyhsb",
             "time": "2019-10-13 15:56:46",
@@ -1111,9 +1113,10 @@ null
         },
         {
             "id": 3,
-            "contest_id": 1001,
             "problem_id": 1001,
-            "user_id": 1,
+            "contest_id": 1001,
+            "user_id": 2,
+            "nick": "kdl12138",
             "title": "ssss",
             "content": "wyhsb",
             "time": "2019-10-13 15:59:34",
@@ -1121,9 +1124,10 @@ null
         },
         {
             "id": 4,
-            "contest_id": 1001,
             "problem_id": 1001,
+            "contest_id": 1001,
             "user_id": 1,
+            "nick": "123",
             "title": "ssss",
             "content": "wyhsb",
             "time": "2019-10-13 16:00:31",
@@ -1147,14 +1151,15 @@ null
 
 ``` json
 {
-    "status": 0,//0-success, -1-error
-    "message": "注册成功",
+    "status": 0,
+    "message": "查询成功",
     "data": [
         {
             "id": 1,
-            "contest_id": 1001,
             "problem_id": 1001,
+            "contest_id": 1001,
             "user_id": 1,
+            "nick": "123",
             "title": "wyhsb",
             "content": "wyhsb",
             "time": "2019-10-13 15:49:45",
@@ -1163,22 +1168,25 @@ null
         [
             {
                 "id": 1,
-                "discuss_id": 1,
                 "user_id": 1,
+                "nick": "123",
+                "discuss_id": 1,
                 "content": "wyhqssb",
                 "time": "2019-10-13 15:52:12"
             },
             {
                 "id": 2,
-                "discuss_id": 1,
                 "user_id": 1,
+                "nick": "123",
+                "discuss_id": 1,
                 "content": "wyhsb",
                 "time": "2019-10-13 16:02:05"
             },
             {
                 "id": 3,
-                "discuss_id": 1,
                 "user_id": 1,
+                "nick": "123",
+                "discuss_id": 1,
                 "content": "wyhsb",
                 "time": "2019-10-13 16:02:43"
             }
@@ -1208,9 +1216,10 @@ null
       "data": [
           {
               "id": 1,
-              "contest_id": 1001,
               "problem_id": 1001,
+              "contest_id": 1001,
               "user_id": 1,
+              "nick": "123",
               "title": "wyhsb",
               "content": "wyhsb",
               "time": "2019-10-13 15:49:45",
@@ -1218,9 +1227,10 @@ null
           },
           {
               "id": 2,
-              "contest_id": 1001,
               "problem_id": 1001,
+              "contest_id": 1001,
               "user_id": 1,
+              "nick": "123",
               "title": "wyhsb",
               "content": "wyhsb",
               "time": "2019-10-13 15:56:46",
@@ -1228,18 +1238,19 @@ null
           },
           {
               "id": 4,
-              "contest_id": 1001,
               "problem_id": 1001,
+              "contest_id": 1001,
               "user_id": 1,
+              "nick": "123",
               "title": "ssss",
               "content": "wyhsb",
               "time": "2019-10-13 16:00:31",
               "status": 8
           }
-      ]
+    ]
   }
   ```
-
+  
   
 
 ## submit

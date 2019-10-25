@@ -28,7 +28,8 @@ class ReplyModel extends Model
     public function get_the_discuss($discuss_id)
     {
         try{
-            $info = $this->where('discuss_id', $discuss_id)->select()->toArray();
+            $info = $this->field(['reply.id as id','reply.user_id as user_id', 'nick','discuss_id', 'content', 'time'])->where('discuss_id', $discuss_id)
+                ->join('users','reply.user_id = users.user_id')->select()->toArray();
             return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $info];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];

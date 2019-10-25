@@ -42,7 +42,8 @@ class DiscussModel extends Model
     public function get_all_discuss($contest_id)
     {
         try{
-            $info = $this->where('contest_id', $contest_id)->select()->toArray();
+            $info = $this->field(['discuss.id as id','problem_id','contest_id','discuss.user_id as user_id', 'users.nick as nick', 'title', 'content', 'time', 'discuss.status as status'])->where('contest_id', $contest_id)
+                ->join('users','discuss.user_id = users.user_id')->select()->toArray();
             return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $info];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];
@@ -52,7 +53,7 @@ class DiscussModel extends Model
     public function get_the_discuss($discuss_id)
     {
         try{
-            $info = $this->where('id', $discuss_id)->find();
+            $info = $this->field(['discuss.id as id','problem_id','contest_id','discuss.user_id as user_id', 'users.nick as nick', 'title', 'content', 'time', 'discuss.status as status'])->join('users','discuss.user_id = users.user_id')->where('id', $discuss_id)->find();
             return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $info];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];
@@ -62,8 +63,9 @@ class DiscussModel extends Model
     public function get_user_discuss($user_id, $contest_id)
     {
         try{
-            $where = '(`contest_id` = '.$contest_id.' AND `user_id` = '.(string)$user_id.')'.'OR (`contest_id` = '.$contest_id.' AND `status` = 8)';
-            $info = $this->where($where)->select()->toArray();
+            $where = '(`contest_id` = '.$contest_id.' AND `discuss`.`user_id` = '.(string)$user_id.')'.'OR (`contest_id` = '.$contest_id.' AND `discuss`.`status` = 8)';
+            $info = $this->field(['discuss.id as id','problem_id','contest_id','discuss.user_id as user_id', 'users.nick as nick', 'title', 'content', 'time', 'discuss.status as status'])
+                ->where($where)->join('users','discuss.user_id = users.user_id')->select()->toArray();
             return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $info];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];
