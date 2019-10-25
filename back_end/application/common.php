@@ -65,3 +65,12 @@ function post($url, $data = array(), $type = 'text') {
     curl_close($curl);
     return $content;
 }
+
+function handle_problem($problem, $problem_array)
+{
+    $new_array = array();
+    foreach ($problem as $item){
+        $new_array[] = chr(array_search($item, $problem_array, false) + 65);
+    }
+    return $new_array;
+}
