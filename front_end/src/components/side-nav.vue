@@ -23,7 +23,7 @@
             <div class="user-info" align="center" v-if="isLogin">
                 <span id="user-nick">{{userData.nick}}</span>
                 <br>
-                <span id="user-desc">{{userData.desc}}</span>
+                <span id="user-desc" @click="testLoading">{{userData.desc}}</span>
             </div>
             <div class="user-data" v-if="isLogin">
                 <div style="width: 12px"></div>
@@ -207,6 +207,10 @@
                     }
                 }
                 this.$loading.hide();
+            },
+            testLoading: function() {
+                this.$loading.open();
+                setTimeout( () => { this.$loading.hide(); }, 5000);
             }
         },
         computed: {
@@ -265,7 +269,7 @@
     }
 
     .logout-btn {
-        position: fixed;
+        position: absolute;
         top: 94px;
         left: 32px;
         cursor: pointer;

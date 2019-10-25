@@ -3,7 +3,6 @@
         <table class="rank-form"
                rules="rows"
                frame="none"
-               cellpadding="10"
                cellspacing="0"
                summary="你爬nm呢"
         >
@@ -40,7 +39,8 @@
                 <td v-for="problemIndex in contest_info.problems.length">
                     <div class="solved-info-data">
                         <div v-if="rank_info[index-1].solveInfo.map(x => x.problem_id).indexOf(contest_info.problems[problemIndex-1])!==-1">
-                            test
+                            <status-icon icon-type="ac" times="12"/>
+                            <span>1:23:43</span>
                         </div>
                     </div>
                 </td>
@@ -51,15 +51,17 @@
 
 <script>
     import { getContestRank, getContest } from "../api/getData";
+    import statusIcon from "../components/status-icon";
 
     export default {
         name: "contest-rank",
+        components: { statusIcon },
         data() {
             return {
                 contest_info: {
                     title: '',
                     problems: [0,1,2,3,4,5,6,7,8,9],
-                    prize: ['10%',0.3,4],
+                    prize: [2,3,4],
                 },
                 rank_info: [
                     {
@@ -80,42 +82,42 @@
                                 times: 1
                             },
                             {
-                                id: 0,
+                                problem_id: 2,
                                 successTime: 100,
                                 times: 1
                             },
                             {
-                                id: 0,
+                                problem_id: 3,
                                 successTime: 100,
                                 times: 1
                             },
                             {
-                                id: 0,
+                                problem_id: 4,
                                 successTime: 100,
                                 times: 1
                             },
                             {
-                                id: 0,
+                                problem_id: 5,
                                 successTime: 100,
                                 times: 1
                             },
                             {
-                                id: 0,
+                                problem_id: 6,
                                 successTime: 100,
                                 times: 1
                             },
                             {
-                                id: 0,
+                                problem_id: 7,
                                 successTime: 100,
                                 times: 1
                             },
                             {
-                                id: 0,
+                                problem_id: 8,
                                 successTime: 100,
                                 times: 1
                             },
                             {
-                                id: 0,
+                                problem_id: 9,
                                 successTime: 100,
                                 times: 1
                             }
@@ -770,9 +772,17 @@
         > thead {
             font-weight: bold;
             font-style: italic;
+            > tr > td {
+                padding: 10px;
+            }
         }
-        > tr:hover {
-            background: rgba(200, 200, 200, .7);
+        > tr {
+            > td {
+                padding: 3px;
+            }
+            &:hover {
+                background: rgba(200, 200, 200, .7);
+            }
         }
     }
 
@@ -789,6 +799,16 @@
     }
 
     .solved-info-data {
-
+        > div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            > span {
+                // 通过时间
+                font-size: 9px;
+                line-height: 17px;
+                margin-top: 3px;
+            }
+        }
     }
 </style>
