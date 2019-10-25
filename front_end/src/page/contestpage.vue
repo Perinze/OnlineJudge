@@ -44,7 +44,7 @@
                     <td v-for="index in contest_info.problems.length"
                         class="problem-status"
                     >
-                        <status-icon :is-success="true" times="12" />
+                        <status-icon icon-type="try" times="12" />
                     </td>
                 </tr>
             </table>
