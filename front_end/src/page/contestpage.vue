@@ -21,10 +21,11 @@
                     <tr style="height: 42px;">
                         <th class="status-rank style-border-left"
                             @click="$router.push('/rank/' + contest_info.id)"
+                            style="width: 128px;"
                         >
                             排名 Rank
                         </th>
-                        <th>罚时 Penalty</th>
+                        <th style="width: 128px;">罚时 Penalty</th>
                         <th v-for="index in contest_info.problems.length"
                             class="problem-head"
                             @click="$router.push('/problem/'+contest_info.problems[index-1])"
@@ -118,9 +119,10 @@
                 <!-- TODO 改成卡片样式 -->
                 <ol>
                     <li>
-                        <div class="discuss-card style-border-left"
+                        <div class="discuss-card"
                              v-for="index in discusses.length"
                              @click="$router.push('/discuss/'+contest_info.id+ '/'+discusses[index-1].id)"
+                             :class="[discusses[index-1].status === 8?'style-border-left-warning':'style-border-left']"
                         >
                             <div class="discuss-problem-id">
                                 {{String.fromCharCode(contest_info.problems.indexOf(discusses[index-1].problem) + 65)}}
@@ -469,6 +471,7 @@
 
 <style lang="scss" scoped>
     $inner-left-border: 3px solid #4288ce;
+    $inner-left-border-warning: 3px solid orange;
 
     ul, ol {
         position: relative;
@@ -490,6 +493,10 @@
 
     .style-border-left {
         border-left: $inner-left-border;
+    }
+
+    .style-border-left-warning {
+        border-left: $inner-left-border-warning;
     }
 
     .top-tips {
@@ -606,7 +613,10 @@
     }
 
     .problem-status {
-        cursor: pointer;
+        /*display: flex;*/
+        /*justify-content: center;*/
+        /*align-items: center;*/
+        /*cursor: pointer;*/
         border-left: 1px rgba(0,0,0,.2) dashed;
         /*
             TODO 点击后在提交列表内相应题目记录高亮，再次点击消除

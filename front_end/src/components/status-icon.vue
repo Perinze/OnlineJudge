@@ -19,7 +19,11 @@
     .status-icon {
         display: flex;
         align-items: center;
+        justify-content: center;
+        padding-right: 3px;
         margin-left: 2px;
+        width: 100%;
+        height: 100%;
     }
 
     .icon {
