@@ -5,6 +5,7 @@
         <!--</transition>-->
         <div class="loading-mask"></div>
         <div id="box">
+            <!--<div class="filter-mix"></div>-->
             <div class="spinner">
                 <div class="spinner-container container1">
                     <div class="circle1" :style="styleObject"></div>
@@ -48,7 +49,7 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     /*.fade-leave-active, .fade-enter-active {*/
         /*transition: opacity .3s ease;*/
     /*}*/
@@ -69,6 +70,81 @@
         justify-content: center;
         align-items: center;
     }
+
+    .loading-mask {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        /*background: rgba(34,33,53,0.6);*/
+        /*background: rgba(0, 0, 0, 0.15);*/
+    }
+
+    #box {
+        background-color: rgba(0, 0, 0, 0.15);
+        border-radius: 20px;
+        padding: 35px 35px;
+    }
+
+    // Mix Animation
+
+    /*.filter-mix {*/
+        /*transform: translate(-50%, -50%);*/
+        /*filter: contrast(20);*/
+        /*position: absolute;*/
+        /*top: 50%;*/
+        /*left: 50%;*/
+        /*width: 200px;*/
+        /*height: 200px;*/
+        /*background: rgba(255, 255, 255, .7);*/
+        /*backdrop-filter: blur(20px);*/
+        /*&::before {*/
+            /*content: "";*/
+            /*position: absolute;*/
+            /*width: 60px;*/
+            /*height: 60px;*/
+            /*border-radius: 50%;*/
+            /*background: #333;*/
+            /*top: 20px;*/
+            /*left: 35px;*/
+            /*z-index: 2;*/
+            /*filter: blur(6px);*/
+            /*box-sizing: border-box;*/
+            /*animation: filterBallMove 1.8s ease-out infinite;*/
+        /*}*/
+        /*&::after {*/
+            /*content: "";*/
+            /*position: absolute;*/
+            /*width: 40px;*/
+            /*height: 40px;*/
+            /*border-radius: 50%;*/
+            /*background: #3F51B5;*/
+            /*top: 30px;*/
+            /*right: 50px;*/
+            /*z-index: 2;*/
+            /*filter: blur(6px);*/
+            /*animation: filterBallMove2 1.8s ease-out infinite;*/
+        /*}*/
+    /*}*/
+
+    /*@keyframes filterBallMove {*/
+        /*50% {*/
+            /*left: 110px;*/
+        /*}*/
+    /*}*/
+
+    /*@keyframes filterBallMove2 {*/
+        /*50% {*/
+            /*right: 110px;*/
+        /*}*/
+    /*}*/
+
+
+
+
+    // 顶部LED呼吸灯条
+
 
     /*.breathe-div {*/
         /*position: fixed;*/
@@ -112,23 +188,12 @@
         /*}*/
     /*}*/
 
-    /* Another Loading Animation */
 
-    .loading-mask {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        /*background: rgba(34,33,53,0.6);*/
-        /*background: rgba(0, 0, 0, 0.15);*/
-    }
 
-    #box {
-        background-color: rgba(0, 0, 0, 0.15);
-        border-radius: 20px;
-        padding: 35px 35px;
-    }
+
+    // Another Loading Animation
+    // 仿MicroSoft
+
 
     .spinner {
         margin: 0 auto;

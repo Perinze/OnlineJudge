@@ -19,8 +19,13 @@
             >
                 <thead>
                     <tr style="height: 42px;">
-                        <th class="status-rank" @click="$router.push('/rank/' + contest_info.id)">排名 Rank</th>
-                        <th>罚时 Penalty</th>
+                        <th class="status-rank style-border-left"
+                            @click="$router.push('/rank/' + contest_info.id)"
+                            style="width: 128px;"
+                        >
+                            排名 Rank
+                        </th>
+                        <th style="width: 128px;">罚时 Penalty</th>
                         <th v-for="index in contest_info.problems.length"
                             class="problem-head"
                             @click="$router.push('/problem/'+contest_info.problems[index-1])"
@@ -30,7 +35,7 @@
                     </tr>
                 </thead>
                 <tr style="height: 42px;">
-                    <td>
+                    <td class="style-border-left">
                         1
                     </td>
                     <td>
@@ -39,7 +44,7 @@
                     <td v-for="index in contest_info.problems.length"
                         class="problem-status"
                     >
-                        <status-icon :is-success="true" times="12" />
+                        <status-icon icon-type="try" times="12" />
                     </td>
                 </tr>
             </table>
@@ -52,7 +57,7 @@
                 <span class="title">提交记录 Submit log</span>
                 <!-- TODO 暂时取消查看代码 -->
                 <!--<span id="submit-log-tips" class="tips">点击查看具体记录</span>-->
-                <ul class="submit-log-ul">
+                <ul class="submit-log-ul style-border-left">
                     <li v-for="index in submit_log.length"
                         v-bind:title="'RunID: '+ submit_log[index-1].runid"
                         class="submit-log-list-element submit-log-li"
@@ -117,6 +122,7 @@
                         <div class="discuss-card"
                              v-for="index in discusses.length"
                              @click="$router.push('/discuss/'+contest_info.id+ '/'+discusses[index-1].id)"
+                             :class="[discusses[index-1].status === 8?'style-border-left-warning':'style-border-left']"
                         >
                             <div class="discuss-problem-id">
                                 {{String.fromCharCode(contest_info.problems.indexOf(discusses[index-1].problem) + 65)}}
@@ -152,7 +158,7 @@
                     id: this.$route.params.id,
                     title: '',
                     begin_time: '2019-09-29 09:57:30', /*比赛开始时间*/
-                    end_time: '2019-09-29 15:46:57',
+                    end_time: '2090-12-31 23:59:59',
                     frozen: 0.2,
                     problems: [1000,1001,1002,1003,1004,1005,1006,1007,1008,1009,1010,1011,1012],
                     colors: ['924726','8cc590','b2c959','59785a','8e8c13','252b04','ccda06','8044a7','27e298','0cef7c','31f335','67f70e','0ea6ff'],
@@ -276,12 +282,15 @@
             }
         },
         async created() {
-            this.countDownToBegin();
-            this.countDownToEnd();
             await this.renderContestInfo();
             await this.checkJoin();
-            this.renderStatusList();
-            this.renderDiscussList();
+            this.countDownToBegin();
+            if(new Date(this.contest_info.begin_time).getTime() <= new Date().getTime()) {
+                // 比赛开始
+                this.countDownToEnd();
+                this.renderStatusList();
+                this.renderDiscussList();
+            }
         },
         methods: {
             timeFormat(param) {
@@ -461,6 +470,9 @@
 </script>
 
 <style lang="scss" scoped>
+    $inner-left-border: 3px solid #4288ce;
+    $inner-left-border-warning: 3px solid orange;
+
     ul, ol {
         position: relative;
         list-style-type: none;
@@ -473,6 +485,18 @@
         > span {
             margin: 0 5px;
         }
+    }
+
+    table {
+        table-layout: fixed;
+    }
+
+    .style-border-left {
+        border-left: $inner-left-border;
+    }
+
+    .style-border-left-warning {
+        border-left: $inner-left-border-warning;
     }
 
     .top-tips {
@@ -570,6 +594,7 @@
     }
 
     .problem-status-form {
+        overflow: hidden;
         text-align: center;
         border-radius: 10px;
         box-shadow: 0 2px 15px rgba(0,0,0,0.08);
@@ -588,7 +613,10 @@
     }
 
     .problem-status {
-        cursor: pointer;
+        /*display: flex;*/
+        /*justify-content: center;*/
+        /*align-items: center;*/
+        /*cursor: pointer;*/
         border-left: 1px rgba(0,0,0,.2) dashed;
         /*
             TODO 点击后在提交列表内相应题目记录高亮，再次点击消除

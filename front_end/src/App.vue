@@ -1,44 +1,45 @@
 <template>
     <div style="height: 100%;">
         <topnav :topnavOpacity="topnavOpacity" />
-        <sidenav ref="sidenav" />
-        <div class="layout-content" ref="parent">
+        <sidenav />
+        <div class="layout-content">
             <keep-alive exclude="temp-problem-detail,contestpage,contest-rank,discusslist,discussdetail,submitpage,submitdetail">
                 <router-view id="combox" class="combox" />
             </keep-alive>
         </div>
         <!--<top-drawer />-->
-            <!--<codemirror></codemirror>-->
-        <sidedrawer />
-        <!--<div class="test" style="z-index: 1001;-webkit-backdrop-filter: blur(30px);backdrop-filter: blur(30px);width: 500px;height: 500px;position: absolute;left: 100px;top: 100px;"></div>-->
+        <!--<sidedrawer />-->
+        <!--<div style="z-index: 1001;backdrop-filter: blur(30px);width: 500px;height: 500px;position: absolute;left: 470px;top: 100px;"></div>-->
     </div>
 </template>
 
 <script>
     import topnav from "./components/top-nav"
     import sidenav from "./components/side-nav"
-    import sidedrawer from "./components/side-drawer"
+    // import sidedrawer from "./components/side-drawer"
     import mainpage from "./page/mainpage"
-    import problemlist from "./page/problemlist"
-    import contestpage from "./page/contestlist"
 
     export default {
-        components: { topnav, sidenav, mainpage, problemlist, contestpage, sidedrawer },
+        components: {
+            topnav,
+            sidenav,
+            mainpage,
+            // sidedrawer
+        },
         data() {
             return {
-                topDrawerContent: 'codemirror',
-                sideDrawerContent: 'probleminfo',
-                mainContent: 'mainpage',
+                // topDrawerContent: 'codemirror',
+                // sideDrawerContent: 'probleminfo',
+                // mainContent: 'mainpage',
                 bgsrc: "../assets/logo.png",
                 topnavOpacity: 0,
-                parent: null,
                 combox: null,
             }
         },
         mounted() {
             this.initCombox();
             this.$refs.sidenav.$on('changeContent',(name)=>{
-                this.mainContent = name;
+                // this.mainContent = name;
                 this.topnavOpacity = 0;
             });
         },
@@ -68,7 +69,12 @@
     }
 </script>
 
-<style>
+<style lang="scss">
+    $acColor: #80DFC5;
+    $waColor: #F77669;
+    $tleColor: #82B1FF;
+    $mleColor: #DECB6B;
+
     .layout-content {
         position: relative;
         padding-left: 200px;
@@ -90,22 +96,22 @@
 
     .ac-icon::before {
         content: 'A';
-        color: limegreen;
+        color: $acColor;
     }
 
     .wa-icon::before {
         content: 'W';
-        color: #e94040;
+        color: $waColor;
     }
 
     .tle-icon::before {
         content: 'T';
-        color: dodgerblue;
+        color: $tleColor;
     }
 
     .mle-icon::before {
         content: 'M';
-        color: darkorange;
+        color: $mleColor;
     }
 
     .other-icon::before {
@@ -127,35 +133,19 @@
     */
 
     .ac-color {
-        color: #80DFC5;
+        color: $acColor;
     }
 
     .wa-color {
-        color: #F77669;
+        color: $waColor;
     }
 
     .tle-color {
-        color: #82B1FF;
+        color: $tleColor;
     }
 
     .mle-color {
-        color: #DECB6B;
-    }
-
-    .ac-background {
-        background: #80DFC5;
-    }
-
-    .wa-background {
-        background: #F77669;
-    }
-
-    .tle-background {
-        background: #82B1FF;
-    }
-
-    .mle-background {
-        background: #DECB6B;
+        color: $mleColor;
     }
 
     /*
