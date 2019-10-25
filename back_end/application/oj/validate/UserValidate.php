@@ -26,6 +26,7 @@ class UserValidate extends Validate
         'class' => 'require',
         'contact' => 'require',
         'mail' => 'require|email',
+        'check' => 'require',
     ];
 
     protected $message = [
@@ -43,6 +44,7 @@ class UserValidate extends Validate
         'contact.require' => '请留下你的联系方式',
         'mail.require' => '请输入邮箱',
         'mail.email' => '邮箱格式错误',
+        'check.require' => '请填写验证码'
     ];
 
     protected $scene = [
@@ -55,6 +57,6 @@ class UserValidate extends Validate
         'login' => ['nick', 'password'],
         'register' => ['nick', 'password', 'password_check', 'realname', 'school', 'major', 'class', 'contact', 'mail'],
         'forget' => ['nick', 'mail'],
-        'change_password' => ['password', 'password_check']
+        'change_password' => ['nick', 'password', 'password_check', 'check']
     ];
 }

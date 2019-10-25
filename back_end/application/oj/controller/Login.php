@@ -65,7 +65,6 @@ class Login extends Controller
 
     public function forgetPassword()
     {
-        //TODO 验证邮箱
         $user_validate = new UserValidate();
         $find_model = new FindPasswordModel();
         $user_model = new UserModel();
@@ -82,6 +81,9 @@ class Login extends Controller
         $info = $user_model->searchUserByNick($req['nick']);
         if ($info['code'] !== CODE_SUCCESS) {
             return apiReturn(CODE_ERROR, $info['msg'], '');
+        }
+        if($info['data']['mail'] !== $req['mail']){
+            return apiReturn(CODE_ERROR, '邮箱不一致', '');
         }
         $info = $mail->sendMail($info['data']['mail'], $req['nick'], '验证码发送', '本次验证码为' . $code['data'] . '该邮件不需要回复');
         if ($info !== true) {

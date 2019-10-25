@@ -43,11 +43,10 @@ class UserModel extends Model
     {
         try {
             $info = $this->where('user_id', $user_id)->update($data);
-            if ($info != 0) {
+            if ($info !== 0) {
                 return ['code' => CODE_SUCCESS, 'msg' => '更新成功', 'data' => $info];
-            } else {
-                return ['code' => CODE_ERROR, 'msg' => '更新失败', 'data' => ''];
             }
+            return ['code' => CODE_ERROR, 'msg' => '更新失败', 'data' => ''];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
         }

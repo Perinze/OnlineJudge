@@ -51,15 +51,11 @@ class FindPasswordModel extends Model
     public function check_token($nick, $token)
     {
         try{
-            $info = $this->where([['nick', '=', '$nick'], ['state', '=', 0], ['time', '>= time', time() - VALID_TIME]])->find();
+            $info = $this->where([['nick', '=', $nick], ['state', '=', 0], ['time', '>= time', time() - VALID_TIME], ['token', '=', $token]])->find();
             if(empty($info)){
                 return ['code' => CODE_ERROR, 'msg' => '查询失败', 'data' => ''];
-            } else {
-                if($token !== $info['token']){
-                    return ['code' => CODE_ERROR, 'msg' => '验证失败', 'data' => ''];
-                }
-                return ['code' => CODE_SUCCESS, 'msg' => '验证成功', 'data' => ''];
             }
+            return ['code' => CODE_SUCCESS, 'msg' => '验证成功', 'data' => ''];
         } catch (Exception $e){
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
         }
