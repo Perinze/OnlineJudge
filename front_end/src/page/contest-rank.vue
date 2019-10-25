@@ -659,39 +659,38 @@
             }
         },
         async created() {
-            // await this.getContestInfo();
+            await this.getContestInfo();
             this.renderRankList();
             this.intervalGetRank();
         },
         methods: {
-            // getContestInfo: async function() {
-            //     let response = await getContest({
-            //         contest_id: this.$route.params.id
-            //     });
-            //     if(response.status==0){
-            //         this.contest_info = {
-            //             title: response.data.contest_name,
-            //             problems: response.data.problems,
-            //         }
-            //     }else{
-            //         this.$message({
-            //             message: response.message,
-            //             type: 'error'
-            //         })
-            //     }
-            // },
+            getContestInfo: async function() {
+                let response = await getContest({
+                    contest_id: this.$route.params.id
+                });
+                if(response.status==0){
+                    this.contest_info = {
+                        title: response.data.contest_name,
+                        problems: response.data.problems,
+                        prize: response.data.prize
+                }
+                }else{
+                    this.$message({
+                        message: response.message,
+                        type: 'error'
+                    })
+                }
+            },
             renderRankList: async function() {
-                console.log('begin function');
                 this.total = 0;
                 this.rank_info = [];
                 let response = await getContestRank({
                     contest_id: this.$route.params.id
                 });
-                console.log(response);
                 if(response.status == 0) {
+                    console.log("轮询成功");
                     let cnt = 1;
-                    this.contest_info.prize = response.data.prize;
-                    response.data.array.forEach( (val, index) => {
+                    response.data.forEach( (val, index) => {
                         this.rank_info.push({
                             id: val.user_id,
                             rank: val.nick.indexOf('*')===0?'':cnt, // 打星
@@ -714,8 +713,8 @@
                 }
             },
             intervalGetRank: function () {
-                // 7秒轮询
-                setInterval(this.renderRankList(), 7000);
+                // 5秒轮询
+                setInterval(this.renderRankList, 5000);
             }
         },
         computed: {
@@ -748,7 +747,7 @@
                         res[i]+=res[i-1];
                     }
                 }
-                console.log(res);
+                // console.log(res);
                 return res;
             }
         }

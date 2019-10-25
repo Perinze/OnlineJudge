@@ -16,11 +16,11 @@
                  @click="$router.push('/discuss/' + contest_id + '/' + items[index-1].id)"
             >
                 <div class="title">
-                    <span class="problem-tag">{{items[index-1].problem_id}}</span>
+                    <span class="problem-tag">{{String.fromCharCode(problems.map(x => parseInt(x)).indexOf(parseInt(items[index-1].problem_id)) + 64)}}</span>
                     {{items[index-1].title | titleFilter}}
                 </div>
                 <div class="content">{{items[index-1].content | contentFilter}}</div>
-                <div class="user-nick">{{items[index-1].user_id}}</div>
+                <div class="user-nick">{{items[index-1].nick}}</div>
                 <div class="time">{{items[index-1].time}}</div>
             </div>
         </div>
@@ -46,6 +46,7 @@
                     //     problem_id: '',
                     //     contest_id: '',
                     //     user_id: '',
+                    //     nick: '',
                     //     time: '',
                     //     title: '',
                     //     content: '',

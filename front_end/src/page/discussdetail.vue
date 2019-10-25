@@ -2,16 +2,16 @@
     <div class="discuss-detail">
         <ul class="discuss-content">
             <li class="content-head">
-                <div class="head-title">{{themeInfo.problem_id}}  {{themeInfo.title}}</div>
+                <div class="head-title">{{problemNick}}  {{themeInfo.title}}</div>
                 <div class="head-content">{{themeInfo.content}}</div>
-                <div class="head-user">{{themeInfo.user_id}}</div>
+                <div class="head-user">{{themeInfo.nick}}</div>
                 <div class="head-time">{{themeInfo.time}}</div>
             </li>
             <li class="content-element"
                 v-for="index in replyItems.length"
             >
                 <div class="element-content">{{replyItems[index-1].content}}</div>
-                <div class="element-user">{{replyItems[index-1].user_id}}</div>
+                <div class="element-user">{{replyItems[index-1].nick}}</div>
                 <div class="element-time">{{replyItems[index-1].time}}</div>
             </li>
         </ul>
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-    import { getDiscussDetail, addReply } from "../api/getData";
+    import { getDiscussDetail, addReply, getContest } from "../api/getData";
 
     export default {
         name: "discussdetail",
@@ -34,6 +34,7 @@
                     contest_id: '',
                     problem_id: '',
                     user_id: '',
+                    nick: '',
                     title: '',
                     content: '',
                     time: '',
@@ -44,17 +45,28 @@
                     //     id: '',
                     //     discuss_id: '',
                     //     user_id: '',
+                    //     nick: '',
                     //     content: '',
                     //     time: ''
                     // },
                 ],
-                replyContent: ''
+                replyContent: '',
+                problemNick: ''
             }
         },
-        beforeMount() {
-            this.renderContent();
+        async created() {
+            await this.renderContent();
+            await this.getProblemNick()
         },
         methods: {
+            getProblemNick: async function() {
+                let response = await getContest({
+                    contest_id: this.$route.params.id
+                });
+                if(response.status == 0 ){
+                    this.problemNick = String.fromCharCode(response.data.problems.map( x => parseInt(x)).indexOf(this.themeInfo.problem_id)+64);
+                }
+            },
             renderContent: async function() {
                 this.$loading.open();
                 let response = await getDiscussDetail({

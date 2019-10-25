@@ -435,7 +435,7 @@
                             id: val.id,
                             problem: val.problem_id,
                             title: val.title,
-                            author: val.user_id,
+                            author: val.nick,
                             time: val.time,
                             status: parseInt(val.status)
                         });
