@@ -1026,6 +1026,27 @@ null
 
 * change_password
 
+  *request:*
+
+  ``` json
+  {
+      "password": "1001",
+      "password_check": "1001",
+  }
+  ```
+
+  *response:*
+
+  ``` json
+  {
+      "status": 0,
+      "message": "更新成功",
+      "data": ""
+  }
+  ```
+
+  
+
 ## discuss
 
 * add_discuss

@@ -8,6 +8,7 @@
 
 namespace app\oj\controller;
 
+use app\common\model\FindPasswordModel;
 use app\oj\model\CommonModel;
 use app\oj\model\UserModel;
 use app\oj\validate\UserValidate;
@@ -121,6 +122,7 @@ class User extends Controller
     {
         $user_model = new UserModel();
         $user_validate = new UserValidate();
+        $find_password_model = new FindPasswordModel();
         if (session('find_password') !== true) {
             return apiReturn(CODE_ERROR, '找回密码无效，请重新提交验证', '');
         }
@@ -131,6 +133,10 @@ class User extends Controller
         }
         if ($req['password'] !== $req['password_check']) {
             return apiReturn(CODE_ERROR, '两次输入密码不一致', '');
+        }
+        $info = $find_password_model->check_token($req['nick'], $req['check']);
+        if($info['code'] !== CODE_SUCCESS){
+            return apiReturn(CODE_ERROR, '修改失败', '');
         }
         $user_id = Session::get('user_id');
         $resp = $user_model->editUser($user_id, array(
