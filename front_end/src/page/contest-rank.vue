@@ -655,7 +655,8 @@
                         ]
                     },
                 ],
-                total: 0
+                total: 0,
+                interval: null
             }
         },
         async created() {
@@ -714,7 +715,7 @@
             },
             intervalGetRank: function () {
                 // 5秒轮询
-                setInterval(this.renderRankList, 5000);
+                this.interval = setInterval(this.renderRankList, 5000);
             }
         },
         computed: {
@@ -750,6 +751,11 @@
                 // console.log(res);
                 return res;
             }
+        },
+        beforeDestroy() {
+            console.log('beforeDestory');
+            clearInterval(this.interval);
+            console.log('clearInterval');
         }
     }
 </script>

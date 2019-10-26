@@ -72,7 +72,6 @@
                 let response = await getDiscussDetail({
                     discuss_id: this.$route.params.did
                 });
-                console.log(response);
                 if(response.status == 0) {
                     this.themeInfo = response.data[0];
                     response.data[1].forEach( (val, index) => {

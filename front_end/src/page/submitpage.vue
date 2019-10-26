@@ -1,7 +1,7 @@
 <template>
     <div class="submit">
         <div class="submit-head">
-            <div class="problem-title">{{$route.params.pid}} Problem_name</div>
+            <div class="problem-title">{{$route.params.pid}} {{title}}</div>
             <button class="submit-btn" @click="doSubmit">Submit</button>
         </div>
         <div class="code-container">
@@ -27,6 +27,8 @@
 
 <script>
     import mycodemirror from '../components/myCodemirror';
+    import { getProblem } from "../api/getData";
+
     export default {
         name: "submitpage",
         components: {
@@ -34,6 +36,7 @@
         },
         data() {
             return {
+                title: '',
                 lang: 'c',
                 langItems: [
                     {
@@ -66,6 +69,14 @@
                     console.log(this.$refs.codeEditor.code);
                     this.$loading.hide();
                 },2000);
+            },
+            getProblemInfo: async function() {
+                let response = await getProblem({
+                    problem_id: this.$route.params.pid
+                });
+                if(response.status == 0) {
+                    this.title = response.data.title;
+                }
             }
         },
         computed: {
@@ -78,7 +89,8 @@
                 }
             },
         },
-        mounted() {
+        created() {
+            this.getProblemInfo();
         }
     }
 </script>

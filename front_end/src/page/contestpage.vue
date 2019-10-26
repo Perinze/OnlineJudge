@@ -131,7 +131,7 @@
                                 {{discusses[index-1].title}}
                             </div>
                             <div class="discuss-author">
-                                <span style="color: orange;" v-if="discusses[index-1].status === 8">{{"\<管理员公示\>&nbsp;"}}</span>
+                                <span style="color: orange;" v-if="discusses[index-1].status === 8">{{'<管理员公示>&nbsp;'}}</span>
                                 {{discusses[index-1].author}}
                             </div>
                         </div>

@@ -1,7 +1,7 @@
 <template>
     <div style="height: 100%;">
         <topnav :topnavOpacity="topnavOpacity" />
-        <sidenav />
+        <sidenav ref="sidenav"/>
         <div class="layout-content">
             <keep-alive exclude="temp-problem-detail,contestpage,contest-rank,discusslist,discussdetail,submitpage,submitdetail">
                 <router-view id="combox" class="combox" />
