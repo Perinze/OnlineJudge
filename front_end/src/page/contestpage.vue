@@ -252,6 +252,8 @@
                 ],
                 leftBeforeBegin: '00:00:00',
                 leftTime: '00:00:00',
+                intervalBegin: null,
+                intervalEnd: null
             }
         },
         computed: {
@@ -297,7 +299,7 @@
                 return param < 10 ? '0' + param : param;
             },
             countDownToBegin() {
-                var interval = setInterval(() => {
+                this.intervalBegin = setInterval(() => {
                     // 获取当前时间，同时得到活动结束时间数组
                     let newTime = new Date().getTime();
                     // 对结束时间进行处理渲染到页面
@@ -321,13 +323,13 @@
                             min: '00',
                             sec: '00'
                         };
-                        clearInterval(interval);
+                        clearInterval(this.intervalBegin);
                     }
                     this.leftBeforeBegin =  obj.hou + ':' + obj.min + ':' + obj.sec;
                 }, 1000);
             },
             countDownToEnd() {
-                var interval = setInterval(() => {
+                this.intervalEnd = setInterval(() => {
                     // 获取当前时间，同时得到活动结束时间数组
                     let newTime = new Date().getTime();
                     // 对结束时间进行处理渲染到页面
@@ -358,7 +360,7 @@
                                 min: '00',
                                 sec: '00'
                             };
-                            clearInterval(interval);
+                            clearInterval(this.intervalEnd);
                         }
                     }
                     this.leftTime =  obj.hou + ':' + obj.min + ':' + obj.sec;
@@ -465,6 +467,10 @@
                     }
                 }
             }
+        },
+        beforeDestroy() {
+            clearInterval(this.intervalBegin);
+            clearInterval(this.intervalEnd);
         }
     }
 </script>

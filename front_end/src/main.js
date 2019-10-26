@@ -26,7 +26,6 @@ Vue.use(loadingPlugin, {
 
 /* eslint-disable no-new */
 window.Vue = new Vue({
-    el: '#app',
     render: c => c(App),
     router,
     store,

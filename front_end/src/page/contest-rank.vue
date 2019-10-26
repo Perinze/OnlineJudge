@@ -753,9 +753,9 @@
             }
         },
         beforeDestroy() {
-            console.log('beforeDestory');
+            // console.log('beforeDestory');
             clearInterval(this.interval);
-            console.log('clearInterval');
+            // console.log('clearInterval');
         }
     }
 </script>
