@@ -127,7 +127,7 @@ class Submit extends Base
             'contest_id' => $contest_id,
             'source_code' => $req['source_code'],
             'language' => array_search($req['language'], $language, false),
-            'status' => Judging,
+            'status' => 'Judging',
             'time' => 0,
             'memory' => 0,
         ));
