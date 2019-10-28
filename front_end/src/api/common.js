@@ -46,6 +46,7 @@ export function getWholeErrorName(status) {
         case "tle": return 'Time Limit Error';
         case "mle": return 'Memory Limit Error';
         case "other": return 'Other Error';
+        case "judging": return 'Judging';
         default: return 'Unknown Error';
     }
 }

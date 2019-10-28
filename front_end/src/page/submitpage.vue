@@ -92,13 +92,15 @@
                         message: '提交成功',
                         type: 'success'
                     });
+                    this.$loading.hide();
+                    this.$router.push('/status/'+this.$route.params.pid);
                 }else{
                     this.$message({
                         message: '提交失败, 请联系管理员: '+response.message,
                         type: 'error'
-                    })
+                    });
+                    this.$loading.hide();
                 }
-                this.$loading.hide();
             }
         },
         computed: {

@@ -10,6 +10,7 @@ import contestpage from '../page/contestpage';
 import discusslist from '../page/discusslist';
 import discussdetail from '../page/discussdetail';
 import submitpage from '../page/submitpage';
+import submitdetail from '../page/submitdetail';
 import page404 from '../page/page404';
 
 Vue.use(VueRouter);
@@ -96,6 +97,22 @@ const routes = [
         // 提交页面
         path: '/submit/:pid',
         component: submitpage,
+        meta: {
+            isLogin: true
+        }
+    },
+    {
+        // 提交详情 redirect
+        path: '/status',
+        redirect: '/status/1000/1',
+        meta: {
+            isLogin: true
+        }
+    },
+    {
+        // 提交详情
+        path: '/status/:pid/:sid',
+        component: submitdetail,
         meta: {
             isLogin: true
         }

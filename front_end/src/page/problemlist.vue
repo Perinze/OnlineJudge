@@ -140,6 +140,7 @@
         content: ' ';
         width: 27px;
         text-align: center;
+        cursor: pointer;
         font: {
             style: normal;
             size: 18px;

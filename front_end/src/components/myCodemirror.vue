@@ -33,6 +33,14 @@
             lang: {
                 type: String,
                 default: 'clike'
+            },
+            readOnly: {
+                type: Boolean,
+                default: false
+            },
+            precode: {
+                type: String,
+                default: ''
             }
         },
         components: {
@@ -40,12 +48,13 @@
         },
         data () {
             return {
-                code: '',
+                code: this.precode,
                 cmOptions: {
                     mode: {
                         name: 'text/x-csrc',            // 语言
                         json: true
                     },
+                    readOnly: this.readOnly,
                     theme: 'material',                  // 主题
                     indentUnit: 4,                      // 默认缩进宽度
                     tabSize: 4,                         // tab宽度
@@ -75,7 +84,7 @@
             }
         },
         mounted() {
-            this.editor.focus();
+            if(!this.readOnly) this.editor.focus();
             // console.log(this.editor);
         }
     }
