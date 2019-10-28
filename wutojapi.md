@@ -922,8 +922,6 @@ null
 }
 ```
 
-* submit
-
 ## Rank //要更新逻辑
 
 * userRank
@@ -1274,7 +1272,7 @@ null
   
   
 
-## submit
+## Submit
 
 * submit
 
@@ -1299,6 +1297,11 @@ null
   }
   ```
 
+> 语言参数列表:
+> C++11: cpp.g++ 
+> C98: c.gcc
+> Python3.6: py.cpython
+> Java: java.java 
   
 
 * get_submit_info

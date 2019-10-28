@@ -37,16 +37,17 @@
         data() {
             return {
                 title: '',
-                lang: 'c',
+                lang: 'c.gcc',
+                code: '',
                 langItems: [
                     {
                         name: 'C',
-                        value: 'c',
+                        value: 'c.gcc',
                         cmValue: 'text/x-csrc'
                     },
                     {
                         name: 'C++11',
-                        value: 'c++11',
+                        value: 'cpp.g++',
                         cmValue: 'text/x-c++src'
                     },
                     // {
@@ -63,13 +64,6 @@
             }
         },
         methods: {
-            doSubmitTest: async function() {
-                this.$loading.open();
-                setTimeout( () => {
-                    console.log(this.$refs.codeEditor.code);
-                    this.$loading.hide();
-                },2000);
-            },
             getProblemInfo: async function() {
                 let response = await getProblem({
                     problem_id: this.$route.params.pid
@@ -80,15 +74,24 @@
             },
             doSubmit: async function() {
                 this.$loading.open();
+                console.log({
+                    language: this.lang,
+                    source_code: this.$refs.codeEditor.code,
+                    problem_id: this.$route.params.id,
+                    // contest_id:
+                });
                 let response = await submitCode({
-                    
+                    language: this.lang,
+                    source_code: this.$refs.codeEditor.code,
+                    problem_id: this.$route.params.pid,
+                    // contest_id:
                 });
                 console.log(response);
                 if(response.status==0) {
                     this.$message({
                         message: '提交成功',
                         type: 'success'
-                    })
+                    });
                 }else{
                     this.$message({
                         message: '提交失败, 请联系管理员: '+response.message,
