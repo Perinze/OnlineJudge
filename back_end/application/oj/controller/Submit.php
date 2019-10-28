@@ -134,6 +134,14 @@ class Submit extends Base
         if ($info['code'] !== CODE_SUCCESS) {
             return apiReturn($info['code'], $info['msg'], $info['data']);
         }
+//        echo json_encode(array(
+//            'id' => $info['data'],
+//            'pid' => $req['problem_id'],
+//            'source' => [
+//                'language' => $req['language'],
+//                'code' => $req['source_code'],
+//            ]
+//        ), true);
         post('http://10.143.216.128:8819/submit', json_encode(array(
             'id' => $info['data'],
             'pid' => $req['problem_id'],

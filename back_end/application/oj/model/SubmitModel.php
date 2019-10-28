@@ -46,7 +46,7 @@ class SubmitModel extends Model
 
     public function add_submit($data)
     {
-        $info = $this->strict(false)->insert($data);
+        $info = $this->strict(false)->insertGetId($data);
         if ($info === 0) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => ''];
         }
