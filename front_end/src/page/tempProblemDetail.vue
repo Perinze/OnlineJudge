@@ -41,8 +41,9 @@
                         </div>
                     </div>
                 </div>
+                <div v-if="problem_info.example.length===0">无</div>
             </div>
-            <div class="hint">
+            <div class="hint" v-if="problem_info.hint != ''">
                 <span class="sub-title">Hint</span>
                 <span class="content" v-html="Marked(problem_info.hint)" id="render-latex-hint"></span>
             </div>

@@ -93,7 +93,7 @@
                         type: 'success'
                     });
                     this.$loading.hide();
-                    this.$router.push('/status/'+this.$route.params.pid);
+                    this.$router.push('/status/'+this.$route.params.pid+'/'+(response.data.id===undefined?'1':response.data.id));
                 }else{
                     this.$message({
                         message: '提交失败, 请联系管理员: '+response.message,

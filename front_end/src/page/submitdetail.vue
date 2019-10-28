@@ -7,20 +7,21 @@
             </div>
             <div class="content-statistic">
                 <div>
-                    Language: {{lang}}
+                    <span>Language: </span>{{lang}}
                 </div>
                 <div>
-                    Time: {{timeUsed | timeUsedFormat}}
+                    <span>Time: </span>{{timeUsed | timeUsedFormat}}
                 </div>
                 <div>
-                    Memory: {{memoryUsed | memoryUsedFormat}}
+                    <span>Memory: </span>{{memoryUsed | memoryUsedFormat}}
                 </div>
                 <div>
-                    SubmitTime: {{submitTime}}
+                    <span>Submit Time: </span>{{submitTime}}
                 </div>
             </div>
             <div class="content-code">
-                <mycodemirror :lang="cmlang" :readOnly="true" :precode="code"/>
+                <label for="codeDisplay" hidden>Source Code:</label>
+                <mycodemirror id="codeDisplay" :lang="cmlang" :readOnly="true" :precode="code"/>
             </div>
         </div>
     </div>
@@ -127,7 +128,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-bottom: 80px;
+        margin-bottom: 70px;
         > div {
             width: 80%;
         }
@@ -144,12 +145,21 @@
         &-statistic {
             display: flex;
             flex-direction: row;
-            justify-content: space-between;
+            justify-content: flex-start;
             align-items: center;
             margin-top: 10px;
+            > div {
+                margin-right: 45px;
+                > span {
+                    font-weight: bold;
+                }
+            }
         }
         &-code {
             margin-top: 10px;
+            > label {
+                font-weight: bold;
+            }
         }
     }
 
