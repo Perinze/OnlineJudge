@@ -27,7 +27,7 @@
 
 <script>
     import mycodemirror from '../components/myCodemirror';
-    import { getProblem } from "../api/getData";
+    import { getProblem, submitCode } from "../api/getData";
 
     export default {
         name: "submitpage",
@@ -63,7 +63,7 @@
             }
         },
         methods: {
-            doSubmit: async function() {
+            doSubmitTest: async function() {
                 this.$loading.open();
                 setTimeout( () => {
                     console.log(this.$refs.codeEditor.code);
@@ -77,6 +77,25 @@
                 if(response.status == 0) {
                     this.title = response.data.title;
                 }
+            },
+            doSubmit: async function() {
+                this.$loading.open();
+                let response = await submitCode({
+                    
+                });
+                console.log(response);
+                if(response.status==0) {
+                    this.$message({
+                        message: '提交成功',
+                        type: 'success'
+                    })
+                }else{
+                    this.$message({
+                        message: '提交失败, 请联系管理员: '+response.message,
+                        type: 'error'
+                    })
+                }
+                this.$loading.hide();
             }
         },
         computed: {

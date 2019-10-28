@@ -77,6 +77,11 @@ export const getProblemList = () => fetch('/Problem/displayAllProblem');
 
 export const getProblem = data => fetch('/Problem/displayProblem', 'post', data);
 
+/**
+ * Submit Code
+ */
+
+export const submitCode = data => fetch('/Submit/submit', 'post', data);
 
 
 
