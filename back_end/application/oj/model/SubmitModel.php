@@ -31,7 +31,7 @@ class SubmitModel extends Model
     public function get_the_submit($where)
     {
         try {
-            $language = ['c', 'c++', 'c++11', 'c++14', 'python', 'python3', 'java'];
+            $language = ['c.gcc', 'cpp.g++', 'py.cpython', 'java.java'];
             $info = $this->field(['submit.id as runid','submit.user_id as user_id','users.nick as nick', 'problem_id', 'language', 'submit.status as status', 'time', 'memory', 'submit_time'])
                 ->where($where)->order('submit_time')->join('users','submit.user_id = users.user_id')->buildSql();
             $info = Db::query($info);
@@ -46,7 +46,7 @@ class SubmitModel extends Model
 
     public function add_submit($data)
     {
-        $info = $this->strict(false)->insert($data);
+        $info = $this->strict(false)->insertGetId($data);
         if ($info === 0) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => ''];
         }

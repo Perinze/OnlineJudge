@@ -76,7 +76,7 @@ class Submit extends Base
         $submit_validate = new SubmitValidate();
         $contest_model = new ContestModel();
         $contest_user_model = new ContestUserModel();
-        $language = ['c', 'c++', 'c++11', 'c++14', 'python', 'python3', 'java'];
+        $language = ['c.gcc', 'cpp.g++', 'py.cpython', 'java.java'];
         $time = time();
         $req = input('post.');
         $result = $submit_validate->scene('submit')->check($req);
@@ -122,19 +122,26 @@ class Submit extends Base
         }
         $info = $submit_model->add_submit(array(
             'user_id' => $user_id,
-            'user_nick' => Session::get('nick'),
+            'nick' => Session::get('nick'),
             'problem_id' => $req['problem_id'],
             'contest_id' => $contest_id,
             'source_code' => $req['source_code'],
-            'language' => $req['language'],
+            'language' => array_search($req['language'], $language, false),
             'status' => Judging,
             'time' => 0,
             'memory' => 0,
-            'submit_time' => $time,
         ));
         if ($info['code'] !== CODE_SUCCESS) {
             return apiReturn($info['code'], $info['msg'], $info['data']);
         }
+//        echo json_encode(array(
+//            'id' => $info['data'],
+//            'pid' => $req['problem_id'],
+//            'source' => [
+//                'language' => $req['language'],
+//                'code' => $req['source_code'],
+//            ]
+//        ), true);
         post('http://10.143.216.128:8819/submit', json_encode(array(
             'id' => $info['data'],
             'pid' => $req['problem_id'],

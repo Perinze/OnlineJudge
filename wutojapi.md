@@ -1276,6 +1276,31 @@ null
 
 ## submit
 
+* submit
+
+  *request:*
+
+  ``` json
+  {
+      "language": "cpp.g++",
+      "source_code":"xxx",
+      "problem_id": "1001",
+      "contest_id": "1000", // 可选
+  }
+  ```
+
+  *response:*
+
+  ``` json
+  {
+      "status": 0,
+      "message": "提交成功",
+      "data": ""
+  }
+  ```
+
+  
+
 * get_submit_info
 
 *request:*
