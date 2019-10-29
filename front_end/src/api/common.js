@@ -47,6 +47,7 @@ export function getWholeErrorName(status) {
         case "mle": return 'Memory Limit Error';
         case "other": return 'Other Error';
         case "judging": return 'Judging';
+        case "ce": return 'Compile Error';
         default: return 'Unknown Error';
     }
 }

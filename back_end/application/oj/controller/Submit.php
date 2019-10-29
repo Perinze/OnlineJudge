@@ -153,6 +153,25 @@ class Submit extends Base
         return apiReturn(CODE_SUCCESS, '提交成功', '');
     }
 
+    public function getSubmitStatus() {
+        $submit_model = new SubmitModel();
+        $submit_validate = new SubmitValidate();
+        $req = input('post.');
+
+        $chk=$submit_validate->scene('getSubmitStatus')->check($req);
+        if($chk !== VALIDATE_PASS){
+            return apiReturn(CODE_ERROR, $submit_validate->getError(), '');
+        }
+
+        $info = $submit_model->get_the_submit(array(
+            'id' => $req['status_id']
+        ));
+        if($info['code'] !== CODE_SUCCESS) {
+            return apiReturn($info['code'], $info['msg'], $info['data']);
+        }
+        return apiReturn(CODE_SUCCESS, '请求成功', $info['data']);
+    }
+
     private function handle_data($data, $begin_time, $problem)
     {
         $begin_time = strtotime($begin_time);

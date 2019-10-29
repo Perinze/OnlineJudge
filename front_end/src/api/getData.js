@@ -83,6 +83,12 @@ export const getProblem = data => fetch('/Problem/displayProblem', 'post', data)
 
 export const submitCode = data => fetch('/Submit/submit', 'post', data);
 
+/**
+ * 获取评测信息
+ */
+
+export const getStatus = data => fetch('/Submit/getSubmitStatus', 'post', data);
+
 
 
 // 比赛逻辑

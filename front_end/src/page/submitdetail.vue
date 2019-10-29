@@ -29,7 +29,7 @@
 
 <script>
     import { getWholeErrorName } from "../api/common";
-    import { getProblem } from "../api/getData";
+    import { getProblem, getStatus } from "../api/getData";
     import Mycodemirror from "../components/myCodemirror";
 
     export default {
@@ -97,9 +97,9 @@
                 }
             },
             renderStatus: async function() {
-                // let response = await ({
-                //    id: this.$route.params.sid,
-                // })
+                let response = await getStatus({
+                   status_id: this.$route.params.sid,
+                });
                 console.log(response);
                 if(response.status==0) {
 
