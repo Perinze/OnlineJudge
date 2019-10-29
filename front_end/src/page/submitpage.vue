@@ -115,12 +115,15 @@
                         this.$router.go(-1);
                     }
                 }else{
-                    this.$store.dispatch("login/userLogin", false);
-                    this.$message({
-                        message: '登陆状态已过期, 请重新登录',
-                        type: 'warning'
-                    });
-                    this.$router.go(-1);
+                    if(response.status==-1) {
+                        this.$store.dispatch("login/userLogin", false);
+                        localStorage.removeItem("Flag");
+                        this.$message({
+                            message: '登陆状态已过期, 请重新登录',
+                            type: 'warning'
+                        });
+                        this.$router.go(-1);
+                    }
                 }
             }
         },

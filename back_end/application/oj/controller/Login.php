@@ -67,7 +67,7 @@ class Login extends Controller
         $req = input('post.');
         if (Session::has('user_id')) {
             if(isset($req['user_id'])) {
-                if($req['user_id']===Session::get('user_id')) {
+                if($req['user_id']==Session::get('user_id')) {
                     return apiReturn(CODE_SUCCESS, '已经登陆，且账号相符', '');
                 }else{
                     return apiReturn(CODE_SUCCESS, '已经登陆，账号不符', Session::get('user_id'));
