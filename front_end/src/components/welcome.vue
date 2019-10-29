@@ -408,11 +408,11 @@
                     }
                     resolve();
                 });
-                checkInfoPromise.catch( async (errorMessage) => {
+                checkInfoPromise.catch( errorMessage => {
                     this.errorMsg.type = errorMessage.slice(0, errorMessage.indexOf(':'));
                     this.errorMsg.content = errorMessage.slice(errorMessage.indexOf(':')+1);
                 });
-                checkInfoPromise.then( async (successMessage) => {
+                checkInfoPromise.then( successMessage => {
                     this.loading = true;
                     return;
                 }).then( async () => {
@@ -560,16 +560,15 @@
                     }
                     resolve();
                 });
-                checkInfoPromise.catch( async (errorMessage) => {
+                checkInfoPromise.catch( errorMessage => {
                     this.errorMsg.type = errorMessage.slice(0, errorMessage.indexOf(':'));
                     this.errorMsg.content = errorMessage.slice(errorMessage.indexOf(':')+1);
                 });
-                checkInfoPromise.then( async (successMessage) => {
+                checkInfoPromise.then( successMessage => {
                     this.loading = true;
                     return;
                 }).then( async () => {
                     let response = await getCaptcha(this.forgetInfo);
-                    console.log(response);
                     // 至少两秒
                     setTimeout( () => {
                         if(response.status == 0) {

@@ -43,7 +43,8 @@
                 code: '',
                 memoryUsed: 0,
                 timeUsed: 0,
-                submitTime: ''
+                submitTime: '',
+                interval: null
             }
         },
         computed: {
@@ -80,6 +81,10 @@
         },
         mounted() {
             this.renderStatus();
+            this.$nextTick(() => this.setIntervaler());
+        },
+        destroyed() {
+            clearInterval(this.interval);
         },
         methods: {
             getErrorName(status) {
@@ -103,7 +108,6 @@
                 let response = await getStatus({
                    status_id: this.$route.params.sid,
                 });
-                console.log(response);
                 if(response.status==0) {
                     let data = response.data[0];
                     if(data.problem_id != this.$route.params.pid) {
@@ -135,6 +139,19 @@
                     case 'python.cpython': return 'Python';
                     case 'java.java': return 'Java';
                     default: return 'unknown Language';
+                }
+            },
+            setIntervaler: function() {
+                this.interval = setInterval( () => {
+                    this.renderStatus();
+                    clearInterval(this.interval);
+                }, 5000)
+            }
+        },
+        watch: {
+            status: function(val) {
+                if(val.toLowerCase()!='judging') {
+                    clearInterval(this.interval);
                 }
             }
         }

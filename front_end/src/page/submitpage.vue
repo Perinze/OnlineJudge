@@ -14,6 +14,7 @@
                         <option
                                 v-for="index in langItems.length"
                                 :value="langItems[index-1].value"
+                                :key="langItems[index-1].value"
                         >
                             {{langItems[index-1].name}}
                         </option>
@@ -74,26 +75,19 @@
             },
             doSubmit: async function() {
                 this.$loading.open();
-                console.log({
-                    language: this.lang,
-                    source_code: this.$refs.codeEditor.code,
-                    problem_id: this.$route.params.id,
-                    // contest_id:
-                });
                 let response = await submitCode({
                     language: this.lang,
                     source_code: this.$refs.codeEditor.code,
                     problem_id: this.$route.params.pid,
                     // contest_id:
                 });
-                console.log(response);
                 if(response.status==0) {
                     this.$message({
                         message: '提交成功',
                         type: 'success'
                     });
                     this.$loading.hide();
-                    this.$router.push('/status/'+this.$route.params.pid+'/'+(response.data.id===undefined?'1':response.data.id));
+                    this.$router.push('/status/'+this.$route.params.pid+'/'+response.data);
                 }else{
                     this.$message({
                         message: '提交失败, 请联系管理员: '+response.message,
@@ -107,7 +101,7 @@
                     user_id: localStorage.getItem('userId')
                 });
                 if(response.status==0) {
-                    if(response.message.indexOf('不符')) {
+                    if(response.message.indexOf('不符')!==-1) {
                         this.$message({
                             message: '登陆状态错误, 请登出后重新登录',
                             type: 'warning'

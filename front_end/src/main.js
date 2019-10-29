@@ -24,8 +24,8 @@ Vue.use(loadingPlugin, {
     progressColor: '#4288ce'
 });
 
-/* eslint-disable no-new */
-window.Vue = new Vue({
+/* eslint-disable */
+new Vue({
     render: c => c(App),
     router,
     store,
@@ -46,11 +46,6 @@ router.beforeEach((to, from, next) => {
         store.state.login.acCnt = localStorage.getItem("acCnt");
         store.state.login.waCnt = localStorage.getItem("waCnt");
         next();
-
-        // if(!to.meta.isLogin) {
-        //     // 已经登陆过
-        //     console.log("已经登陆");
-        // }
     }else{
         // 未登陆
         if(to.meta.isLogin){
@@ -59,7 +54,6 @@ router.beforeEach((to, from, next) => {
                 message: '请先登录',
                 type: 'error'
             });
-            // console.log('请登录');
         }else{
             //用户进入无需登录的界面，则跳转继续
             next()
@@ -67,7 +61,7 @@ router.beforeEach((to, from, next) => {
     }
 });
 
-router.afterEach(route => {
+router.afterEach( route => {
     window.scroll(0,0);
 });
 
