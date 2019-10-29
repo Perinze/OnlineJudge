@@ -21,7 +21,7 @@
             </div>
             <div class="content-code">
                 <label for="codeDisplay" hidden>Source Code:</label>
-                <mycodemirror id="codeDisplay" :lang="cmlang" :readOnly="true" :precode="code"/>
+                <mycodemirror id="codeDisplay" :lang="cmlang" :readOnly="true" :precode="code" ref="codeViewer"/>
             </div>
         </div>
     </div>
@@ -38,12 +38,12 @@
         data() {
             return {
                 title: '',
-                status: 'Judging',
-                lang: 'C',
-                code: '#include <iostream>\nusing namespace std;\nint main() {\n\treturn 0;\n}\n',
-                memoryUsed: 262144,
-                timeUsed: 1259320,
-                submitTime: '2019-10-28 10:20:45'
+                status: '',
+                lang: '',
+                code: '',
+                memoryUsed: 0,
+                timeUsed: 0,
+                submitTime: ''
             }
         },
         computed: {
@@ -76,8 +76,10 @@
             }
         },
         created() {
-            // this.renderStatus();
             this.renderProblemInfo();
+        },
+        mounted() {
+            this.renderStatus();
         },
         methods: {
             getErrorName(status) {
@@ -97,14 +99,41 @@
                 }
             },
             renderStatus: async function() {
+                this.$loading.open();
                 let response = await getStatus({
                    status_id: this.$route.params.sid,
                 });
-                console.log(response);
                 if(response.status==0) {
-
+                    let data = response.data[0];
+                    if(data.problem_id != this.$route.params.pid) {
+                        this.$message({
+                            message: '不存在该提交',
+                            type: 'error'
+                        });
+                        this.$router.go(-1);
+                    }
+                    this.lang = this.langToValue(data.language);
+                    this.status = data.status;
+                    this.code = data.source_code;
+                    this.submitTime = data.submit_time;
+                    this.timeUsed = data.time;
+                    this.memoryUsed = data.memory;
+                    this.$refs.codeViewer.code = this.code;
                 }else{
-
+                    this.$message({
+                        message: '发生错误: ' + response.message + ', 请联系管理员',
+                        type: 'error'
+                    })
+                }
+                this.$loading.hide();
+            },
+            langToValue(val) {
+                switch(val) {
+                    case 'cpp.g++': return 'C++11';
+                    case 'c.gcc': return 'C';
+                    case 'python.cpython': return 'Python';
+                    case 'java.java': return 'Java';
+                    default: return 'unknown Language';
                 }
             }
         }
@@ -119,15 +148,13 @@
         overflow-x: hidden;
         overflow-y: scroll;
         padding-left: 27px;
-        > :first-child {
-            margin-top: 88px;
-        }
     }
 
     .content {
         display: flex;
         flex-direction: column;
         align-items: center;
+        margin-top: 88px;
         margin-bottom: 70px;
         > div {
             width: 80%;
