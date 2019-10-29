@@ -380,7 +380,7 @@
                 functionAvailable: {
                     login: true,
                     register: true,
-                    forgetPassword: true,
+                    forgetPassword: false,
                     tourist: false
                 }
             }

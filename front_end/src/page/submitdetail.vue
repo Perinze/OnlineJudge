@@ -103,6 +103,7 @@
                 let response = await getStatus({
                    status_id: this.$route.params.sid,
                 });
+                console.log(response);
                 if(response.status==0) {
                     let data = response.data[0];
                     if(data.problem_id != this.$route.params.pid) {

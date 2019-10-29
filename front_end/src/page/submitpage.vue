@@ -27,7 +27,7 @@
 
 <script>
     import mycodemirror from '../components/myCodemirror';
-    import { getProblem, submitCode } from "../api/getData";
+    import { getProblem, submitCode, checkLogin } from "../api/getData";
 
     export default {
         name: "submitpage",
@@ -101,6 +101,27 @@
                     });
                     this.$loading.hide();
                 }
+            },
+            checkLoginStatus: async function() {
+                let response = await checkLogin({
+                    user_id: localStorage.getItem('userId')
+                });
+                if(response.status==0) {
+                    if(response.message.indexOf('不符')) {
+                        this.$message({
+                            message: '登陆状态错误, 请登出后重新登录',
+                            type: 'warning'
+                        });
+                        this.$router.go(-1);
+                    }
+                }else{
+                    this.$store.dispatch("login/userLogin", false);
+                    this.$message({
+                        message: '登陆状态已过期, 请重新登录',
+                        type: 'warning'
+                    });
+                    this.$router.go(-1);
+                }
             }
         },
         computed: {
@@ -115,6 +136,7 @@
         },
         created() {
             this.getProblemInfo();
+            this.checkLoginStatus();
         }
     }
 </script>

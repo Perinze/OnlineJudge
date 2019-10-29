@@ -63,6 +63,21 @@ class Login extends Controller
         return apiReturn(CODE_SUCCESS, '注销成功', '');
     }
 
+    public function checkLogin() {
+        $req = input('post.');
+        if (Session::has('user_id')) {
+            if(isset($req['user_id'])) {
+                if($req['user_id']===Session::get('user_id')) {
+                    return apiReturn(CODE_SUCCESS, '已经登陆，且账号相符', '');
+                }else{
+                    return apiReturn(CODE_SUCCESS, '已经登陆，账号不符', Session::get('user_id'));
+                }
+            }
+            return apiReturn(CODE_SUCCESS, '已经登陆', '');
+        }
+        return apiReturn(CODE_ERROR, '未登陆', '');
+    }
+
     public function forgetPassword()
     {
         $user_validate = new UserValidate();

@@ -150,7 +150,7 @@ class Submit extends Base
                 'code' => $req['source_code'],
             ]
         ), true));
-        return apiReturn(CODE_SUCCESS, '提交成功', '');
+        return apiReturn(CODE_SUCCESS, '提交成功', $info['data']);
     }
 
     public function getSubmitStatus() {

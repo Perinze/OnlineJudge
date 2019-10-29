@@ -32,6 +32,12 @@ export const getCaptcha = data => fetch('/Login/forgetPassword', 'post', data);
 
 export const forgetPassword = data => fetch('/Login/forgetPassword', 'post', data);
 
+/**
+ * 检查登录状态
+ */
+
+export const checkLogin = data => fetch('/Login/checkLogin', 'post', data);
+
 
 
 // 业务逻辑
@@ -83,11 +89,6 @@ export const getProblem = data => fetch('/Problem/displayProblem', 'post', data)
 
 export const submitCode = data => fetch('/Submit/submit', 'post', data);
 
-/**
- * 获取评测信息
- */
-
-export const getStatus = data => fetch('/Submit/getSubmitStatus', 'post', data);
 
 
 
@@ -136,6 +137,7 @@ export const getContestRank = data => fetch('/Rank/contest_rank', 'post', data);
 
 
 
+
 // 讨论板
 
 /**
@@ -178,6 +180,12 @@ export const addReply = data => fetch('/discuss/add_reply', 'post', data);
  */
 
 export const getSubmitInfo = data => fetch('/submit/get_submit_info', 'post', data);
+
+/**
+ * 获取评测信息
+ */
+
+export const getStatus = data => fetch('/Submit/getSubmitStatus', 'post', data);
 
 
 
