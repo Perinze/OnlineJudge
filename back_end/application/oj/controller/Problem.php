@@ -24,6 +24,7 @@ class Problem extends Controller
     public function displayAllProblem()
     {
         $problem_model = new ProblemModel();
+        // TODO 上Redis
         $resp = $problem_model->get_all_problem();
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
