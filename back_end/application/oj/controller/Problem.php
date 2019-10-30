@@ -9,10 +9,12 @@
 namespace app\oj\controller;
 
 use app\oj\model\CommonModel;
+use app\oj\model\ContestModel;
 use app\oj\model\ProblemModel;
 use app\oj\model\SampleModel;
 use app\oj\validate\ProblemValidate;
 use think\Controller;
+use think\facade\Session;
 
 
 class Problem extends Controller
@@ -35,12 +37,37 @@ class Problem extends Controller
         $problem_validate = new ProblemValidate();
         $problem_model = new ProblemModel();
         $sample_model = new SampleModel();
+        $contest_model = new ContestModel();
+        $contest_user_model = new ContestUserModel();
+        $time = time();
         $result = $problem_validate->scene('displayProblem')->check($req);
         if ($result !== VALIDATE_PASS) {
             return apiReturn(CODE_ERROR, $problem_validate->getError(), '');
         }
+        $user_id = Session::get('user_id');
         $resp = $problem_model->searchProblemById($req['problem_id']);
         if (empty($resp['data']['status']) || $resp['data']['status'] !== USING) {
+            if($resp['data']['status'] === CONTEST){
+                if (isset($req['contest_id'])) {
+                    $contest_id = $req['contest_id'];
+                    $contest = $contest_model->searchContest($contest_id);
+                    if ($contest['code'] !== CODE_SUCCESS) {
+                        return apiReturn($contest['code'], $contest['msg'], $contest['data']);
+                    }
+                    $info = $contest_user_model->searchUser($contest_id, $user_id);
+                    if ($info['code'] !== CODE_SUCCESS) {
+                        return apiReturn($info['code'], $info['msg'], $info['data']);
+                    }
+                    if ($time < strtotime($contest['data']['begin_time'])) {
+                        return apiReturn(CODE_ERROR, '比赛未开始', '');
+                    }
+                    if ($time > strtotime($contest['data']['end_time'])) {
+                        $problem_model->editProblem($req['problem_id'], ['status' => 1]);
+                    }
+                } else {
+                    return apiReturn(CODE_ERROR, '缺少比赛ID', '');
+                }
+            }
             return apiReturn($resp['code'], '题目不可用', '');
         }
         $sample = $sample_model->searchSampleByProblemID($req['problem_id']);

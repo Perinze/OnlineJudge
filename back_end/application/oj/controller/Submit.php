@@ -109,10 +109,10 @@ class Submit extends Base
                 if ($info['code'] !== CODE_SUCCESS) {
                     return apiReturn($info['code'], $info['msg'], $info['data']);
                 }
-                if ($time < $contest['data']['begin_time']) {
+                if ($time < strtotime($contest['data']['begin_time'])) {
                     return apiReturn(CODE_ERROR, '比赛未开始', '');
                 }
-                if ($time > $contest['data']['end_time']) {
+                if ($time > strtotime($contest['data']['end_time'])) {
                     $problem_model->editProblem($req['problem_id'], ['status' => 1]);
                     $contest_id = 0;
                 }
@@ -166,6 +166,10 @@ class Submit extends Base
         $info = $submit_model->get_the_submit(array(
             'id' => $req['status_id']
         ));
+        $user_id = Session::get('user_id');
+        if($user_id !== $info['data']['user_id']){
+            return apiReturn(CODE_ERROR, '不要查看其他人代码', '');
+        }
         if($info['code'] !== CODE_SUCCESS) {
             return apiReturn($info['code'], $info['msg'], $info['data']);
         }
