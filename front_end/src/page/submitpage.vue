@@ -76,12 +76,15 @@
             },
             doSubmit: async function() {
                 this.$loading.open();
-                let response = await submitCode({
+                let requestData = {
                     language: this.lang,
                     source_code: this.$refs.codeEditor.code,
                     problem_id: this.pid,
-                    // contest_id:
-                });
+                };
+                if(this.cid != undefined) {
+                    requestData.contest_id = this.cid;
+                }
+                let response = await submitCode(requestData);
                 if(response.status==0) {
                     this.$message({
                         message: '提交成功',

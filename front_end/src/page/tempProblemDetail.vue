@@ -48,7 +48,7 @@
                 <span class="content" v-html="Marked(problem_info.hint)" id="render-latex-hint"></span>
             </div>
             <div class="function-btn-group">
-                <button class="submit-btn" @click="gotoSubmit(problem_info.id)">Submit</button>
+                <button class="submit-btn" @click="cid==undefined?gotoSubmit(pid):gotoSubmit(pid,cid)">Submit</button>
             </div>
         </div>
     </div>
@@ -102,9 +102,13 @@
             },
             renderProblemDetail: async function() {
                 this.$loading.open();
-                let response = await getProblem({
+                let requestData = {
                     problem_id: parseInt(this.pid)
-                });
+                };
+                if(this.cid!=undefined) {
+                    requestData.contest_id = this.cid;
+                }
+                let response = await getProblem(requestData);
                 if(response.status == 0) {
                     let data = response.data;
                     this.problem_info.title = data.title;

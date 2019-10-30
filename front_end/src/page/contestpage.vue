@@ -28,7 +28,7 @@
                         <th style="width: 128px;">罚时 Penalty</th>
                         <th v-for="index in contest_info.problems.length"
                             class="problem-head"
-                            @click="$router.push('/problem/'+contest_info.problems[index-1])"
+                            @click="$router.push('/problem?p='+contest_info.problems[index-1]+'&c='+contest_info.id)"
                         >
                             {{String.fromCharCode(64 + index)}}
                         </th>
