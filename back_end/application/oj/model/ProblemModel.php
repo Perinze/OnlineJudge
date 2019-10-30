@@ -28,7 +28,8 @@ class ProblemModel extends Model
                     'count(case when p.problem_id = submit.problem_id and submit.status="TLE" then submit.status end) as tle',
                     'count(case when p.problem_id = submit.problem_id and submit.status="MLE" then submit.status end) as mle',
                     'count(case when p.problem_id = submit.problem_id and submit.status="RE" then submit.status end) as re',
-                    'count(case when p.problem_id = submit.problem_id and submit.status="SE" then submit.status end) as se',])
+                    'count(case when p.problem_id = submit.problem_id and submit.status="SE" then submit.status end) as se',
+                    'count(case when p.problem_id = submit.problem_id and submit.status="CE" then submit.status end) as ce'])
                 ->where('p.status', USING)
                 ->join('submit', 'p.problem_id = submit.problem_id')->group('p.problem_id')->select()->toArray();
             if (empty($info)) {
