@@ -48,7 +48,7 @@
                 <span class="content" v-html="Marked(problem_info.hint)" id="render-latex-hint"></span>
             </div>
             <div class="function-btn-group">
-                <button class="submit-btn" @click="$router.push('/submit/'+$route.params.id)">Submit</button>
+                <button class="submit-btn" @click="cid==undefined?gotoSubmit(pid):gotoSubmit(pid,cid)">Submit</button>
             </div>
         </div>
     </div>
@@ -61,10 +61,11 @@
 
     export default {
         name: "temp-problem-detail",
+        props: [ 'pid', 'cid' ],
         data() {
             return {
                 problem_info: {
-                    id: this.$route.params.id,
+                    id: this.pid,
                     title: '',
                     background: '',
                     describe: '',
@@ -75,14 +76,6 @@
                         //     input: '这里是样例输入#1',
                         //     output: '这里是样例输出#1'
                         // },
-                        // {
-                        //     input: '这里是样例输入#2',
-                        //     output: '这里是样例输出#2'
-                        // },
-                        // {
-                        //     input: '这里是样例输入#3',
-                        //     output: '这里是样例输出#3'
-                        // }
                     ],
                     hint: ''
                 }
@@ -92,11 +85,22 @@
             this.renderProblemDetail();
         },
         methods: {
+            gotoSubmit(pid, cid=null){
+                let res = '/submit?p=' + pid;
+                if(cid!=null) {
+                    res+='&c='+cid;
+                }
+                this.$router.push(res);
+            },
             renderProblemDetail: async function() {
                 this.$loading.open();
-                let response = await getProblem({
-                    problem_id: parseInt(this.$route.params.id)
-                });
+                let requestData = {
+                    problem_id: parseInt(this.pid)
+                };
+                if(this.cid!=undefined) {
+                    requestData.contest_id = this.cid;
+                }
+                let response = await getProblem(requestData);
                 if(response.status == 0) {
                     let data = response.data;
                     this.problem_info.title = data.title;
@@ -145,7 +149,7 @@
         },
         computed: {
             problem_id: function() {
-                return this.$route.params.id;
+                return this.pid;
             },
         }
     }
@@ -161,6 +165,7 @@
         margin: 0 auto 80px auto;
         border-radius: .5em;
         padding: 20px 20px;
+        box-shadow: 0px 2px 15px rgba(0,0,0,0.08);
     }
 
     .title {

@@ -31,7 +31,7 @@ const routes = [
     },
     {
         // 题目列表
-        path: '/problem',
+        path: '/plist',
         component: problemlist,
         meta: {
             isLogin: false
@@ -39,8 +39,12 @@ const routes = [
     },
     {
         // 题目详情
-        path: '/problem/:id',
+        path: '/problem',
         component: problemdetail,
+        props: (route) => ({
+            pid: route.query.p, // 题目标号
+            cid: route.query.c  // 比赛标号
+        }),
         meta: {
             isLogin: false
         }
@@ -85,18 +89,22 @@ const routes = [
             isLogin: true
         }
     },
-    {
-        //  提交页面 redirect
-        path: '/submit',
-        redirect: '/submit/1000',
-        meta: {
-            isLogin: true
-        }
-    },
+    // {
+    //     //  提交页面 redirect
+    //     path: '/submit',
+    //     redirect: '/submit/1000',
+    //     meta: {
+    //         isLogin: true
+    //     }
+    // },
     {
         // 提交页面
-        path: '/submit/:pid',
+        path: '/submit',
         component: submitpage,
+        props: (route) => ({
+            pid: route.query.p, // 题目标号
+            cid: route.query.c  // 比赛标号
+        }),
         meta: {
             isLogin: true
         }

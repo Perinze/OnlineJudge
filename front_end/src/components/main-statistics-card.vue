@@ -87,8 +87,6 @@
         display: flex;
         justify-content: flex-end;
         align-items: flex-end;
-        -webkit-box-shadow:0px 2px 15px rgba(0,0,0,0.08);
-        -moz-box-shadow: 0px 2px 15px rgba(0,0,0,0.08);
         box-shadow: 0px 2px 15px rgba(0,0,0,0.08);
     }
 

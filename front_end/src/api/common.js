@@ -41,13 +41,15 @@ function padLeftZero(str) {
 export function getWholeErrorName(status) {
     let res = status.toLowerCase();
     switch(res) {
-        case "ac": return 'Accept';
+        case "ac": return 'Accepted';
         case "wa": return 'Wrong Answer';
         case "tle": return 'Time Limit Error';
         case "mle": return 'Memory Limit Error';
         case "other": return 'Other Error';
         case "judging": return 'Judging';
         case "ce": return 'Compile Error';
+        case "re": return 'Runtime Error';
+        case "se": return 'System Error';
         default: return 'Unknown Error';
     }
 }

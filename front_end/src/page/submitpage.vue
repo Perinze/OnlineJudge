@@ -1,7 +1,7 @@
 <template>
     <div class="submit">
         <div class="submit-head">
-            <div class="problem-title">{{$route.params.pid}} {{title}}</div>
+            <div class="problem-title">{{pid}} {{title}}</div>
             <button class="submit-btn" @click="doSubmit">Submit</button>
         </div>
         <div class="code-container">
@@ -32,6 +32,7 @@
 
     export default {
         name: "submitpage",
+        props: [ 'pid', 'cid' ],
         components: {
             mycodemirror
         },
@@ -67,7 +68,7 @@
         methods: {
             getProblemInfo: async function() {
                 let response = await getProblem({
-                    problem_id: this.$route.params.pid
+                    problem_id: this.pid
                 });
                 if(response.status == 0) {
                     this.title = response.data.title;
@@ -75,19 +76,22 @@
             },
             doSubmit: async function() {
                 this.$loading.open();
-                let response = await submitCode({
+                let requestData = {
                     language: this.lang,
                     source_code: this.$refs.codeEditor.code,
-                    problem_id: this.$route.params.pid,
-                    // contest_id:
-                });
+                    problem_id: this.pid,
+                };
+                if(this.cid != undefined) {
+                    requestData.contest_id = this.cid;
+                }
+                let response = await submitCode(requestData);
                 if(response.status==0) {
                     this.$message({
                         message: '提交成功',
                         type: 'success'
                     });
                     this.$loading.hide();
-                    this.$router.push('/status/'+this.$route.params.pid+'/'+response.data);
+                    this.$router.push('/status/'+this.pid+'/'+response.data);
                 }else{
                     this.$message({
                         message: '提交失败, 请联系管理员: '+response.message,

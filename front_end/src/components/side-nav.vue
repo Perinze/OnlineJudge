@@ -113,7 +113,7 @@
                         title: '题目 Problem',
                         keyName: "problemlist",
                         imgSrc: require('../../assets/icon/problem.svg'),
-                        routeName: "problem"
+                        routeName: "plist"
                     },
                     {
                         title: '比赛 Contest',
@@ -219,7 +219,9 @@
                 let path = res.slice(0, res.indexOf("/", 1));
                 switch(path) {
                     case '/main': return 0;
+                    case '/plist': return 1;
                     case '/problem': return 1;
+                    case '/submit': return 1;
                     case '/contest': return 2;
                     case '/rank': return 3;
                     case '/group': return 4;
