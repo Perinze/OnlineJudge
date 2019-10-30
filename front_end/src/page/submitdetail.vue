@@ -3,7 +3,7 @@
         <div class="content">
             <div class="content-head">
                 <div>{{$route.params.pid}} {{title}}</div>
-                <div class="status-icon">{{getErrorName(status.toLowerCase())}}</div>
+                <div class="status-icon" :style="styleClass">{{getErrorName(status.toLowerCase())}}</div>
             </div>
             <div class="content-statistic">
                 <div>
@@ -33,7 +33,7 @@
     import Mycodemirror from "../components/myCodemirror";
 
     export default {
-        components: {Mycodemirror},
+        components: { Mycodemirror },
         name: "submitdetail",
         data() {
             return {
@@ -44,7 +44,12 @@
                 memoryUsed: 0,
                 timeUsed: 0,
                 submitTime: '',
-                interval: null
+                interval: null,
+                styleClass: {
+                    // color: 'white',
+                    // background: 'rgb(86,196,26)',
+                    // border: 'none'
+                }
             }
         },
         computed: {
@@ -80,8 +85,10 @@
             this.renderProblemInfo();
         },
         mounted() {
-            this.renderStatus();
-            this.$nextTick(() => this.setIntervaler());
+            this.$nextTick(() => {
+                this.renderStatus();
+                this.setIntervaler();
+            });
         },
         destroyed() {
             clearInterval(this.interval);
@@ -152,6 +159,35 @@
             status: function(val) {
                 if(val.toLowerCase()!='judging') {
                     clearInterval(this.interval);
+                }
+                switch(val.toLowerCase()) {
+                    case 'ac': this.styleClass = {
+                        color: 'white',
+                        background: '#52C41A',
+                        border: 'none'
+                    };break;
+                    case 'wa': this.styleClass = {
+                        color: 'white',
+                        background: '#E74C3C',
+                        border: 'none'
+                    };break;
+                    case 'tle': this.styleClass = {
+                        color: 'white',
+                        background: '#3498DB',
+                        border: 'none'
+                    };break;
+                    case 'mle':
+                    case 'ce': this.styleClass = {
+                        color: 'white',
+                        background: '#FADB14',
+                        border: 'none'
+                    };break;
+                    case 'se':
+                    case 're': this.styleClass = {
+                        color: 'white',
+                        background: 'black',
+                        border: 'none'
+                    };break;
                 }
             }
         }

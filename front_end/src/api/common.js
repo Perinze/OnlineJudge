@@ -41,7 +41,7 @@ function padLeftZero(str) {
 export function getWholeErrorName(status) {
     let res = status.toLowerCase();
     switch(res) {
-        case "ac": return 'Accept';
+        case "ac": return 'Accepted';
         case "wa": return 'Wrong Answer';
         case "tle": return 'Time Limit Error';
         case "mle": return 'Memory Limit Error';
