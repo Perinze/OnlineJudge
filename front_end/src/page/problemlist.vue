@@ -78,8 +78,9 @@
             await this.renderProblemList();
         },
         methods: {
-            goto: function(link) {
-                this.$router.push('/problem/'+link);
+            goto: function(pid) {
+                let res = '/problem?p='+pid;
+                this.$router.push(res);
             },
             renderProblemList: async function() {
                 this.$loading.open();
@@ -94,7 +95,7 @@
                             title: val.title,
                             statistics: {
                                 ac: parseInt(val.ac),
-                                all: parseInt(val.ac) + parseInt(val.wa)
+                                all: parseInt(val.ac) + parseInt(val.wa) + parseInt(val.tle) + parseInt(val.mle) + parseInt(val.re) + +parseInt(val.ce) + parseInt(val.se)
                             }
                         };
                         this.items.push(res);

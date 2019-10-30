@@ -48,6 +48,8 @@ export function getWholeErrorName(status) {
         case "other": return 'Other Error';
         case "judging": return 'Judging';
         case "ce": return 'Compile Error';
+        case "re": return 'Runtime Error';
+        case "se": return 'System Error';
         default: return 'Unknown Error';
     }
 }
