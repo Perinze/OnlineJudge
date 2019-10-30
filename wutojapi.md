@@ -759,22 +759,41 @@ null
 
 ``` json
 {
-    "status": 0,//0-success, -1-error
-    "message": "操作成功",
+    "status": 0,
+    "message": "查找成功",
     "data": [
+        {
+            "problem_id": 1000,
+            "title": "wyhsb",
+            "tag": null,
+            "ac": 1,
+            "wa": 0,
+            "tle": 0,
+            "mle": 0,
+            "re": 0,
+            "se": 0
+        },
         {
             "problem_id": 1001,
             "title": "wyhsb",
-            "ac": 0,
+            "tag": null,
+            "ac": 1,
             "wa": 0,
-            "tag": null
+            "tle": 0,
+            "mle": 0,
+            "re": 0,
+            "se": 0
         },
         {
             "problem_id": 1002,
             "title": "wyhsb",
+            "tag": null,
             "ac": 0,
-            "wa": 0,
-            "tag": null
+            "wa": 2,
+            "tle": 0,
+            "mle": 0,
+            "re": 0,
+            "se": 0
         }
     ]
 }
@@ -1302,7 +1321,7 @@ null
 > C98: c.gcc
 > Python3.6: py.cpython
 > Java: java.java 
-  
+
 
 * get_submit_info
 

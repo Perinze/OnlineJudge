@@ -21,7 +21,16 @@ class ProblemModel extends Model
     public function get_all_problem()
     {
         try {
-            $info = $this->field(['problem_id', 'title', 'ac', 'wa', 'tag'])->where('status', 1)->select()->toArray();
+            $info = $this->alias('p')
+                ->field(['p.problem_id as problem_id', 'title', 'tag',
+                    'count(case when p.problem_id = submit.problem_id and submit.status="AC" then submit.status end) as ac',
+                    'count(case when p.problem_id = submit.problem_id and submit.status="WA" then submit.status end) as wa',
+                    'count(case when p.problem_id = submit.problem_id and submit.status="TLE" then submit.status end) as tle',
+                    'count(case when p.problem_id = submit.problem_id and submit.status="MLE" then submit.status end) as mle',
+                    'count(case when p.problem_id = submit.problem_id and submit.status="RE" then submit.status end) as re',
+                    'count(case when p.problem_id = submit.problem_id and submit.status="SE" then submit.status end) as se',])
+                ->where('p.status', USING)
+                ->join('submit', 'p.problem_id = submit.problem_id')->group('p.problem_id')->select()->toArray();
             if (empty($info)) {
                 return ['code' => CODE_ERROR, 'msg' => '查找失败', 'data' => ''];
             }
@@ -48,7 +57,7 @@ class ProblemModel extends Model
     public function searchProblemByTitle($title)
     {
         try {
-            $content = $this->where('title', 'like', '%' . $title . '%')->find();
+            $content = $this->where('title', 'like', '%' . $title . '%')->select()->toArray();
             if ($content) {
                 return ['code' => CODE_SUCCESS, 'msg' => '查找成功', 'data' => $content];
             } else {
