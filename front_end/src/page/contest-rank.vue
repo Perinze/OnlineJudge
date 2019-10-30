@@ -40,6 +40,7 @@
                     <div class="solved-info-data">
                         <div v-if="rank_info[index-1].solveInfo.map(x => x.problem_id).indexOf(contest_info.problems[problemIndex-1])!==-1">
                             <status-icon icon-type="ac" times="12"/>
+                            <!-- TODO 一血 蓝色加粗感叹号 -->
                             <span>1:23:43</span>
                         </div>
                     </div>
@@ -684,15 +685,16 @@
             },
             renderRankList: async function() {
                 this.total = 0;
-                this.rank_info = [];
+                this.resRank = [];
                 let response = await getContestRank({
                     contest_id: this.$route.params.id
                 });
                 if(response.status == 0) {
-                    console.log("轮询成功");
+                    // console.log("轮询成功");
+                    // console.log(this.prizeNum);
                     let cnt = 1;
                     response.data.forEach( (val, index) => {
-                        this.rank_info.push({
+                        this.resRank.push({
                             id: val.user_id,
                             rank: val.nick.indexOf('*')===0?'':cnt, // 打星
                             nick: val.nick,
@@ -706,6 +708,7 @@
                         }
                     });
                     this.total = cnt-1;
+                    this.rank_info = this.resRank;
                 }else{
                     this.$message({
                         message: response.message,
