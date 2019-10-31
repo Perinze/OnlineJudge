@@ -211,10 +211,9 @@
                         this.$store.dispatch("login/userLogin", false);
                         localStorage.removeItem("Flag");
                         this.$message({
-                            message: '登陆状态已过期, 请重新登录',
+                            message: '您还未登陆',
                             type: 'warning'
                         });
-                        this.$router.go(-1);
                     }
                 }
             }
