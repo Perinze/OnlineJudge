@@ -23,7 +23,7 @@
             <div class="user-info" align="center" v-if="isLogin">
                 <span id="user-nick">{{userData.nick}}</span>
                 <br>
-                <span id="user-desc" @click="testLoading">{{userData.desc}}</span>
+                <span id="user-desc">{{userData.desc}}</span>
             </div>
             <div class="user-data" v-if="isLogin">
                 <div style="width: 12px"></div>
@@ -93,7 +93,7 @@
     import MenuItem from "./menu-item";
     import welcome from "../components/welcome";
     import { logoutWork } from "../api/common";
-    import { logout, testRequest } from "../api/getData";
+    import { logout, checkLogin } from "../api/getData";
     import { mapGetters } from "vuex";
     import store from '../store';
 
@@ -153,6 +153,7 @@
         },
         created() {
             this.initUser();
+            this.checkLoginStatus();
             // this.testTimeout();
         },
         methods: {
@@ -193,24 +194,29 @@
                 store.state.login.acCnt = parseInt(localStorage.getItem("acCnt"));
                 store.state.login.waCnt = parseInt(localStorage.getItem("waCnt"));
             },
-            testTimeout: async function() {
-                this.$loading.open();
-                let response = await testRequest();
+            checkLoginStatus: async function() {
+                let response = await checkLogin({
+                    user_id: localStorage.getItem('userId')
+                });
                 if(response.status==0) {
-                    // case success
-                    console.log('get success');
-                    // this.$loading.hide();
+                    if(response.message.indexOf('不符')!==-1) {
+                        this.$message({
+                            message: '登陆状态错误, 请登出后重新登录',
+                            type: 'warning'
+                        });
+                        this.$router.go(-1);
+                    }
                 }else{
-                    if(response.status===504) {
-                        // case timeout
-                        console.log('timeout');
+                    if(response.status==-1) {
+                        this.$store.dispatch("login/userLogin", false);
+                        localStorage.removeItem("Flag");
+                        this.$message({
+                            message: '登陆状态已过期, 请重新登录',
+                            type: 'warning'
+                        });
+                        this.$router.go(-1);
                     }
                 }
-                this.$loading.hide();
-            },
-            testLoading: function() {
-                this.$loading.open();
-                setTimeout( () => { this.$loading.hide(); }, 5000);
             }
         },
         computed: {
