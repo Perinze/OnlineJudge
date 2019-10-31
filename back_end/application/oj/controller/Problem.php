@@ -68,8 +68,9 @@ class Problem extends Controller
                 } else {
                     return apiReturn(CODE_ERROR, '缺少比赛ID', '');
                 }
+            } else {
+                return apiReturn($resp['code'], '题目不可用', '');
             }
-            return apiReturn($resp['code'], '题目不可用', '');
         }
         $sample = $sample_model->searchSampleByProblemID($req['problem_id']);
         if($sample['code'] !== CODE_SUCCESS){
