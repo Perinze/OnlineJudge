@@ -109,18 +109,23 @@ const routes = [
             isLogin: true
         }
     },
-    {
-        // 提交详情 redirect
-        path: '/status',
-        redirect: '/status/1000/1',
-        meta: {
-            isLogin: true
-        }
-    },
+    // {
+    //     // 提交详情 redirect
+    //     path: '/status',
+    //     redirect: '/status/1000/1',
+    //     meta: {
+    //         isLogin: true
+    //     }
+    // },
     {
         // 提交详情
-        path: '/status/:pid/:sid',
+        path: '/status',
         component: submitdetail,
+        props: (route) => ({
+            pid: route.query.p,   // 题目标号
+            sid: route.query.s,   // 提交标号
+            cid: route.query.c    // 比赛标号
+        }),
         meta: {
             isLogin: true
         }

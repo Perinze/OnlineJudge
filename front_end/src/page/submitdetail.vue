@@ -2,7 +2,7 @@
     <div class="submit-detail">
         <div class="content">
             <div class="content-head">
-                <div>{{$route.params.pid}} {{title}}</div>
+                <div>{{pid}} {{title}}</div>
                 <div class="status-icon" :style="styleClass">{{getErrorName(status.toLowerCase())}}</div>
             </div>
             <div class="content-statistic">
@@ -35,6 +35,7 @@
     export default {
         components: { Mycodemirror },
         name: "submitdetail",
+        props: [ 'pid', 'sid', 'cid' ],
         data() {
             return {
                 title: '',
@@ -98,9 +99,13 @@
                 return getWholeErrorName(status);
             },
             renderProblemInfo: async function() {
-                let response = await getProblem({
-                    problem_id: this.$route.params.pid
-                });
+                let requestData = await {
+                    problem_id: this.pid
+                };
+                if(this.cid != undefined) {
+                    requestData.contest_id = this.cid;
+                }
+                let response = await getProblem(requestData);
                 if(response.status==0){
                     this.title = response.data.title;
                 }else{
@@ -113,11 +118,11 @@
             renderStatus: async function() {
                 this.$loading.open();
                 let response = await getStatus({
-                   status_id: this.$route.params.sid,
+                   status_id: this.sid,
                 });
                 if(response.status==0) {
-                    let data = response.data[0];
-                    if(data.problem_id != this.$route.params.pid) {
+                    let data = response.data;
+                    if(data.problem_id != this.pid) {
                         this.$message({
                             message: '不存在该提交',
                             type: 'error'

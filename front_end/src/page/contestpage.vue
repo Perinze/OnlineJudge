@@ -44,7 +44,13 @@
                     <td v-for="index in contest_info.problems.length"
                         class="problem-status"
                     >
-                        <status-icon icon-type="try" times="12" />
+                        <div v-if="myProblemStatus[String.fromCharCode(index+64)]!==undefined">
+                            <!-- TODO 封榜 Try 逻辑 -->
+                            <status-icon
+                                :icon-type="myProblemStatus[String.fromCharCode(index+64)].success_time!=''?'ac':'wa'"
+                                :times="myProblemStatus[String.fromCharCode(index+64)].success_time!=''?myProblemStatus[String.fromCharCode(index+64)].times+1:myProblemStatus[String.fromCharCode(index+64)].times"
+                            />
+                        </div>
                     </td>
                 </tr>
             </table>
@@ -74,7 +80,7 @@
                                 </div>
                                 <div class="log-element-left-bottom">
                                     <span>
-                                        {{contestBeginTime + 1000*submit_log[index-1].submit_time | formatDate}}
+                                        {{submit_log[index-1].submit_time}}
                                     </span> <!-- Submit Time -->
                                 </div>
                             </div>
@@ -85,7 +91,7 @@
                                         Time
                                     </span>
                                     <span class="log-time-used">
-                                        {{submit_log[index-1].time_used + 'ms'}}
+                                        {{submit_log[index-1].time_used | timeUsedFormat}}
                                     </span>
                                 </div>
                                 <div>
@@ -94,7 +100,7 @@
                                         Memory
                                     </span>
                                     <span class="log-mem-used">
-                                        {{submit_log[index-1].mem_used + 'Mb'}}
+                                        {{submit_log[index-1].mem_used | memoryUsedFormat}}
                                     </span>
                                 </div>
                                 <div>
@@ -157,88 +163,89 @@
                 contest_info: {
                     id: this.$route.params.id,
                     title: '',
-                    begin_time: '2019-09-29 09:57:30', /*比赛开始时间*/
-                    end_time: '2090-12-31 23:59:59',
-                    frozen: 0.2,
-                    problems: [1000,1001,1002,1003,1004,1005,1006,1007,1008,1009,1010,1011,1012],
-                    colors: ['924726','8cc590','b2c959','59785a','8e8c13','252b04','ccda06','8044a7','27e298','0cef7c','31f335','67f70e','0ea6ff'],
+                    begin_time: '', /*比赛开始时间*/
+                    end_time: '',
+                    frozen: 0,
+                    problems: [],
+                    colors: [],
+                    // colors: ['924726','8cc590','b2c959','59785a','8e8c13','252b04','ccda06','8044a7','27e298','0cef7c','31f335','67f70e','0ea6ff'],
                 },
                 userData: {
                     penalty: 0
                 },
                 submit_log: [
-                    {
-                        runid: 21063965,
-                        problem: 1000,
-                        submit_time: 12, /* 比赛开始后的秒数*/
-                        time_used: 234, /*毫秒数*/
-                        mem_used: 2.54,
-                        language: 'C++11',
-                        status: 'ac',
-                    },
-                    {
-                        runid: 21063965,
-                        problem: 1000,
-                        submit_time: 12, /* 比赛开始后的秒数*/
-                        time_used: 234, /*毫秒数*/
-                        mem_used: 2.54,
-                        language: 'C++11',
-                        status: 'wa',
-                    },
-                    {
-                        runid: 21063965,
-                        problem: 1005,
-                        submit_time: 12, /* 比赛开始后的秒数*/
-                        time_used: 2000, /*毫秒数*/
-                        mem_used: 2.54,
-                        language: 'C++11',
-                        status: 'tle',
-                    },
-                    {
-                        runid: 21063965,
-                        problem: 1010,
-                        submit_time: 12, /* 比赛开始后的秒数*/
-                        time_used: 2, /*毫秒数*/
-                        mem_used: 2.54,
-                        language: 'Python',
-                        status: 'wa',
-                    },
-                    {
-                        runid: 21063965,
-                        problem: 1000,
-                        submit_time: 12, /* 比赛开始后的秒数*/
-                        time_used: 234, /*毫秒数*/
-                        mem_used: 2.54,
-                        language: 'C',
-                        status: 'ac',
-                    },
-                    {
-                        runid: 21063965,
-                        problem: 1000,
-                        submit_time: 12, /* 比赛开始后的秒数*/
-                        time_used: 234, /*毫秒数*/
-                        mem_used: 2.54,
-                        language: 'C',
-                        status: 'wa',
-                    },
-                    {
-                        runid: 21063965,
-                        problem: 1005,
-                        submit_time: 12, /* 比赛开始后的秒数*/
-                        time_used: 2000, /*毫秒数*/
-                        mem_used: 2.54,
-                        language: 'Python',
-                        status: 'tle',
-                    },
-                    {
-                        runid: 21063965,
-                        problem: 1010,
-                        submit_time: 12, /* 比赛开始后的秒数*/
-                        time_used: 2, /*毫秒数*/
-                        mem_used: 2.54,
-                        language: 'Java',
-                        status: 'wa',
-                    },
+                    // {
+                    //     runid: 21063965,
+                    //     problem: 1000,
+                    //     submit_time: 12, /* 比赛开始后的秒数*/
+                    //     time_used: 234, /*毫秒数*/
+                    //     mem_used: 2.54,
+                    //     language: 'C++11',
+                    //     status: 'ac',
+                    // },
+                    // {
+                    //     runid: 21063965,
+                    //     problem: 1000,
+                    //     submit_time: 12, /* 比赛开始后的秒数*/
+                    //     time_used: 234, /*毫秒数*/
+                    //     mem_used: 2.54,
+                    //     language: 'C++11',
+                    //     status: 'wa',
+                    // },
+                    // {
+                    //     runid: 21063965,
+                    //     problem: 1005,
+                    //     submit_time: 12, /* 比赛开始后的秒数*/
+                    //     time_used: 2000, /*毫秒数*/
+                    //     mem_used: 2.54,
+                    //     language: 'C++11',
+                    //     status: 'tle',
+                    // },
+                    // {
+                    //     runid: 21063965,
+                    //     problem: 1010,
+                    //     submit_time: 12, /* 比赛开始后的秒数*/
+                    //     time_used: 2, /*毫秒数*/
+                    //     mem_used: 2.54,
+                    //     language: 'Python',
+                    //     status: 'wa',
+                    // },
+                    // {
+                    //     runid: 21063965,
+                    //     problem: 1000,
+                    //     submit_time: 12, /* 比赛开始后的秒数*/
+                    //     time_used: 234, /*毫秒数*/
+                    //     mem_used: 2.54,
+                    //     language: 'C',
+                    //     status: 'ac',
+                    // },
+                    // {
+                    //     runid: 21063965,
+                    //     problem: 1000,
+                    //     submit_time: 12, /* 比赛开始后的秒数*/
+                    //     time_used: 234, /*毫秒数*/
+                    //     mem_used: 2.54,
+                    //     language: 'C',
+                    //     status: 'wa',
+                    // },
+                    // {
+                    //     runid: 21063965,
+                    //     problem: 1005,
+                    //     submit_time: 12, /* 比赛开始后的秒数*/
+                    //     time_used: 2000, /*毫秒数*/
+                    //     mem_used: 2.54,
+                    //     language: 'Python',
+                    //     status: 'tle',
+                    // },
+                    // {
+                    //     runid: 21063965,
+                    //     problem: 1010,
+                    //     submit_time: 12, /* 比赛开始后的秒数*/
+                    //     time_used: 2, /*毫秒数*/
+                    //     mem_used: 2.54,
+                    //     language: 'Java',
+                    //     status: 'wa',
+                    // },
                 ],
                 discusses: [
                     // {
@@ -253,7 +260,8 @@
                 leftBeforeBegin: '00:00:00',
                 leftTime: '00:00:00',
                 intervalBegin: null,
-                intervalEnd: null
+                intervalEnd: null,
+                myProblemStatus: {}
             }
         },
         computed: {
@@ -281,6 +289,22 @@
             formatDate(time) {
                 let date = new Date(time);
                 return formatDate(date, 'yyyy.MM.dd hh:mm:ss')
+            },
+            timeUsedFormat: function(val) {
+                let res = parseInt(val); // ns
+                res/=1000000; // ms
+                return parseInt(res)+" ms";
+            },
+            memoryUsedFormat: function(val) {
+                let res = parseInt(val); // byte
+                res/=1024.0*1024.0;
+                if(res<=0.01) {
+                    res*=1024;
+                    res = res.toFixed(2);
+                    return res + " Kb";
+                }
+                res = res.toFixed(2);
+                return res + " Mb";
             }
         },
         async created() {
@@ -391,18 +415,29 @@
                     // 保证传回来的是自己相关的状态（本页面的业务需求）
                     user_id: localStorage.getItem('userId')
                 });
-                // console.log(response);
+                this.submit_log = [];
+                console.log(response);
                 if(response.status == 0) {
                     this.userData.penalty = response.data.penalty.penalty;
-                    response.data.penalty.problem.forEach( (val, index) => {
-                        // TODO 
-                    });
+                    // response.data.penalty.problem.forEach( (val, index) => {
+                        // TODO
+                    // });
+                    let problemInfo = response.data.penalty.problem;
+                    let forTotal = this.contest_info.problems.length+65-1;
+                    for(let index = 65;index<=forTotal;index++) {
+                        let cindex = String.fromCharCode(index);
+                        if(problemInfo[cindex] !== undefined) {
+                            // console.log(cindex);
+                            this.myProblemStatus[cindex] = problemInfo[cindex];
+                        }
+                    }
+                    console.log(this.myProblemStatus);
                     response.data['submit_info'].forEach( (val, index) => {
                         this.submit_log.push({
                             runid: val.runid,
                             problem: val.problem_id,
                             submit_time: val.submit_time, // TODO fix
-                            time_used: val.time_used,
+                            time_used: val.time,
                             mem_used: val.memory,
                             language: val.language,
                             status: val.status.toLowerCase(),

@@ -67,11 +67,21 @@
         },
         methods: {
             getProblemInfo: async function() {
-                let response = await getProblem({
-                    problem_id: this.pid
-                });
+                let requestData = {
+                    problem_id: this.pid,
+                };
+                if(this.cid != undefined) {
+                    requestData.contest_id = this.cid;
+                }
+                let response = await getProblem(requestData);
                 if(response.status == 0) {
                     this.title = response.data.title;
+                }else{
+                    this.$message({
+                        message: response.message,
+                        type: 'error'
+                    });
+                    this.$router.go(-1);
                 }
             },
             doSubmit: async function() {
@@ -91,7 +101,11 @@
                         type: 'success'
                     });
                     this.$loading.hide();
-                    this.$router.push('/status/'+this.pid+'/'+response.data);
+                    let link = '/status?p='+this.pid+'&s='+response.data;
+                    if(this.cid != undefined) {
+                        link += '&c=' + this.cid;
+                    }
+                    this.$router.push(link);
                 }else{
                     this.$message({
                         message: '提交失败, 请联系管理员: '+response.message,
@@ -135,8 +149,8 @@
                 }
             },
         },
-        created() {
-            this.getProblemInfo();
+        async created() {
+            await this.getProblemInfo();
             this.checkLoginStatus();
         }
     }

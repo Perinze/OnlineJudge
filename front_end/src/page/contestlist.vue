@@ -140,7 +140,7 @@
     }
 
     .contest-card {
-        background: url('../../assets/media/test.jpeg');
+        background: url('../../assets/media/contest.jpeg');
         border-radius: .5em;
         width: 90%;
         height: 180px;

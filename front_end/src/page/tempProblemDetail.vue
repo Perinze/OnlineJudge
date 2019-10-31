@@ -102,22 +102,34 @@
                 }
                 let response = await getProblem(requestData);
                 if(response.status == 0) {
-                    let data = response.data;
-                    this.problem_info.title = data.title;
-                    this.problem_info.background = data.background;
-                    this.problem_info.describe = data.describe;
-                    this.problem_info.input_sample = data.input_format;
-                    this.problem_info.output_sample = data.output_format;
-                    this.problem_info.hint = data.hint;
-                    data.sample.forEach( (val, index) => {
-                    	this.problem_info.example.push(val);
-                    });
+                    if(response.message == '题目不可用') {
+                        this.$message({
+                            message: response.message,
+                            type: 'error'
+                        })
+                    }else {
+                        let data = response.data;
+                        this.problem_info.title = data.title;
+                        this.problem_info.background = data.background;
+                        this.problem_info.describe = data.describe;
+                        this.problem_info.input_sample = data.input_format;
+                        this.problem_info.output_sample = data.output_format;
+                        this.problem_info.hint = data.hint;
+                        data.sample.forEach((val, index) => {
+                            this.problem_info.example.push(val);
+                        });
+                    }
                 }else{
                     if(response.status===504){
                         this.$message({
                             message: '请求超时',
                             type: 'error'
                         });
+                    }else{
+                        this.$message({
+                            message: response.message,
+                            type: 'error'
+                        })
                     }
                 }
                 this.$loading.hide();
