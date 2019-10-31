@@ -166,14 +166,16 @@ class Submit extends Base
         $info = $submit_model->get_the_submit(array(
             'id' => $req['status_id']
         ));
+        if($info['code'] !== CODE_SUCCESS) {
+            return apiReturn($info['code'], $info['msg'], $info['data']);
+        }
+        $info['data'] = $info['data'][0];
         $user_id = Session::get('user_id');
         $identity = Session::get('identity');
         if($user_id !== $info['data']['user_id'] && $identity !== ADMINISTRATOR){
             return apiReturn(CODE_ERROR, '不要查看其他人代码', '');
         }
-        if($info['code'] !== CODE_SUCCESS) {
-            return apiReturn($info['code'], $info['msg'], $info['data']);
-        }
+
         return apiReturn(CODE_SUCCESS, '请求成功', $info['data']);
     }
 
