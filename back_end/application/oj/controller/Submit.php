@@ -207,4 +207,26 @@ class Submit extends Base
         }
         return $re_data;
     }
+
+    public function reJudge()
+    {
+        $req = input('post.');
+        $submit_model = new SubmitModel();
+        if(!isset($req['id'])){
+            return apiReturn(CODE_ERROR, '请填写重新评测的id', '');
+        }
+        $info = $submit_model->get_the_submit(['submit.id', '=', $req['id']]);
+        if ($info['code'] !== CODE_SUCCESS) {
+            return apiReturn($info['code'], $info['msg'], $info['data']);
+        }
+        post('http://10.143.216.128:8819/submit', json_encode(array(
+            'id' => $info['runid'],
+            'pid' => $info['problem_id'],
+            'source' => [
+                'language' => $info['language'],
+                'code' => $info['source_code'],
+            ]
+        ), true));
+        return apiReturn(CODE_SUCCESS, '重新评测成功', '');
+    }
 }

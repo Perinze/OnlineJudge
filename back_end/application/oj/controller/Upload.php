@@ -64,7 +64,6 @@ class Upload extends Base
                 }
             }
         }
-        //halt($data);
         if(!isset($req['sqj'])){
             $re_data = array(
                 'type' => 'Normal',
@@ -90,6 +89,7 @@ class Upload extends Base
                 'answer' => $item['out'],
             );
         }
+
         $json_data = json_encode($re_data);
         $json_data = str_replace('\r\n', '\n', $json_data);
         file_put_contents($this->path . $req['problem_id'] . '.json', $json_data);
