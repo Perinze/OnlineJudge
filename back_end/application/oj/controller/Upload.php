@@ -69,7 +69,7 @@ class Upload extends Base
                 'type' => 'Normal',
                 'time_limit' => isset($req['time']) ? $req['time'] : 1000000000,
                 'memory_limit' => isset($req['memory']) ? $req['memory'] : 33554432,
-                'test_case' => array()
+                'test_cases' => array()
             );
         } else {
             $re_data = array(
@@ -80,11 +80,11 @@ class Upload extends Base
                     'language' => $req['language'],
                     'code' => $req['code']
                 ),
-                'test_case' => array()
+                'test_cases' => array()
             );
         }
         foreach ($data as $item){
-            $re_data['test_case'][] = array(
+            $re_data['test_cases'][] = array(
                 'input' => $item['in'],
                 'answer' => $item['out'],
             );
