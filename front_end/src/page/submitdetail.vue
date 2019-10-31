@@ -18,6 +18,9 @@
                 <div>
                     <span>Submit Time: </span>{{submitTime}}
                 </div>
+                <div>
+                    <span id="back-contest-btn" @click="$router.push('/contest/'+cid)" v-if="cid !== undefined">返回比赛</span>
+                </div>
             </div>
             <div class="content-code">
                 <label for="codeDisplay" hidden>Source Code:</label>
@@ -261,6 +264,14 @@
             style: solid;
             color: gray;
             radius: .5em;
+        }
+    }
+
+    #back-contest-btn {
+        float: right;
+        color: red;
+        &:hover {
+            text-decoration: underline;
         }
     }
 </style>

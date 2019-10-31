@@ -38,10 +38,14 @@
                 <td>{{rank_info[index-1].penalty}}</td>
                 <td v-for="problemIndex in contest_info.problems.length">
                     <div class="solved-info-data">
-                        <div v-if="rank_info[index-1].solveInfo.map(x => x.problem_id).indexOf(contest_info.problems[problemIndex-1])!==-1">
-                            <status-icon icon-type="ac" times="12"/>
+                        <div v-if="rank_info[index-1].solveInfo.map(x => x.problem_id).indexOf(String.fromCharCode(problemIndex+64))!==-1">
+                            <!-- TODO 封榜Try逻辑 -->
+                            <status-icon
+                                :icon-type="rank_info[index-1].solveInfo[rank_info[index-1].solveInfo.map(x => x.problem_id).indexOf(String.fromCharCode(problemIndex+64))].success_time!=''?'ac':'wa'"
+                                :times="rank_info[index-1].solveInfo[rank_info[index-1].solveInfo.map(x => x.problem_id).indexOf(String.fromCharCode(problemIndex+64))].success_time!=''?rank_info[index-1].solveInfo[rank_info[index-1].solveInfo.map(x => x.problem_id).indexOf(String.fromCharCode(problemIndex+64))].times+1:rank_info[index-1].solveInfo[rank_info[index-1].solveInfo.map(x => x.problem_id).indexOf(String.fromCharCode(problemIndex+64))].times"
+                            />
                             <!-- TODO 一血 蓝色加粗感叹号 -->
-                            <span>1:23:43</span>
+                            <span>{{rank_info[index-1].solveInfo[rank_info[index-1].solveInfo.map(x => x.problem_id).indexOf(String.fromCharCode(problemIndex+64))].success_time}}</span>
                         </div>
                     </div>
                 </td>
@@ -738,15 +742,21 @@
                     if(String(data[i]).indexOf('.')!==-1) {
                         // 小数
                         num = total * parseFloat(data[i]);
+                        if(parseInt(num)===0) {
+                            num = 1;
+                        }
                     }else if(String(data[i]).indexOf('%')!==-1) {
                         // 百分数
                         num = total * parseFloat(String(data[i]).replace("%", ""))/100;
+                        if(parseInt(num)===0) {
+                            num = 1;
+                        }
                     }else{
                         // 整数
                         num = parseInt(data[i]);
                     }
 
-                    res[i] = num;
+                    res[i] = parseInt(num);
                     if(i!==0){
                         res[i]+=res[i-1];
                     }
