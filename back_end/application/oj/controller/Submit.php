@@ -215,10 +215,11 @@ class Submit extends Base
         if(!isset($req['id'])){
             return apiReturn(CODE_ERROR, '请填写重新评测的id', '');
         }
-        $info = $submit_model->get_the_submit(['submit.id', '=', $req['id']]);
+        $info = $submit_model->get_the_submit(['submit.id' => $req['id']]);
         if ($info['code'] !== CODE_SUCCESS) {
             return apiReturn($info['code'], $info['msg'], $info['data']);
         }
+        $info = $info['data'][0];
         post('http://10.143.216.128:8819/submit', json_encode(array(
             'id' => $info['runid'],
             'pid' => $info['problem_id'],
