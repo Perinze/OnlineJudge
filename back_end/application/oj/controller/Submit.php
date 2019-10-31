@@ -167,7 +167,8 @@ class Submit extends Base
             'id' => $req['status_id']
         ));
         $user_id = Session::get('user_id');
-        if($user_id !== $info['data']['user_id']){
+        $identity = Session::get('identity');
+        if($user_id !== $info['data']['user_id'] && $identity !== ADMINISTRATOR){
             return apiReturn(CODE_ERROR, '不要查看其他人代码', '');
         }
         if($info['code'] !== CODE_SUCCESS) {
