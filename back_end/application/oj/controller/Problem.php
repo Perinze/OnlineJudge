@@ -10,6 +10,7 @@ namespace app\oj\controller;
 
 use app\oj\model\CommonModel;
 use app\oj\model\ContestModel;
+use app\oj\model\ContestUserModel;
 use app\oj\model\ProblemModel;
 use app\oj\model\SampleModel;
 use app\oj\validate\ProblemValidate;
