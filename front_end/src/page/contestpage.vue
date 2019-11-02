@@ -61,12 +61,12 @@
         <div class="bottom">
             <div class="submit-log-list">
                 <span class="title">提交记录 Submit log</span>
-                <!-- TODO 暂时取消查看代码 -->
-                <!--<span id="submit-log-tips" class="tips">点击查看具体记录</span>-->
+                <span id="submit-log-tips" class="tips">点击查看具体记录</span>
                 <ul class="submit-log-ul style-border-left">
                     <li v-for="index in submit_log.length"
                         v-bind:title="'RunID: '+ submit_log[index-1].runid"
                         class="submit-log-list-element submit-log-li"
+                        @click="$router.push('/status?p='+submit_log[index-1].problem+'&s='+submit_log[index-1].runid+'&c='+contest_info.id)"
                     >
                         <div class="log-element">
                             <div class="log-element-left">
@@ -694,8 +694,7 @@
     }
 
     .submit-log-li {
-        // TODO 暂时取消查看代码
-        cursor: unset;
+        cursor: pointer;
         height: 50px;
         border-bottom: 1px solid rgba(0,0,0,.1);
         display: flex;
