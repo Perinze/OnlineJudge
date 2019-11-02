@@ -87,7 +87,9 @@ class Rank extends Controller
             }
             if (empty($rank[$user_id][$problem_id]['success_time'])) {
                 if ($item['status'] !== 'AC') {
-                    $rank[$user_id][$problem_id]['times']++;
+                    if($item['status'] !== 'CE'){
+                        $rank[$user_id][$problem_id]['times']++;
+                    }
                 } else {
                     $rank[$user_id][$problem_id]['success_time'] = strtotime($item['submit_time']) - $begin_time;
                     $rank[$user_id]['penalty'] += strtotime($item['submit_time']) - $begin_time + $rank[$user_id][$problem_id]['times'] * 1200;
