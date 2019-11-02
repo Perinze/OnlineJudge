@@ -199,7 +199,9 @@ class Submit extends Base
             }
             if(empty($re_data['problem'][$p]['success_time'])){
                 if($item['status'] !== 'AC'){
-                    $re_data['problem'][$p]['times']++;
+                    if($item['status'] !== 'CE'){
+                        $re_data['problem'][$p]['times']++;
+                    }
                 } else {
                     $re_data['problem'][$p]['success_time'] = strtotime($item['submit_time']) - $begin_time;
                     $re_data['penalty'] += strtotime($item['submit_time']) - $begin_time + $re_data['problem'][$p]['times'] * 1200;
