@@ -39,7 +39,7 @@
                         1
                     </td>
                     <td>
-                        {{userData.penalty}}
+                        {{userData.penalty | penaltyFilter}}
                     </td>
                     <td v-for="index in contest_info.problems.length"
                         class="problem-status"
@@ -305,6 +305,13 @@
                 }
                 res = res.toFixed(2);
                 return res + " Mb";
+            },
+            penaltyFilter: function(val) {
+                let res = parseInt(val);
+                let hours = parseInt(res/60/60);
+                let mins = parseInt((res-hours*60*60)/60);
+                let seconds = parseInt((res-hours*60*60-mins*60));
+                return hours + ':' + mins + ':' + seconds;
             }
         },
         async created() {

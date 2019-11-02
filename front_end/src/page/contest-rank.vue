@@ -35,14 +35,16 @@
                     {{rank_info[index-1].nick}}
                 </td>
                 <td>{{rank_info[index-1].acNum}}</td>
-                <td>{{rank_info[index-1].penalty}}</td>
+                <td>{{rank_info[index-1].penalty | penaltyFilter}}</td>
                 <td v-for="problemIndex in contest_info.problems.length">
                     <div class="solved-info-data">
                         <div v-if="rank_info[index-1].solveInfo.map(x => x.problem_id).indexOf(String.fromCharCode(problemIndex+64))!==-1">
                             <!-- TODO 封榜Try逻辑 -->
                             <status-icon
                                 :icon-type="rank_info[index-1].solveInfo[rank_info[index-1].solveInfo.map(x => x.problem_id).indexOf(String.fromCharCode(problemIndex+64))].success_time!=''?'ac':'wa'"
-                                :times="rank_info[index-1].solveInfo[rank_info[index-1].solveInfo.map(x => x.problem_id).indexOf(String.fromCharCode(problemIndex+64))].success_time!=''?rank_info[index-1].solveInfo[rank_info[index-1].solveInfo.map(x => x.problem_id).indexOf(String.fromCharCode(problemIndex+64))].times+1:rank_info[index-1].solveInfo[rank_info[index-1].solveInfo.map(x => x.problem_id).indexOf(String.fromCharCode(problemIndex+64))].times"
+                                :times="rank_info[index-1].solveInfo[rank_info[index-1].solveInfo.map(x => x.problem_id).indexOf(String.fromCharCode(problemIndex+64))].success_time!=''?
+                                rank_info[index-1].solveInfo[rank_info[index-1].solveInfo.map(x => x.problem_id).indexOf(String.fromCharCode(problemIndex+64))].times+1:
+                                rank_info[index-1].solveInfo[rank_info[index-1].solveInfo.map(x => x.problem_id).indexOf(String.fromCharCode(problemIndex+64))].times"
                             />
                             <!-- TODO 一血 蓝色加粗感叹号 -->
                             <span>{{rank_info[index-1].solveInfo[rank_info[index-1].solveInfo.map(x => x.problem_id).indexOf(String.fromCharCode(problemIndex+64))].success_time}}</span>
@@ -669,6 +671,15 @@
             this.renderRankList();
             this.intervalGetRank();
         },
+        filters: {
+            penaltyFilter: function(val) {
+                let res = parseInt(val);
+                let hours = parseInt(res/60/60);
+                let mins = parseInt((res-hours*60*60)/60);
+                let seconds = parseInt((res-hours*60*60-mins*60));
+                return hours + ':' + mins + ':' + seconds;
+            }
+        },
         methods: {
             getContestInfo: async function() {
                 let response = await getContest({
@@ -808,6 +819,10 @@
                 background: rgba(200, 200, 200, .7);
             }
         }
+    }
+
+    .rank-form-element {
+        height: 45px;
     }
 
     .rank {
