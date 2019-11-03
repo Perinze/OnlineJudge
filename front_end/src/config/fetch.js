@@ -4,8 +4,8 @@ export default async function(url = '', method = 'GET', data = {}, headers = {} 
     // 超时时间配置
     // var timeout = 60 * 1000;
     var timeout = 40 * 1000;
-    let controller = new AbortController();
-    let signal = controller.signal;
+    // let controller = new AbortController();
+    // let signal = controller.signal;
 
     // method大写
     method = method.toUpperCase();
@@ -33,7 +33,7 @@ export default async function(url = '', method = 'GET', data = {}, headers = {} 
         headers: header_data,
         mode: "cors",
         cache: "force-cache",
-        signal: signal
+        // signal: signal
     };
 
     if (method === 'POST') {
@@ -42,57 +42,57 @@ export default async function(url = '', method = 'GET', data = {}, headers = {} 
         })
     }
 
-    let timeoutPromise = (time) => {
-        return new Promise( (resolve, reject) => {
-            setTimeout(() => {
-                resolve(new Response("timeout", { status: 504, statusText: "timeout" }));
-                controller.abort();
-            },time);
-        });
-    };
+    // let timeoutPromise = (time) => {
+    //     return new Promise( (resolve, reject) => {
+    //         setTimeout(() => {
+    //             resolve(new Response("timeout", { status: 504, statusText: "timeout" }));
+    //             controller.abort();
+    //         },time);
+    //     });
+    // };
 
-    let requestPromise = (requestUrl, requestConf) => {
-        return fetch(requestUrl, requestConf);
-    };
+    // let requestPromise = (requestUrl, requestConf) => {
+    //     return fetch(requestUrl, requestConf);
+    // };
 
     try {
-        const ret = Promise.race([timeoutPromise(timeout), requestPromise(url, requestConfig)])
-            .then(async (resp) => {
-                // console.log(resp.status);
-                if(resp.status === 504) {
-                    // case timeout
-                    const responseJson = {
-                        status: 504,
-                        message: '请求超时',
-                        data: null
-                    };
-                    return responseJson;
-                }else{
-                    if(resp.status === 200) {
-                        // case success
-                        const responseJson = await resp.json();
-                        return responseJson;
-                    }else{
-                        // case 404 500
-                        const responseJson = {
-                            status: resp.status,
-                            message: '请求错误: '+resp.status,
-                            data: null
-                        };
-                        return responseJson
-                    }
-                }
-                // console.log('success');
-                // console.log(responseJson);
-            })
-            .catch(error => {
-                console.log('fetch error');
-                console.log(error);
-            });
-        return ret;
-        // const response = await fetch(url, requestConfig);
-        // const responseJson = await response.json();
-        // return responseJson
+        // const ret = Promise.race([timeoutPromise(timeout), requestPromise(url, requestConfig)])
+        //     .then(async (resp) => {
+        //         // console.log(resp.status);
+        //         if(resp.status === 504) {
+        //             // case timeout
+        //             const responseJson = {
+        //                 status: 504,
+        //                 message: '请求超时',
+        //                 data: null
+        //             };
+        //             return responseJson;
+        //         }else{
+        //             if(resp.status === 200) {
+        //                 // case success
+        //                 const responseJson = await resp.json();
+        //                 return responseJson;
+        //             }else{
+        //                 // case 404 500
+        //                 const responseJson = {
+        //                     status: resp.status,
+        //                     message: '请求错误: '+resp.status,
+        //                     data: null
+        //                 };
+        //                 return responseJson
+        //             }
+        //         }
+        //         // console.log('success');
+        //         // console.log(responseJson);
+        //     })
+        //     .catch(error => {
+        //         console.log('fetch error');
+        //         console.log(error);
+        //     });
+        // return ret;
+        const response = await fetch(url, requestConfig);
+        const responseJson = await response.json();
+        return responseJson
     } catch (error) {
         throw new Error(error)
     }
