@@ -98,6 +98,10 @@ class Submit extends Base
             return apiReturn(CODE_ERROR, '未登录', '');
         }
         $contest_id = 0;
+        $temp = $submit_model->get_the_submit(['submit.user_id' => $user_id]);
+        if($time - strtotime($temp['data'][count($temp['data']) - 1]['submit_time']) < 5){
+            return apiReturn(CODE_ERROR, '请5S后再交题');
+        }
         if ($problem['data']['status'] === CONTEST) {
             if (isset($req['contest_id'])) {
                 $contest_id = $req['contest_id'];
@@ -163,7 +167,7 @@ class Submit extends Base
             return apiReturn(CODE_ERROR, $submit_validate->getError(), '');
         }
 
-        $info = $submit_model->get_the_submit(array(
+        $info = $submit_model->get_a_submit(array(
             'id' => $req['status_id']
         ));
         if($info['code'] !== CODE_SUCCESS) {
