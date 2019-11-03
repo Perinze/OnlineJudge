@@ -1,6 +1,8 @@
 <template>
     <div class="contest-rank">
-        <table class="rank-form"
+        <label for="rank-form" id="rank-form-label" @click="$router.push('/contest/'+$route.params.id)">返回比赛</label>
+        <table id="rank-form"
+               class="rank-form"
                rules="rows"
                frame="none"
                cellspacing="0"
@@ -795,9 +797,20 @@
         padding-left: 24px;
     }
 
+    #rank-form-label {
+        width: 85%;
+        display: block;
+        margin: 88px auto 5px auto;
+        padding-left: 5px;
+        cursor: pointer;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
     .rank-form {
         width: 85%;
-        margin: 88px auto 60px auto;
+        margin: 0 auto;
         border-radius: 1em;
         background: rgba(250, 250, 250, 0.7);
         backdrop-filter: blur(22px);

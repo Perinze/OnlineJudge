@@ -74,6 +74,7 @@
     $waColor: #F77669;
     $tleColor: #82B1FF;
     $mleColor: #DECB6B;
+    $reColor: rgb(131, 118, 169);
 
     .layout-content {
         position: relative;
@@ -146,6 +147,10 @@
 
     .mle-color {
         color: $mleColor;
+    }
+
+    .re-color {
+        color: $reColor;
     }
 
     /*
