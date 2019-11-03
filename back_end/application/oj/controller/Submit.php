@@ -167,7 +167,7 @@ class Submit extends Base
             return apiReturn(CODE_ERROR, $submit_validate->getError(), '');
         }
 
-        $info = $submit_model->get_the_submit(array(
+        $info = $submit_model->get_a_submit(array(
             'id' => $req['status_id']
         ));
         if($info['code'] !== CODE_SUCCESS) {
