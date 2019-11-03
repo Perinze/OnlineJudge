@@ -47,10 +47,10 @@ class Rank extends Controller
         if ($info['code'] !== CODE_SUCCESS) {
             return apiReturn($info['code'], $info['msg'], $info['data']);
         }
-        if (time() < $info['data']['begin_time']) {
+        if (time() < strtotime($info['data']['begin_time'])) {
             return apiReturn(CODE_ERROR, '比赛还没开放', '');
         }
-        if ($info['data']['end_time'] < time()) {
+        if (strtotime($info['data']['end_time']) < time()) {
             $where = [];
         } else {
             $where = ['submit_time', '<= time', strtotime($info['data']['begin_time'])
