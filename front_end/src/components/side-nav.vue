@@ -1,6 +1,6 @@
 <template>
     <div id="side-bar">
-        <welcome :display="displayWelcome&&(!isLogin)" @logged="recvLoginData" @close="displayWelcome=false;"/>
+        <welcome :display="displayWelcome&&(!isLogin)" @logged="recvLoginData" @close="displayWelcome=false"/>
         <div class="logo">
             <div style="position: relative;top: 9px">
                 <img src="../../assets/media/logo.png">
@@ -60,8 +60,8 @@
                     :class="[activeIndex === index?'menu-item-active':'menu-item']"
                     :is-active="activeIndex === index"
                     @click.native="
-                        $emit('changeContent',item.keyName);
-                        $router.push('/'+item.routeName)
+                        if(activeIndex!==index) $emit('changeContent');
+                        if(('/'+item.routeName)!==activePath) $router.push('/'+item.routeName);
                     "
             >
             </menu-item>
@@ -169,11 +169,11 @@
                 let response = await logout();
                 if(response.status == 0) {
                     // ok
-                    let procedure = new Promise( (resolve, reject) => {
+                    let procedure = new Promise( resolve => {
                         logoutWork();
                         resolve();
                     });
-                    procedure.then( (successMessage) => {
+                    procedure.then( () => {
                         this.initUser();
                     });
                 }else{
@@ -219,9 +219,12 @@
             }
         },
         computed: {
-            activeIndex: function() {
+            activePath: function() {
                 let res = this.$route.path + "/";
-                let path = res.slice(0, res.indexOf("/", 1));
+                return res.slice(0, res.indexOf("/", 1));
+            },
+            activeIndex: function() {
+                let path = this.activePath;
                 switch(path) {
                     case '/main': return 0;
                     case '/plist': return 1;
@@ -230,7 +233,6 @@
                     case '/contest': return 2;
                     case '/rank': return 3;
                     case '/group': return 4;
-                    default: console.log('fault in side-nav component');
                 }
                 return null;
             },
@@ -334,12 +336,11 @@
 
     .menu-item {
         transform: translate3d(0, 0, 0);
-        -webkit-transition: all .6s ease 0s;
-        -moz-transition: all .6s ease 0s;
-        -o-transition: all .6s ease 0s;
         transition: all .6s ease 0s;
-        font-size: 12px;
-        font-weight: 300;
+        font: {
+            size: 12px;
+            weight: 300;
+        }
         color: #a0a5ab;
         display: flex;
         flex-direction: row;
@@ -347,30 +348,30 @@
         align-items: center;
         height: 60px;
         border-left: 7px solid transparent;
+        cursor: pointer;
         &:hover {
             transform: translate3d(0, 0, 0);
-            -webkit-transition: all .6s ease 0s;
-            -moz-transition: all .6s ease 0s;
-            -o-transition: all .6s ease 0s;
             transition: all .6s ease 0s;
             background: #f5f5f5;
             border-left: 7px solid transparent;
             box-shadow:inset -10px 0 15px -16px rgba(0,0,0,0.3);
         }
-    }
-
-    .menu-item-active {
-        font-size: 12px;
-        font-weight: 400;
-        color: #338bb8;
-        display: flex;
-        flex-direction: row;
-        justify-content: left;
-        align-items: center;
-        height: 60px;
-        background: #f5f5f5;
-        border-left: 7px #5c8db7 solid;
-        box-shadow:inset -10px 0 15px -16px rgba(0,0,0,0.3);
+        &-active {
+            font: {
+                size: 12px;
+                weight: 400;
+            }
+            color: #338bb8;
+            display: flex;
+            flex-direction: row;
+            justify-content: left;
+            align-items: center;
+            height: 60px;
+            background: #f5f5f5;
+            border-left: 7px #5c8db7 solid;
+            box-shadow:inset -10px 0 15px -16px rgba(0,0,0,0.3);
+            cursor: pointer;
+        }
     }
 
     .data-item {

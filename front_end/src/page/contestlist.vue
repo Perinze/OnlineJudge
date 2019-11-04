@@ -1,7 +1,7 @@
 <template>
     <div class="contestlist">
         <!-- TODO 正在进行 -->
-        <div class="contest-card" v-for="index in items.length">
+        <div class="contest-card" v-for="index in items.length" :key="'contest-card-'+index">
             <div class="contest-content" @click="goto(items[index-1].id)">
                 <div class="content-words">
                     <span class="contest-title">{{items[index-1].title}}</span>
@@ -34,7 +34,7 @@
     import { getContestList, getUserContest, joinContest } from "../api/getData";
 
     export default {
-        name: "contestpage",
+        name: "contestlist",
         data() {
             return {
                 items: [
@@ -46,7 +46,7 @@
                     //     hasJoin: false,
                     //     status: 1
                     // },
-                ]
+                ],
             }
         },
         methods: {
@@ -55,7 +55,7 @@
                 let response = await getContestList();
                 if(response.status == 0) {
                     let data = response.data;
-                    data.forEach((val, index) => {
+                    data.forEach( val => {
                         let res = {
                             id: val.contest_id.toString(),
                             title: val.contest_name,
@@ -79,7 +79,7 @@
             getUserContestList: async function() {
                 let response = await getUserContest();
                 if(response.status == 0) {
-                    response.data.forEach( (val, index) => {
+                    response.data.forEach( val => {
                         let itemsIndex = this.items.map(x => parseInt(x.id)).indexOf(parseInt(val.contest_id));
                         this.items[itemsIndex].hasJoin = true;
                     });
@@ -91,14 +91,10 @@
             },
             doJoinContest: async function(index) {
                 this.$loading.open();
-                console.log({
-                    contest_id: this.items[index].id
-                });
                 let response = await joinContest({
                     contest_id: this.items[index].id
                 });
                 if(response.status == 0){
-                    console.log(response);
                     this.items[index].hasJoin = true;
                     this.$message({
                         message: '参加比赛成功, 请记得按时参赛',
@@ -117,7 +113,7 @@
                 this.$router.push('/contest/'+link);
             }
         },
-        async beforeMount() {
+        async created() {
             await this.renderList();
             this.getUserContestList();
         },

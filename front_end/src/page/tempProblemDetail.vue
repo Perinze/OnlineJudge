@@ -22,7 +22,7 @@
             </div>
             <div class="example-data">
                 <span class="sub-title">样例</span>
-                <div class="example-data-element" v-for="index in problem_info.example.length">
+                <div class="example-data-element" v-for="index in problem_info.example.length" :key="'sample-'+index">
                     <label :for="'example'+index">{{'Case #'+index}}</label>
                     <div :id="'example'+index" class="example-content">
                         <div>
@@ -115,7 +115,7 @@
                         this.problem_info.input_sample = data.input_format;
                         this.problem_info.output_sample = data.output_format;
                         this.problem_info.hint = data.hint;
-                        data.sample.forEach((val, index) => {
+                        data.sample.forEach( val => {
                             this.problem_info.example.push(val);
                         });
                     }

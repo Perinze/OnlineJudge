@@ -10,7 +10,7 @@ import codemirror from 'vue-codemirror-lite';
 Vue.config.productionTip = false;
 
 // Element-ui-Message add Install function to mount
-Message.install = function (Vue, options) {
+Message.install = function (Vue) {
     Vue.prototype.$message = Message
 };
 

@@ -89,14 +89,6 @@ const routes = [
             isLogin: true
         }
     },
-    // {
-    //     //  提交页面 redirect
-    //     path: '/submit',
-    //     redirect: '/submit/1000',
-    //     meta: {
-    //         isLogin: true
-    //     }
-    // },
     {
         // 提交页面
         path: '/submit',
@@ -109,14 +101,6 @@ const routes = [
             isLogin: true
         }
     },
-    // {
-    //     // 提交详情 redirect
-    //     path: '/status',
-    //     redirect: '/status/1000/1',
-    //     meta: {
-    //         isLogin: true
-    //     }
-    // },
     {
         // 提交详情
         path: '/status',

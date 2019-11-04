@@ -14,23 +14,18 @@
 </template>
 
 <script>
-    import topnav from "./components/top-nav"
-    import sidenav from "./components/side-nav"
-    // import sidedrawer from "./components/side-drawer"
-    import mainpage from "./page/mainpage"
+    import topnav from "./components/top-nav";
+    import sidenav from "./components/side-nav";
+    // import sidedrawer from "./components/side-drawer";
 
     export default {
         components: {
             topnav,
             sidenav,
-            mainpage,
             // sidedrawer
         },
         data() {
             return {
-                // topDrawerContent: 'codemirror',
-                // sideDrawerContent: 'probleminfo',
-                // mainContent: 'mainpage',
                 bgsrc: "../assets/logo.png",
                 topnavOpacity: 0,
                 combox: null,
@@ -38,8 +33,7 @@
         },
         mounted() {
             this.initCombox();
-            this.$refs.sidenav.$on('changeContent',(name)=>{
-                // this.mainContent = name;
+            this.$refs.sidenav.$on('changeContent',() => {
                 this.topnavOpacity = 0;
             });
         },
@@ -62,7 +56,7 @@
             }
         },
         watch: {
-            nowPath: function(val) {
+            nowPath: function() {
                 this.initCombox();
             }
         }

@@ -6,7 +6,6 @@
                rules="rows"
                frame="none"
                cellspacing="0"
-               summary="你爬nm呢"
         >
             <thead>
                 <tr>
@@ -14,11 +13,14 @@
                     <td>Nick</td>
                     <td>Solved</td>
                     <td>Penalty</td>
-                    <td v-for="index in contest_info.problems.length">{{String.fromCharCode(index+64)}}</td>
+                    <td v-for="index in contest_info.problems.length" :key="'problem-head-'+index">
+                        {{String.fromCharCode(index+64)}}
+                    </td>
                 </tr>
             </thead>
             <tr class="rank-form-element"
                 v-for="index in rank_info.length"
+                :key="'rank-row-'+index"
             >
                 <td
                         :class="[rank_info[index-1].rank===''?'':
@@ -38,18 +40,18 @@
                 </td>
                 <td>{{rank_info[index-1].acNum}}</td>
                 <td>{{rank_info[index-1].penalty | penaltyFilter}}</td>
-                <td v-for="problemIndex in contest_info.problems.length">
+                <td v-for="problemIndex in contest_info.problems.length" :key="'rank-problem-'+problemIndex">
                     <div class="solved-info-data">
-                        <div v-if="rank_info[index-1].solveInfo.map(x => x.problem_id).indexOf(String.fromCharCode(problemIndex+64))!==-1">
+                        <div v-if="solveInfoMap(index-1).indexOf(String.fromCharCode(problemIndex+64))!==-1">
                             <!-- TODO 封榜Try逻辑 -->
                             <status-icon
-                                :icon-type="rank_info[index-1].solveInfo[rank_info[index-1].solveInfo.map(x => x.problem_id).indexOf(String.fromCharCode(problemIndex+64))].success_time!=''?'ac':'wa'"
-                                :times="rank_info[index-1].solveInfo[rank_info[index-1].solveInfo.map(x => x.problem_id).indexOf(String.fromCharCode(problemIndex+64))].success_time!=''?
-                                rank_info[index-1].solveInfo[rank_info[index-1].solveInfo.map(x => x.problem_id).indexOf(String.fromCharCode(problemIndex+64))].times+1:
-                                rank_info[index-1].solveInfo[rank_info[index-1].solveInfo.map(x => x.problem_id).indexOf(String.fromCharCode(problemIndex+64))].times"
+                                :icon-type="isSuccess(index-1,problemIndex)?'ac':'wa'"
+                                :times="isSuccess(index-1,problemIndex)?
+                                rank_info[index-1].solveInfo[solveInfoMap(index-1).indexOf(String.fromCharCode(problemIndex+64))].times+1:
+                                rank_info[index-1].solveInfo[solveInfoMap(index-1).indexOf(String.fromCharCode(problemIndex+64))].times"
                             />
                             <!-- TODO 一血 蓝色加粗感叹号 -->
-                            <span>{{rank_info[index-1].solveInfo[rank_info[index-1].solveInfo.map(x => x.problem_id).indexOf(String.fromCharCode(problemIndex+64))].success_time}}</span>
+                            <span>{{rank_info[index-1].solveInfo[solveInfoMap(index-1).indexOf(String.fromCharCode(problemIndex+64))].success_time}}</span>
                         </div>
                     </div>
                 </td>
@@ -706,10 +708,8 @@
                     contest_id: this.$route.params.id
                 });
                 if(response.status == 0) {
-                    // console.log("轮询成功");
-                    // console.log(this.prizeNum);
                     let cnt = 1;
-                    response.data.forEach( (val, index) => {
+                    response.data.forEach( val => {
                         this.resRank.push({
                             id: val.user_id,
                             rank: val.nick.indexOf('*')===0?'':cnt, // 打星
@@ -735,6 +735,15 @@
             intervalGetRank: function () {
                 // 5秒轮询
                 this.interval = setInterval(this.renderRankList, 5000);
+            },
+            solveInfoMap: function(index) {
+                return this.rank_info[index].solveInfo.map(x => x.problem_id);
+            },
+            isSuccess: function(index, problemIndex) {
+                if(this.rank_info[index].solveInfo[this.solveInfoMap(index).indexOf(String.fromCharCode(problemIndex+64))].success_time!='')
+                    return true;
+                else
+                    return false;
             }
         },
         computed: {
@@ -773,9 +782,9 @@
                         res[i]+=res[i-1];
                     }
                 }
-                console.log(res);
                 return res;
-            }
+            },
+
         },
         beforeDestroy() {
             clearInterval(this.interval);
