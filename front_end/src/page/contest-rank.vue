@@ -701,7 +701,6 @@
                 }
             },
             renderRankList: async function() {
-                this.total = 0;
                 this.resRank = [];
                 let response = await getContestRank({
                     contest_id: this.$route.params.id
@@ -774,14 +773,12 @@
                         res[i]+=res[i-1];
                     }
                 }
-                // console.log(res);
+                console.log(res);
                 return res;
             }
         },
         beforeDestroy() {
-            // console.log('beforeDestory');
             clearInterval(this.interval);
-            // console.log('clearInterval');
         }
     }
 </script>
@@ -810,7 +807,7 @@
 
     .rank-form {
         width: 85%;
-        margin: 0 auto;
+        margin: 0 auto 80px auto;
         border-radius: 1em;
         background: rgba(250, 250, 250, 0.7);
         backdrop-filter: blur(22px);
