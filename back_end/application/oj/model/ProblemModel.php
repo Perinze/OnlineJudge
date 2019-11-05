@@ -31,7 +31,7 @@ class ProblemModel extends Model
                     'count(case when submit.status="SE" then submit.status end) as se',
                     'count(case when submit.status="CE" then submit.status end) as ce'])
                 ->where('p.status', USING)
-                ->join('submit', 'p.problem_id = submit.problem_id')->group('p.problem_id')->select()->toArray();
+                ->leftJoin('submit', 'p.problem_id = submit.problem_id')->group('p.problem_id')->select()->toArray();
             if (empty($info)) {
                 return ['code' => CODE_ERROR, 'msg' => '查找失败', 'data' => ''];
             }
