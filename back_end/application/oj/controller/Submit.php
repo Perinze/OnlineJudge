@@ -99,7 +99,7 @@ class Submit extends Base
         }
         $contest_id = 0;
         $temp = $submit_model->get_the_submit(['submit.user_id' => $user_id]);
-        if($time - strtotime($temp['data'][count($temp['data']) - 1]['submit_time']) < 5){
+        if(!empty($temp['data']) && $time - strtotime($temp['data'][count($temp['data']) - 1]['submit_time']) < 5){
             return apiReturn(CODE_ERROR, '请5S后再交题');
         }
         if ($problem['data']['status'] === CONTEST) {
