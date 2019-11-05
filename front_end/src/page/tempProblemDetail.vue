@@ -30,14 +30,14 @@
                                 <span>Input:</span>
                                 <button class="example-copy-btn" @click="copy(problem_info.example[index-1].input)">复制</button>
                             </div>
-                            <div class="input-example sub-example">{{problem_info.example[index-1].input}}</div>
+                            <textarea class="input-example sub-example" readonly v-model="problem_info.example[index-1].input"></textarea>
                         </div>
                         <div>
                             <div class="example-top">
                                 <span>Output:</span>
                                 <button class="example-copy-btn" @click="copy(problem_info.example[index-1].output)">复制</button>
                             </div>
-                            <div class="output-example sub-example">{{problem_info.example[index-1].output}}</div>
+                            <textarea class="output-example sub-example" readonly v-model="problem_info.example[index-1].output"></textarea>
                         </div>
                     </div>
                 </div>
@@ -259,6 +259,7 @@
         padding: 10px 0 10px 15px;
         width: 300px;
         user-select: text;
+        resize: none;
     }
 
     .example-copy-btn {
