@@ -1,5 +1,6 @@
 <template>
     <div class="discuss-detail">
+        <div @click="$router.push('/contest/'+themeInfo.contest_id)" class="back-btn">回到比赛</div>
         <ul class="discuss-content">
             <li class="content-head">
                 <div class="head-title">{{problemNick}}  {{themeInfo.title}}</div>
@@ -9,6 +10,7 @@
             </li>
             <li class="content-element"
                 v-for="index in replyItems.length"
+                :key="'reply-'+index"
             >
                 <div class="element-content">{{replyItems[index-1].content}}</div>
                 <div class="element-user">{{replyItems[index-1].nick}}</div>
@@ -74,11 +76,9 @@
                 });
                 if(response.status == 0) {
                     this.themeInfo = response.data[0];
-                    response.data[1].forEach( (val, index) => {
+                    response.data[1].forEach( val => {
                         this.replyItems.push(val);
                     });
-                    // console.log(this.themeInfo);
-                    // console.log(this.replyItems);
                 }else{
                     if(response.status===504) {
                         this.$message({
@@ -103,7 +103,6 @@
                     id: this.$route.params.did,
                     content: this.replyContent
                 });
-                console.log(response);
                 if(response.status==0) {
                     this.replyContent = '';
                     this.$message({
@@ -132,8 +131,17 @@
         padding-left: 25px;
     }
 
+    .back-btn {
+        cursor: pointer;
+        margin: 88px auto 0 auto;
+        width: 80%;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
     .discuss-content {
-        margin: 88px auto 30px auto;
+        margin: 0 auto 30px auto;
         width: 80%;
         border-radius: .6em;
         overflow: hidden;

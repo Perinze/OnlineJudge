@@ -81,7 +81,7 @@
                 if(response.status == 0) {
                     response.data.forEach( val => {
                         let itemsIndex = this.items.map(x => parseInt(x.id)).indexOf(parseInt(val.contest_id));
-                        this.items[itemsIndex].hasJoin = true;
+                        if(itemsIndex!==-1) this.items[itemsIndex].hasJoin = true;
                     });
                 }else{
                     if(response.message=='无比赛数据'){
@@ -90,6 +90,9 @@
                 }
             },
             doJoinContest: async function(index) {
+                if(!(this.items[index].status===1 && (new Date(this.items[index].begin_time).getTime() > new Date().getTime()))) {
+                    return;
+                }
                 this.$loading.open();
                 let response = await joinContest({
                     contest_id: this.items[index].id
@@ -115,7 +118,7 @@
         },
         async created() {
             await this.renderList();
-            this.getUserContestList();
+            await this.getUserContestList();
         },
         filters: {
             timeFilter: function(val) {
@@ -216,10 +219,12 @@
         text-decoration: none;
         border:2px solid rgba(188, 188, 188, 1);
         color: rgba(188, 188, 188, 1);
+        cursor: unset;
     }
 
     .has-join {
         border:2px solid rgba(45, 183, 183, 1);
         color: rgba(45, 183, 183, 1);
+        cursor: unset;
     }
 </style>

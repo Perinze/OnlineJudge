@@ -46,7 +46,7 @@
 
     .contest-card-info {
         position: relative;
-        width: 126px;
+        width: 130px;
         height: 49px;
         left: 16px;
         top: 74px;

@@ -3,8 +3,8 @@
         <topnav :topnavOpacity="topnavOpacity" />
         <sidenav ref="sidenav"/>
         <div class="layout-content">
-            <keep-alive exclude="temp-problem-detail,contestpage,contest-rank,discusslist,discussdetail,submitpage,submitdetail">
-                <router-view id="combox" class="combox" />
+            <keep-alive>
+                <router-view id="combox" class="combox" :key="$route.fullPath+localUserId"/>
             </keep-alive>
         </div>
         <!--<top-drawer />-->
@@ -53,6 +53,10 @@
         computed: {
             nowPath: function() {
                 return this.$route.path;
+            },
+            localUserId: function() {
+                let ret = localStorage.getItem('userId');
+                return ret;
             }
         },
         watch: {

@@ -1,11 +1,12 @@
 <template>
     <div class="discuss-list">
         <div class="question-bar">
+            <span @click="$router.push('/contest/'+contest_id)" class="back-btn">回到比赛</span>
             <div>
                 <input type="text" placeholder="在此键入提问标题(至少5个字符)..." v-model="question.title">
                 <textarea placeholder="在此键入提问内容(至少15个字符)..." v-model="question.content"></textarea>
                 <select v-model="question.problem_id">
-                    <option v-for="index in problems.length" :value="problems[index-1]">{{String.fromCharCode(64 + index)}}</option>
+                    <option v-for="index in problems.length" :value="problems[index-1]" :key="problem[index-1]">{{String.fromCharCode(64 + index)}}</option>
                 </select>
                 <button class="submit-ques-btn" @click="doQuestion">Submit</button>
             </div>
@@ -13,6 +14,7 @@
         <div class="list">
             <div class="element-card"
                  v-for="index in items.length"
+                 :key="'themeCard-'+index"
                  @click="$router.push('/discuss/' + contest_id + '/' + items[index-1].id)"
             >
                 <div class="title">
@@ -61,9 +63,6 @@
             this.getProblemList();
         },
         methods: {
-            test() {
-                console.log(this.question);
-            },
             renderList: async function() {
                 this.$loading.open();
                 this.items = [];
@@ -72,7 +71,7 @@
                 });
                 // console.log(response);
                 if(response.status == 0) {
-                    response.data.forEach( (val, index) => {
+                    response.data.forEach( val => {
                         this.items.push(val);
                     });
                 }else{
@@ -103,7 +102,6 @@
                 this.$loading.open();
                 if(this.question.content.length < 15 || this.question.title.length < 5) {
                     this.$loading.hide();
-                    console.log(this.question);
                     this.$message({
                         message: '填入信息不完整',
                         type: 'warning'
@@ -169,21 +167,32 @@
         padding-left: 25px;
     }
 
+    .back-btn {
+        cursor: pointer;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
     .question-bar {
         margin-top: 88px;
         margin-bottom: 30px;
+        > * {
+            display: flex;
+            flex-direction: column;
+            margin: 0 auto;
+            width: 90%;
+            min-width: 875px;
+            max-width: 990px;
+        }
         > div {
             display: flex;
             flex-direction: column;
             align-items: flex-end;
-            margin: 0 auto;
-            width: 90%;
             height: 300px;
             background: white;
             border-radius: .5em;
             box-shadow: 0 2px 15px rgba(0,0,0,0.08);
-            min-width: 875px;
-            max-width: 990px;
             overflow: hidden;
             > input, > textarea {
                 width: 100%;
