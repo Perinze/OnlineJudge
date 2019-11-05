@@ -8,19 +8,19 @@
                 <span class="statistics-percent"></span>
             </span>
         </div>
-        <div class="statistics-card-graph" v-if="predata.length === 13">
+        <div class="statistics-card-graph" v-if="predata.length > 1">
             <div
                     class="graph-item"
-                    v-for="index in 13"
+                    v-for="index in predata.length"
                     v-bind:key="index"
                     style="transition: height .6s ease;"
-                    :style="{height: ((predata[13-index].num - numMin)/(numMax - numMin+1)*42+2) +'px'}"
+                    :style="{height: ((predata[predata.length-index].num - numMin)/(numMax - numMin+1)*42+2) +'px'}"
             ></div>
         </div>
         <div class="statistics-card-graph" v-else>
             <div
                     class="graph-item"
-                    v-for="index in 13"
+                    v-for="index in predata.length"
                     v-bind:key="index"
                     :style="{height: index*3.5 +'px'}"
             ></div>
@@ -56,7 +56,7 @@
             numMax() {
                 // TODO 之后调整为平均值
                 var ans = 0;
-                this.predata.forEach( (val, index) => {
+                this.predata.forEach( val => {
                     if(val.num > ans) {
                         ans = val.num;
                     }
@@ -65,7 +65,7 @@
             },
             numMin() {
                 var ans = 9999999;
-                this.predata.forEach( (val, index) => {
+                this.predata.forEach( val => {
                     if(val.num < ans) {
                         ans = val.num;
                     }
@@ -136,6 +136,7 @@
         display: flex;
         flex-direction: row;
         align-items: flex-end;
+        justify-content: flex-end;
         position:relative;
         width: 128px;
         right: 14px;

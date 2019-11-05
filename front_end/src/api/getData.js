@@ -198,3 +198,9 @@ export const getStatus = data => fetch('/Submit/getSubmitStatus', 'post', data);
  */
 
 export const testRequest = () => fetch('https://analytics.twitter.com/tpm/p?_=1571277967228');
+
+/**
+ * Test Error 404
+ */
+
+export const testError = () => fetch('/Base/index');

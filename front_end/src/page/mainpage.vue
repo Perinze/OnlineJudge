@@ -112,7 +112,7 @@
                 if(response.status == 0) {
                     // success
                     let data = response.data;
-                    data.forEach((val, index) => {
+                    data.forEach( val => {
                         if(val.status == 1) {
                             let res = {
                                 title: val.title,
@@ -120,12 +120,8 @@
                             };
                             // console.log(res);
                             this.carouselItem.push(res);
-                        }else{
                         }
                     });
-                    // console.log(this.carouselItem);
-                }else{
-                    // error
                 }
             },
             renderHistogram: async function() {
@@ -133,22 +129,19 @@
                 if(response.status == 0) {
                     let data = response.data;
                     data.forEach((val, index) => {
-                        if(index>=13) {
+                        if(index===response.data.length-1) {
                             this.histogramData.sumData = val;
                         }else {
                             this.histogramData.dailyData.push(val);
                         }
                     });
-                    // console.log(this.histogramData);
-                }else{
-
                 }
             },
             renderContest: async function() {
                 let response = await getContestList();
                 if(response.status == 0) {
                     let data = response.data;
-                    data.forEach((val, index) => {
+                    data.forEach( val => {
                         let res = {
                             id: val.contest_id,
                             title: val.contest_name,
@@ -156,8 +149,6 @@
                         };
                         this.contestData.push(res);
                     });
-                }else{
-
                 }
             },
             renderPV: async function() {
@@ -175,7 +166,7 @@
                     token: "你的token",
                     username: "long4664030@163.com"
                 });
-                console.log(response);
+                if(response.status!==200)return;
             }
         },
         async created() {
@@ -186,19 +177,19 @@
         },
         filters: {
             stdNum: function(num) {
-                var num = (num || 0).toString(), result = '';
-                while (num.length > 3) {
-                    result = ',' + num.slice(-3) + result;
-                    num = num.slice(0, num.length - 3);
+                let res = (num || 0).toString(), result = '';
+                while (res.length > 3) {
+                    result = ',' + res.slice(-3) + result;
+                    res = res.slice(0, res.length - 3);
                 }
-                if (num) { result = num + result; }
+                if (res) { result = res + result; }
                 return result;
             }
         },
         computed: {
             histogramAC() {
-                var ans = [];
-                this.histogramData.dailyData.forEach( (val, index) => {
+                let ans = [];
+                this.histogramData.dailyData.forEach( val => {
                     let res = {
                         time: val.time,
                         num: val.ac
@@ -208,8 +199,8 @@
                 return ans;
             },
             histogramSubmit() {
-                var ans = [];
-                this.histogramData.dailyData.forEach( (val, index) => {
+                let ans = [];
+                this.histogramData.dailyData.forEach( val => {
                     let res = {
                         time: val.time,
                         num: val.submit
@@ -254,8 +245,8 @@
     }
 
     .carousel-img {
-    	width: 100%;
-    	height: 250px;
+        width: 100%;
+        height: 250px;
     }
 
     /*element-ui carousel END*/

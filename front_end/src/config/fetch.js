@@ -55,12 +55,20 @@ export default async function(url = '', method = 'GET', data = {}, headers = {} 
     let fetchFunc = () => {
         return fetch(url, requestConfig)
             .then( response => {
-                return response;
+                let retResp = response;
+                if(!response.ok) {
+                    retResp = new Response("{\"status\": -1, \"message\": \"请求错误"+response.status+"\", \"data\": null}",{
+                        ok: false,
+                        status: response.status,
+                        url: url
+                    })
+                }
+                return retResp;
             })
             .catch( error => {
-                return new Response("{\"status\": -1, \"message\": \"Fail to fetch: "+error+"\", \"data\": null}", {
+                return new Response("{\"status\": -1, \"message\": \"Fail to fetch:"+error+"\", \"data\": null}", {
                     ok: false,
-                    status: 404,
+                    status: 500,
                     url: url
                 })
             });
