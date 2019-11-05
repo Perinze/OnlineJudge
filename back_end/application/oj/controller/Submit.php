@@ -220,6 +220,14 @@ class Submit extends Base
     {
         $req = input('post.');
         $submit_model = new SubmitModel();
+        $user_id = Session::get('user_id');
+        $identity = Session::get('identity');
+        if (empty($user_id)) {
+            return apiReturn(CODE_ERROR, '未登录', '');
+        }
+        if($identity !== ADMINISTRATOR){
+            return apiReturn(CODE_ERROR, '权限不足', '');
+        }
         if(!isset($req['id'])){
             return apiReturn(CODE_ERROR, '请填写重新评测的id', '');
         }
