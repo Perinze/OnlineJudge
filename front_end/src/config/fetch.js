@@ -2,10 +2,7 @@ import { baseUrl } from './env'
 
 export default async function(url = '', method = 'GET', data = {}, headers = {} ){
     // 超时时间配置
-    // var timeout = 60 * 1000;
-    var timeout = 40 * 1000;
-    // let controller = new AbortController();
-    // let signal = controller.signal;
+    let timeout = 30 * 1000;
 
     // method大写
     method = method.toUpperCase();
@@ -16,7 +13,7 @@ export default async function(url = '', method = 'GET', data = {}, headers = {} 
     header_data['Content-Type'] = 'application/json';
 
     // 区分站内外API地址
-    if(url.indexOf('https://') == -1) {
+    if(url.indexOf('https://') === -1) {
         // 站内API
         // URL拼接
         if (url.substr(0, 1) === '/') {
@@ -32,68 +29,47 @@ export default async function(url = '', method = 'GET', data = {}, headers = {} 
         method: method,
         headers: header_data,
         mode: "cors",
-        cache: "force-cache",
-        // signal: signal
+        cache: "force-cache"
     };
 
     if (method === 'POST') {
+        // 仅POST请求附带数据
         Object.defineProperty(requestConfig, 'body', {
             value: JSON.stringify(data)
         })
     }
 
-    // let timeoutPromise = (time) => {
-    //     return new Promise( (resolve, reject) => {
-    //         setTimeout(() => {
-    //             resolve(new Response("timeout", { status: 504, statusText: "timeout" }));
-    //             controller.abort();
-    //         },time);
-    //     });
-    // };
 
-    // let requestPromise = (requestUrl, requestConf) => {
-    //     return fetch(requestUrl, requestConf);
-    // };
+    let timeoutFunc = () => {
+        return new Promise( resolve => {
+            setTimeout( () => {
+                resolve(new Response("{\"status\": 408, \"message\": \"请求超时\", \"data\": null}", {
+                    ok: false,
+                    status: 408,
+                    url: url
+                }));
+            }, timeout)
+        })
+    };
 
-    try {
-        // const ret = Promise.race([timeoutPromise(timeout), requestPromise(url, requestConfig)])
-        //     .then(async (resp) => {
-        //         // console.log(resp.status);
-        //         if(resp.status === 504) {
-        //             // case timeout
-        //             const responseJson = {
-        //                 status: 504,
-        //                 message: '请求超时',
-        //                 data: null
-        //             };
-        //             return responseJson;
-        //         }else{
-        //             if(resp.status === 200) {
-        //                 // case success
-        //                 const responseJson = await resp.json();
-        //                 return responseJson;
-        //             }else{
-        //                 // case 404 500
-        //                 const responseJson = {
-        //                     status: resp.status,
-        //                     message: '请求错误: '+resp.status,
-        //                     data: null
-        //                 };
-        //                 return responseJson
-        //             }
-        //         }
-        //         // console.log('success');
-        //         // console.log(responseJson);
-        //     })
-        //     .catch(error => {
-        //         console.log('fetch error');
-        //         console.log(error);
-        //     });
-        // return ret;
-        const response = await fetch(url, requestConfig);
-        const responseJson = await response.json();
-        return responseJson
-    } catch (error) {
-        throw new Error(error)
-    }
+    let fetchFunc = () => {
+        return fetch(url, requestConfig)
+            .then( response => {
+                return response;
+            })
+            .catch( error => {
+                return new Response("{\"status\": -1, \"message\": \"Fail to fetch: "+error+"\", \"data\": null}", {
+                    ok: false,
+                    status: 404,
+                    url: url
+                })
+            });
+    };
+
+    const retJson = Promise.race([fetchFunc(), timeoutFunc()])
+        .then( response => {
+            return response.json();
+        });
+
+    return retJson;
 }
