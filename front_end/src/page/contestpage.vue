@@ -37,6 +37,7 @@
                 <tr style="height: 42px;">
                     <td class="style-border-left">
                         1
+                        <!-- TODO ljwsb -->
                     </td>
                     <td>
                         {{userData.penalty | penaltyFilter}}
@@ -54,9 +55,6 @@
                     </td>
                 </tr>
             </table>
-            <div class="function-btn-group">
-
-            </div>
         </div>
         <div class="bottom">
             <div class="submit-log-list">
@@ -423,7 +421,6 @@
                     user_id: localStorage.getItem('userId')
                 });
                 this.submit_log = [];
-                console.log(response);
                 if(response.status == 0) {
                     this.userData.penalty = response.data.penalty.penalty;
                     // response.data.penalty.problem.forEach( (val, index) => {
@@ -434,12 +431,10 @@
                     for(let index = 65;index<=forTotal;index++) {
                         let cindex = String.fromCharCode(index);
                         if(problemInfo[cindex] !== undefined) {
-                            // console.log(cindex);
                             this.myProblemStatus[cindex] = problemInfo[cindex];
                         }
                     }
-                    console.log(this.myProblemStatus);
-                    response.data['submit_info'].forEach( (val, index) => {
+                    response.data['submit_info'].forEach( val => {
                         this.submit_log.push({
                             runid: val.runid,
                             problem: val.problem_id,
@@ -466,7 +461,6 @@
                         }
                     }
                 }
-                // console.log(response);
             },
             renderDiscussList: async function() {
                 let response = await getUserDiscuss({

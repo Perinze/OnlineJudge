@@ -1,6 +1,9 @@
 <template>
     <div class="contest-rank">
-        <label for="rank-form" id="rank-form-label" @click="$router.push('/contest/'+$route.params.id)">返回比赛</label>
+        <div class="rank-form-top">
+            <label for="rank-form" id="rank-form-label" @click="$router.push('/contest/'+$route.params.id)">返回比赛</label>
+            <span v-if="isLogin">您的排名: {{myRank}}</span>
+        </div>
         <table id="rank-form"
                class="rank-form"
                rules="rows"
@@ -673,7 +676,7 @@
         async created() {
             await this.getContestInfo();
             this.renderRankList();
-            this.intervalGetRank();
+            // this.intervalGetRank();
         },
         filters: {
             penaltyFilter: function(val) {
@@ -740,11 +743,11 @@
                 return this.rank_info[index].solveInfo.map(x => x.problem_id);
             },
             isSuccess: function(index, problemIndex) {
-                if(this.rank_info[index].solveInfo[this.solveInfoMap(index).indexOf(String.fromCharCode(problemIndex+64))].success_time!='')
+                if (this.rank_info[index].solveInfo[this.solveInfoMap(index).indexOf(String.fromCharCode(problemIndex+64))].success_time!='')
                     return true;
                 else
                     return false;
-            }
+            },
         },
         computed: {
             contest_id: function() {
@@ -784,10 +787,34 @@
                 }
                 return res;
             },
-
+            isLogin: function() {
+                let flag = localStorage.getItem('Flag');
+                if (flag===null) return false;
+                return true;
+            },
+            myRank: function() {
+                let userNick = localStorage.getItem('nick');
+                if(userNick===null)return '';
+                let index = this.rank_info.map( x => x.nick ).indexOf(userNick);
+                if(index===-1) return '';
+                return this.rank_info[index].rank;
+            },
+            path: function() {
+                return this.$route.fullPath;
+            }
+        },
+        watch: {
+            path: function() {
+                clearInterval(this.interval);
+                this.interval = null;
+            }
+        },
+        activated() {
+            this.intervalGetRank();
         },
         beforeDestroy() {
             clearInterval(this.interval);
+            this.interval = null;
         }
     }
 </script>
@@ -803,11 +830,17 @@
         padding-left: 24px;
     }
 
-    #rank-form-label {
+    .rank-form-top {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
         width: 85%;
-        display: block;
-        margin: 88px auto 5px auto;
         padding-left: 5px;
+        margin: 88px auto 5px auto;
+    }
+
+    #rank-form-label {
+        display: block;
         cursor: pointer;
         &:hover {
             text-decoration: underline;
