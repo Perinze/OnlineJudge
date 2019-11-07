@@ -12,6 +12,7 @@ namespace app\oj\controller;
 use app\oj\model\ContestModel;
 use app\oj\model\ContestUserModel;
 use app\oj\model\ProblemModel;
+use app\oj\model\RankCacheModel;
 use app\oj\model\SubmitModel;
 use app\oj\validate\SubmitValidate;
 use think\facade\Session;
@@ -23,6 +24,7 @@ class Submit extends Base
     {
         $submit_model = new SubmitModel();
         $contest_model = new ContestModel();
+        $rankCache_model = new RankCacheModel();
         $req = input('post.');
         $where = [];
         $user_id = Session::get('user_id');
@@ -48,7 +50,7 @@ class Submit extends Base
             }
             $where[] = ['contest_id', '=', $req['contest_id']];
             if (!($identify === ADMINISTRATOR || $time > strtotime($contest['data']['end_time']))) {
-                $user_id = isset($req['user_id']) ? $req['user_id'] : $user_id;
+                //$user_id = isset($req['user_id']) ? $req['user_id'] : $user_id;
                 $where[] = ['submit.user_id', '=', $user_id];
             } else {
                 if(isset($req['user_id'])){
@@ -60,6 +62,12 @@ class Submit extends Base
             unset($resp['data']);
             $resp['data']['submit_info'] = $temp;
             $resp['data']['penalty'] = $this->handle_data($resp['data']['submit_info'],  $contest['data']['begin_time'], json_decode($contest['data']['problems'], true));
+            $cache = $rankCache_model->get_rank_cache($req['contest_id']);
+            if ($cache['code'] === CODE_SUCCESS) {
+                $resp['data']['rank'] = $this->getRank($cache['data'], $user_id);
+            } else {
+                $resp['data']['rank'] = 1;
+            }
         } else {
             if(isset($req['user_id'])){
                 $where[] = ['submit.user_id', '=', $req['user_id']];
@@ -216,6 +224,16 @@ class Submit extends Base
         return $re_data;
     }
 
+    private function getRank($data, $user_id)
+    {
+        $i = 1;
+        foreach ($data as $item){
+            if($item['user_id'] === $user_id){
+                return $i;
+            }
+            $i++;
+        }
+    }
     public function reJudge()
     {
         $req = input('post.');

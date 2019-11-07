@@ -80,8 +80,6 @@ class Rank extends Controller
             if (!isset($rank[$user_id])) {
                 $rank[$user_id] = ['nick' => $item['nick'], 'penalty' => 0, 'ac_num' => 0];
             }
-            //var_dump($user_id);
-            //halt($rank);
             if (!isset($rank[$user_id][$problem_id])) {
                 $rank[$user_id][$problem_id] = ['success_time' => '', 'times' => 0];
             }
@@ -97,14 +95,11 @@ class Rank extends Controller
                 }
             }
         }
-        //var_dump($rank);
         $new_rank = [];
         // 格式化数据
         foreach ($rank as $key => $item) {
-            //var_dump($item);
             $problem = [];
             foreach ($item as $key1 => $value) {
-                //var_dump($value);
                 if (is_array($value)) {
                     $problem[] = [
                         'problem_id' => $key1,
@@ -112,7 +107,6 @@ class Rank extends Controller
                         'times' => $value['times'],
                     ];
                 }
-                //var_dump($key1);
             }
             $new_rank[] = [
                 'user_id' => $key,
@@ -122,11 +116,9 @@ class Rank extends Controller
                 'problem_id' => $problem,
             ];
         }
-        //var_dump($new_rank);
         // 排序
         // TODO 按照run_id排序
         usort($new_rank, [$this, 'compare_arr']);
-        //var_dump($new_rank);
         return $new_rank;
     }
 
