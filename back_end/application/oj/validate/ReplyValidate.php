@@ -10,7 +10,7 @@ class ReplyValidate extends Validate
 {
     protected $rule = [
         'id' => 'require',
-        'content' => 'require|max: 200',
+        'content' => 'require|max:200',
     ];
 
     protected $message = [

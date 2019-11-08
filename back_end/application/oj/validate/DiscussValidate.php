@@ -11,8 +11,8 @@ class DiscussValidate extends Validate
     protected $rule = [
         'contest_id' => 'require',
         'problem_id' => 'require',
-        'title' => 'require|max: 30',
-        'content' => 'require|max: 200',
+        'title' => 'require|max:30',
+        'content' => 'require|max:200',
     ];
 
     protected $message = [

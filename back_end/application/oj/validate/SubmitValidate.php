@@ -11,7 +11,7 @@ class SubmitValidate extends Validate
     protected $rule = [
         'language' => 'require',
         'problem_id' => 'require|number',
-        'source_code' => 'require',
+        'source_code' => 'require|max:9831',
         'status_id' => 'require|number',
     ];
 
@@ -20,6 +20,7 @@ class SubmitValidate extends Validate
         'problem_id.require' => '请选择题目',
         'problem_id.number' => '请使用数字',
         'source_code.require' => '请填写代码',
+        'source_code.max' => '超过代码长度限制',
         'status_id.require' => '缺少status_id参数',
         'status_id.number' => 'status_id参数格式不正确',
     ];
