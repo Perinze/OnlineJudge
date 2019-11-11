@@ -46,6 +46,7 @@ class Problem extends Controller
             return apiReturn(CODE_ERROR, $problem_validate->getError(), '');
         }
         $user_id = Session::get('user_id');
+        $identity = Session::get('identity');
         $resp = $problem_model->searchProblemById($req['problem_id']);
         if (empty($resp['data']['status']) || $resp['data']['status'] !== USING) {
             if($resp['data']['status'] === CONTEST){
@@ -59,7 +60,7 @@ class Problem extends Controller
                     if ($info['code'] !== CODE_SUCCESS) {
                         return apiReturn($info['code'], $info['msg'], $info['data']);
                     }
-                    if ($time < strtotime($contest['data']['begin_time'])) {
+                    if ($time < strtotime($contest['data']['begin_time']) && $identity !== ADMINISTRATOR) {
                         return apiReturn(CODE_ERROR, '比赛未开始', '');
                     }
                     if ($time > strtotime($contest['data']['end_time'])) {

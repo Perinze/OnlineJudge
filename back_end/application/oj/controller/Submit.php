@@ -102,6 +102,7 @@ class Submit extends Base
             return apiReturn(CODE_ERROR, '题目暂不可用', '');
         }
         $user_id = Session::get('user_id');
+        $identity = Session::get('identity');
         if (empty($user_id)) {
             return apiReturn(CODE_ERROR, '未登录', '');
         }
@@ -121,7 +122,7 @@ class Submit extends Base
                 if ($info['code'] !== CODE_SUCCESS) {
                     return apiReturn($info['code'], $info['msg'], $info['data']);
                 }
-                if ($time < strtotime($contest['data']['begin_time'])) {
+                if ($time < strtotime($contest['data']['begin_time']) && $identity !== ADMINISTRATOR) {
                     return apiReturn(CODE_ERROR, '比赛未开始', '');
                 }
                 if ($time > strtotime($contest['data']['end_time'])) {
