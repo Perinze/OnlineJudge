@@ -24,20 +24,20 @@
                 <span class="sub-title">样例</span>
                 <div class="example-data-element" v-for="index in problem_info.example.length" :key="'sample-'+index">
                     <label :for="'example'+index">{{'Case #'+index}}</label>
-                    <div :id="'example'+index" class="example-content">
-                        <div>
+                    <div :id="'example'+index" class="example-content" style="height: auto;">
+                        <div style="height: auto;">
                             <div class="example-top">
                                 <span>Input:</span>
                                 <button class="example-copy-btn" @click="copy(problem_info.example[index-1].input)">复制</button>
                             </div>
-                            <textarea class="input-example sub-example" readonly v-model="problem_info.example[index-1].input"></textarea>
+                            <textarea class="input-example sub-example" v-model="problem_info.example[index-1].input" :rows="getSampleRows(index-1)"></textarea>
                         </div>
                         <div>
                             <div class="example-top">
                                 <span>Output:</span>
                                 <button class="example-copy-btn" @click="copy(problem_info.example[index-1].output)">复制</button>
                             </div>
-                            <textarea class="output-example sub-example" readonly v-model="problem_info.example[index-1].output"></textarea>
+                            <textarea class="output-example sub-example" readonly v-model="problem_info.example[index-1].output" :rows="getSampleRows(index-1)"></textarea>
                         </div>
                     </div>
                 </div>
@@ -48,7 +48,7 @@
                 <span class="content" v-html="Marked(problem_info.hint)" id="render-latex-hint"></span>
             </div>
             <div class="function-btn-group">
-                <button class="submit-btn" @click="cid==undefined?gotoSubmit(pid):gotoSubmit(pid,cid)">Submit</button>
+                <button class="submit-btn" @click="cid === undefined?gotoSubmit(pid):gotoSubmit(pid,cid)">Submit</button>
             </div>
         </div>
     </div>
@@ -157,6 +157,13 @@
                         type: 'warning'
                     });
                 }
+            },
+            getSampleRows: function(index) {
+                let content1 = this.problem_info.example[index].input;
+                let content2 = this.problem_info.example[index].output;
+                let lines = Math.max(content1.split(/\r\n|\r|\n|<br>/).length, content2.split(/\r\n|\r|\n|<br>/).length);
+                if(lines<=2) return 2;
+                else return lines;
             }
         },
         computed: {
@@ -211,14 +218,13 @@
 
     .submit-btn {
         margin-top: 25px;
-        -webkit-border-radius: .5em;
-        -moz-border-radius: .5em;
         border-radius: .5em;
         font-size: 16px;
         padding: 5px 20px;
         background: #4288ce;
         color: white;
         border: solid 1px #4288ce;
+        cursor: pointer;
         &:hover {
             text-decoration: underline;
         }
@@ -253,11 +259,13 @@
 
     .sub-example {
         overflow-x: scroll;
+        overflow-y: visible;
         background: #eeeeee;
         border: 1px solid #aaaaaa;
         border-radius: .4em;
         padding: 10px 0 10px 15px;
         width: 300px;
+        height: auto;
         user-select: text;
         resize: none;
     }

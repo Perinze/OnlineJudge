@@ -36,7 +36,7 @@
                 </thead>
                 <tr style="height: 42px;">
                     <td class="style-border-left">
-                        1
+                        {{ userData.rank }}
                         <!-- TODO ljwsb -->
                     </td>
                     <td>
@@ -151,7 +151,7 @@
     import { formatDate } from "../api/common";
     import { getWholeErrorName, logoutWork } from "../api/common";
     import StatusIcon from "../components/status-icon";
-    import { getContest, getSubmitInfo, checkUserContest, getUserDiscuss } from "../api/getData";
+    import { getContest, getSubmitInfo, checkUserContest, getUserDiscuss, getContestRank } from "../api/getData";
 
     export default {
         components: {StatusIcon},
@@ -169,7 +169,8 @@
                     // colors: ['924726','8cc590','b2c959','59785a','8e8c13','252b04','ccda06','8044a7','27e298','0cef7c','31f335','67f70e','0ea6ff'],
                 },
                 userData: {
-                    penalty: 0
+                    penalty: 0,
+                    rank: null
                 },
                 submit_log: [
                     // {
@@ -319,8 +320,14 @@
             if(new Date(this.contest_info.begin_time).getTime() <= new Date().getTime()) {
                 // 比赛开始
                 this.countDownToEnd();
+            }
+        },
+        activated() {
+            if(new Date(this.contest_info.begin_time).getTime() <= new Date().getTime()) {
+                // 比赛开始
                 this.renderStatusList();
                 this.renderDiscussList();
+                this.getMyRank();
             }
         },
         methods: {
@@ -411,7 +418,10 @@
                     this.contest_info.problems = data.problems.map(x => parseInt(x));
                     this.contest_info.colors = data.colors;
                 }else{
-
+                    this.$message({
+                        message: response.message,
+                        type: 'error'
+                    })
                 }
             },
             renderStatusList: async function() {
@@ -481,6 +491,15 @@
                 }else{
 
                 }
+            },
+            getMyRank: async function() {
+                let response = await getContestRank({
+                    contest_id: this.$route.params.id
+                });
+                let data = response.data;
+                let user_id = localStorage.getItem('userId');
+                let rank = data.map( x => x.user_id ).indexOf(parseInt(user_id))+1;
+                this.userData.rank = rank;
             },
             checkJoin: async function() {
                 let response = await checkUserContest({
