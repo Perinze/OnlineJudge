@@ -7,7 +7,7 @@
                     <span class="sub-title">题目背景</span>
                     <span class="content" v-html="Marked(problem_info.background)"></span>
                 </div>
-                <div class="describe">
+                <div class="describe" v-if="String(problem_info.describe)!=='null'">
                     <span class="sub-title">题目描述</span>
                     <span class="content" v-html="Marked(problem_info.describe)"></span>
                 </div>
@@ -30,7 +30,7 @@
                                 <span>Input:</span>
                                 <button class="example-copy-btn" @click="copy(problem_info.example[index-1].input)">复制</button>
                             </div>
-                            <textarea class="input-example sub-example" v-model="problem_info.example[index-1].input" :rows="getSampleRows(index-1)"></textarea>
+                            <textarea class="input-example sub-example" readonly v-model="problem_info.example[index-1].input" :rows="getSampleRows(index-1)"></textarea>
                         </div>
                         <div>
                             <div class="example-top">
