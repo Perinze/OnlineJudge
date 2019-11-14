@@ -258,8 +258,8 @@ class Submit extends Base
             }
             $info = $info['data'][0];
             post('http://10.143.216.128:8819/submit', json_encode(array(
-                'id' => $info['runid'],
-                'pid' => $info['problem_id'],
+                'id' => string($info['runid']),
+                'pid' => string($info['problem_id']),
                 'source' => [
                     'language' => $info['language'],
                     'code' => $info['source_code'],
