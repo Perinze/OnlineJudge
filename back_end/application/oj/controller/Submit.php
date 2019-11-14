@@ -252,7 +252,7 @@ class Submit extends Base
         }
         $problems = json_decode($req['id'], false);
         foreach ($problems as $item){
-            $info = $submit_model->get_the_submit(['submit.id' => $item]);
+            $info = $submit_model->get_a_submit(['submit.id' => $item]);
             if ($info['code'] !== CODE_SUCCESS) {
                 return apiReturn($info['code'], $info['msg'], $info['data']);
             }
