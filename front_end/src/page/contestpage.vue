@@ -320,16 +320,19 @@
             if(new Date(this.contest_info.begin_time).getTime() <= new Date().getTime()) {
                 // 比赛开始
                 this.countDownToEnd();
-            }
-        },
-        activated() {
-            if(new Date(this.contest_info.begin_time).getTime() <= new Date().getTime()) {
-                // 比赛开始
                 this.renderStatusList();
                 this.renderDiscussList();
                 this.getMyRank();
             }
         },
+        //activated() {
+            //if(new Date(this.contest_info.begin_time).getTime() <= new Date().getTime()) {
+                // 比赛开始
+                //this.renderStatusList();
+                //this.renderDiscussList();
+                //this.getMyRank();
+            //}
+       //},
         methods: {
             timeFormat(param) {
                 return param < 10 ? '0' + param : param;
