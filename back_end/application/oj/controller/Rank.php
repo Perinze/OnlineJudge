@@ -51,7 +51,7 @@ class Rank extends Controller
             return apiReturn(CODE_ERROR, '比赛还没开放', '');
         }
         if ($info['data']['end_time'] < time()) {
-            $where = [];
+            $where = ['submit_time', '<= time', strtotime($info['data']['end_time'])];
         } else {
             $where = ['submit_time', '<= time', strtotime($info['data']['begin_time'])
                 + (strtotime($info['data']['end_time']) - strtotime($info['data']['begin_time'])) * $info['data']['frozen']];
