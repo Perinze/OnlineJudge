@@ -51,12 +51,13 @@ class Rank extends Controller
             return apiReturn(CODE_ERROR, '比赛还没开放', '');
         }
         if ($info['data']['end_time'] < time()) {
-            $where = ['submit_time', '<= time', $info['data']['end_time']];
+            $where[] = ['submit_time', '<= time', strtotime($info['data']['end_time'])];
         } else {
             $where = ['submit_time', '<= time', strtotime($info['data']['begin_time'])
                 + (strtotime($info['data']['end_time']) - strtotime($info['data']['begin_time'])) * $info['data']['frozen']];
         }
         $resp = $submit_model->get_all_submit($where);
+        //halt($resp);
         // TODO 处理榜单
         $problems = json_decode($info['data']['problems'], true);
         $data = $this->handle_rank($resp['data'], $info['data']['begin_time'], $problems);
