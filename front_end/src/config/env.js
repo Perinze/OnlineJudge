@@ -8,6 +8,13 @@
  */
 
 let baseUrl = 'http://acmwhut.com/api/oj/';
+if(process.env.NODE_ENV === 'test') {
+    // 本地测试环境
+    baseUrl = 'http://dev.acmwhut.com/api/oj/';
+}else{
+    // 生产环境(相对路径)
+    baseUrl = '/api/oj/';
+}
 
 /**
  * 百度统计
