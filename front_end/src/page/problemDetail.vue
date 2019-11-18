@@ -60,7 +60,7 @@
     import marked from 'marked';
 
     export default {
-        name: "temp-problem-detail",
+        name: "problem-detail",
         props: [ 'pid', 'cid' ],
         data() {
             return {
@@ -177,14 +177,7 @@
 <style lang="scss" scoped>
     .temp-problem-detail {
         position: relative;
-        background: white;
-        top: 88px;
-        left: 14px;
-        width: 83%;
-        margin: 0 auto 80px auto;
-        border-radius: .5em;
-        padding: 20px 20px;
-        box-shadow: 0px 2px 15px rgba(0,0,0,0.08);
+        padding: 30px 20px 20px 20px;
     }
 
     .title {
@@ -197,7 +190,7 @@
         &::after {
              content: '';
              position: absolute;
-             top: 65px;
+             top: 75px;
              height: 1px;
              background: gray;
              width: 70%;

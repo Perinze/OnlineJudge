@@ -4,7 +4,7 @@ import VueRouter from 'vue-router';
 import mainpage from '../page/mainpage';
 import problemlist from '../page/problemlist';
 import contestlist from '../page/contestlist';
-import problemdetail from '../page/tempProblemDetail';
+import problemdetail from '../page/problemDetail';
 import contestrank from '../page/contest-rank';
 import contestpage from '../page/contestpage';
 import discusslist from '../page/discusslist';

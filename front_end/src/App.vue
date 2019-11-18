@@ -8,7 +8,7 @@
             </keep-alive>
         </div>
         <!--<top-drawer />-->
-        <!--<sidedrawer />-->
+        <sidedrawer :is-display="sideDisplay" @close="sideDisplay=false"/>
         <!--<div style="z-index: 1001;backdrop-filter: blur(30px);width: 500px;height: 500px;position: absolute;left: 470px;top: 100px;"></div>-->
     </div>
 </template>
@@ -16,19 +16,20 @@
 <script>
     import topnav from "./components/top-nav";
     import sidenav from "./components/side-nav";
-    // import sidedrawer from "./components/side-drawer";
+    import sidedrawer from "./components/side-drawer";
 
     export default {
         components: {
             topnav,
             sidenav,
-            // sidedrawer
+            sidedrawer
         },
         data() {
             return {
                 bgsrc: "../assets/logo.png",
                 topnavOpacity: 0,
                 combox: null,
+                sideDisplay: true
             }
         },
         mounted() {
@@ -46,7 +47,7 @@
                     this.getCombox();
                     this.combox.addEventListener('scroll', () => {
                         this.topnavOpacity = this.combox.scrollTop * 0.0033;
-                    }, true);
+                    }, true); // true 事件捕获
                 },500);
             }
         },
