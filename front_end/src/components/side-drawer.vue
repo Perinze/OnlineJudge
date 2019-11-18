@@ -11,16 +11,15 @@
     import problemDetail from '../page/problemDetail';
     export default {
         name: "side-drawer",
-        props: [ 'isDisplay' ],
+        props: [ 'isDisplay', 'pid', 'cid' ],
         components: {
             problemDetail
         },
         data() {
             return {
-                pid: 1000,
-                cid: null,
                 marginRightStyleObject: {
-                    'margin-right': 0
+                    'margin-right': 0,
+                    // right: 0
                 }
             }
         },
@@ -46,7 +45,7 @@
 
 <style lang="scss" scoped>
     #side-drawer {
-        position: absolute;
+        position: fixed;
         top: 0;
         right: 0;
         bottom: 0;

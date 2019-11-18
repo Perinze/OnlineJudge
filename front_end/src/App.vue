@@ -1,14 +1,24 @@
 <template>
-    <div style="height: 100%;">
-        <topnav :topnavOpacity="topnavOpacity" />
+    <div id="app">
         <sidenav ref="sidenav"/>
-        <div class="layout-content">
+        <div class="layout-content" id="layout-content" :style="contentWidthObject">
+            <topnav :topnavOpacity="topnavOpacity" :parentWidth="contentWidthObject.width"/>
             <keep-alive>
-                <router-view id="combox" class="combox" :key="$route.fullPath+localUserId"/>
+                <router-view
+                    id="combox"
+                    class="combox"
+                    :key="$route.fullPath+localUserId"
+                    @open-problem="callSideDrawer"
+                />
             </keep-alive>
         </div>
         <!--<top-drawer />-->
-        <sidedrawer :is-display="sideDisplay" @close="sideDisplay=false"/>
+        <sidedrawer
+            :pid="problemComponentData.pid"
+            :cid="problemComponentData.cid"
+            :is-display="sideDisplay"
+            @close="sideDisplay=false"
+        />
         <!--<div style="z-index: 1001;backdrop-filter: blur(30px);width: 500px;height: 500px;position: absolute;left: 470px;top: 100px;"></div>-->
     </div>
 </template>
@@ -29,7 +39,14 @@
                 bgsrc: "../assets/logo.png",
                 topnavOpacity: 0,
                 combox: null,
-                sideDisplay: true
+                sideDisplay: true,
+                contentWidthObject: {
+                    width: '100%'
+                },
+                problemComponentData: {
+                    pid: 1000,
+                    cid: null
+                }
             }
         },
         mounted() {
@@ -49,6 +66,15 @@
                         this.topnavOpacity = this.combox.scrollTop * 0.0033;
                     }, true); // true 事件捕获
                 },500);
+            },
+            callSideDrawer: function(val) {
+                this.problemComponentData.pid = val.pid;
+                if(val.cid!==undefined) {
+                    this.problemComponentData.cid = val.cid;
+                }else{
+                    this.problemComponentData.cid = null;
+                }
+                this.sideDisplay = true;
             }
         },
         computed: {
@@ -63,6 +89,14 @@
         watch: {
             nowPath: function() {
                 this.initCombox();
+            },
+            sideDisplay: function(val) {
+                if(val) {
+                    let phantom = this.$root.$el.clientWidth-(this.$root.$el.clientWidth-200)/2;
+                    this.contentWidthObject.width = `${phantom}px`;
+                }else{
+                    this.contentWidthObject.width = '100%';
+                }
             }
         }
     }
@@ -75,11 +109,17 @@
     $mleColor: #DECB6B;
     $reColor: rgb(131, 118, 169);
 
+    #app {
+        height: 100%;
+        padding: 0;
+        overflow-x: hidden;
+    }
+
     .layout-content {
         position: relative;
         padding-left: 200px;
-        width: 100%;
         height: 100%;
+        transition: width 0.5s ease-in;
     }
 
     .combox {

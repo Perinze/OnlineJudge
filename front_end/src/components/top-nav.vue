@@ -1,5 +1,5 @@
 <template>
-    <div class="top-nav" :style="{background: 'rgba(255,255,255,'+topnavOpacity+')'}">
+    <div class="top-nav" :style="styleObject">
         <div class="search-bar">
             <img src="../../assets/icon/search.svg" width="16px" height="16px">
             <input type="text" class="search-input" placeholder="Search problem, contest or user">
@@ -10,7 +10,16 @@
 <script>
     export default {
         name: "top-nav",
-        props: ['topnavOpacity']
+        props: ['topnavOpacity', 'parentWidth' ],
+        computed: {
+            styleObject() {
+                let computedWidth = `calc(${this.parentWidth} - 200px)`;
+                return {
+                    width: computedWidth,
+                    background: `rgba(255,255,255,${this.topnavOpacity})`
+                }
+            }
+        }
     }
 </script>
 
@@ -19,14 +28,13 @@
         display: flex;
         flex-direction: column;
         position: fixed;
-        padding-left: 200px;
-        width: 100%;
         height: 60px;
         z-index: 999;
         background: white;
         transition: background .1s ease 0s;
         color: #888888;/*rgba(,1);*/
         /*-webkit-backdrop-filter: blur(10px);*/
+        transition: width 0.5s ease-in;
     }
 
     .search-bar {
@@ -35,7 +43,8 @@
         align-items: center;
         position: relative;
         top: 13px;
-        width: 1230px;
+        width: 90%;
+        max-width: 1230px;
         height: 35px;
         /*opacity: 0.5;*/
         border-radius: 17.5px;
@@ -92,8 +101,7 @@
 
     @media (max-width: 1543px) and (min-width: 1280px) {
         .search-bar {
-            width: 996px;
-            left: 13px;
+            max-width: 996px;
         }
     }
 </style>

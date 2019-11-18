@@ -1,6 +1,6 @@
 <template>
     <div class="problemlist">
-        <div class="problem-element" v-for="index in items.length">
+        <div class="problem-element" v-for="index in items.length" :key="'problem-'+index">
             <i class="icon" v-bind:class="items[index-1].status+'-icon'"></i>
             <span class="problem-id">{{items[index-1].id}}</span>
             <span class="problem-title" @click="goto(items[index-1].id)">{{items[index-1].title}}</span>
@@ -79,8 +79,11 @@
         },
         methods: {
             goto: function(pid) {
-                let res = '/problem?p='+pid;
-                this.$router.push(res);
+                // let res = '/problem?p='+pid;
+                // this.$router.push(res);
+                this.$emit('open-problem', {
+                    pid: pid
+                });
             },
             renderProblemList: async function() {
                 this.$loading.open();
@@ -88,7 +91,7 @@
                 if(response.status == 0) {
                     // success
                     let data = response.data;
-                    data.forEach( (val, index) => {
+                    data.forEach( val => {
                         let res = {
                             id: val.problem_id,
                             status: 'un',
