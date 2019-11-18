@@ -82,15 +82,14 @@
             }
         },
         created() {
-            this.renderProblemDetail();
+            if(this.pid !== null) this.renderProblemDetail();
         },
         methods: {
             gotoSubmit(pid, cid=null){
-                let res = '/submit?p=' + pid;
-                if(cid!=null) {
-                    res+='&c='+cid;
-                }
-                this.$router.push(res);
+                this.$emit('open-submit', {
+                    pid: pid,
+                    cid: cid
+                })
             },
             renderProblemDetail: async function() {
                 this.$loading.open();

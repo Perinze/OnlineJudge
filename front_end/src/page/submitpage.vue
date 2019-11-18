@@ -5,7 +5,6 @@
             <button class="submit-btn" @click="doSubmit">Submit</button>
         </div>
         <div class="code-container">
-            <!--<label for="codeEditor">代码输入框:</label>-->
             <div class="tips">
                 <span>第一版CodeEditor, 功能尚不完整, 请使用本地IDE编辑代码后复制粘贴于此提交</span>
                 <div>

@@ -102,6 +102,7 @@
     @media (max-width: 1543px) and (min-width: 1280px) {
         .search-bar {
             max-width: 996px;
+            left: 13px;
         }
     }
 </style>

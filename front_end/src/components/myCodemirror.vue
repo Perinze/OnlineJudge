@@ -41,6 +41,10 @@
             precode: {
                 type: String,
                 default: ''
+            },
+            expectHeight: {
+                type: Number,
+                default: 480
             }
         },
         components: {
@@ -99,15 +103,13 @@
     }
 
     .CodeMirror {
-        border: 1px solid #eee;
-        border-radius: .5em;
-        height: 480px;
+        /*height: 480px;*/
         overflow: hidden;
     }
 
-    @media screen and (min-height: 780px) {
-        .CodeMirror {
-            height: 600px;
-        }
-    }
+    /*@media screen and (min-height: 780px) {*/
+        /*.CodeMirror {*/
+            /*height: 730px;*/
+        /*}*/
+    /*}*/
 </style>

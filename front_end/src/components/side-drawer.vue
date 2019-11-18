@@ -1,9 +1,9 @@
 <template>
     <div id="side-drawer" :style="marginRightStyleObject">
         <div class="close-btn" @click="close()">
-            <img src="../../assets/icon/no.svg" width="15" height="15" alt="backward">
+            <img src="../../assets/icon/no.svg" width="15" height="15" alt="close">
         </div>
-        <problem-detail :pid="pid" :cid="cid" :key="'p='+pid+'&c='+cid"/>
+        <problem-detail :pid="pid" :cid="cid" :key="'p='+pid+'&c='+cid" @open-submit="popOpenSubmit"/>
     </div>
 </template>
 
@@ -11,33 +11,33 @@
     import problemDetail from '../page/problemDetail';
     export default {
         name: "side-drawer",
-        props: [ 'isDisplay', 'pid', 'cid' ],
+        props: [ 'isDisplay', 'pid', 'cid', 'windowResize' ],
         components: {
             problemDetail
-        },
-        data() {
-            return {
-                marginRightStyleObject: {
-                    'margin-right': 0,
-                    // right: 0
-                }
-            }
         },
         methods: {
             close() {
                 this.$emit('close')
+            },
+            popOpenSubmit(val) {
+                this.$emit('open-submit',val);
             }
         },
-        watch: {
-            isDisplay: function(val) {
-                if(val===true) {
+        computed: {
+            marginRightStyleObject() {
+                let res = {
+                    'margin-right': 0
+                };
+                let trick = this.windowResize;
+                if(this.isDisplay) {
                     // open
-                    this.marginRightStyleObject['margin-right'] = 0;
+                    res['margin-right'] = 0;
                 }else{
                     // hide
                     let phantom = (this.$root.$el.clientWidth-200)/2;
-                    this.marginRightStyleObject['margin-right'] = `-${phantom}px`;
+                    res['margin-right'] = `-${phantom}px`;
                 }
+                return res;
             }
         }
     }

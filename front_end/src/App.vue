@@ -12,40 +12,65 @@
                 />
             </keep-alive>
         </div>
-        <!--<top-drawer />-->
+        <topdrawer
+            :pid="codeComponentData.pid"
+            :cid="codeComponentData.cid"
+            :is-display="topDisplay"
+            @close="topDisplay=false"
+            @change-lang="changeLang"
+        >
+            <code-editor
+                ref="codeEditor"
+                :lang="codeComponentData.lang"
+                :precode="codeComponentData.code"
+                :expectHeight="codeComponentData.height"
+            />
+        </topdrawer>
         <sidedrawer
             :pid="problemComponentData.pid"
             :cid="problemComponentData.cid"
+            :window-resize="windowResize"
             :is-display="sideDisplay"
             @close="sideDisplay=false"
+            @open-submit="callSubmit"
         />
-        <!--<div style="z-index: 1001;backdrop-filter: blur(30px);width: 500px;height: 500px;position: absolute;left: 470px;top: 100px;"></div>-->
+        <!--<div style="z-index: 1001;backdrop-filter: blur(30px);width: 500px;height: 500px;position: absolute;left: 470px;top: 100px;" @click="windowResize = ~windowResize;topDisplay=true;"></div>-->
     </div>
 </template>
 
 <script>
     import topnav from "./components/top-nav";
     import sidenav from "./components/side-nav";
+    import topdrawer from "./components/top-drawer";
     import sidedrawer from "./components/side-drawer";
+    import codeEditor from "./components/myCodemirror";
 
     export default {
         components: {
             topnav,
             sidenav,
-            sidedrawer
+            sidedrawer,
+            topdrawer,
+            codeEditor
         },
         data() {
             return {
                 bgsrc: "../assets/logo.png",
                 topnavOpacity: 0,
                 combox: null,
-                sideDisplay: true,
-                contentWidthObject: {
-                    width: '100%'
-                },
+                topDisplay: false,
+                sideDisplay: false,
+                windowResize: true, // computed cache trick
                 problemComponentData: {
-                    pid: 1000,
+                    pid: null,
                     cid: null
+                },
+                codeComponentData: {
+                    pid: null,
+                    cid: null,
+                    height: 480,
+                    code: '',
+                    lang: 'text/x-csrc'
                 }
             }
         },
@@ -54,6 +79,12 @@
             this.$refs.sidenav.$on('changeContent',() => {
                 this.topnavOpacity = 0;
             });
+            window.onresize = () => {
+                this.windowResize = ~this.windowResize;
+            };
+            setTimeout( () => {
+                this.windowResize = ~this.windowResize;
+            }, 50);
         },
         methods: {
             getCombox: function() {
@@ -75,6 +106,22 @@
                     this.problemComponentData.cid = null;
                 }
                 this.sideDisplay = true;
+            },
+            callSubmit: function(val) {
+                if(val.pid !== this.codeComponentData.pid) {
+                    this.codeComponentData.code = '';
+                    this.$refs.codeEditor.code = '';
+                }
+                this.codeComponentData.pid = val.pid;
+                this.codeComponentData.cid = val.cid;
+                this.codeComponentData.height = this.$root.$el.clientHeight * 0.95 - 65;
+                this.topDisplay = true;
+                // 指定CodeMirror Class加上style height
+                document.getElementsByClassName('CodeMirror')[0].setAttribute('style', `height: ${this.codeComponentData.height}px;`);
+            },
+            changeLang(val) {
+                if(val==null || val==undefined) this.codeComponentData.lang = 'text/x-csrc';
+                else this.codeComponentData.lang = val;
             }
         },
         computed: {
@@ -84,19 +131,25 @@
             localUserId: function() {
                 let ret = localStorage.getItem('userId');
                 return ret;
+            },
+            contentWidthObject: function() {
+                let res = {
+                    width: '100%'
+                };
+                let trick = this.windowResize;
+                // computed cache trick
+                if(this.sideDisplay) {
+                    let phantom = this.$root.$el.clientWidth-(this.$root.$el.clientWidth-200)/2;
+                    res.width = `${phantom}px`;
+                }else{
+                    res.width = '100%';
+                }
+                return res;
             }
         },
         watch: {
             nowPath: function() {
                 this.initCombox();
-            },
-            sideDisplay: function(val) {
-                if(val) {
-                    let phantom = this.$root.$el.clientWidth-(this.$root.$el.clientWidth-200)/2;
-                    this.contentWidthObject.width = `${phantom}px`;
-                }else{
-                    this.contentWidthObject.width = '100%';
-                }
             }
         }
     }
@@ -110,6 +163,7 @@
     $reColor: rgb(131, 118, 169);
 
     #app {
+        width: 100%;
         height: 100%;
         padding: 0;
         overflow-x: hidden;
