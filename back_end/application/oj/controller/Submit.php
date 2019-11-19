@@ -160,8 +160,8 @@ class Submit extends Base
 //            ]
 //        ), true);
         post('http://10.143.216.128:8819/submit', json_encode(array(
-            'id' => $info['data'],
-            'pid' => $req['problem_id'],
+            'id' => (string)$info['data'],
+            'pid' => (string)$req['problem_id'],
             'source' => [
                 'language' => $req['language'],
                 'code' => $req['source_code'],
