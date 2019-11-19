@@ -123,20 +123,17 @@ class User extends Controller
         $user_model = new UserModel();
         $user_validate = new UserValidate();
         $find_password_model = new FindPasswordModel();
-        if (session('find_password') !== true) {
-            return apiReturn(CODE_ERROR, '找回密码无效，请重新提交验证', '');
-        }
         $req = input('post.');
         $result = $user_validate->scene('change_password')->check($req);
         if ($result !== true) {
             return apiReturn(CODE_ERROR, $user_validate->getError(), '');
         }
-        if ($req['password'] !== $req['password_check']) {
-            return apiReturn(CODE_ERROR, '两次输入密码不一致', '');
-        }
         $info = $find_password_model->check_token($req['nick'], $req['check']);
         if($info['code'] !== CODE_SUCCESS){
             return apiReturn(CODE_ERROR, '修改失败', '');
+        }
+        if ($req['password'] !== $req['password_check']) {
+            return apiReturn(CODE_ERROR, '两次输入密码不一致', '');
         }
         $user_id = Session::get('user_id');
         $resp = $user_model->editUser($user_id, array(

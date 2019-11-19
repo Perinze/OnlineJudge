@@ -43,6 +43,18 @@ class OJCacheModel extends Model
         }
     }
 
+    public function set_password_cache($data, $user_id)
+    {
+        try {
+            $ok = Cache::store('redis')->set('find_password'.$user_id, $data, VALID_TIME);
+            if (!$ok) {
+                return ['code' => CODE_ERROR, 'msg' => '更新找回密码信息失败', 'data' => $data];
+            }
+            return ['code' => CODE_SUCCESS, 'msg' => '更新找回密码信息成功', 'data' => $data];
+        } catch (Exception $e) {
+            return ['code' => CODE_ERROR, 'msg' => 'redis异常', 'data' => $e->getMessage()];
+        }
+    }
     public function set_submit_cache($data)
     {
         try {
@@ -89,6 +101,19 @@ class OJCacheModel extends Model
                 return ['code' => CODE_ERROR, 'msg' => '获取提交缓存失败', 'data' => ''];
             }
             return ['code' => CODE_SUCCESS, 'msg' => '获取提交缓存成功', 'data' => $ok];
+        } catch (Exception $e) {
+            return ['code' => CODE_ERROR, 'msg' => 'redis异常', 'data' => $e->getMessage()];
+        }
+    }
+
+    public function get_password_cache($user_id)
+    {
+        try {
+            $ok = Cache::store('redis')->get('find_password'.$user_id);
+            if (!$ok) {
+                return ['code' => CODE_ERROR, 'msg' => '获取找回密码信息失败', 'data' => ''];
+            }
+            return ['code' => CODE_SUCCESS, 'msg' => '获取找回密码信息成功', 'data' => $ok];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => 'redis异常', 'data' => $e->getMessage()];
         }
