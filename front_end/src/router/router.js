@@ -4,12 +4,10 @@ import VueRouter from 'vue-router';
 import mainpage from '../page/mainpage';
 import problemlist from '../page/problemlist';
 import contestlist from '../page/contestlist';
-import problemdetail from '../page/problemDetail';
 import contestrank from '../page/contest-rank';
 import contestpage from '../page/contestpage';
 import discusslist from '../page/discusslist';
 import discussdetail from '../page/discussdetail';
-import submitpage from '../page/submitpage';
 import submitdetail from '../page/submitdetail';
 import page404 from '../page/page404';
 
@@ -33,18 +31,6 @@ const routes = [
         // 题目列表
         path: '/plist',
         component: problemlist,
-        meta: {
-            isLogin: false
-        }
-    },
-    {
-        // 题目详情
-        path: '/problem',
-        component: problemdetail,
-        props: (route) => ({
-            pid: route.query.p, // 题目标号
-            cid: route.query.c  // 比赛标号
-        }),
         meta: {
             isLogin: false
         }
@@ -85,18 +71,6 @@ const routes = [
         // (某场比赛)讨论板单条详情
         path: '/discuss/:id/:did',
         component: discussdetail,
-        meta: {
-            isLogin: true
-        }
-    },
-    {
-        // 提交页面
-        path: '/submit',
-        component: submitpage,
-        props: (route) => ({
-            pid: route.query.p, // 题目标号
-            cid: route.query.c  // 比赛标号
-        }),
         meta: {
             isLogin: true
         }

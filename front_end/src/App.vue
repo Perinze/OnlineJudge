@@ -17,15 +17,8 @@
             :cid="codeComponentData.cid"
             :is-display="topDisplay"
             @close="topDisplay=false"
-            @change-lang="changeLang"
-        >
-            <code-editor
-                ref="codeEditor"
-                :lang="codeComponentData.lang"
-                :precode="codeComponentData.code"
-                :expectHeight="codeComponentData.height"
-            />
-        </topdrawer>
+            @close-all="topDisplay=false; sideDisplay=false"
+        />
         <sidedrawer
             :pid="problemComponentData.pid"
             :cid="problemComponentData.cid"
@@ -43,15 +36,13 @@
     import sidenav from "./components/side-nav";
     import topdrawer from "./components/top-drawer";
     import sidedrawer from "./components/side-drawer";
-    import codeEditor from "./components/myCodemirror";
 
     export default {
         components: {
             topnav,
             sidenav,
             sidedrawer,
-            topdrawer,
-            codeEditor
+            topdrawer
         },
         data() {
             return {
@@ -108,20 +99,12 @@
                 this.sideDisplay = true;
             },
             callSubmit: function(val) {
-                if(val.pid !== this.codeComponentData.pid) {
-                    this.codeComponentData.code = '';
-                    this.$refs.codeEditor.code = '';
-                }
                 this.codeComponentData.pid = val.pid;
                 this.codeComponentData.cid = val.cid;
-                this.codeComponentData.height = this.$root.$el.clientHeight * 0.95 - 65;
+                this.codeComponentData.height = this.$root.$el.clientHeight * 0.95 - 95;
                 this.topDisplay = true;
                 // 指定CodeMirror Class加上style height
                 document.getElementsByClassName('CodeMirror')[0].setAttribute('style', `height: ${this.codeComponentData.height}px;`);
-            },
-            changeLang(val) {
-                if(val==null || val==undefined) this.codeComponentData.lang = 'text/x-csrc';
-                else this.codeComponentData.lang = val;
             }
         },
         computed: {

@@ -103,13 +103,23 @@
     }
 
     .CodeMirror {
-        /*height: 480px;*/
+        height: 480px;
         overflow: hidden;
     }
 
-    /*@media screen and (min-height: 780px) {*/
-        /*.CodeMirror {*/
-            /*height: 730px;*/
-        /*}*/
-    /*}*/
+    .cm-s-material {
+        .CodeMirror-gutters {
+            background: unset;
+        }
+    }
+
+    .cm-s-material.CodeMirror {
+        background-color: rgba(38, 50, 56, 0.9);
+    }
+
+    @media screen and (min-height: 780px) {
+        .CodeMirror {
+            height: 730px;
+        }
+    }
 </style>
