@@ -38,7 +38,7 @@ class SubmitModel extends Model
     public function get_the_submit($where)
     {
         try {
-            $language = ['c.gcc', 'cpp.g++', 'py.cpython', 'java.java'];
+            $language = config('wutoj_config.language');
             $info = $this->field(['submit.id as runid','submit.user_id as user_id','users.nick as nick', 'problem_id', 'language', 'submit.status as status', 'time', 'memory', 'submit_time'])
                 ->where($where)->order('submit_time')->join('users','submit.user_id = users.user_id')->buildSql();
             $info = Db::query($info);
