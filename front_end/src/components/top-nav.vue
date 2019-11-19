@@ -33,8 +33,7 @@
         background: white;
         transition: background .1s ease 0s,
                     width 0.5s ease-in;
-        color: #888888;/*rgba(,1);*/
-        /*-webkit-backdrop-filter: blur(10px);*/
+        color: #888888;
     }
 
     .search-bar {
@@ -46,34 +45,29 @@
         width: 90%;
         max-width: 1230px;
         height: 35px;
-        /*opacity: 0.5;*/
         border-radius: 17.5px;
         background: rgba(255,255,255,0.3);
-        transition: all .6s ease 0s;
-        /*background: rgba(0,0,0,0.3);*/
+        >input, >input::placeholder, >img, & {
+            transition: all .6s ease 0s;
+        }
         &:hover {
             background: rgba(255,255,255,0.5);
-            transition: all .6s ease 0s;
             >input::placeholder  {
                 color: #888888;
-                transition: all .6s ease 0s;
-            }
-            >img {
-                filter: invert(0.4);
-                transition: all .6s ease 0s;
             }
         }
-        &:focus {
+        &:focus, &:hover {
             >img {
                 filter: invert(0.4);
-                transition: all .6s ease 0s;
             }
+        }
+        &:active {
+            background: rgba(255,255,255,0.5);
         }
         >img {
             position: absolute;
             left: 16px;
             filter: invert(0.8);
-            transition: all .6s ease 0s;
         }
         >input {
             display: unset;
@@ -85,16 +79,13 @@
             border: none;
             outline: none;
             -webkit-tap-highlight-color: rgba(0,0,0,0);
-            transition: all .6s ease 0s;
             &::placeholder {
                 font-size:15px;
                 font-weight:300;
                 color: #BBBBBB;
-                transition: all .6s ease 0s;
             }
             &:focus::placeholder  {
                 color: #888888;
-                transition: all .6s ease 0s;
             }
         }
     }

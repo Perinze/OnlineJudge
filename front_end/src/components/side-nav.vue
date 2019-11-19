@@ -1,7 +1,11 @@
 <template>
     <div id="side-bar">
-        <user-card :is-display="displayUsercard" @close="displayUsercard=false"/>
-        <welcome :display="displayWelcome&&(!isLogin)" @logged="recvLoginData" @close="displayWelcome=false"/>
+        <transition name="user-card">
+            <user-card @close="displayUsercard=false" v-if="displayUsercard"/>
+        </transition>
+        <transition name="welcome">
+            <welcome @logged="recvLoginData" @close="displayWelcome=false" v-if="displayWelcome&&(!isLogin)"/>
+        </transition>
         <div class="logo">
             <div style="position: relative;top: 9px">
                 <img src="../../assets/media/logo.png">
@@ -423,7 +427,42 @@
         font-size: 13px;
     }
 
-    /*TODO 660 warning*/
+    /*
+        Animation
+    */
+
+
+    // user-card
+
+    .user-card-enter-active, .user-card-leave-active {
+        transition: all 0.6s ease;
+    }
+
+    .user-card-enter {
+        transform: rotate(-60deg);
+        opacity: 0.5;
+    }
+
+    .user-card-leave-to {
+        transform: rotate(-60deg);
+        opacity: 0;
+    }
+
+    // welcome
+
+    .welcome-enter-active, .welcome-leave-active {
+        transition: all 0.6s ease;
+    }
+
+    .welcome-enter {
+        opacity: 0.3;
+    }
+
+    .welcome-leave-to {
+        opacity: 0;
+    }
+
+    /* TODO 660 warning */
     
     @media (min-height: 695px) {
         .button-blank {

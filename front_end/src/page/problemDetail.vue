@@ -256,7 +256,7 @@
         border: 1px solid #aaaaaa;
         border-radius: .4em;
         padding: 10px 0 10px 15px;
-        width: 300px;
+        width: 250px;
         height: auto;
         user-select: text;
         resize: none;

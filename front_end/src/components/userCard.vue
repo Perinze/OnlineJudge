@@ -1,5 +1,5 @@
 <template>
-    <div class="user-card" v-if="isDisplay">
+    <div class="user-card">
         <div class="mask" @click="$emit('close')"></div>
         <div class="content" @click.self="$emit('close')"> <!-- @click.self 确保是自身触发而不是内部触发 -->
             <div class="left">
@@ -29,7 +29,6 @@
 <script>
     export default {
         name: "user-card",
-        props: [ 'isDisplay' ],
         data() {
             return {
                 contentType: 'main', // main feedback
@@ -55,7 +54,7 @@
             width: 100%;
             height: 100%;
             z-index: 1005;
-            background: rgba(0,0,0,.1);
+            /*background: rgba(0,0,0,.1);*/
         }
         .content {
             display: flex;
@@ -171,5 +170,11 @@
     .ease-fade-enter, .ease-fade-leave-to {
         transform: translateX(10px);
         opacity: 0;
+    }
+
+    // 父级transiform原点
+
+    .user-card {
+        transform-origin: calc((100% - 820px)/2 + 90px);
     }
 </style>

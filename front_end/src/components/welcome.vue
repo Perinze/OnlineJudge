@@ -1,5 +1,5 @@
 <template>
-    <div class="welcome" v-if="display" @click.right="rejectContext($event)">
+    <div class="welcome" @click.right="rejectContext($event)">
         <div id="function-mask" @click="close"></div>
         <div class="welcome-main" ref="card">
             <div class="welcome-view">
@@ -338,12 +338,6 @@
 
     export default {
         name: "welcome",
-        props: {
-            display: {
-                type: Boolean,
-                default: false,
-            }
-        },
         data() {
             return {
                 activeInteract: "default",
