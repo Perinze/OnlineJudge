@@ -12,6 +12,7 @@ namespace app\oj\controller;
 use app\oj\model\NoticeModel;
 use app\oj\model\RotationModel;
 use app\oj\model\SubmitlogModel;
+use app\oj\model\SubmitModel;
 use think\Controller;
 
 
@@ -42,7 +43,8 @@ class Index extends Controller
 
     public function contest()
     {
-
+        $submit_model = new SubmitModel();
+        halt($submit_model->get_all_submit([]));
     }
 
     public function date()

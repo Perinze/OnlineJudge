@@ -90,10 +90,11 @@ class UserModel extends Model
         }
     }
 
-    public function user_rank()
+    public function user_rank($offset)
     {
         try {
-            $info = $this->where('state', 0)->select()->toArray();
+            $info = $this->field(['user_id', 'nick', 'school', 'desc', 'ac_num', 'wa_num'])
+                ->where('state', 0)->order('ac_num')->limit($offset, config())->select()->toArray();
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];
         }

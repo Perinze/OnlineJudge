@@ -15,9 +15,22 @@ class RankCacheModel extends Model
     public function __construct($data = [])
     {
         parent::__construct($data);
-        $this->cache_time = config('wutoj_cache.rank_cache_time');
+        $this->cache_time = config('wutoj_config.rank_cache_time');
     }
 
+    public function set_user_rank_cache($data)
+    {
+        try {
+            $ok = Cache::store('redis')->set(config('wutoj_config.user_rank_cache'), $data, $this->cache_time);
+            if (!$ok) {
+                return ['code' => CODE_ERROR, 'msg' => '更新用户排行榜失败', 'data' => $data];
+            } else {
+                return ['code' => CODE_SUCCESS, 'msg' => '更新用户排行榜成功', 'data' => $data];
+            }
+        } catch (Exception $e) {
+            return ['code' => CODE_ERROR, 'msg' => 'redis异常', 'data' => $e->getMessage()];
+        }
+    }
     public function set_rank_cache($data, $contest_id)
     {
         try {
