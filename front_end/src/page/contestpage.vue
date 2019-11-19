@@ -28,7 +28,7 @@
                         <th style="width: 128px;">罚时 Penalty</th>
                         <th v-for="index in contest_info.problems.length"
                             class="problem-head"
-                            @click="$router.push('/problem?p='+contest_info.problems[index-1]+'&c='+contest_info.id)"
+                            @click="$emit('open-problem', {pid: contest_info.problems[index-1], cid:contest_info.id})"
                         >
                             {{String.fromCharCode(64 + index)}}
                         </th>
@@ -325,14 +325,6 @@
                 this.getMyRank();
             }
         },
-        //activated() {
-            //if(new Date(this.contest_info.begin_time).getTime() <= new Date().getTime()) {
-                // 比赛开始
-                //this.renderStatusList();
-                //this.renderDiscussList();
-                //this.getMyRank();
-            //}
-       //},
         methods: {
             timeFormat(param) {
                 return param < 10 ? '0' + param : param;
@@ -481,7 +473,7 @@
                 });
                 if(response.status==0) {
                     this.discusses = [];
-                    response.data.forEach( (val, index) => {
+                    response.data.forEach( val => {
                         this.discusses.push({
                             id: val.id,
                             problem: val.problem_id,

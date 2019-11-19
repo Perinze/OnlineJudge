@@ -31,10 +31,10 @@
         height: 60px;
         z-index: 999;
         background: white;
-        transition: background .1s ease 0s;
+        transition: background .1s ease 0s,
+                    width 0.5s ease-in;
         color: #888888;/*rgba(,1);*/
         /*-webkit-backdrop-filter: blur(10px);*/
-        transition: width 0.5s ease-in;
     }
 
     .search-bar {

@@ -245,6 +245,8 @@
             }
         }
         &-code {
+            overflow: hidden;
+            border-radius: 10px;
             margin-top: 10px;
             > label {
                 font-weight: bold;

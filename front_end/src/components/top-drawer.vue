@@ -1,12 +1,9 @@
 <template>
     <div id="top-drawer" :style="styleObject">
-        <slot class="slot"/>
         <div class="function-group">
-            <span>当前题目: {{pid}}</span>
-            <span v-if="cid!=null">当前比赛: {{cid}}</span>
             <div>
                 <label for="code-lang">编译语言: </label>
-                <select v-model="lang" id="code-lang" @change="changeLang">
+                <select v-model="lang" id="code-lang">
                     <option
                         v-for="index in langItems.length"
                         :value="langItems[index-1].value"
@@ -16,6 +13,21 @@
                     </option>
                 </select>
             </div>
+            <div class="btn-group">
+                <button class="test-btn">编译测试</button>
+                <button class="submit-btn" @click="doSubmit">提交代码</button>
+            </div>
+        </div>
+        <div>
+            <div class="tips">
+                <span class="problem">Problem {{pid}}</span>
+                <span class="contest" v-if="cid!=null">ContestID: {{cid}}</span>
+            </div>
+            <code-editor
+                ref="codeEditor"
+                :lang="getCMLang"
+                :precode="code[pid]?code[pid]:''"
+            />
         </div>
         <div class="close-btn" @click="close()">
             <img src="../../assets/icon/packup.svg" width="18" height="18" alt="close">
@@ -24,13 +36,17 @@
 </template>
 
 <script>
+    import codeEditor from "./myCodemirror";
+
     import { getProblem, submitCode, checkLogin } from "../api/getData";
 
     export default {
         name: "top-drawer",
         props: [ 'isDisplay', 'pid', 'cid' ],
+        components: { codeEditor },
         data() {
             return {
+                code: [],
                 lang: 'c.gcc',
                 langItems: [
                     {
@@ -60,17 +76,39 @@
             close() {
                 this.$emit('close');
             },
-            changeLang() {
-                let index = this.langItems.map(x => x.value).indexOf(this.lang);
-                this.$emit('change-lang', this.langItems[index].cmValue);
+            checkLoginStatus: async function() {
+                let response = await checkLogin({
+                    user_id: localStorage.getItem('userId')
+                });
+                if(response.status==0) {
+                    if(response.message.indexOf('不符')!==-1) {
+                        this.$message({
+                            message: '登陆状态错误, 请登出后重新登录',
+                            type: 'warning'
+                        });
+                        return false;
+                    }
+                }else{
+                    if(response.status==-1) {
+                        this.$store.dispatch("login/userLogin", false);
+                        localStorage.removeItem("Flag");
+                        this.$message({
+                            message: '登陆状态已过期, 请重新登录',
+                            type: 'warning'
+                        });
+                        return false;
+                    }
+                }
+                return true;
             },
             doSubmit: async function() {
-                // TODO checkLogin
+                let tmp = await this.checkLoginStatus();
+                if(!tmp) return;
                 this.$loading.open();
                 let requestData = {
                     language: this.lang,
                     source_code: this.$refs.codeEditor.code,
-                    problem_id: this.pid,
+                    problem_id: String(this.pid), // 傻逼ljw后端只能传string
                 };
                 if(this.cid != undefined) {
                     requestData.contest_id = this.cid;
@@ -86,6 +124,9 @@
                     if(this.cid != undefined) {
                         link += '&c=' + this.cid;
                     }
+                    // 提交成功,隐藏两个drawer
+                    this.$emit('close-all');
+                    // 跳转到状态表
                     this.$router.push(link);
                 }else{
                     this.$message({
@@ -107,6 +148,14 @@
                     res['margin-top'] = '-95%';
                 }
                 return res;
+            },
+            getCMLang() {
+                let res = this.langItems.map(x => x.value).indexOf(this.lang);
+                if(res===-1) {
+                    return "text/x-csrc";
+                }else{
+                    return this.langItems[res].cmValue;
+                }
             }
         }
     }
@@ -119,20 +168,34 @@
         height: 95%;
         top: 0;
         left: 220px;
-        /*background: rgba(38, 50, 56, 0.65);*/
         background: rgba(255, 255, 255, 0.65);
         border: {
             bottom-left-radius: .8em;
             bottom-right-radius: .8em;
         }
         backdrop-filter: blur(10px);
-        box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+        box-shadow: 0 2px 15px rgba(0,0,0,0.18);
         z-index: 1001;
         transition: margin-top 0.6s ease-in-out;
     }
 
-    .slot {
-
+    .tips {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(38, 50, 56, 0.9);
+        color: #537F7E;
+        padding: 5px 6px 0 18px;
+        > span {
+            display: inline-block;
+        }
+        .problem {
+            font-size: 12pt;
+        }
+        .contest {
+            font-size: 10pt;
+            padding-top: 1px;
+        }
     }
 
     .function-group {
@@ -142,6 +205,24 @@
         width: 100%;
         height: 35px;
         padding: 0 10px;
+        .btn-group {
+            > button {
+                height: 26px;
+                padding: {
+                    left: 10px;
+                    right: 10px;
+                }
+                font-size: 13px;
+                cursor: pointer;
+                border-radius: 10px;
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+            .submit-btn {
+                margin-left: 5px;
+            }
+        }
     }
 
     .close-btn {
@@ -151,9 +232,9 @@
         width: 100%;
         height: 25px;
         margin-top: 5px;
-        /*top: auto;*/
         bottom: 0;
         cursor: pointer;
+        padding-bottom: 2px;
         /*backdrop-filter: blur(3px);*/
     }
 </style>

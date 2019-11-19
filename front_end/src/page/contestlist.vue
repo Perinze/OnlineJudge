@@ -154,6 +154,9 @@
         &:first-child {
             margin-top: 88px;
         }
+        &:last-child {
+            margin-bottom: 80px;
+        }
     }
 
     .contest-content {
