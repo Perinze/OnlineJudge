@@ -48,6 +48,7 @@ class Login extends Controller
                 'userId' => $result['data']['user_id'],
                 'nick' => $result['data']['nick'],
                 'desc' => $result['data']['desc'],
+                //TODO 删除
                 'acCnt' => count(json_decode($result['data']['ac_problem'], true)),
                 'waCnt' => count(json_decode($result['data']['wa_problem'], true)),
             );

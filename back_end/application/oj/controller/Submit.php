@@ -108,8 +108,9 @@ class Submit extends Base
         }
         $contest_id = 0;
         $temp = $submit_model->get_the_submit(['submit.user_id' => $user_id]);
-        if(!empty($temp['data']) && $time - strtotime($temp['data'][count($temp['data']) - 1]['submit_time']) < 5){
-            return apiReturn(CODE_ERROR, '请5S后再交题');
+        $interval_time = config('wutoj_config.interval_time');
+        if(!empty($temp['data']) && $time - strtotime($temp['data'][count($temp['data']) - 1]['submit_time']) < $interval_time){
+            return apiReturn(CODE_ERROR, '请'.$interval_time.'S后再交题');
         }
         if ($problem['data']['status'] === CONTEST) {
             if (isset($req['contest_id'])) {
@@ -159,9 +160,11 @@ class Submit extends Base
 //                'code' => $req['source_code'],
 //            ]
 //        ), true);
-        post('http://10.143.216.128:8819/submit', json_encode(array(
-            'id' => $info['data'],
-            'pid' => $req['problem_id'],
+        $submit_url = config('wutoj_config.submit_url');
+        $length = count($submit_url);
+        post($submit_url[mt_rand(0, $length - 1)], json_encode(array(
+            'id' => (string)$info['data'],
+            'pid' => (string)$req['problem_id'],
             'source' => [
                 'language' => $req['language'],
                 'code' => $req['source_code'],
