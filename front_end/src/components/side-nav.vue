@@ -1,5 +1,6 @@
 <template>
     <div id="side-bar">
+        <user-card :is-display="displayUsercard" @close="displayUsercard=false"/>
         <welcome :display="displayWelcome&&(!isLogin)" @logged="recvLoginData" @close="displayWelcome=false"/>
         <div class="logo">
             <div style="position: relative;top: 9px">
@@ -17,7 +18,12 @@
             >
             <div class="user-alias-border">
                 <div class="user-alias">
-                    <img :src="avatorComputed" height="40" width="40"/>
+                    <img id="user-alias-img"
+                         :src="avatorComputed"
+                         height="40"
+                         width="40"
+                         @click="callUsercard"
+                    />
                 </div>
             </div>
             <div class="user-info" align="center" v-if="isLogin">
@@ -47,7 +53,7 @@
             <div class="function-btn-group" v-show="!isLogin">
                 <span id="unlog-guide">您还没登陆</span>
                 <br>
-                <button @click="displayWelcome = true;">注册/登录</button>
+                <button @click="displayWelcome = true">注册/登录</button>
             </div>
         </div>
         <div>
@@ -91,6 +97,7 @@
 
 <script>
     import MenuItem from "./menu-item";
+    import userCard from "../components/userCard";
     import welcome from "../components/welcome";
     import { logoutWork } from "../api/common";
     import { logout, checkLogin } from "../api/getData";
@@ -98,7 +105,7 @@
     import store from '../store';
 
     export default {
-        components: { MenuItem, welcome },
+        components: { MenuItem, welcome, userCard },
         name: "side-nav",
         data() {
             return {
@@ -137,6 +144,7 @@
                 userinfo: {
                     avator: '/assets/media/avator.png',
                 },
+                displayUsercard: false,
                 displayWelcome: false,
                 imgs: {
                     testAvator: require('../../assets/media/avator.png'),
@@ -160,12 +168,9 @@
             recvLoginData: function(data) {
                 this.$store.dispatch("login/userInfoStorage", data);
                 this.userinfo.isLogin = true;
+                document.getElementById('user-alias-img').setAttribute('style', 'cursor: pointer;');
             },
             doLogout: async function() {
-                // this.$loading.open();
-                // setTimeout(() =>{
-                //     this.$loading.hide();
-                // },5000)
                 let response = await logout();
                 if(response.status == 0) {
                     // ok
@@ -176,8 +181,7 @@
                     procedure.then( () => {
                         this.initUser();
                     });
-                }else{
-                    //error
+                    document.getElementById('user-alias-img').setAttribute('style', 'cursor: unset;');
                 }
             },
             initUser() {
@@ -216,6 +220,10 @@
                         });
                     }
                 }
+            },
+            callUsercard() {
+                if(localStorage.getItem('Flag')==='isLogin') this.displayUsercard=true;
+                else return;
             }
         },
         computed: {
