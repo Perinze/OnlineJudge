@@ -18,6 +18,7 @@
     require("codemirror/addon/edit/matchbrackets.js");
     require("codemirror/addon/selection/active-line");
     require("codemirror/theme/material.css");
+    // require("codemirror/addon/lint/lint.css");
     // require('codemirror/addon/fold/foldcode.js');
     // require('codemirror/addon/fold/foldgutter.js');
     // require("codemirror/addon/fold/foldgutter.css");
@@ -26,7 +27,7 @@
     // require('codemirror/addon/fold/indent-fold.js');
     // require('codemirror/addon/fold/markdown-fold.js');
     // require('codemirror/addon/fold/comment-fold.js');
-    // require("codemirror/addon/edit/closeBrackets");
+    require("codemirror/addon/edit/closebrackets");
     export default {
         name: "mycodemirror",
         props: {
@@ -67,9 +68,7 @@
                     lineNumbers: true,                  // 显示行号
                     matchBrackets: true,                // 括号匹配
                     lineWrapping: true,                 // 自动换行
-                    extraKeys: {
-                        'Ctrl-Space': 'autocomplete'    // ctrl+space自动补全
-                    },
+                    autoCloseBrackets: true,            // 自动闭合符号
                 }
             }
         },

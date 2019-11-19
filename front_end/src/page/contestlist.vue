@@ -1,7 +1,12 @@
 <template>
     <div class="contestlist">
-        <!-- TODO 正在进行 -->
-        <div class="contest-card" v-for="index in items.length" :key="'contest-card-'+index">
+        <div class="separator"><i>正在进行</i></div>
+        <div class="contest-card"
+             v-for="index in items.length"
+             :key="'contest-card-'+index"
+             v-if="new Date(items[index-1].begin_time).getTime() <= new Date().getTime() &&
+                   new Date().getTime() < new Date(items[index-1].end_time).getTime()"
+        >
             <div class="contest-content" @click="goto(items[index-1].id)">
                 <div class="content-words">
                     <span class="contest-title">{{items[index-1].title}}</span>
@@ -25,8 +30,64 @@
                 </button>
             </div>
         </div>
-        <!-- TODO 即将到来 -->
-        <!-- TODO 已经结束 -->
+        <div class="separator"><i>即将到来</i></div>
+        <div class="contest-card"
+             v-for="index in items.length"
+             :key="'contest-card-'+index"
+             v-if="new Date().getTime() <= new Date(items[index-1].begin_time).getTime()"
+        >
+            <div class="contest-content" @click="goto(items[index-1].id)">
+                <div class="content-words">
+                    <span class="contest-title">{{items[index-1].title}}</span>
+                    <span class="contest-sub-title">{{items[index-1].begin_time + ' — ' + items[index-1].end_time}}</span>
+                </div>
+            </div>
+            <div class="function-btn-group">
+                <!--disabled-->
+                <button class="join"
+                        :class="[(items[index-1].status===1 && (new Date(items[index-1].begin_time).getTime() > new Date().getTime()))?'can-join':'cant-join']"
+                        @click="doJoinContest(index-1)"
+                        v-show="!items[index-1].hasJoin"
+                >
+                    {{(items[index-1].status===1 && (new Date(items[index-1].begin_time).getTime() > new Date().getTime()))?'点我报名':'不可报名'}}
+                </button>
+                <button class="join"
+                        :class="[(items[index-1].status===1 && (new Date(items[index-1].begin_time).getTime() > new Date().getTime()))?'has-join':'cant-join']"
+                        v-show="items[index-1].hasJoin"
+                >
+                    已经报名
+                </button>
+            </div>
+        </div>
+        <div class="separator"><i>已经结束</i></div>
+        <div class="contest-card"
+             v-for="index in items.length"
+             :key="'contest-card-'+index"
+             v-if="new Date().getTime() >= new Date(items[index-1].end_time).getTime()"
+        >
+            <div class="contest-content" @click="goto(items[index-1].id)">
+                <div class="content-words">
+                    <span class="contest-title">{{items[index-1].title}}</span>
+                    <span class="contest-sub-title">{{items[index-1].begin_time + ' — ' + items[index-1].end_time}}</span>
+                </div>
+            </div>
+            <div class="function-btn-group">
+                <!--disabled-->
+                <button class="join"
+                        :class="[(items[index-1].status===1 && (new Date(items[index-1].begin_time).getTime() > new Date().getTime()))?'can-join':'cant-join']"
+                        @click="doJoinContest(index-1)"
+                        v-show="!items[index-1].hasJoin"
+                >
+                    {{(items[index-1].status===1 && (new Date(items[index-1].begin_time).getTime() > new Date().getTime()))?'点我报名':'不可报名'}}
+                </button>
+                <button class="join"
+                        :class="[(items[index-1].status===1 && (new Date(items[index-1].begin_time).getTime() > new Date().getTime()))?'has-join':'cant-join']"
+                        v-show="items[index-1].hasJoin"
+                >
+                    已经报名
+                </button>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -135,7 +196,41 @@
         height: 100%;
         overflow-x: hidden;
         overflow-y: scroll;
-        padding-left: 25px;
+        padding: 88px 0 80px 25px;
+    }
+
+    .separator {
+        display: flex;
+        justify-content: center;
+        /*align-items: center;*/
+        height: 30px;
+        width: 90%;
+        min-width: 875px;
+        max-width: 990px;
+        padding-right: 25px;
+        margin: 0 auto 10px auto;
+        > i {
+            margin: 0 calc(50% - 400px);
+            /*width: calc(100% - 100px);*/
+            font: {
+                size: 17px;
+                weight: bold;
+            }
+        }
+        &::before {
+            content: '<----------------------------- ';
+            font: {
+                size: 17px;
+                style: italic;
+            }
+        }
+        &::after {
+            content: ' ----------------------------->';
+            font: {
+                size: 17px;
+                style: italic;
+            }
+        }
     }
 
     .contest-card {
@@ -151,12 +246,6 @@
         max-width: 990px;
         cursor: pointer;
         box-shadow: 0 2px 15px rgba(0,0,0,0.08);
-        &:first-child {
-            margin-top: 88px;
-        }
-        &:last-child {
-            margin-bottom: 80px;
-        }
     }
 
     .contest-content {

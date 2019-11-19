@@ -26,7 +26,7 @@
             <code-editor
                 ref="codeEditor"
                 :lang="getCMLang"
-                :precode="code[pid]?code[pid]:''"
+                :precode="getCode"
             />
         </div>
         <div class="close-btn" @click="close()">
@@ -46,7 +46,7 @@
         components: { codeEditor },
         data() {
             return {
-                code: [],
+                code: {},
                 lang: 'c.gcc',
                 langItems: [
                     {
@@ -156,6 +156,18 @@
                 }else{
                     return this.langItems[res].cmValue;
                 }
+            },
+            getCode() {
+                return this.code[this.pid]===undefined?'':this.code[this.pid];
+            }
+        },
+        watch: {
+            pid(before, val) {
+                // 保存之前的代码
+                this.code[before] = this.$refs.codeEditor.code;
+                // 从未有过临时代码
+                if(this.code[val]===undefined) this.code[val] = '';
+                this.$refs.codeEditor.code = this.code[val];
             }
         }
     }

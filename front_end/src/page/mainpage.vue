@@ -47,13 +47,13 @@
                     <contest-card
                             v-for="index in contestData.length"
                             :key="index"
+                            v-if="new Date(contestData[index-1].end_time).getTime() >= new Date().getTime()"
                             :contest-nick="contestData[index-1].title"
                             contest-type="ACM"
                             :contest-num="contestData[index-1].contestantNum | stdNum"
                             :contest-id="contestData[index-1].id"
                             style="cursor: pointer;"
-                    >
-                    </contest-card>
+                    />
                 </div>
             </div>
         </div>
@@ -101,7 +101,9 @@
                     // {
                     //     id: 1000,
                     //     title: '',
-                    //     contestantNum: 2244
+                    //     contestantNum: 2244,
+                    //     begin_time: '',
+                    //     end_time: ''
                     // }
                 ]
             }
@@ -145,7 +147,9 @@
                         let res = {
                             id: val.contest_id,
                             title: val.contest_name,
-                            contestantNum: 2244
+                            contestantNum: 2244, // TODO 参加人数
+                            begin_time: val.begin_time,
+                            end_time: val.end_time
                         };
                         this.contestData.push(res);
                     });
