@@ -33,10 +33,11 @@ class Submit extends Base
         if (empty($user_id)) {
             return apiReturn(CODE_ERROR, '未登录', '');
         }
+        $page = isset($req['page']) ? (int)$req['page'] : 0;
         if(!isset($req['contest_id']) && !isset($req['user_id'])){
             $resp = $submit_model->get_the_submit(array(
-                'contest_id' => 0
-            ));
+                'contest_id' => 0,
+            ),$page);
             return apiReturn($resp['code'], $resp['msg'], $resp['data']);
         }
         if (isset($req['contest_id'])) {
@@ -57,7 +58,7 @@ class Submit extends Base
                     $where[] = ['submit.user_id', '=', $req['user_id']];
                 }
             }
-            $resp = $submit_model->get_the_submit($where);
+            $resp = $submit_model->get_the_submit($where, $page);
             $temp = $resp['data'];
             unset($resp['data']);
             $resp['data']['submit_info'] = $temp;
@@ -72,7 +73,7 @@ class Submit extends Base
             if(isset($req['user_id'])){
                 $where[] = ['submit.user_id', '=', $req['user_id']];
             }
-            $resp = $submit_model->get_the_submit($where);
+            $resp = $submit_model->get_the_submit($where, $page);
         }
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }

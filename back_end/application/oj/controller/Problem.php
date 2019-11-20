@@ -28,7 +28,9 @@ class Problem extends Controller
     {
         $problem_model = new ProblemModel();
         // TODO 上Redis
-        $resp = $problem_model->get_all_problem();
+        $req = input('post.');
+        $page = isset($req['page']) ? (int)$req['page'] : 0;
+        $resp = $problem_model->get_all_problem($page);
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 

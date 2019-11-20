@@ -13,5 +13,7 @@ return [
     'language' => [
         'c.gcc',
         'cpp.g++',
-    ]
+    ],
+    /* 每面数量 */
+    'page_limit' => 20,
 ];
