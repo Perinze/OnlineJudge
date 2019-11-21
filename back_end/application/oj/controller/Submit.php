@@ -12,7 +12,7 @@ namespace app\oj\controller;
 use app\oj\model\ContestModel;
 use app\oj\model\ContestUserModel;
 use app\oj\model\ProblemModel;
-use app\oj\model\RankCacheModel;
+use app\oj\model\OJCacheModel;
 use app\oj\model\SubmitModel;
 use app\oj\validate\SubmitValidate;
 use think\facade\Session;
@@ -24,7 +24,7 @@ class Submit extends Base
     {
         $submit_model = new SubmitModel();
         $contest_model = new ContestModel();
-        $rankCache_model = new RankCacheModel();
+        $rankCache_model = new OJCacheModel();
         $req = input('post.');
         $where = [];
         $user_id = Session::get('user_id');
@@ -33,10 +33,11 @@ class Submit extends Base
         if (empty($user_id)) {
             return apiReturn(CODE_ERROR, '未登录', '');
         }
+        $page = isset($req['page']) ? (int)$req['page'] : 0;
         if(!isset($req['contest_id']) && !isset($req['user_id'])){
             $resp = $submit_model->get_the_submit(array(
-                'contest_id' => 0
-            ));
+                'contest_id' => 0,
+            ),$page);
             return apiReturn($resp['code'], $resp['msg'], $resp['data']);
         }
         if (isset($req['contest_id'])) {
@@ -57,7 +58,7 @@ class Submit extends Base
                     $where[] = ['submit.user_id', '=', $req['user_id']];
                 }
             }
-            $resp = $submit_model->get_the_submit($where);
+            $resp = $submit_model->get_the_submit($where, $page);
             $temp = $resp['data'];
             unset($resp['data']);
             $resp['data']['submit_info'] = $temp;
@@ -72,7 +73,7 @@ class Submit extends Base
             if(isset($req['user_id'])){
                 $where[] = ['submit.user_id', '=', $req['user_id']];
             }
-            $resp = $submit_model->get_the_submit($where);
+            $resp = $submit_model->get_the_submit($where, $page);
         }
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
@@ -84,7 +85,8 @@ class Submit extends Base
         $submit_validate = new SubmitValidate();
         $contest_model = new ContestModel();
         $contest_user_model = new ContestUserModel();
-        $language = ['c.gcc', 'cpp.g++'];
+        $oj_cache_model = new OJCacheModel();
+        $language = config('wutoj_config.language');
         $time = time();
         $req = input('post.');
         $result = $submit_validate->scene('submit')->check($req);
@@ -107,9 +109,10 @@ class Submit extends Base
             return apiReturn(CODE_ERROR, '未登录', '');
         }
         $contest_id = 0;
-        $temp = $submit_model->get_the_submit(['submit.user_id' => $user_id]);
         $interval_time = config('wutoj_config.interval_time');
-        if(!empty($temp['data']) && $time - strtotime($temp['data'][count($temp['data']) - 1]['submit_time']) < $interval_time){
+        // TODO 利用Redis完成
+        $ok = $oj_cache_model->get_submit_cache($user_id);
+        if($ok['code'] === CODE_SUCCESS){
             return apiReturn(CODE_ERROR, '请'.$interval_time.'S后再交题');
         }
         if ($problem['data']['status'] === CONTEST) {
@@ -162,14 +165,15 @@ class Submit extends Base
 //        ), true);
         $submit_url = config('wutoj_config.submit_url');
         $length = count($submit_url);
-        post($submit_url[mt_rand(0, $length - 1)], json_encode(array(
-            'id' => (string)$info['data'],
-            'pid' => (string)$req['problem_id'],
-            'source' => [
-                'language' => $req['language'],
-                'code' => $req['source_code'],
-            ]
-        ), true));
+        $oj_cache_model->set_submit_cache($user_id);
+//        post($submit_url[mt_rand(0, $length - 1)], json_encode(array(
+//            'id' => (string)$info['data'],
+//            'pid' => (string)$req['problem_id'],
+//            'source' => [
+//                'language' => $req['language'],
+//                'code' => $req['source_code'],
+//            ]
+//        ), true));
         return apiReturn(CODE_SUCCESS, '提交成功', $info['data']);
     }
 

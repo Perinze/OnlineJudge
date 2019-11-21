@@ -18,9 +18,10 @@ class ProblemModel extends Model
 
     protected $table = 'problem';
 
-    public function get_all_problem()
+    public function get_all_problem($page)
     {
         try {
+            $page_limit = config('wutoj_cache.page_limit');
             $info = $this->alias('p')
                 ->field(['p.problem_id as problem_id', 'title', 'tag',
                     'count(case when submit.status="AC" then submit.status end) as ac',
@@ -31,7 +32,9 @@ class ProblemModel extends Model
                     'count(case when submit.status="SE" then submit.status end) as se',
                     'count(case when submit.status="CE" then submit.status end) as ce'])
                 ->where('p.status', USING)
-                ->leftJoin('submit', 'p.problem_id = submit.problem_id')->group('p.problem_id')->select()->toArray();
+                ->leftJoin('submit', 'p.problem_id = submit.problem_id')
+                ->group('p.problem_id')
+                ->limit($page * $page_limit, $page_limit)->select()->toArray();
             if (empty($info)) {
                 return ['code' => CODE_ERROR, 'msg' => '查找失败', 'data' => ''];
             }

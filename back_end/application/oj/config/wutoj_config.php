@@ -10,4 +10,10 @@ return [
         'http://10.143.216.128:8819/submit'
     ],
     'interval_time' => 5,
+    'language' => [
+        'c.gcc',
+        'cpp.g++',
+    ],
+    /* 每面数量 */
+    'page_limit' => 20,
 ];
