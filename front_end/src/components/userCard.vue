@@ -4,12 +4,64 @@
         <div class="content" @click.self="$emit('close')"> <!-- @click.self 确保是自身触发而不是内部触发 -->
             <div class="left">
                 <div><div></div></div>
-                <img src="../../assets/media/avator.png" width="60" height="60">
+                <img src="../../assets/media/avator.png"
+                     width="60"
+                     height="60"
+                     @mouseover="avatorMaskDisplay=true"
+                >
+                <div id="avator-mask"
+                     v-show="avatorMaskDisplay"
+                     @mouseout="avatorMaskDisplay=false"
+                     @click="uploadAvator"
+                ></div>
             </div>
             <div class="main">
                 <transition name="ease-fade" mode="out-in">
                     <div class="content-main" key="content-main" v-if="contentType==='main'">
-                        <div class="main-top"></div>
+                        <div class="main-top">
+                            <button id="main-submit-btn" class="function-btn" @click="submitInfoChange" v-if="mainMode==='edit'">保存</button>
+                            <button id="main-cancel-btn" class="function-btn" @click="cancelChange" v-if="mainMode==='edit'">取消</button>
+                            <button id="edit-btn" @click="beginChange" :disabled="!funcAccess.edit">
+                                <img src="../../assets/icon/edit.svg" width="20" height="20">
+                            </button>
+                            <div class="input-group">
+                                <div class="left-info">
+                                    <input id="nick-input" v-model="userInfo.nick" type="text" readonly>
+                                    <input id="desc-input" v-model="userInfo.desc" type="text" :readonly="mainMode!=='edit'">
+                                    <div>
+                                        <div>
+                                            <label for="contact-input">Phone:</label>
+                                            <input id="contact-input" v-model="userInfo.contact" type="text" :readonly="mainMode!=='edit'">
+                                        </div>
+                                        <div>
+                                            <label for="mail-input">E-mial:</label>
+                                            <input id="mail-input" v-model="userInfo.mail" type="text" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="real-info">
+                                    <div>
+                                        <label for="realname-input">姓名:</label>
+                                        <input id="realname-input" v-model="userInfo.realname" type="text" :readonly="mainMode!=='edit'">
+                                    </div>
+                                    <div>
+                                        <label for="school-input">学校:</label>
+                                        <input id="school-input" v-model="userInfo.school" type="text" :readonly="mainMode!=='edit'">
+                                    </div>
+                                    <div>
+                                        <label for="major-input">专业:</label>
+                                        <input id="major-input" v-model="userInfo.major" type="text" :readonly="mainMode!=='edit'">
+                                    </div>
+                                    <div>
+                                        <label for="class-input">班级:</label>
+                                        <input id="class-input" v-model="userInfo.class" type="text" :readonly="mainMode!=='edit'">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="charts">
+                                <div id="radar-chart"></div>
+                            </div>
+                        </div>
                         <div class="main-footer">
                             <button class="feedback-group" @click="contentType='feedback'" :disabled="!funcAccess.feedback">
                                 <img src="../../assets/icon/feedback.svg" width="15" height="15">
@@ -18,7 +70,7 @@
                         </div>
                     </div>
                     <div class="content-feedback" key="feedback" v-if="contentType==='feedback'">
-                        <span @click="contentType='main'">123</span>
+                        <span @click="backToMain()">123</span>
                     </div>
                 </transition>
             </div>
@@ -31,10 +83,101 @@
         name: "user-card",
         data() {
             return {
-                contentType: 'main', // main feedback
+                contentType: 'main', // 'main' or 'feedback'
+                mainMode: 'me', // Mode of Main Card ('me','edit','other')
                 funcAccess: {
-                    feedback: false,
-                }
+                    edit: true,
+                    feedback: true,
+                },
+                userInfo: {
+                    nick: 'DeAnti-',
+                    desc: 'Drag me all the way to the hell.',
+                    realname: '王熠弘',
+                    school: '武汉理工大学',
+                    major: '软件工程',
+                    class: '软工zy1701',
+                    contact: '18454353727',
+                    mail: 'long4664030@163.com'
+                },
+                tmpUserInfo: null,
+                radarChart: null,
+                radarOption: {
+                    tooltip: {},
+                    legend: {
+                        bottom: 20,
+                        data: ['我', 'TA']
+                    },
+                    radar: {
+                        // shape: 'circle',
+                        name: {
+                            textStyle: {
+                                color: '#fff',
+                                backgroundColor: '#999',
+                                borderRadius: 3,
+                                padding: [3, 5]
+                            }
+                        },
+                        indicator: [
+                            { name: '提交量', max: 6500},
+                            { name: '通过率', max: 100},
+                            { name: '注册时间', max: 100}
+                        ]
+                    },
+                    series: [{
+                        name: '我 vs TA',
+                        type: 'radar',
+                        // areaStyle: {normal: {}},
+                        data : [
+                            {
+                                value : [4300, 14, 78],
+                                name : '我'
+                            },
+                            {
+                                value : [5000, 23, 20],
+                                name : 'TA'
+                            }
+                        ]
+                    }]
+                },
+                avatorMaskDisplay: false
+            }
+        },
+        mounted() {
+            this.drawRadarChart();
+        },
+        methods: {
+            drawRadarChart(time=650) {
+                // 保证渲染时有#radar-chart div
+                setTimeout( () => {
+                    this.radarChart = this.$echarts.init(document.getElementById('radar-chart'));
+                    this.radarChart.setOption(this.radarOption);
+                }, time);
+            },
+            beginChange() {
+                // 深拷贝
+                this.tmpUserInfo = JSON.parse(JSON.stringify(this.userInfo));
+                this.mainMode='edit';
+            },
+            cancelChange() {
+                // 深拷贝
+                this.userInfo = JSON.parse(JSON.stringify(this.tmpUserInfo));
+                this.mainMode='me';
+            },
+            submitInfoChange: async function() {
+                // TODO api
+                this.mainMode='me';
+            },
+            backToMain() {
+                this.contentType = 'main';
+                this.drawRadarChart();
+            },
+            uploadAvator() {
+
+            }
+        },
+        watch: {
+            radarOption() {
+                this.drawRadarChart(0);
             }
         }
     }
@@ -94,7 +237,34 @@
                     position: fixed;
                     margin-left: -30px;
                     border: 1px solid white;
-                    border-radius: 60px;
+                    border-radius: 100%;
+                    cursor: pointer;
+                    z-index: 5;
+                }
+                #avator-mask {
+                    position: fixed;
+                    background: rgba(100,100,100,0.35);
+                    border: 1px solid white;
+                    border-radius: 100%;
+                    width: 60px;
+                    height: 60px;
+                    z-index: 6;
+                    cursor: pointer;
+                    margin-left: -30px;
+                    &::before, &::after {
+                        position: absolute;
+                        content: '';
+                        background: white;
+                        opacity: 0.9;
+                    }
+                    &::before {
+                        width: 25px;
+                        height: 2px;
+                    }
+                    &::after {
+                        width: 2px;
+                        height: 25px;
+                    }
                 }
                 &::before, &::after {
                     content: '';
@@ -119,40 +289,149 @@
                     top-right-radius: 10px;
                     bottom-right-radius: 10px;
                 }
+                z-index: 2;
                 .content-main, .content-feedback {
                     margin-left: -50px;
                     width: calc(100% + 50px);
                     padding: 13px 13px;
                 }
-                .content-main {
-                    .main-top {
-                        width: 100%;
-                        height: calc(100% - 22px);
-                    }
-                    .main-footer {
-                        .feedback-group {
-                            display: flex;
-                            align-items: center;
-                            cursor: pointer;
-                            border: none;
-                            background: none;
-                            > span {
-                                margin-left: 2px;
-                                font-size: 13px;
-                            }
-                            &:hover {
-                                text-decoration: underline;
-                            }
-                            &:disabled {
-                                color: gray;
-                                cursor: not-allowed;
-                                text-decoration: none;
-                            }
-                        }
-                    }
+            }
+        }
+    }
+
+    .content-main {
+        padding-left: 20px;
+        .main-top {
+            width: 100%;
+            height: calc(100% - 22px);
+            padding-left: 7px;
+        }
+        .main-footer {
+            .feedback-group {
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+                border: none;
+                background: none;
+                > span {
+                    margin-left: 2px;
+                    font-size: 13px;
+                }
+                &:hover {
+                    text-decoration: underline;
+                }
+                &:disabled {
+                    color: gray;
+                    cursor: not-allowed;
+                    text-decoration: none;
                 }
             }
         }
+    }
+
+    #edit-btn {
+        position: absolute;
+        right: 12px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        &:disabled {
+            cursor: not-allowed;
+        }
+    }
+
+    .input-group {
+        display: flex;
+        align-items: flex-end;
+        label {
+            font-weight: bold;
+        }
+        .left-info>input {
+            display: block;
+        }
+        .real-info>div>input, .left-info>div>div>input {
+            margin-left: 5px;
+        }
+        .left-info>input, .left-info>div>div>input, .real-info>div>input {
+            position: relative;
+            border: 1px solid #4288ce;
+            border-radius: 3px;
+            /*padding-left: 8px;*/
+            background: none;
+            &:read-only {
+                border: 1px solid transparent;
+                cursor: unset;
+            }
+        }
+        .real-info>div>input {
+            margin-top: 3px;
+        }
+
+        .left-info, .real-info {
+            display: inline-block;
+        }
+        .real-info {
+            border: 1px dashed gray;
+            border-radius: .5em;
+            padding: 5px 10px 5px 5px;
+            margin-left: 20px;
+        }
+        #nick-input {
+            width: 250px;
+            font: {
+                weight: bold;
+                size: 25px;
+            }
+        }
+        #desc-input {
+            width: 250px;
+            margin-bottom: 39px;
+            font: {
+                size: 14px;
+            }
+        }
+        #mail-input, #contact-input {
+            width: 198px;
+        }
+    }
+
+    .function-btn {
+        position: absolute;
+        border-radius: 8px;
+        padding: 3px 15px;
+        cursor: pointer;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    #main-submit-btn {
+        right: 120px;
+        background: #4288ce;
+        color: white;
+        border: 1px solid transparent;
+    }
+
+    #main-cancel-btn {
+        right: 53px;
+        border: 1px solid gray;
+    }
+
+    /*
+        charts
+    */
+
+    .charts {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        padding: 0 55px 0 calc(22px - 7px);
+        margin-top: 10px;
+    }
+
+    #radar-chart {
+        width: 350px;
+        height: 280px;
     }
 
     /*

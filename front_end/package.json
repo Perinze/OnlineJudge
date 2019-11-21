@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "codemirror": "^5.44.0",
+    "echarts": "^4.5.0",
     "element-ui": "^2.7.0",
     "jQuery": "^1.7.4",
     "marked": "^0.7.0",

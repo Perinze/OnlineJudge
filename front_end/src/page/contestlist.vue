@@ -205,12 +205,11 @@
         /*align-items: center;*/
         height: 30px;
         width: 90%;
-        min-width: 875px;
+        min-width: 555px;
         max-width: 990px;
-        padding-right: 25px;
         margin: 0 auto 10px auto;
         > i {
-            margin: 0 calc(50% - 400px);
+            margin: 0 9%;
             /*width: calc(100% - 100px);*/
             font: {
                 size: 17px;
@@ -242,7 +241,7 @@
         align-items: center;
         margin: 0 auto 10px auto;
         overflow: hidden;
-        min-width: 875px;
+        min-width: 555px;
         max-width: 990px;
         cursor: pointer;
         box-shadow: 0 2px 15px rgba(0,0,0,0.08);

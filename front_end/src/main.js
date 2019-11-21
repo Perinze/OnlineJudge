@@ -6,6 +6,7 @@ import router from './router/router';
 import store from './store';
 import loadingPlugin from './plugins/loading';
 import codemirror from 'vue-codemirror-lite';
+import echarts from 'echarts';
 
 Vue.config.productionTip = false;
 
@@ -13,6 +14,8 @@ Vue.config.productionTip = false;
 Message.install = function (Vue) {
     Vue.prototype.$message = Message
 };
+// echarts
+Vue.prototype.$echarts = echarts;
 
 // 引入
 Vue.use(Vuex);
