@@ -1,25 +1,26 @@
 <template>
-    <div id="side-bar">
+    <div id="side-bar" :style="styleObject">
         <transition name="user-card">
-            <user-card @close="displayUsercard=false" v-if="displayUsercard"/>
+            <user-card
+                v-if="displayUsercard"
+                @close="displayUsercard=false"
+                @logout="doLogout"
+            />
         </transition>
         <transition name="welcome">
             <welcome @logged="recvLoginData" @close="displayWelcome=false" v-if="displayWelcome&&(!isLogin)"/>
         </transition>
-        <div class="logo">
+        <transition name="open-btn">
+            <div id="open-btn" v-show="!isDisplay">
+                <img src="../../assets/icon/next.svg" width="18" height="18" @click="$emit('call')">
+            </div>
+        </transition>
+        <div class="logo" @click="$emit('close')">
             <div style="position: relative;top: 9px">
                 <img src="../../assets/media/logo.png">
             </div>
         </div>
         <div class="menu-userbar" align="center">
-            <img class="logout-btn"
-                 src="../../assets/icon/logout.svg"
-                 v-if="isLogin"
-                 width="23"
-                 height="23"
-                 alt="登出"
-                 @click="doLogout"
-            >
             <div class="user-alias-border">
                 <div class="user-alias">
                     <img id="user-alias-img"
@@ -27,6 +28,7 @@
                          height="40"
                          width="40"
                          @click="callUsercard"
+                         :style="isLogin?{cursor: 'pointer'}:{cursor: 'default'}"
                     />
                 </div>
             </div>
@@ -111,6 +113,7 @@
     export default {
         components: { MenuItem, welcome, userCard },
         name: "side-nav",
+        props: [ "isDisplay" ],
         data() {
             return {
                 items: [
@@ -172,7 +175,6 @@
             recvLoginData: function(data) {
                 this.$store.dispatch("login/userInfoStorage", data);
                 this.userinfo.isLogin = true;
-                document.getElementById('user-alias-img').setAttribute('style', 'cursor: pointer;');
             },
             doLogout: async function() {
                 let response = await logout();
@@ -184,8 +186,8 @@
                     });
                     procedure.then( () => {
                         this.initUser();
+                        this.displayUsercard = false;
                     });
-                    document.getElementById('user-alias-img').setAttribute('style', 'cursor: unset;');
                 }
             },
             initUser() {
@@ -226,9 +228,9 @@
                 }
             },
             callUsercard() {
-                // if(localStorage.getItem('Flag')==='isLogin')
+                if(localStorage.getItem('Flag')==='isLogin')
                     this.displayUsercard=true;
-                // else return;
+                else return;
             }
         },
         computed: {
@@ -252,7 +254,7 @@
             acPercent: function() {
                 let ac = parseInt(this.userData.acCnt);
                 let total = ac + parseInt(this.userData.waCnt);
-                if(total==0) {
+                if(total===0) {
                     return 0;
                 }else{
                     return (ac/total).toFixed(3) * 100;
@@ -268,9 +270,18 @@
                 }else{
                     return this.imgs.defaultAvator;
                 }
+            },
+            styleObject: function() {
+                let val = this.isDisplay;
+                let ret = {
+                    'margin-left': 0
+                };
+                if(!val) {
+                    ret['margin-left']="-200px";
+                }
+                return ret;
             }
         }
-
     }
 </script>
 
@@ -282,6 +293,16 @@
         position: fixed;
         z-index: 1000;
         box-shadow:inset -10px 0 15px -15px rgba(0,0,0,0.3);
+        transition: margin-left 0.5s ease-in-out;
+    }
+
+    #open-btn {
+        position: absolute;
+        right: -25px;
+        top: calc((100% - 18px)/2);
+        cursor: pointer;
+        animation: notice 2s;
+        animation-iteration-count: infinite;
     }
 
     .logo {
@@ -432,35 +453,58 @@
         Animation
     */
 
+    // open-btn
+
+    .open-btn {
+        &-enter-active, &-leave-active {
+            transition: all 0.5s ease-in-out;
+        }
+        &-enter, &-leave-to {
+            opacity: 0;
+            right: 20px;
+        }
+    }
+
+    @keyframes notice {
+        from {
+            margin-right: -3px;
+        }
+        50% {
+            margin-right: 0;
+        }
+        to {
+            margin-right: -3px;
+        }
+    }
 
     // user-card
 
-    .user-card-enter-active, .user-card-leave-active {
-        transition: all 0.6s ease;
-    }
-
-    .user-card-enter {
-        transform: rotate(-60deg);
-        opacity: 0.5;
-    }
-
-    .user-card-leave-to {
-        transform: rotate(-60deg);
-        opacity: 0;
+    .user-card {
+        &-enter-active, &-leave-active {
+            transition: all 0.6s ease;
+        }
+        &-enter {
+            transform: rotate(-60deg);
+            opacity: 0.5;
+        }
+        &-leave-to {
+            transform: rotate(-60deg);
+            opacity: 0;
+        }
     }
 
     // welcome
 
-    .welcome-enter-active, .welcome-leave-active {
-        transition: all 0.6s ease;
-    }
-
-    .welcome-enter {
-        opacity: 0.3;
-    }
-
-    .welcome-leave-to {
-        opacity: 0;
+    .welcome {
+        &-enter-active, &-leave-active {
+            transition: all 0.6s ease;
+        }
+        &-enter {
+            opacity: 0.3;
+        }
+        &-leave-to {
+            opacity: 0;
+        }
     }
 
     /* TODO 660 warning */

@@ -19,10 +19,17 @@
                 <transition name="ease-fade" mode="out-in">
                     <div class="content-main" key="content-main" v-if="contentType==='main'">
                         <div class="main-top">
-                            <button id="main-submit-btn" class="function-btn" @click="submitInfoChange" v-if="mainMode==='edit'">保存</button>
-                            <button id="main-cancel-btn" class="function-btn" @click="cancelChange" v-if="mainMode==='edit'">取消</button>
-                            <button id="edit-btn" @click="beginChange" :disabled="!funcAccess.edit">
-                                <img src="../../assets/icon/edit.svg" width="20" height="20">
+                            <transition name="edit-button">
+                                <div v-show="mainMode==='edit'">
+                                    <button id="main-submit-btn" class="function-btn" @click="submitInfoChange">保存</button>
+                                    <button id="main-cancel-btn" class="function-btn" @click="cancelChange">取消</button>
+                                </div>
+                            </transition>
+                            <button id="edit-btn" class="img-btn" @click="beginChange" :disabled="!funcAccess.edit">
+                                <img src="../../assets/icon/edit.svg" width="20" height="20" alt="edit">
+                            </button>
+                            <button id="logout-btn" class="img-btn" @click="$emit('logout')">
+                                <img src="../../assets/icon/logout.svg" width="20" height="20" alt="logout">
                             </button>
                             <div class="input-group">
                                 <div class="left-info">
@@ -34,7 +41,7 @@
                                             <input id="contact-input" v-model="userInfo.contact" type="text" :readonly="mainMode!=='edit'">
                                         </div>
                                         <div>
-                                            <label for="mail-input">E-mial:</label>
+                                            <label for="mail-input">E-mail:</label>
                                             <input id="mail-input" v-model="userInfo.mail" type="text" readonly>
                                         </div>
                                     </div>
@@ -206,7 +213,7 @@
             width: 820px;
             height: 470px;
             z-index: 1006;
-            filter: drop-shadow(0 2px 15px rgba(0,0,0,0.18));
+            filter: drop-shadow(5px 10px 5px rgba(0,0,0,0.3));
             .left {
                 display: flex;
                 flex-direction: column;
@@ -329,14 +336,34 @@
         }
     }
 
-    #edit-btn {
+    .img-btn {
         position: absolute;
-        right: 12px;
         background: none;
         border: none;
         cursor: pointer;
+        right: 12px;
         &:disabled {
             cursor: not-allowed;
+        }
+        &::before {
+            position: absolute;
+            margin-top: 3px;
+            left: -23px;
+            font-size: 13px;
+        }
+    }
+
+    #edit-btn {
+        &::before {
+            content: '编辑';
+        }
+    }
+
+    #logout-btn {
+        top: 50px;
+        &::before {
+            margin-top: 2px;
+            content: '注销';
         }
     }
 
@@ -349,22 +376,24 @@
         .left-info>input {
             display: block;
         }
+        .real-info>div>input {
+            margin-top: 3px;
+        }
         .real-info>div>input, .left-info>div>div>input {
             margin-left: 5px;
         }
+        // all of input
         .left-info>input, .left-info>div>div>input, .real-info>div>input {
             position: relative;
             border: 1px solid #4288ce;
             border-radius: 3px;
             /*padding-left: 8px;*/
             background: none;
+            transition: border 0.3s ease-in-out;
             &:read-only {
                 border: 1px solid transparent;
                 cursor: unset;
             }
-        }
-        .real-info>div>input {
-            margin-top: 3px;
         }
 
         .left-info, .real-info {
@@ -398,7 +427,7 @@
     .function-btn {
         position: absolute;
         border-radius: 8px;
-        padding: 3px 15px;
+        padding: 3px 13px;
         cursor: pointer;
         &:hover {
             text-decoration: underline;
@@ -406,14 +435,14 @@
     }
 
     #main-submit-btn {
-        right: 120px;
+        right: 140px;
         background: #4288ce;
         color: white;
         border: 1px solid transparent;
     }
 
     #main-cancel-btn {
-        right: 53px;
+        right: 80px;
         border: 1px solid gray;
     }
 
@@ -449,6 +478,15 @@
     .ease-fade-enter, .ease-fade-leave-to {
         transform: translateX(10px);
         opacity: 0;
+    }
+
+    .edit-button {
+        &-enter-active, &-leave-active {
+            transition: opacity .3s ease-in-out;
+        }
+        &-enter, &-leave-to {
+            opacity: 0;
+        }
     }
 
     // 父级transiform原点

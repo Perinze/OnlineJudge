@@ -1,6 +1,11 @@
 <template>
     <div id="app">
-        <sidenav ref="sidenav"/>
+        <sidenav
+            ref="sidenav"
+            :is-display="sidebarDisplay"
+            @close="closeSideBar"
+            @call="callSideBar"
+        />
         <div class="layout-content" id="layout-content" :style="contentWidthObject">
             <topnav :topnavOpacity="topnavOpacity" :parentWidth="contentWidthObject.width"/>
             <keep-alive>
@@ -50,7 +55,8 @@
                 topnavOpacity: 0,
                 combox: null,
                 topDisplay: false,
-                sideDisplay: false,
+                sidebarDisplay: true, // 侧边导航栏
+                sideDisplay: false, // 侧边drawer
                 windowResize: true, // computed cache trick
                 problemComponentData: {
                     pid: null,
@@ -76,6 +82,11 @@
             setTimeout( () => {
                 this.windowResize = ~this.windowResize;
             }, 50);
+            // TODO 检测宽度，小于某值后自动关闭侧边栏
+            let clientWidth = this.$el.clientWidth;
+            if(clientWidth<200+560) {
+                this.closeSideBar();
+            }
         },
         methods: {
             getCombox: function() {
@@ -105,6 +116,16 @@
                 this.topDisplay = true;
                 // 指定CodeMirror Class加上style height
                 document.getElementsByClassName('CodeMirror')[0].setAttribute('style', `height: ${this.codeComponentData.height}px;`);
+            },
+            // 打开侧边栏
+            callSideBar: function(val) {
+                this.sidebarDisplay = true;
+                document.getElementById('layout-content').setAttribute('style', 'padding-left: 200px;');
+            },
+            // 收起侧边栏
+            closeSideBar() {
+                this.sidebarDisplay = false;
+                document.getElementById('layout-content').setAttribute('style', 'padding-left: 0;');
             }
         },
         computed: {
@@ -156,7 +177,8 @@
         position: relative;
         padding-left: 200px;
         height: 100%;
-        transition: width 0.5s ease-in;
+        transition: width 0.5s ease-in,
+                    padding-left 0.5s ease-in-out;
     }
 
     .combox {
