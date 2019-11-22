@@ -1,5 +1,7 @@
 # api
 
+[toc]
+
 ## contest
 
 * getAllContest

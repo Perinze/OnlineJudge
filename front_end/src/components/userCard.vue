@@ -21,7 +21,7 @@
                         <div class="main-top">
                             <transition name="edit-button">
                                 <div v-show="mainMode==='edit'">
-                                    <button id="main-submit-btn" class="function-btn" @click="submitInfoChange">保存</button>
+                                    <button id="main-submit-btn" class="function-btn" :disabled="!isChanged" @click="submitInfoChange">保存</button>
                                     <button id="main-cancel-btn" class="function-btn" @click="cancelChange">取消</button>
                                 </div>
                             </transition>
@@ -102,6 +102,7 @@
 </template>
 
 <script>
+    import { getUserInfo, changeUserInfo } from "../api/getData";
     import VueCropper from 'vue-cropperjs';
     import 'cropperjs/dist/cropper.css';
     export default {
@@ -174,8 +175,27 @@
         },
         mounted() {
             this.drawRadarChart();
+            this.renderUserInfo();
         },
         methods: {
+            renderUserInfo: async function() {
+                let userId = localStorage.getItem('userId');
+                if(userId===null || userId===undefined) {
+                    // TODO 没登陆
+                    return;
+                }
+                let response = await getUserInfo({
+                    user_id: userId
+                });
+                if(response.status == 0) {
+                    console.log(response.data);
+                }else{
+                    this.$message({
+                        message: response.message,
+                        type: 'error'
+                    });
+                }
+            },
             drawRadarChart(time=650) {
                 // 保证渲染时有#radar-chart div
                 setTimeout( () => {
@@ -194,8 +214,27 @@
                 this.mainMode='me';
             },
             submitInfoChange: async function() {
-                // TODO api
-                this.mainMode='me';
+                if(!this.isChanged) return;
+                let changedItems = {};
+                for(let key in this.userInfo) {
+                    if(this.userInfo[key]!==this.tmpUserInfo[key]) {
+                        changedItems[key]=this.userInfo[key];
+                    }
+                }
+                let response = await changeUserInfo(changedItems);
+                if(response.status == 0) {
+                    this.$message({
+                        message: '修改成功',
+                        type: 'success'
+                    });
+                    this.mainMode='me';
+                }else{
+                    this.$message({
+                        message: response.message,
+                        type: 'error'
+                    });
+                    this.cancelChange();
+                }
             },
             backToMain() {
                 this.contentType = 'main';
@@ -214,6 +253,11 @@
         watch: {
             radarOption() {
                 this.drawRadarChart(0);
+            }
+        },
+        computed: {
+            isChanged() {
+                return JSON.stringify(this.userInfo) !== JSON.stringify(this.tmpUserInfo);
             }
         }
     }
@@ -395,6 +439,7 @@
                 }
             }
         }
+
         #edit-btn {
             &::before {
                 content: '编辑';
@@ -471,6 +516,12 @@
             background: #4288ce;
             color: white;
             border: 1px solid transparent;
+            &:disabled {
+                text-decoration: none;
+                cursor: not-allowed;
+                background: #8A8A8A;
+                border: 1px solid rgb(100,100,100);
+            }
         }
 
         #main-cancel-btn {

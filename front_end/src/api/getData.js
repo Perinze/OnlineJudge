@@ -38,6 +38,18 @@ export const forgetPassword = data => fetch('/Login/forgetPassword', 'post', dat
 
 export const checkLogin = data => fetch('/Login/checkLogin', 'post', data);
 
+/**
+ * 获取用户信息
+ */
+
+export const getUserInfo = data => fetch('/User/searchUser', 'post', data);
+
+/**
+ * 更改用户信息性
+ */
+
+export const changeUserInfo = data => fetch('/User/editUser', 'post', data);
+
 
 
 // 业务逻辑
