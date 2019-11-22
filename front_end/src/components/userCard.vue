@@ -78,6 +78,18 @@
                     </div>
                     <div class="content-feedback" key="feedback" v-if="contentType==='feedback'">
                         <img class="back-btn" src="../../assets/icon/backward.svg" width="20" height="20" @click="backToMain()">
+                        <div>
+                            <textarea
+                                id="feedback-text"
+                                placeholder="感谢您使用WUT OnlineJudge，在此键入您的意见，点击右侧加号可加入至多三张图片..."
+                                v-model="feedback.content"
+                            ></textarea>
+                            <button id="feedback-submit-btn" @click="submitFeedback">Submit</button>
+                            <div class="feedback-imgs">
+                                <div class="add-img" @click="uploadFeedbackImg"></div>
+                                <div v-for="index in feedback.imgs.length" :key="'feedback-imgs-'+index"></div>
+                            </div>
+                        </div>
                     </div>
                 </transition>
             </div>
@@ -95,7 +107,7 @@
                 funcAccess: {
                     edit: true,
                     feedback: true,
-                },
+                }, // 功能可用控制
                 userInfo: {
                     nick: 'DeAnti-',
                     desc: 'Drag me all the way to the hell.',
@@ -105,9 +117,9 @@
                     class: '软工zy1701',
                     contact: '18454353727',
                     mail: 'long4664030@163.com'
-                },
-                tmpUserInfo: null,
-                radarChart: null,
+                }, // 用户信息
+                tmpUserInfo: null,  // 暂时存放用户信息
+                radarChart: null,   // echarts雷达图
                 radarOption: {
                     tooltip: {},
                     legend: {
@@ -145,8 +157,12 @@
                             }
                         ]
                     }]
-                },
-                avatorMaskDisplay: false
+                }, // echarts雷达图配置项
+                avatorMaskDisplay: false, // 展示avator mask
+                feedback: {
+                    content: '',
+                    imgs: []
+                }
             }
         },
         mounted() {
@@ -179,6 +195,12 @@
                 this.drawRadarChart();
             },
             uploadAvator() {
+
+            },
+            uploadFeedbackImg() {
+
+            },
+            submitFeedback() {
 
             }
         },
@@ -306,6 +328,38 @@
         }
     }
 
+    .back-btn {
+        position: absolute;
+        cursor: pointer;
+    }
+
+    .img-btn {
+        position: absolute;
+        background: none;
+        border: none;
+        cursor: pointer;
+        right: 12px;
+        &:disabled {
+            cursor: not-allowed;
+        }
+        &::before {
+            position: absolute;
+            margin-top: 3px;
+            left: -23px;
+            font-size: 13px;
+        }
+    }
+
+    .function-btn {
+        position: absolute;
+        border-radius: 8px;
+        padding: 3px 13px;
+        cursor: pointer;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
     .content-main {
         padding-left: 20px;
         .main-top {
@@ -334,120 +388,156 @@
                 }
             }
         }
+        #edit-btn {
+            &::before {
+                content: '编辑';
+            }
+        }
+
+        #logout-btn {
+            top: 50px;
+            &::before {
+                margin-top: 2px;
+                content: '注销';
+            }
+        }
+
+        .input-group {
+            display: flex;
+            align-items: flex-end;
+            label {
+                font-weight: bold;
+            }
+            .left-info>input {
+                display: block;
+            }
+            .real-info>div>input {
+                margin-top: 3px;
+            }
+            .real-info>div>input, .left-info>div>div>input {
+                margin-left: 5px;
+            }
+            // all of input
+            .left-info>input, .left-info>div>div>input, .real-info>div>input {
+                position: relative;
+                border: 1px solid #4288ce;
+                border-radius: 3px;
+                /*padding-left: 8px;*/
+                background: none;
+                transition: border 0.3s ease-in-out;
+                &:read-only {
+                    border: 1px solid transparent;
+                    cursor: unset;
+                }
+            }
+
+            .left-info, .real-info {
+                display: inline-block;
+            }
+            .real-info {
+                border: 1px dashed gray;
+                border-radius: .5em;
+                padding: 5px 10px 5px 5px;
+                margin-left: 20px;
+            }
+            #nick-input {
+                width: 250px;
+                font: {
+                    weight: bold;
+                    size: 25px;
+                }
+            }
+            #desc-input {
+                width: 250px;
+                margin-bottom: 39px;
+                font: {
+                    size: 14px;
+                }
+            }
+            #mail-input, #contact-input {
+                width: 198px;
+            }
+        }
+
+        #main-submit-btn {
+            right: 140px;
+            background: #4288ce;
+            color: white;
+            border: 1px solid transparent;
+        }
+
+        #main-cancel-btn {
+            right: 80px;
+            border: 1px solid gray;
+        }
     }
 
-    .back-btn {
-        cursor: pointer;
-    }
-
-    .img-btn {
-        position: absolute;
-        background: none;
-        border: none;
-        cursor: pointer;
-        right: 12px;
-        &:disabled {
-            cursor: not-allowed;
-        }
-        &::before {
-            position: absolute;
-            margin-top: 3px;
-            left: -23px;
-            font-size: 13px;
-        }
-    }
-
-    #edit-btn {
-        &::before {
-            content: '编辑';
-        }
-    }
-
-    #logout-btn {
-        top: 50px;
-        &::before {
-            margin-top: 2px;
-            content: '注销';
-        }
-    }
-
-    .input-group {
-        display: flex;
-        align-items: flex-end;
-        label {
-            font-weight: bold;
-        }
-        .left-info>input {
-            display: block;
-        }
-        .real-info>div>input {
-            margin-top: 3px;
-        }
-        .real-info>div>input, .left-info>div>div>input {
-            margin-left: 5px;
-        }
-        // all of input
-        .left-info>input, .left-info>div>div>input, .real-info>div>input {
-            position: relative;
-            border: 1px solid #4288ce;
-            border-radius: 3px;
-            /*padding-left: 8px;*/
-            background: none;
-            transition: border 0.3s ease-in-out;
-            &:read-only {
+    .content-feedback {
+        >div {
+            display: flex;
+            flex-direction: row;
+            height: 100%;
+            padding: 30px 25px 30px 30px;
+            >* {
+                height: 100%;
+            }
+            #feedback-text {
+                flex: 9;
+                resize: none;
+                border-radius: 10px;
+                padding: 5px 10px;
+            }
+            #feedback-submit-btn {
+                position: absolute;
+                right: calc(10% + 25px + 10px);
+                bottom: calc(25px + 20px + 10px);
+                width: 70px;
+                height: 30px;
+                background: #4288ce;
+                color: white;
                 border: 1px solid transparent;
-                cursor: unset;
+                border-radius: .5em;
+                cursor: pointer;
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+            .feedback-imgs {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                flex: 1;
+                margin-left: 5px;
+                > div {
+                    width: 100%;
+                    border: 1px solid rgba(80,80,80,.4);
+                    border-radius: .5em;
+                    overflow: hidden;
+                }
+            }
+            .add-img {
+                padding: 100% 0 0;
+                background: rgba(100,100,100,0.7);
+                cursor: pointer;
+                &::before, &::after {
+                    position: absolute;
+                    content: '';
+                    background: white;
+                    border-radius: 2px;
+                    opacity: 0.8;
+                }
+                &::before {
+                    width: 2px;
+                    height: 44px;
+                    margin: -54.2px 30.1px 0;
+                }
+                &::after {
+                    width: 44px;
+                    height: 2px;
+                    margin: -33px 9.1px 0;
+                }
             }
         }
-
-        .left-info, .real-info {
-            display: inline-block;
-        }
-        .real-info {
-            border: 1px dashed gray;
-            border-radius: .5em;
-            padding: 5px 10px 5px 5px;
-            margin-left: 20px;
-        }
-        #nick-input {
-            width: 250px;
-            font: {
-                weight: bold;
-                size: 25px;
-            }
-        }
-        #desc-input {
-            width: 250px;
-            margin-bottom: 39px;
-            font: {
-                size: 14px;
-            }
-        }
-        #mail-input, #contact-input {
-            width: 198px;
-        }
-    }
-
-    .function-btn {
-        position: absolute;
-        border-radius: 8px;
-        padding: 3px 13px;
-        cursor: pointer;
-        &:hover {
-            text-decoration: underline;
-        }
-    }
-
-    #main-submit-btn {
-        right: 140px;
-        background: #4288ce;
-        color: white;
-        border: 1px solid transparent;
-    }
-
-    #main-cancel-btn {
-        right: 80px;
-        border: 1px solid gray;
     }
 
     /*
@@ -471,17 +561,17 @@
         Animation
      */
 
-    .ease-fade-enter-active {
-        transition: all .3s ease;
-    }
-
-    .ease-fade-leave-active {
-        transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-    }
-
-    .ease-fade-enter, .ease-fade-leave-to {
-        transform: translateX(10px);
-        opacity: 0;
+    .ease-fade {
+        &-enter-active {
+            transition: all .3s ease;
+        }
+        &-leave-active {
+            transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+        }
+        &-enter, &-leave-to {
+            transform: translateX(10px);
+            opacity: 0;
+        }
     }
 
     .edit-button {
