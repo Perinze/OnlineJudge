@@ -115,7 +115,7 @@ class User extends Controller
             }
             $resp = $user_model->searchUserByNick($req['nick']);
         } else {
-            $resp = $user_model->searchUserById($req['id']);
+            $resp = $user_model->searchUserById($req['user_id']);
         }
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
