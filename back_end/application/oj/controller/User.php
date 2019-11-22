@@ -75,6 +75,7 @@ class User extends Controller
             'user_id' => $user_id,
             'realname' => isset($req['realname']) ? $req['realname'] : $data['realname'],
             'school' => isset($req['school']) ? $req['school'] : $data['school'],
+            'contact' => isset($req['contact']) ? $req['contact'] : $data['contact'],
             'major' => isset($req['major']) ? $req['major'] : $data['major'],
             'class' => isset($req['class']) ? $req['class'] : $data['class'],
             'desc' => isset($req['desc']) ? $req['desc'] : $data['class'],
@@ -115,7 +116,7 @@ class User extends Controller
             }
             $resp = $user_model->searchUserByNick($req['nick']);
         } else {
-            $resp = $user_model->searchUserById($req['id']);
+            $resp = $user_model->searchUserById($req['user_id']);
         }
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
