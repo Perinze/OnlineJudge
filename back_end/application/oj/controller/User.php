@@ -78,7 +78,7 @@ class User extends Controller
             'contact' => isset($req['contact']) ? $req['contact'] : $data['contact'],
             'major' => isset($req['major']) ? $req['major'] : $data['major'],
             'class' => isset($req['class']) ? $req['class'] : $data['class'],
-            'desc' => isset($req['desc']) ? $req['desc'] : $data['class'],
+            'desc' => isset($req['desc']) ? $req['desc'] : $data['desc'],
         ]);
         $oj_cache_model->set_update_cache($user_id);
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
