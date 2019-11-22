@@ -1,7 +1,5 @@
 # api
 
-[toc]
-
 ## contest
 
 * getAllContest
@@ -1044,18 +1042,54 @@ null
 
 * adduser
 
-* edituser
+* searchUser
 
-* change_password
+  *request:*
+
+  ```json
+  {
+      "user_id": 1,
+      "nick": "wyhsb" // 与user_id选择一个
+  }
+  ```
+
+  *response:*
+
+  ```json
+  {
+      "status": 0,
+      "message": "查找成功",
+      "data": {
+          "user_id": 1,
+          "nick": "123",
+          "realname": "1",
+          "school": "test1",
+          "major": "1",
+          "class": "14",
+          "desc": "14",
+          "ac_num": 0,
+          "wa_num": 0
+      }
+  }
+  ```
+
+  
+
+* edituser
 
   *request:*
 
   ``` json
   {
-      "password": "1001",
-      "password_check": "1001",
+      "realname": "wyhsb",
+      "school": "wyhsb",
+      "major": "wyhsb",
+      "class": "wyhsb",
+      "desc": "wyhsb"
   }
   ```
+
+  
 
   *response:*
 
@@ -1067,6 +1101,31 @@ null
   }
   ```
 
+  
+
+* change_password
+
+  *request:*
+
+  ``` json
+  {
+      "nick": "wyhsb",
+      "old_password": "wyhsb",
+      "password": "1001",
+      "password_check": "1001",
+}
+  ```
+
+  *response:*
+  
+  ``` json
+  {
+      "status": 0,
+      "message": "更新成功",
+      "data": ""
+}
+  ```
+  
   
 
 ## discuss
