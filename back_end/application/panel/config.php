@@ -1,9 +1,5 @@
 <?php
 //配置文件
-define("VALIDATE_PASS", true);
-define("VALIDATE_ERROR", false);
-define("CODE_SUCCESS", 0);
-define("CODE_ERROR", -1);
 
 return [
     //模板参数替换
