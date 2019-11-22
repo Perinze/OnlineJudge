@@ -9,6 +9,9 @@
 namespace app\oj\controller;
 
 
+use app\oj\model\CommonModel;
+use app\oj\model\UserModel;
+
 class Upload extends Base
 {
     private $validate = [
@@ -16,20 +19,33 @@ class Upload extends Base
         'ext' => 'jpg,png,gif,jpeg',
     ];
     private $path = '../uploads/image/';
+    private $data_path = '../uploads/data';
 
-    public function upload()
+    public function upload_avatar()
     {
+        $user_id = session('user_id');
+        if(empty($user_id)){
+            return apiReturn(CODE_ERROR, '未登录', '');
+        }
+        $user_model = new UserModel();
         $file = request()->file('image');
         $info = $file->validate($this->validate)->move($this->path);
-        if ($info != VALIDATE_PASS) {
+        if ($info !== VALIDATE_PASS) {
             return apiReturn(CODE_ERROR, $file->getError(), '');
         } else {
-            return apiReturn(CODE_SUCCESS, '上传成功', $info->getSaveName());
+            $url = $this->path.$info->getSaveName();
+            $resp = $user_model->editUser($user_id, ['avatar' => $url]);
+            return apiReturn($resp['code'], $resp['msg'], '');
         }
     }
 
-    public function uploadfile()
+    public function upload_data_file()
     {
+        $common_model = new CommonModel();
+        $resp = $common_model->checkIdentity();
+        if ($resp['code'] !== CODE_SUCCESS) {
+            return apiReturn($resp['code'], $resp['msg'], $resp['data']);
+        }
         $files = request()->file('');
         $req = input('post.');
         $data = [];
@@ -39,7 +55,7 @@ class Upload extends Base
             if ($info != VALIDATE_PASS) {
                 return apiReturn(CODE_ERROR, $file->getError(), '');
             } else {
-                $file_path = $this->path . $info->getSaveName();
+                $file_path = $this->data_path . $info->getSaveName();
                 $str = file_get_contents($file_path);
                 //$str = str_replace("\r\n", '\n', $str);
                 $filename = substr($file->getInfo()['name'], 0, strpos($file->getInfo()['name'], '.'));
@@ -92,6 +108,6 @@ class Upload extends Base
 
         $json_data = json_encode($re_data);
         $json_data = str_replace('\r\n', '\n', $json_data);
-        file_put_contents($this->path . $req['problem_id'] . '.json', $json_data);
+        file_put_contents($this->data_path . $req['problem_id'] . '.json', $json_data);
     }
 }

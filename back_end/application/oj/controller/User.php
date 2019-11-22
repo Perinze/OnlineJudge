@@ -10,6 +10,7 @@ namespace app\oj\controller;
 
 use app\common\model\FindPasswordModel;
 use app\oj\model\CommonModel;
+use app\oj\model\OJCacheModel;
 use app\oj\model\UserModel;
 use app\oj\validate\UserValidate;
 use think\Controller;
@@ -50,23 +51,35 @@ class User extends Controller
     {
         $user_validate = new UserValidate();
         $user_model = new UserModel();
+        $oj_cache_model = new OJCacheModel();
         $user_id = Session::get('user_id');
         if (empty($user_id)) {
             return apiReturn(CODE_ERROR, '未登录', '');
         }
-        $req = input('post.');
-
-        $result = $user_validate->scene('foreAddUser')->check($req);
-        if ($result !== true) {
-            return apiReturn(CODE_ERROR, $user_validate->getError(), '');
+        $data = $oj_cache_model->get_update_cache($user_id);
+        if($data['code'] === CODE_SUCCESS){
+            return apiReturn(CODE_ERROR, '请不要频繁更新， 更新时间为1天','');
         }
-        $req = $this->handleUserReq($req);
+        $req = input('post.');
 
         $result = $user_validate->scene('editUser')->check($req);
         if ($result !== true) {
             return apiReturn(CODE_ERROR, $user_validate->getError(), '');
         }
-        $resp = $user_model->editUser($user_id, $req);
+        $user = $user_model->searchUserById($user_id);
+        if($user['code'] !== CODE_SUCCESS){
+            return apiReturn($user['code'], $user['msg'], '');
+        }
+        $data = $user['data'];
+        $resp = $user_model->editUser($user_id, [
+            'user_id' => $user_id,
+            'realname' => isset($req['realname']) ? $req['realname'] : $data['realname'],
+            'school' => isset($req['school']) ? $req['school'] : $data['school'],
+            'major' => isset($req['major']) ? $req['major'] : $data['major'],
+            'class' => isset($req['class']) ? $req['class'] : $data['class'],
+            'desc' => isset($req['desc']) ? $req['desc'] : $data['class'],
+        ]);
+        $oj_cache_model->set_update_cache($user_id);
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
@@ -107,24 +120,13 @@ class User extends Controller
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
-    private function handleUserReq($req)
-    {
-        $req['desc'] = json_encode([
-            'phone' => $req['phone'],
-            'sex' => $req['sex'],
-            'sign' => $req['sign']
-        ]);
-        unset($req['phone'], $req['sex'], $req['sign']);
-        return $req;
-    }
-
-    public function change_password()
+    public function forget_password()
     {
         $user_model = new UserModel();
         $user_validate = new UserValidate();
         $find_password_model = new FindPasswordModel();
         $req = input('post.');
-        $result = $user_validate->scene('change_password')->check($req);
+        $result = $user_validate->scene('forget_password')->check($req);
         if ($result !== true) {
             return apiReturn(CODE_ERROR, $user_validate->getError(), '');
         }
@@ -135,11 +137,35 @@ class User extends Controller
         if ($req['password'] !== $req['password_check']) {
             return apiReturn(CODE_ERROR, '两次输入密码不一致', '');
         }
+        $resp = $user_model->editUser(array(
+            'password' => md5(base64_encode($req['password']))
+        ), $req['nick']);
+        return apiReturn($resp['code'], $resp['msg'], $resp['data']);
+    }
+
+    public function change_password()
+    {
+        $user_model = new UserModel();
+        $user_validate = new UserValidate();
         $user_id = Session::get('user_id');
+        if(empty($user_id)){
+            return apiReturn(CODE_ERROR, '未登录', '');
+        }
+        $req = input('post.');
+        $result = $user_validate->scene('change_password')->check($req);
+        if ($result !== true) {
+            return apiReturn(CODE_ERROR, $user_validate->getError(), '');
+        }
+        $info = $user_model->loginCheck(['nick' => $req['nick'], 'password' => md5(base64_encode($req['old_password']))]);
+        if($info['code'] !== CODE_SUCCESS){
+            return apiReturn($info['code'], $info['msg'], '');
+        }
+        if($req['password'] !== $req['password_check']){
+            return apiReturn(CODE_ERROR, '两次输入密码不一致', '');
+        }
         $resp = $user_model->editUser($user_id, array(
             'password' => md5(base64_encode($req['password']))
         ));
-        Session::set('find_password', false);
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 }

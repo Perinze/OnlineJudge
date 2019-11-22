@@ -17,8 +17,9 @@ class UserValidate extends Validate
     protected $rule = [
         'user_id' => 'require',
         'nick' => 'require|max:25',
-        'password' => 'require|min:6',
-        'password_check' => 'require',
+        'password' => 'require|length:6,16',
+        'old_password' => 'require|length:6,16',
+        'password_check' => 'require|length:6,16',
         'identify' => 'in:0',
         'realname' => 'require',
         'school' => 'require',
@@ -34,8 +35,11 @@ class UserValidate extends Validate
         'nick.require' => '缺少用户昵称',
         'nick.max' => '昵称最长25个字符',
         'password.require' => '缺少密码',
-        'password.min' => '密码长度过短',
-        'password_check' => '请再次输入密码',
+        'password.length' => '密码长度不正确',
+        'old_password.require' => '缺少旧密码',
+        'old_password.length' => '旧密码长度不正确',
+        'password_check.length' => '密码长度不正确',
+        'password_check.require' => '请再次输入密码',
         'identify.in' => '请不要修改身份',
         'realname.require' => '请输入真实姓名',
         'school.require' => '请输入学校',
@@ -57,6 +61,7 @@ class UserValidate extends Validate
         'login' => ['nick', 'password'],
         'register' => ['nick', 'password', 'password_check', 'realname', 'school', 'major', 'class', 'contact', 'mail'],
         'forget' => ['nick', 'mail'],
-        'change_password' => ['nick', 'password', 'password_check', 'check']
+        'forget_password' => ['nick', 'password', 'password_check', 'check'],
+        'change_password' => ['nick', 'old_password', 'password', 'password_check'],
     ];
 }

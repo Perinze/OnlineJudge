@@ -55,6 +55,7 @@ class OJCacheModel extends Model
             return ['code' => CODE_ERROR, 'msg' => 'redis异常', 'data' => $e->getMessage()];
         }
     }
+
     public function set_submit_cache($data)
     {
         try {
@@ -67,6 +68,20 @@ class OJCacheModel extends Model
             return ['code' => CODE_ERROR, 'msg' => 'redis异常', 'data' => $e->getMessage()];
         }
     }
+
+    public function set_update_cache($data)
+    {
+        try {
+            $ok = Cache::store('redis')->set('update'.$data, $data, VALID_TIME * 6 * 24);
+            if (!$ok) {
+                return ['code' => CODE_ERROR, 'msg' => '更新用户缓存失败', 'data' => $data];
+            }
+            return ['code' => CODE_SUCCESS, 'msg' => '更新用户缓存成功', 'data' => $data];
+        } catch (Exception $e) {
+            return ['code' => CODE_ERROR, 'msg' => 'redis异常', 'data' => $e->getMessage()];
+        }
+    }
+
     public function get_user_rank_cache()
     {
         try {
@@ -114,6 +129,19 @@ class OJCacheModel extends Model
                 return ['code' => CODE_ERROR, 'msg' => '获取找回密码信息失败', 'data' => ''];
             }
             return ['code' => CODE_SUCCESS, 'msg' => '获取找回密码信息成功', 'data' => $ok];
+        } catch (Exception $e) {
+            return ['code' => CODE_ERROR, 'msg' => 'redis异常', 'data' => $e->getMessage()];
+        }
+    }
+
+    public function get_update_cache($data)
+    {
+        try {
+            $ok = Cache::store('redis')->get('update'.$data);
+            if (!$ok) {
+                return ['code' => CODE_ERROR, 'msg' => '获取用户缓存失败', 'data' => $data];
+            }
+            return ['code' => CODE_SUCCESS, 'msg' => '获取用户缓存成功', 'data' => $data];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => 'redis异常', 'data' => $e->getMessage()];
         }

@@ -39,10 +39,14 @@ class UserModel extends Model
         return ['code' => CODE_SUCCESS, 'msg' => '删除成功', 'data' => ''];
     }
 
-    public function editUser($user_id, $data)
+    public function editUser($user_id = 0, $data, $nick = 0)
     {
         try {
-            $info = $this->where('user_id', $user_id)->update($data);
+            if($user_id !== 0){
+                $info = $this->where('user_id', $user_id)->update($data);
+            } else {
+                $info = $this->where('nick', $nick)->update($data);
+            }
             if ($info !== 0) {
                 return ['code' => CODE_SUCCESS, 'msg' => '更新成功', 'data' => $info];
             }
@@ -55,7 +59,9 @@ class UserModel extends Model
     public function searchUserById($user_id)
     {
         try {
-            $content = $this->where('user_id', $user_id)->find();
+            $content = $this
+                ->field(['user_id', 'nick', 'realname', 'school', 'major', 'class', 'desc', 'ac_num', 'wa_num'])
+                ->where('user_id', $user_id)->find();
             return ['code' => CODE_SUCCESS, 'msg' => '查找成功', 'data' => $content];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
@@ -65,7 +71,9 @@ class UserModel extends Model
     public function searchUserByNick($nick)
     {
         try {
-            $content = $this->where('nick', $nick)->find();
+            $content = $this
+                ->field(['user_id', 'nick', 'realname', 'school', 'major', 'class','desc', 'ac_num', 'wa_num'])
+                ->where('nick', $nick)->find();
             if (empty($content)) {
                 return ['code' => CODE_ERROR, 'msg' => '用户名不存在', 'data' => $content];
             }
