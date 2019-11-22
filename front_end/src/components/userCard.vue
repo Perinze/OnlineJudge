@@ -91,6 +91,10 @@
                             </div>
                         </div>
                     </div>
+                    <div class="content-upload-avator" key="upload-avator" v-if="contentType==='upload'">
+                        <span @click="backToMain">123</span>
+                        <vue-cropper />
+                    </div>
                 </transition>
             </div>
         </div>
@@ -98,11 +102,14 @@
 </template>
 
 <script>
+    import VueCropper from 'vue-cropperjs';
+    import 'cropperjs/dist/cropper.css';
     export default {
         name: "user-card",
+        components: { VueCropper },
         data() {
             return {
-                contentType: 'main', // 'main' or 'feedback'
+                contentType: 'main', // 'main' or 'feedback' or 'upload'
                 mainMode: 'me', // Mode of Main Card ('me','edit','other')
                 funcAccess: {
                     edit: true,
@@ -195,7 +202,7 @@
                 this.drawRadarChart();
             },
             uploadAvator() {
-
+                this.contentType = 'upload';
             },
             uploadFeedbackImg() {
 
