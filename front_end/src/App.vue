@@ -7,7 +7,7 @@
             @call="callSideBar"
         />
         <div class="layout-content" id="layout-content" :style="contentWidthObject">
-            <topnav :topnavOpacity="topnavOpacity" :parentWidth="contentWidthObject.width"/>
+            <topnav :topnavOpacity="topnavOpacity" :mineWidth="topnavWidth"/>
             <keep-alive>
                 <router-view
                     id="combox"
@@ -120,12 +120,10 @@
             // 打开侧边栏
             callSideBar: function(val) {
                 this.sidebarDisplay = true;
-                document.getElementById('layout-content').setAttribute('style', 'padding-left: 200px;');
             },
             // 收起侧边栏
             closeSideBar() {
                 this.sidebarDisplay = false;
-                document.getElementById('layout-content').setAttribute('style', 'padding-left: 0;');
             }
         },
         computed: {
@@ -137,18 +135,16 @@
                 return ret;
             },
             contentWidthObject: function() {
-                let res = {
-                    width: '100%'
+                let trick = this.windowResize; // computed cache trick
+                let phantom = this.$root.$el.clientWidth-(this.$root.$el.clientWidth-200)/2;
+                return {
+                    width: this.sideDisplay?`${phantom}px`:'100%',
+                    'padding-left': this.sidebarDisplay?'200px':0
                 };
-                let trick = this.windowResize;
-                // computed cache trick
-                if(this.sideDisplay) {
-                    let phantom = this.$root.$el.clientWidth-(this.$root.$el.clientWidth-200)/2;
-                    res.width = `${phantom}px`;
-                }else{
-                    res.width = '100%';
-                }
-                return res;
+            },
+            topnavWidth: function() {
+                let res = this.contentWidthObject.width;
+                return this.sidebarDisplay?`calc(${res} - 200px)`:res;
             }
         },
         watch: {

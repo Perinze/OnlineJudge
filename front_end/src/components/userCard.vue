@@ -77,7 +77,7 @@
                         </div>
                     </div>
                     <div class="content-feedback" key="feedback" v-if="contentType==='feedback'">
-                        <span @click="backToMain()">123</span>
+                        <img class="back-btn" src="../../assets/icon/backward.svg" width="20" height="20" @click="backToMain()">
                     </div>
                 </transition>
             </div>
@@ -334,6 +334,10 @@
                 }
             }
         }
+    }
+
+    .back-btn {
+        cursor: pointer;
     }
 
     .img-btn {

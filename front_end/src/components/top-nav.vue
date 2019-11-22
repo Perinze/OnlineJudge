@@ -10,12 +10,11 @@
 <script>
     export default {
         name: "top-nav",
-        props: ['topnavOpacity', 'parentWidth' ],
+        props: ['topnavOpacity', 'mineWidth' ],
         computed: {
             styleObject() {
-                let computedWidth = `calc(${this.parentWidth} - 200px)`;
                 return {
-                    width: computedWidth,
+                    width: this.mineWidth,
                     background: `rgba(255,255,255,${this.topnavOpacity})`
                 }
             }
