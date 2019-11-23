@@ -166,14 +166,14 @@ class Submit extends Base
         $submit_url = config('wutoj_config.submit_url');
         $length = count($submit_url);
         $oj_cache_model->set_submit_cache($user_id);
-//        post($submit_url[mt_rand(0, $length - 1)], json_encode(array(
-//            'id' => (string)$info['data'],
-//            'pid' => (string)$req['problem_id'],
-//            'source' => [
-//                'language' => $req['language'],
-//                'code' => $req['source_code'],
-//            ]
-//        ), true));
+        post($submit_url[mt_rand(0, $length - 1)], json_encode(array(
+            'id' => (string)$info['data'],
+            'pid' => (string)$req['problem_id'],
+            'source' => [
+                'language' => $req['language'],
+                'code' => $req['source_code'],
+            ]
+        ), true));
         return apiReturn(CODE_SUCCESS, '提交成功', $info['data']);
     }
 
