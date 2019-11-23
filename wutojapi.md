@@ -1556,3 +1556,76 @@ null
     ]
 }
 ```
+
+# feedback
+
+* add_feedback
+
+  *request:*
+
+  ```json
+  {
+      "title": "wyhsb",
+      "content": "wyhsb",
+      "user_id": 1,
+      "img_url": ["url", "url", "url", "url"]
+  }
+  ```
+
+  *response:*
+
+  ```json
+  {
+      "status": 0,
+      "message": "查询成功",
+      "data": ""
+  }
+  ```
+
+  
+
+# upload
+
+* upload_image
+
+  *request:*
+
+  ```json
+  {
+      "image":"file"//文件
+  }
+  ```
+
+  *response:*
+
+  ```json
+  {
+      "status": 0,
+      "message": "上传成功",
+      "data": ""
+  }
+  ```
+
+  
+
+* upload_avator
+
+  *request:*
+
+  ```json
+  {
+      "image":"file"//文件
+  }
+  ```
+
+  *response:*
+
+  ```json
+  {
+      "status": 0,
+      "message": "上传成功",
+      "data": ""
+  }
+  ```
+
+* upload_data_file

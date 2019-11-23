@@ -21,6 +21,20 @@ class Upload extends Base
     private $path = '../uploads/image/';
     private $data_path = '../uploads/data';
 
+    public function upload_image()
+    {
+        $user_id = session('user_id');
+        if(empty($user_id)){
+            return apiReturn(CODE_ERROR, '未登录', '');
+        }
+        $file = request()->file('image');
+        $info = $file->validate($this->validate)->move($this->path);
+        if ($info !== VALIDATE_PASS) {
+            return apiReturn(CODE_ERROR, $file->getError(), '');
+        }
+        $url = $this->path.$info->getSaveName();
+        return apiReturn(CODE_SUCCESS, '上传成功', $url);
+    }
     public function upload_avatar()
     {
         $user_id = session('user_id');
