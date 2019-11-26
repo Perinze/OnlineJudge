@@ -37,7 +37,7 @@ class FeedbackValidate extends Validate
 
     // 场景验证
     protected $scene = [
-        'add_feedback' =>  ['content', 'type', 'phone', 'title'],
+        'add_feedback' =>  ['content'],
         'delete_feedback' =>  ['id'],
         'look_feedback' => ['id'],
         'look_problem' => ['problem_id'],

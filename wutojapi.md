@@ -1397,6 +1397,7 @@ null
 {
     "contest_id": "1",//可选
     "user_id": "1", //可选
+    "page": 1//可选,默认第一面
 }
 ```
 
@@ -1565,23 +1566,21 @@ null
 
   ```json
   {
-      "title": "wyhsb",
       "content": "wyhsb",
-      "user_id": 1,
-      "img_url": ["url", "url", "url", "url"]
+      "img_url": ["url", "url", "url", "url"]//可为空
   }
   ```
-
+  
   *response:*
 
   ```json
-  {
+{
       "status": 0,
       "message": "查询成功",
       "data": ""
   }
   ```
-
+  
   
 
 # upload

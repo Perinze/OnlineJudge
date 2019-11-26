@@ -31,11 +31,18 @@ class Feedback extends Base
         if ($rel !== VALIDATE_PASS) {
             return apiReturn(CODE_PARAM_ERROR, $add_feedback_validate->getError(), '');
         }
+        $img = [];
+        if(isset($data['img'])){
+            $img = $data['img'];
+            if(!is_array($img)){
+                return apiReturn(CODE_ERROR, '图片url格式不正确', '');
+            }
+        }
         $add_data = array(
             'title' => $data['title'],
             'content' => $data['content'],
             'user_id' => $user_id,
-            'img_url' => isset($data['img']) ? json_encode($data['img']) : json_encode(array()),
+            'img_url' => json_encode($img),
         );
         $add_model = new FeedbackModel();
         $resp = $add_model->add_feedback($add_data);
