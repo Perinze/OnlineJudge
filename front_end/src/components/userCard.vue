@@ -1,9 +1,10 @@
 <template>
     <div class="user-card">
+        <img-uploader :isDisplay="cropperDisplay" @close="cropperDisplay=false" :img-src="resAvator" @submit="submitChangeAvator"/>
         <div class="mask" @click="$emit('close')"></div>
         <div class="content" @click.self="$emit('close')"> <!-- @click.self 确保是自身触发而不是内部触发 -->
             <div class="left">
-                <div><div></div></div>
+                <div class="element-1"><div class="element-2"></div></div>
                 <img src="../../assets/media/avator.png"
                      width="60"
                      height="60"
@@ -12,8 +13,14 @@
                 <div id="avator-mask"
                      v-show="avatorMaskDisplay"
                      @mouseout="avatorMaskDisplay=false"
-                     @click="uploadAvator"
-                ></div>
+                >
+                    <input
+                        type="file"
+                        accept="image/*"
+                        style="width: 100%;height: 100%;opacity: 0;cursor: pointer;"
+                        @change="uploadAvator"
+                    >
+                </div>
             </div>
             <div class="main">
                 <transition name="ease-fade" mode="out-in">
@@ -91,10 +98,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="content-upload-avator" key="upload-avator" v-if="contentType==='upload'">
-                        <span @click="backToMain">123</span>
-                        <vue-cropper />
-                    </div>
                 </transition>
             </div>
         </div>
@@ -102,29 +105,29 @@
 </template>
 
 <script>
-    import { getUserInfo, changeUserInfo } from "../api/getData";
-    import VueCropper from 'vue-cropperjs';
-    import 'cropperjs/dist/cropper.css';
+    import { getObjectURL } from "../api/common";
+    import { getUserInfo, changeUserInfo, submitFeedback } from "../api/getData";
+    import imgUploader from './imgUploader';
     export default {
         name: "user-card",
-        components: { VueCropper },
+        components: { imgUploader },
         data() {
             return {
-                contentType: 'main', // 'main' or 'feedback' or 'upload'
+                contentType: 'main', // 'main' or 'feedback'
                 mainMode: 'me', // Mode of Main Card ('me','edit','other')
                 funcAccess: {
                     edit: true,
                     feedback: true,
                 }, // 功能可用控制
                 userInfo: {
-                    nick: 'DeAnti-',
-                    desc: 'Drag me all the way to the hell.',
-                    realname: '王熠弘',
-                    school: '武汉理工大学',
-                    major: '软件工程',
-                    class: '软工zy1701',
-                    contact: '18454353727',
-                    mail: 'long4664030@163.com'
+                    // nick: 'DeAnti-',
+                    // desc: 'Drag me all the way to the hell.',
+                    // realname: '王熠弘',
+                    // school: '武汉理工大学',
+                    // major: '软件工程',
+                    // class: '软工zy1701',
+                    // contact: '18454353727',
+                    // mail: 'long4664030@163.com'
                 }, // 用户信息
                 tmpUserInfo: null,  // 暂时存放用户信息
                 radarChart: null,   // echarts雷达图
@@ -170,7 +173,10 @@
                 feedback: {
                     content: '',
                     imgs: []
-                }
+                },
+                cropperDisplay: false,
+                resAvator: null,
+                newAvator: null
             }
         },
         mounted() {
@@ -188,7 +194,7 @@
                     user_id: userId
                 });
                 if(response.status == 0) {
-                    console.log(response.data);
+                    this.userInfo = response.data;
                 }else{
                     this.$message({
                         message: response.message,
@@ -240,14 +246,40 @@
                 this.contentType = 'main';
                 this.drawRadarChart();
             },
-            uploadAvator() {
-                this.contentType = 'upload';
+            uploadAvator(imgs) {
+                this.resAvator = getObjectURL(imgs.target.files[0]);
+                this.cropperDisplay=true;
+            },
+            submitChangeAvator(data) {
+                // TODO API
             },
             uploadFeedbackImg() {
 
             },
-            submitFeedback() {
-
+            submitFeedback: async function() {
+                this.$loading.open();
+                const response = await submitFeedback({
+                    content: this.feedback.content,
+                    img_url: this.feedback.imgs.map(x => x.url)
+                });
+                if(response.status===0) {
+                    this.feedback = {
+                        content: '',
+                        imgs: []
+                    };
+                    // TODO 清除图片
+                    // TODO 图片上传逻辑需要更改
+                    this.$message({
+                        message: '感谢您的反馈，我们会尽快阅读并处理相关问题',
+                        type: 'success'
+                    })
+                }else{
+                    this.$message({
+                        message: `反馈失败，发生错误：${response.message}`,
+                        type: 'error'
+                    })
+                }
+                this.$loading.hide();
             }
         },
         watch: {
@@ -293,7 +325,7 @@
                 justify-content: center;
                 height: 100%;
                 overflow: hidden;
-                > div {
+                > .element-1 {
                     display: flex;
                     justify-content: center;
                     align-items: center;
@@ -302,7 +334,7 @@
                     overflow: hidden;
                     background: transparent;
                     margin-right: -20px;
-                    > div {
+                    > .element-2 {
                         position: relative;
                         box-sizing: content-box;
                         margin-left: -70px;
@@ -340,10 +372,14 @@
                     &::before {
                         width: 25px;
                         height: 2px;
+                        margin-top: 29px;
+                        margin-left: calc(30px - 25px/2 - 1px);
                     }
                     &::after {
                         width: 2px;
                         height: 25px;
+                        margin-top: calc(30px - 25px/2 - 1px);
+                        margin-left: -30px;
                     }
                 }
                 &::before, &::after {
@@ -370,7 +406,7 @@
                     bottom-right-radius: 10px;
                 }
                 z-index: 2;
-                .content-main, .content-feedback {
+                .content-main, .content-feedback, .content-upload-avator {
                     margin-left: -50px;
                     width: calc(100% + 50px);
                     padding: 13px 13px;
@@ -596,6 +632,15 @@
                 }
             }
         }
+    }
+
+    .content-upload-avator {
+        #input-avator {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
     }
 
     /*

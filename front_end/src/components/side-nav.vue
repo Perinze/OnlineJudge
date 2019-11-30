@@ -228,9 +228,9 @@
                 }
             },
             callUsercard() {
-                if(localStorage.getItem('Flag')==='isLogin')
+                // if(localStorage.getItem('Flag')==='isLogin')
                     this.displayUsercard=true;
-                else return;
+                // else return;
             }
         },
         computed: {

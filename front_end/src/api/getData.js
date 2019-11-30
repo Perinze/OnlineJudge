@@ -202,6 +202,17 @@ export const getStatus = data => fetch('/Submit/getSubmitStatus', 'post', data);
 
 
 
+// 反馈系统
+
+/**
+ * 提交反馈
+ */
+
+export const submitFeedback = data => fetch('/feedback/add_feedback', 'post', data);
+
+
+
+
 // Test
 
 /**
