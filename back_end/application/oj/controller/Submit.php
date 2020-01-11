@@ -20,11 +20,15 @@ use think\facade\Session;
 
 class Submit extends Base
 {
+    /**
+     * 获取提交详情
+     */
     public function get_submit_info()
     {
         $submit_model = new SubmitModel();
         $contest_model = new ContestModel();
         $rankCache_model = new OJCacheModel();
+
         $req = input('post.');
         $where = [];
         $user_id = Session::get('user_id');
@@ -33,13 +37,18 @@ class Submit extends Base
         if (empty($user_id)) {
             return apiReturn(CODE_ERROR, '未登录', '');
         }
-        $page = isset($req['page']) ? (int)$req['page'] : 0;
+        $page = isset($req['page']) ? (int)$req['page'] : 0; // 分页
         if(!isset($req['contest_id']) && !isset($req['user_id'])){
             $resp = $submit_model->get_the_submit(array(
                 'contest_id' => 0,
             ),$page);
             return apiReturn($resp['code'], $resp['msg'], $resp['data']);
         }
+
+        /**
+         * in contest
+         * users can only get themselves submit info
+         */
         if (isset($req['contest_id'])) {
             $contest_id = $req['contest_id'];
             $contest = $contest_model->searchContest($contest_id);
@@ -50,8 +59,8 @@ class Submit extends Base
                 return apiReturn(CODE_ERROR, '比赛未开始', '');
             }
             $where[] = ['contest_id', '=', $req['contest_id']];
+            // administrator can get all
             if (!($identify === ADMINISTRATOR || $time > strtotime($contest['data']['end_time']))) {
-                //$user_id = isset($req['user_id']) ? $req['user_id'] : $user_id;
                 $where[] = ['submit.user_id', '=', $user_id];
             } else {
                 if(isset($req['user_id'])){
@@ -62,6 +71,8 @@ class Submit extends Base
             $temp = $resp['data'];
             unset($resp['data']);
             $resp['data']['submit_info'] = $temp;
+
+            // format
             $resp['data']['penalty'] = $this->handle_data($resp['data']['submit_info'],  $contest['data']['begin_time'], json_decode($contest['data']['problems'], true));
             $cache = $rankCache_model->get_rank_cache($req['contest_id']);
             if ($cache['code'] === CODE_SUCCESS) {
@@ -75,9 +86,13 @@ class Submit extends Base
             }
             $resp = $submit_model->get_the_submit($where, $page);
         }
+
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
+    /**
+     * 交题
+     */
     public function submit()
     {
         $submit_model = new SubmitModel();
@@ -86,6 +101,7 @@ class Submit extends Base
         $contest_model = new ContestModel();
         $contest_user_model = new ContestUserModel();
         $oj_cache_model = new OJCacheModel();
+
         $language = config('wutoj_config.language');
         $time = time();
         $req = input('post.');
@@ -93,9 +109,16 @@ class Submit extends Base
         if ($result !== VALIDATE_PASS) {
             return apiReturn(CODE_ERROR, $submit_validate->getError(), '');
         }
+
         if(array_search($req['language'], $language, false) === false){
             return apiReturn(CODE_ERROR, '暂不支持该语言', '');
         }
+
+        /**
+         * check problem
+         * banned: return
+         * contest: check authority
+         */
         $problem = $problem_model->searchProblemById($req['problem_id']);
         if ($problem['code'] !== CODE_SUCCESS) {
             return apiReturn($problem['code'], $problem['msg'], $problem['data']);
@@ -103,18 +126,20 @@ class Submit extends Base
         if ($problem['data']['status'] === BANNED) {
             return apiReturn(CODE_ERROR, '题目暂不可用', '');
         }
+
         $user_id = Session::get('user_id');
         $identity = Session::get('identity');
         if (empty($user_id)) {
             return apiReturn(CODE_ERROR, '未登录', '');
         }
         $contest_id = 0;
-        $interval_time = config('wutoj_config.interval_time');
-        // TODO 利用Redis完成
+        $interval_time = config('wutoj_config.interval_time');// 交题时间限制
         $ok = $oj_cache_model->get_submit_cache($user_id);
         if($ok['code'] === CODE_SUCCESS){
             return apiReturn(CODE_ERROR, '请'.$interval_time.'S后再交题');
         }
+
+        // check user authority
         if ($problem['data']['status'] === CONTEST) {
             if (isset($req['contest_id'])) {
                 $contest_id = $req['contest_id'];
@@ -155,17 +180,11 @@ class Submit extends Base
         if ($info['code'] !== CODE_SUCCESS) {
             return apiReturn($info['code'], $info['msg'], $info['data']);
         }
-//        echo json_encode(array(
-//            'id' => $info['data'],
-//            'pid' => $req['problem_id'],
-//            'source' => [
-//                'language' => $req['language'],
-//                'code' => $req['source_code'],
-//            ]
-//        ), true);
         $submit_url = config('wutoj_config.submit_url');
         $length = count($submit_url);
         $oj_cache_model->set_submit_cache($user_id);
+
+        // post to the random judger
         post($submit_url[mt_rand(0, $length - 1)], json_encode(array(
             'id' => (string)$info['data'],
             'pid' => (string)$req['problem_id'],
@@ -174,14 +193,19 @@ class Submit extends Base
                 'code' => $req['source_code'],
             ]
         ), true));
+
         return apiReturn(CODE_SUCCESS, '提交成功', $info['data']);
     }
 
+    /**
+     * 获取某次提交的状态
+     * TODO 判断一个人是否已经通过一个题，若通过则可查看其他人代码
+     */
     public function getSubmitStatus() {
         $submit_model = new SubmitModel();
         $submit_validate = new SubmitValidate();
-        $req = input('post.');
 
+        $req = input('post.');
         $chk=$submit_validate->scene('getSubmitStatus')->check($req);
         if($chk !== VALIDATE_PASS){
             return apiReturn(CODE_ERROR, $submit_validate->getError(), '');
@@ -203,6 +227,9 @@ class Submit extends Base
         return apiReturn(CODE_SUCCESS, '请求成功', $info['data']);
     }
 
+    /**
+     * 格式化数据
+     */
     private function handle_data($data, $begin_time, $problem)
     {
         $begin_time = strtotime($begin_time);

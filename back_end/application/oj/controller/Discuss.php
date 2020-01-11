@@ -21,18 +21,26 @@ class Discuss extends Controller
         $discuss_model = new DiscussModel();
         $discuss_validate = new DiscussValidate();
         $req = input('post.');
+
+        // check login
         $user_id = Session::get('user_id');
         if (empty($user_id)) {
             return apiReturn(CODE_ERROR, '未登录', '');
         }
+
         $result = $discuss_validate->scene('add_discuss')->check($req);
         if ($result !== true) {
             return apiReturn(CODE_ERROR, $discuss_validate->getError(), '');
         }
+
+        /**
+         *  add discuss
+         *  if the user is administrator, the discuss is a notice
+         */
         $identity = Session::get('identity');
         $stauts = 0;
         if($identity === ADMINISTRATOR){
-            $stauts = 8;
+            $stauts = 8; // notice status equals 8
         }
         $data = array(
             'contest_id' => $req['contest_id'],
@@ -43,6 +51,7 @@ class Discuss extends Controller
             'status' => $stauts
         );
         $resp = $discuss_model->add_discuss($data);
+
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
@@ -52,6 +61,8 @@ class Discuss extends Controller
         $discuss_model = new DiscussModel();
         $reply_validate = new ReplyValidate();
         $req = input('post.');
+
+        // check login
         $user_id = Session::get('user_id');
         if (empty($user_id)) {
             return apiReturn(CODE_ERROR, '未登录', '');
@@ -60,6 +71,11 @@ class Discuss extends Controller
         if ($result !== true) {
             return apiReturn(CODE_ERROR, $reply_validate->getError(), '');
         }
+
+        /**
+         * judge identity
+         * if the user is administrator, this discuss will be changed status
+         */
         $identity = Session::get('identity');
         if($identity === ADMINISTRATOR){
             $data = array(
@@ -74,17 +90,20 @@ class Discuss extends Controller
             'content' => $req['content'],
         );
         $resp = $reply_model->add_reply($data);
+
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
     public function getAllDiscuss()
     {
         $discuss_model = new DiscussModel();
+        // get all discuss in the contest
         $req = input('post.');
         if(!isset($req['contest_id'])){
             return apiReturn(CODE_ERROR, '未填写比赛id', '');
         }
         $resp = $discuss_model->get_all_discuss($req['contest_id']);
+
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
@@ -96,13 +115,15 @@ class Discuss extends Controller
         if(!isset($req['discuss_id'])){
             return apiReturn(CODE_ERROR, '未填写讨论id', '');
         }
+        // get discuss and it's replies
         $resp = $discuss_model->get_the_discuss($req['discuss_id']);
         if(empty($resp['data'])){
             return apiReturn(CODE_ERROR, '没有这个讨论', '');
         }
-        $data[] = $resp['data'];
+        $data[] = $resp['data'];// discuss
         $resp = $reply_model->get_the_discuss($req['discuss_id']);
-        $data[] = $resp['data'];
+        $data[] = $resp['data'];// reply
+
         return apiReturn($resp['code'], $resp['msg'], $data);
     }
 
@@ -110,6 +131,8 @@ class Discuss extends Controller
     {
         $discuss_model = new DiscussModel();
         $req = input('post.');
+
+        // check login
         $user_id = Session::get('user_id');
         if (empty($user_id)) {
             return apiReturn(CODE_ERROR, '未登录', '');
@@ -118,11 +141,14 @@ class Discuss extends Controller
             return apiReturn(CODE_ERROR, '未填写比赛id', '');
         }
         $contest_id = $req['contest_id'];
+
+        // check this user authority
         $info = $this->checkContest($contest_id, $user_id);
         if($info['code'] !== CODE_SUCCESS){
             return apiReturn($info['code'], $info['msg'], $info['data']);
         }
         $resp = $discuss_model->get_user_discuss($user_id, $contest_id);
+
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 

@@ -12,7 +12,7 @@ namespace app\oj\controller;
 use app\oj\model\FeedbackModel;
 use app\oj\validate\FeedbackValidate;
 use think\facade\Session;
-
+// TODO 需要一个静态资源站
 class Feedback extends Base
 {
     /**
@@ -21,16 +21,19 @@ class Feedback extends Base
      */
     public function add_feedback()
     {
+        // check login
         $user_id = Session::get('user_id');
         if (empty($user_id)) {
             return apiReturn(CODE_ERROR, '未登录', '');
         }
+
         $data = input('post.');
         $add_feedback_validate = new FeedbackValidate();
         $rel = $add_feedback_validate->scene('add_feedback')->check($data);
         if ($rel !== VALIDATE_PASS) {
             return apiReturn(CODE_PARAM_ERROR, $add_feedback_validate->getError(), '');
         }
+        // add
         $img = [];
         if(isset($data['img'])){
             $img = $data['img'];
@@ -46,6 +49,7 @@ class Feedback extends Base
         );
         $add_model = new FeedbackModel();
         $resp = $add_model->add_feedback($add_data);
+
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 

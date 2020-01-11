@@ -18,17 +18,22 @@ use think\facade\Session;
 
 class Login extends Controller
 {
+    /**
+     * 登录
+     */
     public function do_login()
     {
         // 检测重复登录
         if (Session::has('user_id')) {
             return apiReturn(CODE_ERROR, '已有账号登录', Session::get('data'));
         }
+
         // 正常登陆逻辑
         $user_validate = new UserValidate();
         $user_model = new UserModel();
 
         $req = input('post.');
+
         // 检测前端传送的用户登陆数据
         $result = $user_validate->scene('login')->check($req);
         if ($result !== true) {
@@ -53,17 +58,23 @@ class Login extends Controller
                 'waCnt' => count(json_decode($result['data']['wa_problem'], true)),
             );
             session('data', $data);
-
         }
+
         return apiReturn($result['code'], $result['msg'], $data);
     }
 
+    /**
+     * 注销
+     */
     public function do_logout()
     {
         session(null);
         return apiReturn(CODE_SUCCESS, '注销成功', '');
     }
 
+    /**
+     * 检测是否登录
+     */
     public function checkLogin() {
         $req = input('post.');
         if (Session::has('user_id')) {
@@ -79,21 +90,23 @@ class Login extends Controller
         return apiReturn(CODE_ERROR, '未登陆', '');
     }
 
+    /**
+     * 忘记密码，重设密码操作
+     */
     public function forgetPassword()
     {
         $user_validate = new UserValidate();
         $find_model = new FindPasswordModel();
         $user_model = new UserModel();
         $mail = new Mailer();
+
         $req = input('post.');
         $result = $user_validate->scene('forget')->check($req);
         if ($result !== true) {
             return apiReturn(CODE_ERROR, $user_validate->getError(), '');
         }
-        $code = $find_model->create_token($req['nick']);
-        if ($code['code'] !== CODE_SUCCESS) {
-            return apiReturn(CODE_ERROR, '发送失败', $code['data']);
-        }
+
+        // check user email address
         $info = $user_model->searchUserByNick($req['nick']);
         if ($info['code'] !== CODE_SUCCESS) {
             return apiReturn(CODE_ERROR, $info['msg'], '');
@@ -101,10 +114,19 @@ class Login extends Controller
         if($info['data']['mail'] !== $req['mail']){
             return apiReturn(CODE_ERROR, '邮箱不一致', '');
         }
+
+        // gen code
+        $code = $find_model->create_token($req['nick']);
+        if ($code['code'] !== CODE_SUCCESS) {
+            return apiReturn(CODE_ERROR, '发送失败', $code['data']);
+        }
+
+        // send mail
         $info = $mail->sendMail($info['data']['mail'], $req['nick'], '验证码发送', '本次验证码为' . $code['data'] . '该邮件不需要回复');
         if ($info !== true) {
             return apiReturn(CODE_ERROR, '发送失败', '');
         }
+
         return apiReturn(CODE_SUCCESS, '发送成功', '');
     }
 }

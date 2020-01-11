@@ -18,6 +18,9 @@ use think\Controller;
 
 class Index extends Controller
 {
+    /**
+     * 首页公告
+     */
     public function notice()
     {
         $notice_model = new NoticeModel();
@@ -25,6 +28,9 @@ class Index extends Controller
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
+    /**
+     * 首页轮播图
+     */
     public function rotation()
     {
         $rotation_model = new RotationModel();
@@ -32,6 +38,9 @@ class Index extends Controller
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
+    /**
+     * 首页数据
+     */
     public function data()
     {
         $submitlog_model = new SubmitlogModel();
@@ -41,6 +50,10 @@ class Index extends Controller
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
+    /**
+     * 首页显示比赛
+     * TODO 限制条数
+     */
     public function contest()
     {
         $submit_model = new SubmitModel();
