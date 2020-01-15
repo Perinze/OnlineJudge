@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>上传头像</title>
+</head>
+<body>
+<h1>当前头像</h1>
+<img src="{if $rel}{$rel.avatar}{/if}" height="50" width="50">
+<h1>上传头像</h1>
+<form method="post" enctype="multipart/form-data" class="form" action="__API__/upload/upload_avatar">
+    选择文件：<input type="file" class="file" name="avatar"><br/>
+    <input type="submit" class="btn" value=" 提交 ">
+</form>
+<h1>在用户编辑里面需要在下面的提交中把头像的url也存到数据库</h1>
+</body>
+</html>

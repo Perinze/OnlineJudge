@@ -4,7 +4,7 @@ use think\Controller;
 use think\Request;
 use app\panel\model\ProblemModel;
 
-class problem extends Controller
+class problem extends Base
 {
     public function contract()
     {

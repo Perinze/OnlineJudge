@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>控制台 - 活动内容 - 添加活动</title>
+    <link href="__CSS__/bootstrap.min.css" rel="stylesheet">
+    <link href="__CSS__/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <link href="__CSS__/fileinput.min.css" rel="stylesheet">
+    <link href="__CSS__/sb-admin-2.css" rel="stylesheet">
+    <link href="__CSS__/plugins/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="__FONT__/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <script src="__JS__/jquery-1.11.0.js"></script>
+    <!-- 样式文件 -->
+    <link rel="stylesheet" href="__UM__/themes/default/css/umeditor.css">
+    <!-- 引用jquery -->
+    <script src="__UM__/third-party/jquery.min.js"></script>
+    <!-- 引入 etpl -->
+    <script type="text/javascript" src="__UM__/third-party/template.min.js"></script>
+    <!-- 配置文件 -->
+    <script type="text/javascript" src="__UM__/umeditor.config.js"></script>
+    <!-- 编辑器源码文件 -->
+    <script type="text/javascript" src="__UM__/umeditor.js"></script>
+    <!-- 语言包文件 -->
+    <script type="text/javascript" src="__UM__/lang/zh-cn/zh-cn.js"></script>
+    <!-- 实例化编辑器代码 -->
+    <script type="text/javascript">
+        $(function () {
+            window.um = UM.getEditor('container', {
+                /* 传入配置参数,可配参数列表看umeditor.config.js */
+                //            toolbar: ['undo redo | bold italic underline']
+                autoHeightEnabled: true,
+                autoFloatEnabled: true
+            });
+        });
+    </script>
+    <link href="__CSS__/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="../../res/bacheditor/build/build.min.css" rel="stylesheet"> -->
+    <link href="__CSS__/sb-admin-2.css" rel="stylesheet">
+    <link href="__FONT__/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="__CSS__/plugins/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div id="wrapper">
+        <!--顶栏&菜单栏-->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            {include file='layout/toolbar'} {include file='layout/sidebar'}
+        </nav>
+
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">添加内容</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"> 添加内容 </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <form action="{:url('activity/add')}">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>活动标题</label>
+                                            <input class="form-control" name="title" id="title">
+                                            <p class="title_error">文章标题不能为空！</p>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>活动类型</label>
+                                            <select class="form-control" name="tag" id="name">
+                                                <option value="旧书圆新梦">旧书圆新梦</option>
+                                                <option value="义务家教">义务家教</option>
+                                                <option value="义务卖报">义务卖报</option>
+                                                <option value="网页大赛">网页大赛</option>
+                                                <option value="演讲比赛">演讲比赛</option>
+                                                <option value="义务维修">义务维修</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                                <input id="file" name="file" type="file" class="file"  data-language="zh" data-allowed-file-extensions='["jpg","png"]'
+                                                data-show-cancel="false" data-show-upload="false"/>
+                                         </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label>内容</label>
+                                            <!-- 加载编辑器的容器 -->
+                                            <script id="container" name="content" type="text/plain" style="width:700px;height:200px;"></script>
+                                            <p class="activity_error">活动内容不能为空！</p>
+                                        </div>
+                                        <button type="button" class="btn btn-default">提交</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="__JS__/bootstrap.min.js"></script>
+<script src="__JS__/fileinput.min.js"></script>
+<script src="__JS__/locales/zh.js"></script>
+<script src="__JS__/plugins/metisMenu/metisMenu.min.js"></script>
+<script src="__JS__/sb-admin-2.js"></script>
+<script>
+    $(".title_error").css("visibility", "hidden");
+    $(".activity_error").css("visibility", "hidden");
+    $("#title").blur(function () {
+        if ($(this).val() == "") {
+            $(".title_error").css("visibility", "visible");
+        } else if ($(this).val() != "") {
+            $(".title_error").css("visibility", "hidden");
+        }
+    });
+    UM.getEditor('container').addListener('blur', function (editor) {
+        if (UM.getEditor('container').getContentTxt() == "") {
+            $(".activity_error").css("visibility", "visible");
+        } else if (UM.getEditor('container').getContentTxt() != "") {
+            $(".activity_error").css("visibility", "hidden");
+        }
+    });
+    $("button").click(function () {
+        var con1 = $("#title").val();
+        var formData = new FormData();
+        var url1 = "";
+        var a = document.getElementById('file').files[0];
+        var name = $("#name option:selected").val();
+        formData.append('file', a);
+        formData.append('name', name);
+        if (con1 != "") {
+            $.ajax({
+                url: "__PANEL__/activity/upload",
+                type: "post",
+                cache: false,
+                dataType: "json",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if (data.status == 1) {
+                        //console.log(data);
+                        url1 = data.data;
+                        $.ajax({
+                            url: "__PANEL__/activity/add_activity",
+                            type: "post",
+                            cache: false,
+                            dataType: "json",
+                            data: {
+                                title: $("#title").val(),
+                                name: $("#name option:selected").val(),
+                                image: url1,
+                                introduction: UM.getEditor('container').getContent(),
+                            },
+                            success: function (data) {
+                                if (data.status == 0) {
+                                    window.location.href = "__PANEL__/activity/index";
+                                    alert(data.message);
+                                } else if (data.status == -1) {
+                                    alert(data.message);
+                                }
+                            },
+                        });
+                    } else if (data.status == -1) {
+                        alert(data.message);
+                    }
+                },
+            });
+        } else {
+            if ($("#title").val() == "") {
+                $(".title_error").css("visibility", "visible");
+            }
+            if (UM.getEditor('container').getContentTxt() == "") {
+                $(".activity_error").css("visibility", "visible");
+            }
+            alert("标题及内容不能为空！");
+            return false;
+        }
+    });
+</script>
+</body>
+</html>

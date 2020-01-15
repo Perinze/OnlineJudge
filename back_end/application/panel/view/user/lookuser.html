@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>控制台 - 用户管理 - 自强人信息</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="__CSS__/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="../../res/bacheditor/build/build.min.css" rel="stylesheet"> -->
+    <link href="__CSS__/sb-admin-2.css" rel="stylesheet">
+    <link href="__FONT__/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="__CSS__/plugins/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="__CSS__/lookuser.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div id="wrapper">
+    <!--顶栏&菜单栏-->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        {include file='layout/toolbar'}
+        {include file='layout/sidebar'}
+    </nav>
+
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">自强人信息</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading"> 自强人信息 </div>
+                    <div class="panel-body">
+                        <div class="row">
+  								<div class="col-lg-6">
+                                    <div class="form-group">
+                                        <div class="name_wrapper">
+                                            <div class="circle"></div>
+                                        	<label>姓名：</label>
+                                        	{if $rel}{$rel.realname}{/if}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="nickname_wrapper">
+                                            <div class="circle"></div>
+                                        	<label>昵称：</label>
+                                        	{if $rel}{$rel.username}{/if}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="power_wrapper">
+                                            <div class="circle"></div>
+                                         	<label>权限：</label>
+                                         	{if $rel}{$rel.role}{/if}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="grade_wrapper">
+                                            <div class="circle"></div>
+                                        	<label>届数：</label>
+                                        	{if $rel}{$rel.session}{/if}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="position_wrapper">
+                                            <div class="circle"></div>
+                                        	<label>职务：</label>
+                                        	{if $rel}{$rel.position}{/if}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="sex_wrapper">
+                                            <div class="circle"></div>
+                                        	<label>性别：</label>
+                                        	{if $rel}{eq name='$rel.sex' value='1'}男{else/}女{/eq}{/if}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="class_wrapper">
+                                            <div class="circle"></div>
+                                        	<label>班级：</label>
+                                        	{if $rel}{$rel.class}{/if}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="qq_wrapper">
+                                            <div class="circle"></div>
+                                        	<label>QQ：</label>
+                                        	{if $rel}{$rel.qq}{/if}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="phone_wrapper">
+                                            <div class="circle"></div>
+                                        	<label>电话：</label>
+                                        	{if $rel}{$rel.tel}{/if}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="email_wrapper">
+                                            <div class="circle"></div>
+                                        	<label>邮箱：</label>
+                                        	{if $rel}{$rel.email}{/if}
+                                        </div>
+                                    </div>
+                            	</div>
+                            	<div class="col-lg-6">
+                                    <div class="form-group">
+                                        <div class="introduce_wrapper">
+                                            <div class="circle"></div>
+                                        	<label>个人介绍：</label>
+                                        	{if $rel}{$rel.introduce}{/if}
+                                        </div>
+                                    </div>
+                            	</div>                                                                                                                             
+<!--                                <div class="col-lg-12">
+
+                                </div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>    
+    
+
+<script src="__JS__/jquery-1.11.0.js"></script>
+<script src="__JS__/bootstrap.min.js"></script>
+<script src="__JS__/plugins/metisMenu/metisMenu.min.js"></script>
+<script src="__JS__/sb-admin-2.js"></script>
+</body>
+</html>

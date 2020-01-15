@@ -32,4 +32,12 @@ return [
     'taglib_begin' => '{',
     // 标签库标签结束标记
     'taglib_end'   => '}',
+    //模板参数替换
+    'tpl_replace_string' => [
+        '__CSS__'    => '/OnlineJudge/public/static/css',
+        '__FONT__'   => '/OnlineJudge/public/static/fonts',
+        '__JS__'     => '/OnlineJudge/public/static/js',
+        '__IMG__'    => '/OnlineJudge/public/static/images',
+        '__DT__'     => '/OnlineJudge/public/static/datatable',
+    ]
 ];

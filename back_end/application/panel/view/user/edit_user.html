@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>控制台 - 用户管理 - 权限修改</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="__CSS__/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="../../res/bacheditor/build/build.min.css" rel="stylesheet"> -->
+    <link href="__CSS__/sb-admin-2.css" rel="stylesheet">
+    <link href="__FONT__/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="__CSS__/plugins/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div id="wrapper">
+    <!--顶栏&菜单栏-->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        {include file='layout/toolbar'}
+        {include file='layout/sidebar'}
+    </nav>
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">权限修改</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">权限修改</div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <form action="#">
+                                <div class="col-lg-6">
+                                    <input type="hidden" name="id" id="hidden1" value="{$id}">
+                                    <div class="form-group">
+                                        <label>姓名：</label>
+                                        {if $rel}{$rel.realname}{/if}
+                                    </div>
+                                    <div class="form-group">
+                                        <label>部门</label>
+                                        <select class="form-control" name="department" id="department" onchange="changeTest(this)">
+                                            <option value = "">请选择</option>
+                                            <option value="社长">社长</option>
+                                            <option value="副社">副社</option>
+                                            <option value="服务队">服务队</option>
+                                            <option value="外联部">外联部</option>
+                                            <option value="宣传部">宣传部</option>
+                                            <option value="秘书部">办公室</option>
+                                            <option value="策划部">策划部</option>
+                                        </select>
+                                        <p class="help-block">原所属部门：{if $rel}{$rel.department}{/if}</p>
+                                    </div>
+                                    <!--MARK 这里可以根据所属部门对应的变化-->
+                                    <div class="form-group">
+                                        <label>职位</label>
+                                        <select class="form-control" name="position" id="position">
+                                            <option value = "">请选择</option>
+                                        </select>
+                                        <p class="help-block">原职务：{if $rel}{$rel.position}{/if}</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>权限：</label>
+                                        <select class="form-control" id="role" name="role">
+                                            <option value="0" {eq name='rel.role' value='0'} selected {/eq}>庶民</option>
+                                            <option value="1" {eq name='rel.role' value='1'} selected {/eq}>狗官</option>
+                                            <option value="2" {eq name='rel.role' value='2'} selected {/eq}>大狗官</option>
+                                        </select>
+                                    </div>
+                                    <p class="help-block">原权限等级：{if $rel}{$rel.role}{/if}</p>
+                                </div>
+                                <div class="col-lg-12">
+                                    <button type="button" class="btn btn-default">提交</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="__JS__/jquery-1.11.0.js"></script>
+<script src="__JS__/bootstrap.min.js"></script>
+<script src="__JS__/plugins/metisMenu/metisMenu.min.js"></script>
+<script src="__JS__/sb-admin-2.js"></script>
+<script>
+    function changeTest(obj){
+        var selectVal = obj.value;
+        if(selectVal == "社长" || selectVal=="副社"){
+            var objSelectet = document.getElementById("position");
+            for(i=objSelectet.options.length-1 ; i>= 0 ; i--){
+                objSelectet.options[i] = null;
+                objSelectet.innerHTML = "<option value = ''>请选择</option>";
+            }
+            //Array事项动态下拉框
+            var texts = new Array("大人");
+            var values = new Array("大人");
+            for(var i = 0 ; i < texts.length ; i++){
+                var objOption = document.createElement("OPTION");
+                objOption.text= texts[i];
+                objOption.value=values[i];
+                objSelectet.options.add(objOption);
+            }
+        }else if(selectVal == "服务队"){
+            var objSelectet = document.getElementById("position");
+            for(i=objSelectet.options.length-1 ; i>= 0 ; i--){
+                objSelectet.options[i] = null;
+                objSelectet.innerHTML = "<option value = ''>请选择</option>";
+            }
+            //Array事项动态下拉框
+            var texts = new Array("队长","副队长","成员");
+            var values = new Array("队长","副队长","成员");
+            for(var i = 0 ; i < texts.length ; i++){
+                var objOption = document.createElement("OPTION");
+                objOption.text= texts[i];
+                objOption.value=values[i];
+                objSelectet.options.add(objOption);
+            }
+        }else{
+            var objSelectet = document.getElementById("position");
+            for(i=objSelectet.options.length-1 ; i>= 0 ; i--){
+                objSelectet.options[i] = null;
+                objSelectet.innerHTML = "<option value = ''>请选择</option>";
+            }
+            //Array事项动态下拉框
+            var texts = new Array("部长","副部长","成员");
+            var values = new Array("部长","副部长","成员");
+            for(var i = 0 ; i < texts.length ; i++){
+                var objOption = document.createElement("OPTION");
+                objOption.text= texts[i];
+                objOption.value=values[i];
+                objSelectet.options.add(objOption);
+            }
+        }
+    }
+
+    $("button").click(function () {
+        $.ajax({
+            url: "__API__/user/update_user",
+            type: "post",
+            dataType: "json",
+            data: {
+                id:         "{if $id}{$id}{/if}",
+                department: $("#department").val(),
+                position:   $("#position").val(),
+                role:       $("#role option:selected").val(),
+            },
+            success: function (data) {
+                if (data.status == 0) {
+                    window.location.href = "__PANEL__/user/ziqiang";
+                    alert(data.message);
+                    return true;
+                }
+                else if (data.status == -1) {
+                    alert(data.message);
+                    return false;
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>

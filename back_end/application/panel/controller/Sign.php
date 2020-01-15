@@ -1,10 +1,9 @@
 <?php
 namespace app\panel\controller;
-use think\Controller;
-use think\Request;
+
 use app\panel\model\SignModel;
 
-class Sign extends Controller
+class Sign extends Base
 {
 //    public function contract()
 //    {
