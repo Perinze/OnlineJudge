@@ -6,12 +6,11 @@ use app\panel\model\ProblemModel;
 
 class problem extends Base
 {
-    public function contract()
-    {
-        return $this->fetch();
-    }
-
-    public function add_problem()
+    /* 接口 */
+    /**
+     * 添加题目
+     */
+    public function addProblem()
     {
         $info = input('get.');
         $problem = request()->file('problem');
@@ -37,4 +36,62 @@ class problem extends Base
         $rel = $item->addsign($where, $data);
         return apireturn($rel['code'], $rel['msg'], $rel['data'], 200);
     }
+
+    /**
+     * 删除题目
+     */
+    public function deleProblem()
+    {
+
+    }
+
+    /**
+     * 修改题目
+     */
+    public function editProblem()
+    {
+
+    }
+
+    /**
+     * 查询所有题目
+     */
+    public function getAllProblem()
+    {
+
+    }
+
+    /**
+     * 查询单个题目信息
+     */
+    public function getTheProblem()
+    {
+
+    }
+
+    /* 页面 */
+    /**
+     * 添加题目页面
+     */
+    public function add()
+    {
+
+    }
+
+    /**
+     * 题目详情页面
+     */
+    public function info()
+    {
+
+    }
+
+    /**
+     * 首页
+     */
+    public function index()
+    {
+
+    }
+
 }

@@ -9,11 +9,15 @@ return [
     'submit_url' => [
         'http://10.143.216.128:8819/submit'
     ],
+    /* 交题时间间隔 */
     'interval_time' => 5,
+    /* 支持语言 */
     'language' => [
         'c.gcc',
         'cpp.g++',
     ],
     /* 每面数量 */
     'page_limit' => 20,
+    /* oj 链接 */
+    'oj_url' => 'https://acmwhut.com',
 ];
