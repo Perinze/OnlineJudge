@@ -29,13 +29,13 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">活动内容</h1>
+                    <h1 class="page-header">比赛列表</h1>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
-                        <div class="panel-heading"> 活动内容 </div>
+                        <div class="panel-heading"> 比赛列表 </div>
                         <div class="panel-body">
                             <!--<div style="text-align:right;"> <button type="button" class="btn btn-success" style="margin-bottom:5px;" onclick="location.href='add.html'" >添加内容</button></div>-->
                             <div class="dataTable_wrapper">
@@ -44,8 +44,9 @@
                                         <tr>
                                             <th>编号</th>
                                             <th>标题</th>
-                                            <th>活动</th>
-                                            <th>创建时间</th>
+                                            <th>开始时间</th>
+                                            <th>结束时间</th>
+                                            <th>状态</th>
                                             <th>操作</th>
                                         </tr>
                                     </thead>
@@ -101,29 +102,23 @@
                 "bServerSide": true,
                 "bDestroy": true,
                 "bSortCellsTop": true,
-                "sAjaxSource": '__PANEL__/activity/get',
+                "sAjaxSource": '__PANEL__/contest/getAllContest',
                 "aoColumns": [{
-                    "mData": "id",
+                    "mData": "contest_id",
                 }, {
-                    "mData": "name",
+                    "mData": "contest_name",
                 }, {
-                    "mData": "tag",
+                    "mData": "begin_time",
                 }, {
-                    "mData": "pageview",
+                    "mData": "end_time",
                 }, {
-                    "mData": "realname",
+                    "mData": "status",
                 }, {
-                    "mData": "position",
-                }, {
-                    "mData": "create_time",
-                }, {
-                    "mData": "id",
+                    "mData": "contest_id",
                     "mRender": function (data, type, full) {
-                        return "<a href='__PANEL__/blog/edit&id=" + data +
+                        return "<a href='__PANEL__/contest/info&id=" + data +
                             "' target='_self'>编辑</a> | " +
-                            "<a href='__BLOG__" +
-                            "' target='_self'>查看</a> | " +
-                            "<a href='__API__/blog/delblog&id=" + data +
+                            "<a href='__PANEL__/contest/deleContest&id=" + data +
                             "' target='_self'>删除</a>";
                     }
                 }],

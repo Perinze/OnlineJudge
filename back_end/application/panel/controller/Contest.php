@@ -4,6 +4,8 @@
 namespace app\panel\controller;
 
 
+use app\oj\model\ContestModel;
+
 class Contest extends Base
 {
     /* 接口 */
@@ -36,7 +38,24 @@ class Contest extends Base
      */
     public function getAllContest()
     {
-
+        $contest_model = new ContestModel();
+        $req = input('post.aoData');
+        $where = aoDataFormat($req, 'contest_name');
+//        halt($where);
+        $resp = $contest_model->getAllContest($where['where'], $where['limit'], $where['offset']);
+        $response = array(
+            'recordsTotal' => 0,
+            'recordsFiltered' => 0,
+            'data' => ''
+        );
+//        halt($resp);
+        if($resp['code'] === CODE_SUCCESS){
+            $count = $contest_model->where($where['where'])->count();
+            $response['recordsTotal'] = $count;
+            $response['recordsFiltered'] = $count;
+            $response['data'] = $resp['data'];
+        }
+        echo json_encode($response);
     }
 
     /**

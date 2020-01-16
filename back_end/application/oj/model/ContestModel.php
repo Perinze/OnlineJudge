@@ -80,4 +80,21 @@ class ContestModel extends Model
             return ['code' => CODE_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];
         }
     }
+
+    public function getAllContest($where, $limit, $offset)
+    {
+        try{
+            $field = ['contest_id', 'contest_name', 'begin_time', 'end_time', 'status'];
+            $info = $this->field($field)
+                ->where($where)
+                ->limit($offset, $limit)
+                ->select();
+            if($info === false){
+                return ['code' => CODE_ERROR,'msg' => '返回值异常','data' => $this->getError()];
+            }
+            return ['code' => CODE_SUCCESS, 'msg' => '获取成功', 'data' => $info->toArray()];
+        } catch (Exception $e) {
+            return ['code' => CODE_ERROR,'msg' => '操作数据库异常','data' => $e->getMessage()];
+        }
+    }
 }
