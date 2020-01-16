@@ -51,12 +51,14 @@ class Base extends Controller
     /**
      * 登录检测
      */
-    protected function _initialize()
+    public function __construct()
     {
+        parent::__construct();
+//        halt(session('identity'));
         if (!Session::has('user_id')) {
             $this->redirect(config('wutoj_config.oj_url'));
         }
-        if (Session::get('identify') !== ADMINISTRATOR){
+        if (Session::get('identity') !== ADMINISTRATOR){
             $this->redirect(config('wutoj_config.oj_url'));
         }
         $this->assign('realname', session('nick'));

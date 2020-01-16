@@ -69,4 +69,9 @@ class Index extends Controller
     {
 
     }
+
+    public function test()
+    {
+        var_dump(session('identity'));
+    }
 }

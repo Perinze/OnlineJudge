@@ -46,17 +46,17 @@ class Login extends Controller
         $data = array();
         if ($result['code'] === CODE_SUCCESS) {
             // 验证成功，session分配
-            session('user_id', $result['data']['user_id']);
-            session('nick', $result['data']['nick']);
-            session('identity', $result['data']['identity']);
             $data = array(
                 'userId' => $result['data']['user_id'],
                 'nick' => $result['data']['nick'],
                 'desc' => $result['data']['desc'],
-                //TODO 删除
-                'acCnt' => count(json_decode($result['data']['ac_problem'], true)),
-                'waCnt' => count(json_decode($result['data']['wa_problem'], true)),
+//                //TODO 删除
+//                'acCnt' => count(json_decode($result['data']['ac_problem'], true)),
+//                'waCnt' => count(json_decode($result['data']['wa_problem'], true)),
             );
+            session('user_id', $result['data']['user_id']);
+            session('nick', $result['data']['nick']);
+            session('identity', $result['data']['identity']);
             session('data', $data);
         }
 

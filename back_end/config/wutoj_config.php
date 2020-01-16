@@ -19,5 +19,5 @@ return [
     /* 每面数量 */
     'page_limit' => 20,
     /* oj 链接 */
-    'oj_url' => 'https://acmwhut.com',
+    'oj_url' => 'http://acmwhut.com',
 ];
