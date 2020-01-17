@@ -1,9 +1,7 @@
 <?php
 namespace app\panel\controller;
-use app\oj\model\ProblemModel;
+use app\panel\model\ProblemModel;
 use app\oj\validate\ProblemValidate;
-use think\Controller;
-use think\Request;
 
 class problem extends Base
 {

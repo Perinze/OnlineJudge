@@ -4,7 +4,7 @@
 namespace app\panel\controller;
 
 
-use app\oj\model\ContestModel;
+use app\panel\model\ContestModel;
 
 class Contest extends Base
 {
