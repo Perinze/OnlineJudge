@@ -20,7 +20,8 @@
         "topthink/framework": "5.1.27",
         "phpmailer/phpmailer": "^6.0",
         "topthink/think-captcha": "2.0.x-dev",
-        "topthink/think-installer": "2.0.x-dev"
+        "topthink/think-installer": "2.0.x-dev",
+        "ext-json": "*"
     },
     "autoload": {
         "psr-4": {
