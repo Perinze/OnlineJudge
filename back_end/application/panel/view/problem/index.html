@@ -37,13 +37,13 @@
                     <div class="panel panel-default">
                         <div class="panel-heading"> 博客内容 </div>
                         <div class="panel-body">
-                            <!--MARK--这里最好可以调起数据库的数据-->
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-default" data-id="0">全部</button>
-                                <button type="button" class="btn btn-default" data-id="1">技术</button>
-                                <button type="button" class="btn btn-default" data-id="2">经验</button>
-                                <button type="button" class="btn btn-default" data-id="3">杂谈</button>
-                            </div>
+<!--                            &lt;!&ndash;MARK&#45;&#45;这里最好可以调起数据库的数据&ndash;&gt;-->
+<!--                            <div class="btn-group" role="group">-->
+<!--                                <button type="button" class="btn btn-default" data-id="0">全部</button>-->
+<!--                                <button type="button" class="btn btn-default" data-id="1">技术</button>-->
+<!--                                <button type="button" class="btn btn-default" data-id="2">经验</button>-->
+<!--                                <button type="button" class="btn btn-default" data-id="3">杂谈</button>-->
+<!--                            </div>-->
                             <!--<div style="text-align:right;"> <button type="button" class="btn btn-success" style="margin-bottom:5px;" onclick="location.href='add.html'" >添加内容</button></div>-->
                             <div class="dataTable_wrapper">
                                 <table class="table table-striped table-bordered table-hover" id="dataTable">
@@ -51,11 +51,9 @@
                                         <tr>
                                             <th>编号</th>
                                             <th>标题</th>
-                                            <th>标签</th>
-                                            <th>浏览量</th>
-                                            <th>作者</th>
-                                            <th>职务</th>
-                                            <th>创建时间</th>
+                                            <th>题目所属</th>
+                                            <th>通过数</th>
+                                            <th>状态</th>
                                             <th>操作</th>
                                         </tr>
                                     </thead>
@@ -111,29 +109,23 @@
                 "bServerSide": true,
                 "bDestroy": true,
                 "bSortCellsTop": true,
-                "sAjaxSource": '__PANEL__/blog/get_blog&tag_id=' + {$tag_id},
+                "sAjaxSource": '__PANEL__/problem/getAllProblem',
                 "aoColumns": [{
-                    "mData": "id",
+                    "mData": "problem_id",
                 }, {
                     "mData": "title",
                 }, {
-                    "mData": "type",
+                    "mData": "public",
                 }, {
-                    "mData": "pageview",
+                    "mData": "ac",
                 }, {
-                    "mData": "realname",
+                    "mData": "status",
                 }, {
-                    "mData": "position",
-                }, {
-                    "mData": "create_time",
-                }, {
-                    "mData": "id",
+                    "mData": "problem_id",
                     "mRender": function (data, type, full) {
-                        return "<a href='__PANEL__/blog/edit&id=" + data +
+                        return "<a href='__PANEL__/problem/editProblem&id=" + data +
                             "' target='_self'>编辑</a> | " +
-                            "<a href='__BLOG__" +
-                            "' target='_self'>查看</a> | " +
-                            "<a href='__API__/blog/delblog&id=" + data +
+                            "<a href='__API__/problem/deleProblem&id=" + data +
                             "' target='_self'>删除</a>";
                     }
                 }],
@@ -152,12 +144,6 @@
 
                 }
             });
-            $(".btn-group > button").click(function () {
-                //            id = $(this).data("id");
-                location.assign("__PANEL__/blog/index&tag_id=" + $(this).data("id"));
-            });
-
-            $(".btn-group > button[data-id={$tag_id}]").addClass("btn-primary");
         });
     </script>
 </body>

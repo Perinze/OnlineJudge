@@ -1,8 +1,8 @@
 <?php
 namespace app\panel\controller;
+use app\oj\model\ProblemModel;
 use think\Controller;
 use think\Request;
-use app\panel\model\ProblemModel;
 
 class problem extends Base
 {
@@ -58,7 +58,11 @@ class problem extends Base
      */
     public function getAllProblem()
     {
-
+        $problem_model = new ProblemModel();
+        $req = input('post.aoData');
+        $where = aoDataFormat($req, 'nick');
+        $resp = $problem_model->getAllProblem($where['where'], $where['limit'], $where['offset']);
+        echo datatable_response($resp['code'], $where['where'], $resp['data'], $problem_model);
     }
 
     /**
@@ -91,7 +95,7 @@ class problem extends Base
      */
     public function index()
     {
-        return $this->fetch('index');
+        return $this->fetch();
     }
 
 }

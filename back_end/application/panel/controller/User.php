@@ -40,7 +40,7 @@ class User extends Base
     {
         $user_model = new UserModel();
         $req = input('post.aoData');
-        $where = aoDataFormat($req, 'contest_name');
+        $where = aoDataFormat($req, 'nick');
         $resp = $user_model->getAllUser($where['where'], $where['limit'], $where['offset']);
         echo datatable_response($resp['code'], $where['where'], $resp['data'], $user_model);
     }
@@ -75,6 +75,6 @@ class User extends Base
      */
     public function index()
     {
-        return $this->fetch('index');
+        return $this->fetch();
     }
 }
