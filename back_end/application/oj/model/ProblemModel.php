@@ -128,6 +128,10 @@ class ProblemModel extends Model
                 ->leftJoin('submit', 'p.problem_id = submit.problem_id')
                 ->group('p.problem_id')
                 ->limit($offset, $limit)
+                ->withAttr('status', function($value) {
+                    $status = [-1=>'删除', 0=>'禁用', 1=>'正常', 2=>'比赛'];
+                    return $status[$value];
+                })
                 ->select();
             if($info === false){
                 return ['code' => CODE_ERROR,'msg' => '返回值异常','data' => $this->getError()];

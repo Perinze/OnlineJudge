@@ -34,6 +34,10 @@ class BelongsTo extends OneToOne
         $this->joinType   = 'INNER';
         $this->query      = (new $model)->db();
         $this->relation   = $relation;
+
+        if (get_class($parent) == $model) {
+            $this->selfRelation = true;
+        }
     }
 
     /**
@@ -62,6 +66,26 @@ class BelongsTo extends OneToOne
         }
 
         return $relationModel;
+    }
+
+    /**
+     * 创建关联统计子查询
+     * @access public
+     * @param  \Closure $closure 闭包
+     * @param  string   $aggregate 聚合查询方法
+     * @param  string   $field 字段
+     * @return string
+     */
+    public function getRelationCountQuery($closure, $aggregate = 'count', $field = '*')
+    {
+        if ($closure) {
+            $closure($this->query);
+        }
+
+        return $this->query
+            ->whereExp($this->localKey, '=' . $this->parent->getTable() . '.' . $this->foreignKey)
+            ->fetchSql()
+            ->$aggregate($field);
     }
 
     /**

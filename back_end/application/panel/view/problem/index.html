@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>控制台 - 博客池</title>
+    <title>控制台 - 题目列表</title>
     <link href="__CSS__/bootstrap.min.css" rel="stylesheet">
     <link href="__CSS__/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
     <link href="__CSS__/sb-admin-2.css" rel="stylesheet">
@@ -29,13 +29,13 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">博客内容</h1>
+                    <h1 class="page-header">题目列表</h1>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
-                        <div class="panel-heading"> 博客内容 </div>
+                        <div class="panel-heading"> 题目列表 </div>
                         <div class="panel-body">
 <!--                            &lt;!&ndash;MARK&#45;&#45;这里最好可以调起数据库的数据&ndash;&gt;-->
 <!--                            <div class="btn-group" role="group">-->
@@ -123,9 +123,9 @@
                 }, {
                     "mData": "problem_id",
                     "mRender": function (data, type, full) {
-                        return "<a href='__PANEL__/problem/editProblem&id=" + data +
+                        return "<a href='__PANEL__/problem/info?id=" + data +
                             "' target='_self'>编辑</a> | " +
-                            "<a href='__API__/problem/deleProblem&id=" + data +
+                            "<a href='__API__/problem/info?id=" + data +
                             "' target='_self'>删除</a>";
                     }
                 }],

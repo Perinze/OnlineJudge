@@ -61,7 +61,10 @@ class Knowledge extends Base
      */
     public function info()
     {
-
+        $req = input('get.');
+        $id = isset($req['id']) ? $req['id'] : 0;
+        $this->assign('id', $id);
+        return $this->fetch();
     }
 
     /**

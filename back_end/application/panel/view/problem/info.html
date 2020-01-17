@@ -1,10 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>控制台 - 博客内容 - 编辑博客</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="__JS__/jquery-1.11.0.js"></script>
+    <!-- 样式文件 -->
+    <link rel="stylesheet" href="__UM__/themes/default/css/umeditor.css">
+    <link href="__CSS__/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="../../res/bacheditor/build/build.min.css" rel="stylesheet"> -->
+    <link href="__CSS__/sb-admin-2.css" rel="stylesheet">
+    <link href="__FONT__/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="__CSS__/plugins/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
+
 <body>
 
+<div id="wrapper">
+    <!--顶栏&菜单栏-->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        {include file='layout/toolbar'} {include file='layout/sidebar'}
+    </nav>
+
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">编辑内容</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading"> 基本设置 </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <form action="">
+                                <!--http://ziqiangshe.applinzi.com/tp5/public/index.php/panel/blog/editblog-->
+
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label>内容</label>
+                                        <!-- 加载编辑器的容器 -->
+                                        <script id="container" name="content" type="text/plain" style="width:700px;height:200px;"></script>
+                                    </div>
+                                    <button type="button" class="btn btn-default">提交</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="__JS__/bootstrap.min.js"></script>
+<script src="__JS__/plugins/metisMenu/metisMenu.min.js"></script>
+<script src="__JS__/sb-admin-2.js"></script>
+<script>
+    $(document).ready(function () {
+        console.log("{$id}");
+        $.ajax({
+            url: "__PANEL__/problem/getTheProblem",
+            type: "post",
+            dataType: "json",
+            data: {
+                problem_id:      "{$id}",
+            },
+            success: function (data) {
+                if (data.status == 0) {
+                    alert(data.message);
+                } else if (data.status == -1) {
+                    alert(data.message);
+                }
+            },
+        });
+    });
+
+    $("button").click(function () {
+        $.ajax({
+            url: "__API__/blog/edit_blog",
+            type: "post",
+            dataType: "json",
+            data: {
+                id:      $("#blog_id").val(),
+                title:   $("#title").val(),
+                tag:     $("#tag option:selected").val(),
+                summary: $("#summary").val(),
+                content: UM.getEditor('container').getContent(),
+            },
+            success: function (data) {
+                if (data.status == 0) {
+                    window.location.href = "__PANEL__/blog/index";
+                    alert(data.message);
+                } else if (data.status == -1) {
+                    alert(data.message);
+                }
+            },
+        });
+    });
+</script>
 </body>
 </html>

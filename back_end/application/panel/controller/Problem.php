@@ -1,6 +1,7 @@
 <?php
 namespace app\panel\controller;
 use app\oj\model\ProblemModel;
+use app\oj\validate\ProblemValidate;
 use think\Controller;
 use think\Request;
 
@@ -70,7 +71,15 @@ class problem extends Base
      */
     public function getTheProblem()
     {
-
+        $problem_model = new ProblemModel();
+        $problem_validate = new ProblemValidate();
+        $req = input('post.');
+        $result = $problem_validate->scene('displayProblem')->check($req);
+        if ($result !== VALIDATE_PASS) {
+            return apiReturn(CODE_ERROR, $problem_validate->getError(), '');
+        }
+        $resp = $problem_model->searchProblemById($req['problem_id']);
+        return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
     /* 页面 */
@@ -87,7 +96,10 @@ class problem extends Base
      */
     public function info()
     {
-
+        $req = input('get.');
+        $id = isset($req['id']) ? $req['id'] : 0;
+        $this->assign('id', $id);
+        return $this->fetch();
     }
 
     /**
