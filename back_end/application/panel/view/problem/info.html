@@ -18,6 +18,11 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <!-- Styles -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/tui-editor/latest/tui-editor.css">
+    <link rel="stylesheet" href="https://uicdn.toast.com/tui-editor/latest/tui-editor-contents.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
 </head>
 
 <body>
@@ -43,14 +48,56 @@
                         <div class="row">
                             <form action="">
                                 <!--http://ziqiangshe.applinzi.com/tp5/public/index.php/panel/blog/editblog-->
-
-                                <div class="col-lg-12">
+                                <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label>内容</label>
-                                        <!-- 加载编辑器的容器 -->
-                                        <script id="container" name="content" type="text/plain" style="width:700px;height:200px;"></script>
+                                        <input name="contest_id" id="contest_id" value="" type="hidden">
                                     </div>
-                                    <button type="button" class="btn btn-default">提交</button>
+                                    <div class="form-group">
+                                        <label>标题</label>
+                                        <input name="title" id="title" value="" class="form-control">
+                                        <p class="help-block">请输入题目的标题。</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>题目背景</label>
+                                        <div id="background"></div>
+                                        <p class="help-block">请输入文章的标题。</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>题目描述</label>
+                                        <textarea name="describe" id="describe" value="" class="form-control"></textarea>
+                                        <p class="help-block">请输入题目的描述。</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>输入格式</label>
+                                        <textarea name="input_format" id="input_format" class="form-control"></textarea>
+                                        <p class="help-block">请输入题目的输入格式。</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>输出格式</label>
+                                        <textarea name="output_format" id="output_format" class="form-control"></textarea>
+                                        <p class="help-block">请输入题目的输出格式。</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>提示</label>
+                                        <textarea name="hint" id="hint" value="" class="form-control"></textarea>
+                                        <p class="help-block">请输入题目的提示。</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>题目来源</label>
+                                        <input name="source" id="source" value="" class="form-control">
+                                        <p class="help-block">请输入题目的来源。</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>题目标签</label>
+                                        <select class="form-control" name="tagid" id="tagid">
+                                            <option value="1">数学</option>
+                                            <option value="2">贪心</option>
+                                            <option value="3">暴力</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <button type="button" class="btn btn-default" onclick="btn()">提交</button>
                                 </div>
                             </form>
                         </div>
@@ -60,13 +107,27 @@
         </div>
     </div>
 </div>
-
+<!-- Scripts -->
+<script src="https://cdn.bootcss.com/markdown-it/10.0.0/markdown-it.js"></script>
+<script src="https://cdn.bootcss.com/to-markdown/3.1.1/to-markdown.js"></script>
+<script src="__JS__/tui-code-snippet.min.js"></script>
+<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/squire-rte/1.9.0/squire-raw.js"></script>
+<script src="__JS__/tui-editor-Editor-full.js"></script>
 <script src="__JS__/bootstrap.min.js"></script>
 <script src="__JS__/plugins/metisMenu/metisMenu.min.js"></script>
 <script src="__JS__/sb-admin-2.js"></script>
 <script>
+    var background = new tui.Editor({
+        el: document.querySelector('#background'),
+        previewStyle: 'vertical',
+        height: '200px',
+        initialEditType: 'markdown',
+        initialValue: [],
+        exts: ['scrollSync']
+    });
     $(document).ready(function () {
-        console.log("{$id}");
         $.ajax({
             url: "__PANEL__/problem/getTheProblem",
             type: "post",
@@ -76,15 +137,15 @@
             },
             success: function (data) {
                 if (data.status == 0) {
-                    alert(data.message);
+                    console.log(data.data);
                 } else if (data.status == -1) {
-                    alert(data.message);
+
                 }
             },
         });
     });
-
-    $("button").click(function () {
+    function btn()
+    {
         $.ajax({
             url: "__API__/blog/edit_blog",
             type: "post",
@@ -94,7 +155,7 @@
                 title:   $("#title").val(),
                 tag:     $("#tag option:selected").val(),
                 summary: $("#summary").val(),
-                content: UM.getEditor('container').getContent(),
+                background: editor.background(),
             },
             success: function (data) {
                 if (data.status == 0) {
@@ -105,7 +166,7 @@
                 }
             },
         });
-    });
+    }
 </script>
 </body>
 </html>

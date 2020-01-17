@@ -11,7 +11,7 @@ class UserModel extends Model
 {
     protected $table = 'users';
     protected $json = ['role_group'];
-    
+
     public function getAllUser($where, $limit, $offset)
     {
         try{
