@@ -41,21 +41,8 @@ class Contest extends Base
         $contest_model = new ContestModel();
         $req = input('post.aoData');
         $where = aoDataFormat($req, 'contest_name');
-//        halt($where);
         $resp = $contest_model->getAllContest($where['where'], $where['limit'], $where['offset']);
-        $response = array(
-            'recordsTotal' => 0,
-            'recordsFiltered' => 0,
-            'data' => ''
-        );
-//        halt($resp);
-        if($resp['code'] === CODE_SUCCESS){
-            $count = $contest_model->where($where['where'])->count();
-            $response['recordsTotal'] = $count;
-            $response['recordsFiltered'] = $count;
-            $response['data'] = $resp['data'];
-        }
-        echo json_encode($response);
+        echo datatable_response($resp['code'], $where['where'], $resp['data'], $contest_model);
     }
 
     /**

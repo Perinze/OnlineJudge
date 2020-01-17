@@ -19,3 +19,19 @@ function aoDataFormat($aoData, $column)
     }
     return $data;
 }
+
+function datatable_response($code, $where, $data, $model)
+{
+    $response = array(
+        'recordsTotal' => 0,
+        'recordsFiltered' => 0,
+        'data' => ''
+    );
+    if($code === CODE_SUCCESS){
+        $count = $model->where($where)->count();
+        $response['recordsTotal'] = $count;
+        $response['recordsFiltered'] = $count;
+        $response['data'] = $data;
+    }
+    return json_encode($response);
+}

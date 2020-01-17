@@ -4,6 +4,8 @@
 namespace app\panel\controller;
 
 
+use app\oj\model\UserModel;
+
 class User extends Base
 {
     /* 接口 */
@@ -36,7 +38,11 @@ class User extends Base
      */
     public function getAllUser()
     {
-
+        $user_model = new UserModel();
+        $req = input('post.aoData');
+        $where = aoDataFormat($req, 'contest_name');
+        $resp = $user_model->getAllUser($where['where'], $where['limit'], $where['offset']);
+        echo datatable_response($resp['code'], $where['where'], $resp['data'], $user_model);
     }
 
     /**
