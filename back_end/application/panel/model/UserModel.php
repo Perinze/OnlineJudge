@@ -10,6 +10,8 @@ use think\Model;
 class UserModel extends Model
 {
     protected $table = 'users';
+    protected $json = ['role_group'];
+    
     public function getAllUser($where, $limit, $offset)
     {
         try{
@@ -34,15 +36,6 @@ class UserModel extends Model
             return ['code' => CODE_ERROR,'msg' => '操作数据库异常','data' => $e->getMessage()];
         }
     }
-namespace app\panel\model;
-
-use think\Db;
-use think\Model;
-use think\exception\DbException;
-
-class UserModel extends Model {
-    protected $table = 'users';
-    protected $json = ['role_group'];
 
     /**
      * @usage 为用户更新权限组
