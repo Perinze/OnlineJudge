@@ -108,20 +108,4 @@ class UserModel extends Model
         }
     }
 
-    public function getAllUser($where, $limit, $offset)
-    {
-        try{
-            $field = ['user_id', 'nick', 'realname', 'school', 'major', 'class', 'identity', 'status'];
-            $info = $this->field($field)
-                ->where($where)
-                ->limit($offset, $limit)
-                ->select();
-            if($info === false){
-                return ['code' => CODE_ERROR,'msg' => '返回值异常','data' => $this->getError()];
-            }
-            return ['code' => CODE_SUCCESS, 'msg' => '获取成功', 'data' => $info->toArray()];
-        } catch (Exception $e) {
-            return ['code' => CODE_ERROR,'msg' => '操作数据库异常','data' => $e->getMessage()];
-        }
-    }
 }

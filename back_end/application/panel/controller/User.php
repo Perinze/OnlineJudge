@@ -4,7 +4,7 @@
 namespace app\panel\controller;
 
 
-use app\oj\model\UserModel;
+use app\panel\model\UserModel;
 
 class User extends Base
 {
