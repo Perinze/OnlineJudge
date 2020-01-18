@@ -18,6 +18,9 @@ class RoleGroupModel extends Model {
     public function getAllGroup() {
         try {
             $msg = $this->select();
+            foreach ($msg as $item) {
+                $item['authority'] = $item['authority']->auth;
+            }
             return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $msg];
         } catch (DbException $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
@@ -76,11 +79,11 @@ class RoleGroupModel extends Model {
     public function deleteRoleGroup($data) {
         try {
             $role_group = $this->getRoleGroup($data['group_name']);
-            if ($role_group['code'] == -1) {
+            if ($role_group['code'] == CODE_ERROR) {
                 return ['code' => CODE_ERROR, 'msg' => '数据库异常或用户组不存在', 'data' => []];
-            } else if ($role_group['code']['user_num'] !== 0) {
+            } else if ($role_group['data']['user_num'] !== 0) {
                 //需要考虑删除权限组时用户注册的权限组情况
-                return ['code' => CODE_ERROR, 'msg' => '有用户绑定于此权限', 'data' => []];
+                return ['code' => CODE_ERROR, 'msg' => '有用户绑定于此权限', 'data' => $role_group];
             } else {
                 $result = $this->where(['group_name' => $data['group_name']])->delete();
                 return ['code' => CODE_SUCCESS, 'msg' => '删除成功', 'data' => $result];
@@ -114,7 +117,7 @@ class RoleGroupModel extends Model {
                     'authority' => ['auth' => $data['authority']],
                 ];
                 $result = $this->where($where)->update($insertData);
-                return ['code' => CODE_SUCCESS, 'msg' => '更新成功', 'data' => $result];
+                return ['code' => CODE_SUCCESS, 'msg' => '更新成功', 'data' => $insertData];
             }
         } catch (DbException $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];

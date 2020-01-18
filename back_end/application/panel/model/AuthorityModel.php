@@ -24,6 +24,19 @@ class AuthorityModel extends Model {
 
     /**
      * @usage 获取权限
+     * @param array $where
+     * @return array ['code', 'msg', 'data']
+     */
+    public function getAuthorities($where) {
+        try {
+            $msg = $this->where($where)->select();
+            return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $msg];
+        } catch (DbException $e) {
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+        }
+    }
+    /**
+     * @usage 获取权限
      * @param string $name
      * @return array ['code', 'msg', 'data']
      */
@@ -48,6 +61,9 @@ class AuthorityModel extends Model {
      */
     public function addAuthority($data) {
         try {
+            if ($data == "") {
+                return ['code' => CODE_ERROR, 'msg' => '空权限', 'data' => []];
+            }
             $where = ['name' => $data['name']];
             $msg = $this->where($where)->find();
             if ($msg) {
@@ -91,12 +107,37 @@ class AuthorityModel extends Model {
                     $groupModel->updateAuthority($data);
                 }
                 $where = ['name' => $name];
-                $msg = $this->where($where)->delete();
+                return ['code' => CODE_SUCCESS, 'msg' => '删除成功', 'data' => []];
+            } else {
+                $msg = $this->where(['name' => $name])->delete();
                 return ['code' => CODE_SUCCESS, 'msg' => '删除成功', 'data' => []];
             }
         } catch (DbException $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
         } catch (\Exception $e) {
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+        }
+    }
+
+    /**
+     * @usage 启用/禁用权限
+     * @param string $name
+     * @return array ['code', 'msg', 'data']
+     */
+    public function switchAuthority($name) {
+        try {
+            $where = ['name' => $name];
+            $msg = $this->where($where)->find();
+            if ($msg) {
+                if ($msg['enabled'] == 1) {
+                    return $this->disableAuthority($name);
+                } else {
+                    return $this->enableAuthority($name);
+                }
+            } else {
+                return ['code' => CODE_ERROR, 'msg' => '不存在此权限', 'data' => $msg];
+            }
+        } catch (DbException $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
         }
     }
