@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>控制台 - 博客内容 - 编辑博客</title>
+    <title>控制台 - 题目内容 - 编辑题目</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -37,7 +37,7 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">编辑内容</h1>
+                <h1 class="page-header">编辑题目</h1>
             </div>
         </div>
         <div class="row">
@@ -50,7 +50,7 @@
                                 <!--http://ziqiangshe.applinzi.com/tp5/public/index.php/panel/blog/editblog-->
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <input name="contest_id" id="contest_id" value="{$id}" type="hidden">
+                                        <input name="problem_id" id="problem_id" value="{$id}" type="hidden">
                                     </div>
                                     <div class="form-group">
                                         <label>标题</label>
@@ -189,7 +189,7 @@
             type: "post",
             dataType: "json",
             data: {
-                problem_id:      $("#contest_id").val(),
+                problem_id:      $("#problem_id").val(),
                 title:   $("#title").val(),
                 background:     background.getMarkdown(),
                 describe: describe.getMarkdown(),

@@ -108,7 +108,7 @@ class problem extends Base
      */
     public function add()
     {
-
+        return $this->fetch();
     }
 
     /**

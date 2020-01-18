@@ -2,41 +2,13 @@
 <html lang="en">
 
 <head>
+    <title>控制台 - 题目内容 - 添加题目</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>控制台 - 博客内容 - 添加博客</title>
-    <link href="__CSS__/bootstrap.min.css" rel="stylesheet">
-    <link href="__CSS__/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
-    <link href="__CSS__/sb-admin-2.css" rel="stylesheet">
-    <link href="__CSS__/plugins/dataTables.bootstrap.css" rel="stylesheet">
-    <link href="__FONT__/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <script src="__JS__/jquery-1.11.0.js"></script>
     <!-- 样式文件 -->
     <link rel="stylesheet" href="__UM__/themes/default/css/umeditor.css">
-    <!-- 引用jquery -->
-    <script src="__UM__/third-party/jquery.min.js"></script>
-    <!-- 引入 etpl -->
-    <script type="text/javascript" src="__UM__/third-party/template.min.js"></script>
-    <!-- 配置文件 -->
-    <script type="text/javascript" src="__UM__/umeditor.config.js"></script>
-    <!-- 编辑器源码文件 -->
-    <script type="text/javascript" src="__UM__/umeditor.js"></script>
-    <!-- 语言包文件 -->
-    <script type="text/javascript" src="__UM__/lang/zh-cn/zh-cn.js"></script>
-    <!-- 实例化编辑器代码 -->
-    <script type="text/javascript">
-        $(function () {
-            window.um = UM.getEditor('container', {
-                /* 传入配置参数,可配参数列表看umeditor.config.js */
-                //            toolbar: ['undo redo | bold italic underline']
-                autoHeightEnabled: true,
-                autoFloatEnabled: true
-            });
-        });
-    </script>
     <link href="__CSS__/bootstrap.min.css" rel="stylesheet">
     <!-- <link href="../../res/bacheditor/build/build.min.css" rel="stylesheet"> -->
     <link href="__CSS__/sb-admin-2.css" rel="stylesheet">
@@ -46,132 +18,170 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <!-- Styles -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/tui-editor/latest/tui-editor.css">
+    <link rel="stylesheet" href="https://uicdn.toast.com/tui-editor/latest/tui-editor-contents.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
 </head>
 
 <body>
-    <div id="wrapper">
-        <!--顶栏&菜单栏-->
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-            {include file='layout/toolbar'} {include file='layout/sidebar'}
-        </nav>
+
+<div id="wrapper">
+    <!--顶栏&菜单栏-->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        {include file='layout/toolbar'} {include file='layout/sidebar'}
+    </nav>
 
 
-        <div id="page-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">添加内容</h1>
-                </div>
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">添加题目</h1>
             </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading"> 添加内容 </div>
-                        <div class="panel-body">
-                            <div class="row">
-                                <form action="{:url('blog/addblog')}">
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>文章标题</label>
-                                            <input class="form-control" name="title" id="title">
-                                            <p class="title_error">文章标题不能为空！</p>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>文章标签</label>
-                                            <select class="form-control" name="tag" id="tag">
-                                                <option value="1">技术</option>
-                                                <option value="2">经验</option>
-                                                <option value="3">杂谈</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>文章摘要</label>
-                                            <textarea name="summary" id="summary" class="form-control" rows="4"></textarea>
-                                            <p class="summary_error">文章摘要不能为空！</p>
-                                        </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading"> 基本设置 </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <form action="">
+                                <!--http://ziqiangshe.applinzi.com/tp5/public/index.php/panel/blog/editblog-->
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>标题</label>
+                                        <input name="title" id="title" value="" class="form-control">
+                                        <p class="help-block">请输入题目的标题。</p>
                                     </div>
-                                    <div class="col-lg-12">
-                                        <div class="form-group">
-                                            <label>内容</label>
-                                            <!-- 加载编辑器的容器 -->
-                                            <script id="container" name="content" type="text/plain" style="width:700px;height:200px;"></script>
-                                            <p class="blog_error">博客内容不能为空！</p>
-                                        </div>
-                                        <button type="button" class="btn btn-default">提交</button>
+                                    <div class="form-group">
+                                        <label>题目背景</label>
+                                        <div id="background"></div>
+                                        <p class="help-block">请输入文章的标题。</p>
                                     </div>
-                                </form>
-                            </div>
+                                    <div class="form-group">
+                                        <label>题目描述</label>
+                                        <div id="describe"></div>
+                                        <p class="help-block">请输入题目的描述。</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>输入格式</label>
+                                        <div id="input_format"></div>
+                                        <p class="help-block">请输入题目的输入格式。</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>输出格式</label>
+                                        <div id="output_format"></div>
+                                        <p class="help-block">请输入题目的输出格式。</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>提示</label>
+                                        <div id="hint"></div>
+                                        <p class="help-block">请输入题目的提示。</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>题目来源</label>
+                                        <input name="source" id="source" value="" class="form-control">
+                                        <p class="help-block">请输入题目的来源。</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>题目标签</label>
+                                        <select class="form-control" name="tagid" id="tagid">
+                                            <option value="1">数学</option>
+                                            <option value="2">贪心</option>
+                                            <option value="3">暴力</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <button type="button" class="btn btn-default" onclick="btn()">提交</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
+</div>
+<!-- Scripts -->
+<script src="https://cdn.bootcss.com/markdown-it/10.0.0/markdown-it.js"></script>
+<script src="https://cdn.bootcss.com/to-markdown/3.1.1/to-markdown.js"></script>
+<script src="__JS__/tui-code-snippet.min.js"></script>
+<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/squire-rte/1.9.0/squire-raw.js"></script>
+<script src="__JS__/tui-editor-Editor-full.js"></script>
 <script src="__JS__/bootstrap.min.js"></script>
 <script src="__JS__/plugins/metisMenu/metisMenu.min.js"></script>
 <script src="__JS__/sb-admin-2.js"></script>
 <script>
-    $(".title_error").css("visibility", "hidden");
-    $(".summary_error").css("visibility", "hidden");
-    $(".blog_error").css("visibility", "hidden");
-    $("#title").blur(function () {
-        if ($(this).val() == "") {
-            $(".title_error").css("visibility", "visible");
-        } else if ($(this).val() != "") {
-            $(".title_error").css("visibility", "hidden");
-        }
+    var background = new tui.Editor({
+        el: document.querySelector('#background'),
+        previewStyle: 'vertical',
+        height: '200px',
+        initialEditType: 'markdown',
+        initialValue: [],
+        exts: ['scrollSync']
     });
-    $("#summary").blur(function () {
-        if ($(this).val() == "") {
-            $(".summary_error").css("visibility", "visible");
-        } else if ($(this).val() != "") {
-            $(".summary_error").css("visibility", "hidden");
-        }
+    var describe = new tui.Editor({
+        el: document.querySelector('#describe'),
+        previewStyle: 'vertical',
+        height: '200px',
+        initialEditType: 'markdown',
+        initialValue: [],
+        exts: ['scrollSync']
     });
-    UM.getEditor('container').addListener('blur', function (editor) {
-        if (UM.getEditor('container').getContentTxt() == "") {
-            $(".blog_error").css("visibility", "visible");
-        } else if (UM.getEditor('container').getContentTxt() != "") {
-            $(".blog_error").css("visibility", "hidden");
-        }
+    var hint = new tui.Editor({
+        el: document.querySelector('#hint'),
+        previewStyle: 'vertical',
+        height: '200px',
+        initialEditType: 'markdown',
+        initialValue: [],
+        exts: ['scrollSync']
     });
-    $("button").click(function () {
-        var con1 = $("#title").val();
-        var con2 = $("#summary").val();
-        if (con1 != "" && con2 != "") {
-            $.ajax({
-                url: "__API__/blog/add_blog",
-                type: "post",
-                dataType: "json",
-                data: {
-                    title: $("#title").val(),
-                    tag: $("#tag option:selected").val(),
-                    summary: $("#summary").val(),
-                    content: UM.getEditor('container').getContent(),
-                },
-                success: function (data) {
-                    if (data.status == 0) {
-                        window.location.href = "__PANEL__/blog/index";
-                        alert(data.message);
-                    } else if (data.status == -1) {
-                        alert(data.message);
-                    }
-                },
-            });
-        } else {
-            if ($("#title").val() == "") {
-                $(".title_error").css("visibility", "visible");
-            }
-            if ($("#summary").val() == "") {
-                $(".summary_error").css("visibility", "visible");
-            }
-            if (UM.getEditor('container').getContentTxt() == "") {
-                $(".blog_error").css("visibility", "visible");
-            }
-            alert("标题、摘要及内容不能为空！");
-            return false;
-        }
+    var input_format = new tui.Editor({
+        el: document.querySelector('#input_format'),
+        previewStyle: 'vertical',
+        height: '200px',
+        initialEditType: 'markdown',
+        initialValue: [],
+        exts: ['scrollSync']
     });
+    var output_format = new tui.Editor({
+        el: document.querySelector('#output_format'),
+        previewStyle: 'vertical',
+        height: '200px',
+        initialEditType: 'markdown',
+        initialValue: [],
+        exts: ['scrollSync']
+    });
+    function btn()
+    {
+        $.ajax({
+            url: "__PANEL__/problem/addProblem",
+            type: "post",
+            dataType: "json",
+            data: {
+                problem_id:      $("#contest_id").val(),
+                title:   $("#title").val(),
+                background:     background.getMarkdown(),
+                describe: describe.getMarkdown(),
+                input_format: input_format.getMarkdown(),
+                output_format: output_format.getMarkdown(),
+                hint: hint.getMarkdown(),
+                source:   $("#source").val(),
+            },
+            success: function (data) {
+                if (data.status == 0) {
+                    alert(data.message);
+                    window.location.href = "__PANEL__/problem/index";
+                } else if (data.status == -1) {
+                    alert(data.message);
+                }
+            },
+        });
+    }
 </script>
 </body>
 </html>
