@@ -7,33 +7,33 @@ class problem extends Base
 {
     /* 接口 */
     /**
-     * 添加题目
+     * 新建题目
      */
     public function addProblem()
     {
-        $info = input('get.');
-        $problem = request()->file('problem');
-        $io = request()->file('io');
-        $count = count(Db::table('problem')->find());
-        $url = '';
-        if($problem){
-            $rel = $problem->move($url, 'WUT'.string($count).'/WUT'.string($count));//目录需修改
+        $problem_validate = new ProblemValidate();
+        $problem_model = new ProblemModel();
+
+        $req = input('post.');
+        $result = $problem_validate->scene('newProblem')->check($req);
+        if ($result !== VALIDATE_PASS) {
+            return apiReturn(CODE_ERROR, $problem_validate->getError(), '');
         }
-        if($io){
-            $rel = $io->move($url, 'WUT'.string($count).'/io');
-        }
-        $created = time();
-        $data = array(
-            'name' => $info['name'],
-            'userName' => $_SESSION['userName'],
-            'status' => 1,
-            'create_time' => $created,
-            'update_time' => $created
-        );
-        $item = new ProblemModel();
-        $where = ['name' => $data['name']];
-        $rel = $item->addsign($where, $data);
-        return apireturn($rel['code'], $rel['msg'], $rel['data'], 200);
+
+        // add
+        $resp = $problem_model->addProblem(array(
+            'title' => $req['title'],
+            'background' => $req['background'],
+            'describe' => $req['describe'],
+            'input_format' => isset($req['input_format']) ? $req['input_format'] : '',
+            'output_format' => isset($req['output_format']) ? $req['output_format'] : '',
+            'hint' => isset($req['hint']) ? $req['hint'] : '',
+            'public' => isset($req['public']) ? $req['public'] : 1,
+            'source' => isset($req['source']) ? $req['source'] : '',
+            'tag' => isset($req['tag']) ? $req['tag'] : '',
+        ));
+
+        return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
     /**
@@ -45,11 +45,33 @@ class problem extends Base
     }
 
     /**
-     * 修改题目
+     * 编辑题目
      */
     public function editProblem()
     {
+        $problem_validate = new ProblemValidate();
+        $problem_model = new ProblemModel();
 
+        $req = input('post.');
+        $result = $problem_validate->scene('editProblem')->check($req);
+        if ($result !== VALIDATE_PASS) {
+            return apiReturn(CODE_ERROR, $problem_validate->getError(), '');
+        }
+
+        // edit
+        $resp = $problem_model->editProblem($req['problem_id'], array(
+            'title' => $req['title'],
+            'background' => $req['background'],
+            'describe' => $req['describe'],
+            'input_format' => isset($req['input_format']) ? $req['input_format'] : '',
+            'output_format' => isset($req['output_format']) ? $req['output_format'] : '',
+            'hint' => isset($req['hint']) ? $req['hint'] : '',
+            'public' => isset($req['public']) ? $req['public'] : 1,
+            'source' => isset($req['source']) ? $req['source'] : '',
+            'tag' => isset($req['tag']) ? $req['tag'] : '',
+        ));
+
+        return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
     /**
