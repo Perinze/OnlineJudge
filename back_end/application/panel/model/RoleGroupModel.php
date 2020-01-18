@@ -18,9 +18,9 @@ class RoleGroupModel extends Model {
     public function getAllGroup() {
         try {
             $msg = $this->select();
-            return ['code' => 1, 'msg' => '查询成功', 'data' => $msg];
+            return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $msg];
         } catch (DbException $e) {
-            return ['code' => -1, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
         }
     }
 
@@ -34,12 +34,12 @@ class RoleGroupModel extends Model {
             $where = ['group_name' => $group_name];
             $msg = $this->where($where)->find();
             if ($msg) {
-                return ['code' => 1, 'msg' => '查询成功', 'data' => $msg];
+                return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $msg];
             } else {
-                return ['code' => -1, 'msg' => '查询失败', 'data' => $msg];
+                return ['code' => CODE_ERROR, 'msg' => '查询失败', 'data' => $msg];
             }
         } catch (DbException $e) {
-            return ['code' => -1, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
         }
     }
 
@@ -53,7 +53,7 @@ class RoleGroupModel extends Model {
             $where = ['group_name' => $data['group_name']];
             $msg = $this->where($where)->find();
             if ($msg) {
-                return ['code' => -1, 'msg' => '权限组已存在', 'data' => $msg];
+                return ['code' => CODE_ERROR, 'msg' => '权限组已存在', 'data' => $msg];
             } else {
                 //默认权限组不存在权限
                 $insertData = [
@@ -61,10 +61,10 @@ class RoleGroupModel extends Model {
                     'authority' => ["auth" => []],
                 ];
                 $info = $this->insertGetId($insertData);
-                return ['code' => 1, 'msg' => '插入成功', 'data' => $info];
+                return ['code' => CODE_SUCCESS, 'msg' => '插入成功', 'data' => $info];
             }
         } catch (DbException $e) {
-            return ['code' => -1, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
         }
     }
 
@@ -77,18 +77,18 @@ class RoleGroupModel extends Model {
         try {
             $role_group = $this->getRoleGroup($data['group_name']);
             if ($role_group['code'] == -1) {
-                return ['code' => -1, 'msg' => '数据库异常或用户组不存在', 'data' => []];
+                return ['code' => CODE_ERROR, 'msg' => '数据库异常或用户组不存在', 'data' => []];
             } else if ($role_group['code']['user_num'] !== 0) {
                 //需要考虑删除权限组时用户注册的权限组情况
-                return ['code' => -1, 'msg' => '有用户绑定于此权限', 'data' => []];
+                return ['code' => CODE_ERROR, 'msg' => '有用户绑定于此权限', 'data' => []];
             } else {
                 $result = $this->where(['group_name' => $data['group_name']])->delete();
-                return ['code' => 1, 'msg' => '删除成功', 'data' => $result];
+                return ['code' => CODE_SUCCESS, 'msg' => '删除成功', 'data' => $result];
             }
         } catch (DbException $e) {
-            return ['code' => -1, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
         } catch (\Exception $e) {
-            return ['code' => -1, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
         }
     }
 
@@ -104,7 +104,7 @@ class RoleGroupModel extends Model {
             foreach ($data['authority'] as $auth) {
                 $info = $authModel->getAuthority($auth);
                 if ($info['code'] == -1) {
-                    return ['code' => -1, 'msg' => '有权限不存在', 'data' => $auth];
+                    return ['code' => CODE_ERROR, 'msg' => '有权限不存在', 'data' => $auth];
                 }
             }
             $where = ['group_name' => $data['group_name']];
@@ -114,10 +114,10 @@ class RoleGroupModel extends Model {
                     'authority' => ['auth' => $data['authority']],
                 ];
                 $result = $this->where($where)->update($insertData);
-                return ['code' => 1, 'msg' => '更新成功', 'data' => $result];
+                return ['code' => CODE_SUCCESS, 'msg' => '更新成功', 'data' => $result];
             }
         } catch (DbException $e) {
-            return ['code' => -1, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
         }
     }
 
@@ -132,12 +132,12 @@ class RoleGroupModel extends Model {
             $msg = $this->where($where)->find();
             if ($msg) {
                 $result = $this->where($where)->update(['enabled' => 1]);
-                return ['code' => 1, 'msg' => '启用成功', 'data' => $result];
+                return ['code' => CODE_SUCCESS, 'msg' => '启用成功', 'data' => $result];
             } else {
-                return ['code' => -1, 'msg' => '不存在此权限组', 'data' => $msg];
+                return ['code' => CODE_ERROR, 'msg' => '不存在此权限组', 'data' => $msg];
             }
         } catch (DbException $e) {
-            return ['code' => -1, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
         }
     }
 
@@ -152,12 +152,12 @@ class RoleGroupModel extends Model {
             $msg = $this->where($where)->find();
             if ($msg) {
                 $result = $this->where($where)->update(['enabled' => 0]);
-                return ['code' => 1, 'msg' => '停用成功', 'data' => $result];
+                return ['code' => CODE_SUCCESS, 'msg' => '停用成功', 'data' => $result];
             } else {
-                return ['code' => -1, 'msg' => '不存在此权限组', 'data' => $msg];
+                return ['code' => CODE_ERROR, 'msg' => '不存在此权限组', 'data' => $msg];
             }
         } catch (DbException $e) {
-            return ['code' => -1, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
         }
     }
 
@@ -172,14 +172,14 @@ class RoleGroupModel extends Model {
             $msg = $this->where($where)->find();
             if ($msg) {
                 $result = $this->where($where)->setInc('user_num');
-                return ['code' => 1, 'msg' => '添加成功', 'data' => $result];
+                return ['code' => CODE_SUCCESS, 'msg' => '添加成功', 'data' => $result];
             } else {
-                return ['code' => -1, 'msg' => '不存在此权限组', 'data' => $msg];
+                return ['code' => CODE_ERROR, 'msg' => '不存在此权限组', 'data' => $msg];
             }
         } catch (DbException $e) {
-            return ['code' => -1, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
         } catch (Exception $e) {
-            return ['code' => -1, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
         }
     }
 
@@ -194,14 +194,14 @@ class RoleGroupModel extends Model {
             $msg = $this->where($where)->find();
             if ($msg) {
                 $result = $this->where($where)->setDec('user_num');
-                return ['code' => 1, 'msg' => '删除成功', 'data' => $result];
+                return ['code' => CODE_SUCCESS, 'msg' => '删除成功', 'data' => $result];
             } else {
-                return ['code' => -1, 'msg' => '不存在此权限组', 'data' => $msg];
+                return ['code' => CODE_ERROR, 'msg' => '不存在此权限组', 'data' => $msg];
             }
         } catch (DbException $e) {
-            return ['code' => -1, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
         } catch (Exception $e) {
-            return ['code' => -1, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
         }
     }
 }

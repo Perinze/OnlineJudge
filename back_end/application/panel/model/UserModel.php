@@ -4,7 +4,10 @@
 namespace app\panel\model;
 
 
+use think\db\exception\DataNotFoundException;
+use think\db\exception\ModelNotFoundException;
 use think\Exception;
+use think\exception\DbException;
 use think\Model;
 
 class UserModel extends Model
@@ -58,8 +61,8 @@ class UserModel extends Model
                 //判断权限组是否存在
                 foreach ($data['role_group'] as $group) {
                     $info = $roleGroupModel->getRoleGroup($group);
-                    if ($info['code'] == -1) {
-                        return ['code' => -1, 'msg' => '有权限组不存在', 'data' => $group];
+                    if ($info['code'] == CODE_ERROR) {
+                        return ['code' => CODE_ERROR, 'msg' => '有权限组不存在', 'data' => $group];
                     }
                 }
                 //注册新的权限组
@@ -70,12 +73,12 @@ class UserModel extends Model
                     'role_group' => ['group' => $data['role_group']],
                 ];
                 $result = $this->where($where)->update($insertData);
-                return ['code' => 1, 'msg' => '更新成功', 'data' => $result];
+                return ['code' => CODE_SUCCESS, 'msg' => '更新成功', 'data' => $result];
             } else {
-                return ['code' => -1, 'msg' => '用户不存在', 'data' => $msg];
+                return ['code' => CODE_ERROR, 'msg' => '用户不存在', 'data' => $msg];
             }
         } catch (DbException $e) {
-            return ['code' => -1, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
         }
     }
 
@@ -100,7 +103,7 @@ class UserModel extends Model
             }
             return false;
         } catch (DbException $e) {
-            return ['code' => -1, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
         }
     }
 
@@ -114,12 +117,12 @@ class UserModel extends Model
             $where = ['nick' => $data['nick']];
             $msg = $this->where($where)->find();
             if ($msg) {
-                return ['code' => -1, 'msg' => '查找成功', 'data' => $msg['role_group']];
+                return ['code' => CODE_SUCCESS, 'msg' => '查找成功', 'data' => $msg['role_group']];
             } else {
-                return ['code' => -1, 'msg' => '用户不存在', 'data' => []];
+                return ['code' => CODE_ERROR, 'msg' => '用户不存在', 'data' => []];
             }
         } catch (DbException $e) {
-            return ['code' => -1, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
         }
     }
 
@@ -155,9 +158,9 @@ class UserModel extends Model
                     $this->updateRoleGroup($data);
                 }
             }
-            return ['code' => 1, 'msg' => '删除成功', 'data' => []];
+            return ['code' => CODE_SUCCESS, 'msg' => '删除成功', 'data' => []];
         } catch (DbException $e) {
-            return ['code' => -1, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
         }
     }
 

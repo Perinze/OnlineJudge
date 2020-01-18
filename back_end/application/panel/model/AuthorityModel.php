@@ -16,9 +16,9 @@ class AuthorityModel extends Model {
     public function getAllAuthority() {
         try {
             $msg = $this->select();
-            return ['code' => 1, 'msg' => '查询成功', 'data' => $msg];
+            return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $msg];
         } catch (DbException $e) {
-            return ['code' => -1, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
         }
     }
 
@@ -32,12 +32,12 @@ class AuthorityModel extends Model {
             $where = ['name' => $name];
             $msg = $this->where($where)->find();
             if ($msg) {
-                return ['code' => 1, 'msg' => '查询成功', 'data' => $msg];
+                return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $msg];
             } else {
-                return ['code' => -1, 'msg' => '查询失败', 'data' => $msg];
+                return ['code' => CODE_ERROR, 'msg' => '查询失败', 'data' => $msg];
             }
         } catch (DbException $e) {
-            return ['code' => -1, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+            return ['code' => CODE_SUCCESS, 'msg' => '数据库异常', 'data' => $e->getMessage()];
         }
     }
 
@@ -51,13 +51,13 @@ class AuthorityModel extends Model {
             $where = ['name' => $data['name']];
             $msg = $this->where($where)->find();
             if ($msg) {
-                return ['code' => -1, 'msg' => '已有此权限', 'data' => $msg];
+                return ['code' => CODE_ERROR, 'msg' => '已有此权限', 'data' => $msg];
             } else {
                 $info = $this->insertGetId($data);
-                return ['code' => 1, 'msg' => '添加成功', 'data' => $info];
+                return ['code' => CODE_SUCCESS, 'msg' => '添加成功', 'data' => $info];
             }
         } catch (DbException $e) {
-            return ['code' => -1, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
         }
     }
 
@@ -92,12 +92,12 @@ class AuthorityModel extends Model {
                 }
                 $where = ['name' => $name];
                 $msg = $this->where($where)->delete();
-                return ['code' => 1, 'msg' => '删除成功', 'data' => []];
+                return ['code' => CODE_SUCCESS, 'msg' => '删除成功', 'data' => []];
             }
         } catch (DbException $e) {
-            return ['code' => -1, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
         } catch (\Exception $e) {
-            return ['code' => -1, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
         }
     }
 
@@ -112,12 +112,12 @@ class AuthorityModel extends Model {
             $msg = $this->where($where)->find();
             if ($msg) {
                 $result = $this->where($where)->update(['enabled' => 1]);
-                return ['code' => 1, 'msg' => '启用成功', 'data' => $result];
+                return ['code' => CODE_SUCCESS, 'msg' => '启用成功', 'data' => $result];
             } else {
-                return ['code' => -1, 'msg' => '不存在此权限', 'data' => $msg];
+                return ['code' => CODE_ERROR, 'msg' => '不存在此权限', 'data' => $msg];
             }
         } catch (DbException $e) {
-            return ['code' => -1, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
         }
     }
 
@@ -132,12 +132,12 @@ class AuthorityModel extends Model {
             $msg = $this->where($where)->find();
             if ($msg) {
                 $result = $this->where($where)->update(['enabled' => 0]);
-                return ['code' => 1, 'msg' => '启用成功', 'data' => $result];
+                return ['code' => CODE_SUCCESS, 'msg' => '启用成功', 'data' => $result];
             } else {
-                return ['code' => -1, 'msg' => '不存在此权限', 'data' => $msg];
+                return ['code' => CODE_ERROR, 'msg' => '不存在此权限', 'data' => $msg];
             }
         } catch (DbException $e) {
-            return ['code' => -1, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
         }
     }
 
