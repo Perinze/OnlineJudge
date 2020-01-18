@@ -55,6 +55,16 @@ class Role extends Base {
     }
 
     /*
+     * 更改权限组状态
+     */
+    public function switchGroupStatus() {
+        $auth = input('get.group_name');
+        $authority_model = new RoleGroupModel();
+        $msg = $authority_model->switchRoleGroupStatus($auth);
+        $this->redirect("panel/role/index");
+    }
+
+    /*
      * 获取所有权限
      */
     public function getAllAuthority() {

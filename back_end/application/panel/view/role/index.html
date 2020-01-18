@@ -157,7 +157,9 @@
                     return "<a href='__PANEL__/role/edit?group_name=" + data +
                         "' target='_self'>编辑</a> | " +
                         "<a href='__PANEL__/role/deleteRoleGroup?group_name=" + data +
-                        "' target='_self'>删除</a>";
+                        "' target='_self'>删除</a> | " +
+                        "<a href='__PANEL__/role/switchGroupStatus?group_name=" + data +
+                        "' target='_self'>启用/禁用</a> ";
                 }
             }],
             "fnServerData": function (sSource, aoData, fnCallback) {

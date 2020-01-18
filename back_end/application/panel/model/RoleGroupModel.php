@@ -117,12 +117,38 @@ class RoleGroupModel extends Model {
                     'authority' => ['auth' => $data['authority']],
                 ];
                 $result = $this->where($where)->update($insertData);
-                return ['code' => CODE_SUCCESS, 'msg' => '更新成功', 'data' => $insertData];
+                return ['code' => CODE_SUCCESS, 'msg' => '更新成功', 'data' => $result];
+            } else {
+                return ['code' => CODE_ERROR, 'msg' => '权限组不存在', 'data' => []];
             }
         } catch (DbException $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
         }
     }
+
+    /**
+     * @usage 启用/禁用权限组
+     * @param string $group_name
+     * @return array ['code', 'msg', 'data']
+     */
+    public function switchRoleGroupStatus($group_name) {
+        try {
+            $where = ['group_name' => $group_name];
+            $msg = $this->where($where)->find();
+            if ($msg) {
+                if ($msg['enabled'] == 1) {
+                    return $this->disableRoleGroup($group_name);
+                } else {
+                    return $this->enableRoleGroup($group_name);
+                }
+            } else {
+                return ['code' => CODE_ERROR, 'msg' => '不存在此权限', 'data' => $msg];
+            }
+        } catch (DbException $e) {
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+        }
+    }
+
 
     /**
      * @usage 启用权限组
