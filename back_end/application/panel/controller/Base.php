@@ -46,6 +46,13 @@ class Base extends Controller
             'icon' => '',
             'child' => array()
         ),
+        array(
+            'c' => 'role',
+            'a' => 'index',
+            'title' => '权限管理',
+            'icon' => '',
+            'child' => array()
+        ),
     );
 
     /**
