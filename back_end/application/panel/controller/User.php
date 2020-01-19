@@ -24,12 +24,14 @@ class User extends Base
             return apiReturn(CODE_ERROR, $user_validate->getError(), '');
         }
 
-        $user = $user_model->searchUserById($req['user_id']);
+        $user = $user_model->searchUserByNick($req['nick']);
         if($user['code'] === CODE_SUCCESS){
             return apiReturn(CODE_ERROR, '已有用户', '');
         }
 
         // add
+        $req['password'] = md5(base64_encode($req['password']));
+        $req['role_group'] = json_encode(array());
         $resp = $user_model->addUser($req);
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
@@ -101,7 +103,7 @@ class User extends Base
         }
         $user = $user_model->searchUserById($req['user_id']);
 
-        return apiReturn($user['code'], $user['msg'], '');
+        return apiReturn($user['code'], $user['msg'], $user['data']);
     }
 
     /* 页面 */
@@ -110,7 +112,7 @@ class User extends Base
      */
     public function add()
     {
-
+        return $this->fetch();
     }
 
     /**

@@ -45,7 +45,7 @@
                                 <!--http://ziqiangshe.applinzi.com/tp5/public/index.php/panel/blog/editblog-->
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <input name="problem_id" id="problem_id" value="{$id}" type="hidden">
+                                        <input name="user_id" id="user_id" value="{$id}" type="hidden">
                                     </div>
                                     <div class="form-group">
                                         <label>用户昵称</label>
@@ -65,12 +65,12 @@
                                     <div class="form-group">
                                         <label>专业</label>
                                         <input name="major" id="major" value="" class="form-control">
-                                        <p class="help-block">请输入题目的输入格式。</p>
+                                        <p class="help-block">请输入用户的专业。</p>
                                     </div>
                                     <div class="form-group">
                                         <label>班级</label>
                                         <input name="class" id="class" value="" class="form-control">
-                                        <p class="help-block">请输入题目的输出格式。</p>
+                                        <p class="help-block">请输入用户的班级。</p>
                                     </div>
                                     <div class="form-group">
                                         <label>身份</label>
@@ -81,7 +81,7 @@
                                             <option value="2">教师</option>
                                             <option value="3">管理员</option>
                                         </select>
-                                        <p class="help-block">请输入题目的提示。</p>
+                                        <p class="help-block">请输入用户的身份。</p>
                                     </div>
                                     <div class="form-group">
                                         <label>联系方式</label>
@@ -125,7 +125,7 @@
 <script>
     $(document).ready(function () {
         $.ajax({
-            url: "__PANEL__/problem/getTheProblem",
+            url: "__PANEL__/user/getTheUser",
             type: "post",
             dataType: "json",
             data: {
@@ -133,8 +133,16 @@
             },
             success: function (data) {
                 if (data.status == 0) {
-                    $("#source").val(data.data.source);
-                    $("#title").val(data.data.title);
+                    $("#nick").val(data.data.nick);
+                    $("#realname").val(data.data.realname);
+                    $("#school").val(data.data.school);
+                    $("#major").val(data.data.major);
+                    $("#class").val(data.data.class);
+                    $("#identity").val(data.data.identity);
+                    $("#contact").val(data.data.contact);
+                    $("#desc").val(data.data.desc);
+                    $("#mail").val(data.data.mail);
+                    $("#status").val(data.data.status);
                 } else if (data.status == -1) {
 
                 }
@@ -144,23 +152,26 @@
     function btn()
     {
         $.ajax({
-            url: "__PANEL__/problem/editProblem",
+            url: "__PANEL__/user/editUser",
             type: "post",
             dataType: "json",
             data: {
-                problem_id:      $("#problem_id").val(),
-                title:   $("#title").val(),
-                background:     background.getMarkdown(),
-                describe: describe.getMarkdown(),
-                input_format: input_format.getMarkdown(),
-                output_format: output_format.getMarkdown(),
-                hint: hint.getMarkdown(),
-                source:   $("#source").val(),
+                user_id:      $("#user_id").val(),
+                nick:   $("#nick").val(),
+                realname:     $("#realname").val(),
+                school: $("#school").val(),
+                major: $("#major").val(),
+                class: $("#class").val(),
+                identity: $("#identity").val(),
+                contact: $("#contact").val(),
+                desc:   $("#desc").val(),
+                mail: $("#mail").val(),
+                status: $("#status").val(),
             },
             success: function (data) {
                 if (data.status == 0) {
                     alert(data.message);
-                    window.location.href = "__PANEL__/problem/index";
+                    window.location.href = "__PANEL__/user/index";
                 } else if (data.status == -1) {
                     alert(data.message);
                 }

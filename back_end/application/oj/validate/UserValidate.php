@@ -20,7 +20,7 @@ class UserValidate extends Validate
         'password' => 'require|length:6,16',
         'old_password' => 'require|length:6,16',
         'password_check' => 'require|length:6,16',
-        'identify' => 'in:0',
+        'identify' => 'in:-1,0,1,2,3',
         'realname' => 'require',
         'school' => 'require',
         'major' => 'require',
@@ -28,7 +28,7 @@ class UserValidate extends Validate
         'contact' => 'require',
         'mail' => 'require|email',
         'check' => 'require',
-        'status' => 'require|in:-1,0,1,2,3'
+        'status' => 'require|in:-1,0'
     ];
 
     protected $message = [
@@ -41,7 +41,7 @@ class UserValidate extends Validate
         'old_password.length' => '旧密码长度不正确',
         'password_check.length' => '密码长度不正确',
         'password_check.require' => '请再次输入密码',
-        'identify.in' => '请不要修改身份',
+        'identify.in' => '用户身份异常',
         'realname.require' => '请输入真实姓名',
         'school.require' => '请输入学校',
         'major.require' => '请输入专业',
@@ -51,12 +51,12 @@ class UserValidate extends Validate
         'mail.email' => '邮箱格式错误',
         'check.require' => '请填写验证码',
         'status.require' => '请填写用户身份',
-        'status.in' => '用户身份异常'
+        'status.in' => '用户状态异常'
     ];
 
     protected $scene = [
         'addUser' => ['nick', 'password', 'realname', 'school', 'major', 'class', 'contact', 'mail', 'status'],
-        'editUser' => ['nick', 'realname', 'school', 'major', 'class', 'contact', 'mail', 'status'],
+        'editUser' => ['user_id', 'nick', 'realname', 'school', 'major', 'class', 'contact', 'mail', 'status'],
         'searchUser_id' => ['user_id'],
         'searchUser_nick' => ['nick'],
         'deleteUser' => ['user_id'],

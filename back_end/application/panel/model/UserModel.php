@@ -95,6 +95,20 @@ class UserModel extends Model
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
         }
     }
+    public function searchUserByNick($nick)
+    {
+        try {
+            $content = $this
+                ->field(['user_id', 'nick', 'realname', 'school', 'major', 'class', 'contact', 'mail', 'desc'])
+                ->where('nick', $nick)->find();
+            if (empty($content)) {
+                return ['code' => CODE_ERROR, 'msg' => '用户名不存在', 'data' => $content];
+            }
+            return ['code' => CODE_SUCCESS, 'msg' => '查找成功', 'data' => $content];
+        } catch (Exception $e) {
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+        }
+    }
     /**
      * @usage 为用户更新权限组
      * @param array $data ['nick', 'role_group']
