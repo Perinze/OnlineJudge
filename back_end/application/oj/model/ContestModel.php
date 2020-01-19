@@ -39,46 +39,4 @@ class ContestModel extends Model
         }
     }
 
-    public function newContest($data)
-    {
-        try {
-            $res = $this->insert($data);
-            if ($res) {
-                return ['code' => CODE_SUCCESS, 'msg' => '新建比赛成功', 'data' => ''];
-            } else {
-                return ['code' => CODE_ERROR, 'msg' => '新建比赛失败', 'data' => ''];
-            }
-        } catch (Exception $e) {
-            return ['code' => CODE_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];
-        }
-    }
-
-    public function deleContest($contest_id)
-    {
-        try {
-            $res = $this->where('contest_id', $contest_id)->update(['state' => 0]);
-            if ($res) {
-                return ['code' => CODE_SUCCESS, 'msg' => '删除比赛成功', 'data' => ''];
-            } else {
-                return ['code' => CODE_ERROR, 'msg' => '删除比赛失败', 'data' => ''];
-            }
-        } catch (Exception $e) {
-            return ['code' => CODE_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];
-        }
-    }
-
-    public function editContest($contest_id, $data)
-    {
-        try {
-            $res = $this->where('contest_id', $contest_id)->update($data);
-            if ($res) {
-                return ['code' => CODE_SUCCESS, 'msg' => '编辑比赛成功', 'data' => ''];
-            } else {
-                return ['code' => CODE_ERROR, 'msg' => '编辑比赛失败', 'data' => ''];
-            }
-        } catch (Exception $e) {
-            return ['code' => CODE_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];
-        }
-    }
-
 }

@@ -36,7 +36,7 @@ class ProblemModel extends Model{
                     return $status[$value];
                 })
                 ->select();
-            if($info === false){
+            if(empty($info)){
                 return ['code' => CODE_ERROR,'msg' => '返回值异常','data' => $this->getError()];
             }
             return ['code' => CODE_SUCCESS, 'msg' => '获取成功', 'data' => $info->toArray()];
@@ -49,11 +49,10 @@ class ProblemModel extends Model{
     {
         try {
             $res = $this->where('problem_id', $problem_id)->update($data);
-            if ($res) {
+            if ($res !== false) {
                 return ['code' => CODE_SUCCESS, 'msg' => '编辑成功', 'data' => ''];
-            } else {
-                return ['code' => CODE_ERROR, 'msg' => '编辑失败', 'data' => ''];
             }
+            return ['code' => CODE_ERROR, 'msg' => '编辑失败', 'data' => ''];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];
         }
@@ -67,11 +66,10 @@ class ProblemModel extends Model{
     {
         try {
             $res = $this->insert($data);
-            if ($res) {
+            if ($res !== false) {
                 return ['code' => CODE_SUCCESS, 'msg' => '添加成功', 'data' => ''];
-            } else {
-                return ['code' => CODE_ERROR, 'msg' => '添加失败', 'data' => ''];
             }
+            return ['code' => CODE_ERROR, 'msg' => '添加失败', 'data' => ''];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];
         }
@@ -81,7 +79,7 @@ class ProblemModel extends Model{
     {
         try {
             $res = $this->where('problem_id', $problem_id)->delete();
-            if ($res) {
+            if ($res !== false) {
                 return ['code' => CODE_SUCCESS, 'msg' => '删除成功', 'data' => ''];
             }
             return ['code' => CODE_ERROR, 'msg' => '删除失败', 'data' => ''];

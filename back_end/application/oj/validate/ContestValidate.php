@@ -34,7 +34,7 @@ class ContestValidate extends Validate
         'end_time.date' => '时间格式错误',
         'frozen.float' => '封榜时间比错误',
         'frozen.<:1' => '封榜时间比错误',
-        'problem.array' => '题目传值错误',
+        'problems.array' => '题目传值错误',
     ];
 
     protected $scene = [
