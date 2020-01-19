@@ -40,6 +40,61 @@ class UserModel extends Model
         }
     }
 
+    public function deleUser($user_id)
+    {
+        $this->where('user_id', $user_id)->delete();
+        return ['code' => CODE_SUCCESS, 'msg' => '删除成功', 'data' => ''];
+    }
+
+    public function addUser($data)
+    {
+        try {
+            $info = $this->where('nick', $data['nick'])->find();
+            if (!empty($info)) {
+                return ['code' => USERNAME_IS_EXIST, 'msg' => '该昵称已被注册', 'data' => ''];
+            }
+            $res = $this->strict(false)->insert($data);
+            if ($res) {
+                return ['code' => CODE_SUCCESS, 'msg' => '添加成功', 'data' => ''];
+            }
+            return ['code' => CODE_ERROR, 'msg' => '添加失败', 'data' => ''];
+        } catch (Exception $e) {
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+        }
+    }
+
+    public function editUser($user_id = 0, $data, $nick = 0)
+    {
+        try {
+            if($user_id !== 0){
+                $info = $this->where('user_id', $user_id)->update($data);
+            } else {
+                $info = $this->where('nick', $nick)->update($data);
+            }
+            if ($info !== 0) {
+                return ['code' => CODE_SUCCESS, 'msg' => '更新成功', 'data' => $info];
+            }
+            return ['code' => CODE_ERROR, 'msg' => '更新失败', 'data' => ''];
+        } catch (Exception $e) {
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+        }
+    }
+
+    public function searchUserById($user_id)
+    {
+        try {
+            $content = $this
+                ->field(['user_id', 'nick', 'realname', 'school', 'major', 'class', 'identity', 'contact', 'mail', 'desc', 'status'])
+                ->where('user_id', $user_id)
+                ->find();
+            if(empty($content)){
+                return ['code' => CODE_ERROR, 'msg' => '查找失败', 'data' => ''];
+            }
+            return ['code' => CODE_SUCCESS, 'msg' => '查找成功', 'data' => $content];
+        } catch (Exception $e) {
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+        }
+    }
     /**
      * @usage 为用户更新权限组
      * @param array $data ['nick', 'role_group']

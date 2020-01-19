@@ -19,37 +19,6 @@ use think\facade\Session;
 
 class User extends Controller
 {
-
-    /**
-     * 管理员直接添加用户 unchecked
-     */
-    public function addUser()
-    {
-        $user_validate = new UserValidate();
-        $user_model = new UserModel();
-        $common_model = new CommonModel();
-
-        $resp = $common_model->checkIdentity();
-        if ($resp['code'] !== CODE_SUCCESS) {
-            return apiReturn($resp['code'], $resp['msg'], $resp['data']);
-        }
-
-        $req = input('post.');
-        $result = $user_validate->scene('foreAddUser')->check($req);
-        if ($result !== true) {
-            return apiReturn(CODE_ERROR, $user_validate->getError(), '');
-        }
-
-        $req = $this->handleUserReq($req);
-        $result = $user_validate->scene('addUser')->check($req);
-        if ($result !== true) {
-            return apiReturn(CODE_ERROR, $user_validate->getError(), '');
-        }
-        $resp = $user_model->addUser($req);
-
-        return apiReturn($resp['code'], $resp['msg'], $resp['data']);
-    }
-
     /**
      * 用户信息更新
      */
@@ -94,31 +63,6 @@ class User extends Controller
         ]);
         // 更新时间间隔
         $oj_cache_model->set_update_cache($user_id);
-
-        return apiReturn($resp['code'], $resp['msg'], $resp['data']);
-    }
-
-    /**
-     * 删除用户
-     */
-    public function deleteUser()
-    {
-        $user_validate = new UserValidate();
-        $user_model = new UserModel();
-        $common_model = new CommonModel();
-
-        $resp = $common_model->checkIdentity();
-        if ($resp['code'] !== CODE_SUCCESS) {
-            return apiReturn($resp['code'], $resp['msg'], $resp['data']);
-        }
-
-        $req = input('post.');
-        $result = $user_validate->scene('deleteUser')->check($req);
-        if ($result !== true) {
-            return apiReturn(CODE_ERROR, $user_validate->getError(), '');
-        }
-
-        $resp = $user_model->deleUser($req['id']);
 
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }

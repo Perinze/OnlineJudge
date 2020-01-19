@@ -28,6 +28,7 @@ class UserValidate extends Validate
         'contact' => 'require',
         'mail' => 'require|email',
         'check' => 'require',
+        'status' => 'require|in:-1,0,1,2,3'
     ];
 
     protected $message = [
@@ -48,12 +49,14 @@ class UserValidate extends Validate
         'contact.require' => '请留下你的联系方式',
         'mail.require' => '请输入邮箱',
         'mail.email' => '邮箱格式错误',
-        'check.require' => '请填写验证码'
+        'check.require' => '请填写验证码',
+        'status.require' => '请填写用户身份',
+        'status.in' => '用户身份异常'
     ];
 
     protected $scene = [
-        'addUser' => '',
-        'editUser' => '',
+        'addUser' => ['nick', 'password', 'realname', 'school', 'major', 'class', 'contact', 'mail', 'status'],
+        'editUser' => ['nick', 'realname', 'school', 'major', 'class', 'contact', 'mail', 'status'],
         'searchUser_id' => ['user_id'],
         'searchUser_nick' => ['nick'],
         'deleteUser' => ['user_id'],

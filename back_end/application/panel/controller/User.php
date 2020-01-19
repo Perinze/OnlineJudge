@@ -4,6 +4,7 @@
 namespace app\panel\controller;
 
 
+use app\oj\validate\UserValidate;
 use app\panel\model\UserModel;
 
 class User extends Base
@@ -14,15 +15,41 @@ class User extends Base
      */
     public function addUser()
     {
+        $user_validate = new UserValidate();
+        $user_model = new UserModel();
 
+        $req = input('post.');
+        $result = $user_validate->scene('addUser')->check($req);
+        if ($result !== true) {
+            return apiReturn(CODE_ERROR, $user_validate->getError(), '');
+        }
+
+        $user = $user_model->searchUserById($req['user_id']);
+        if($user['code'] === CODE_SUCCESS){
+            return apiReturn(CODE_ERROR, '已有用户', '');
+        }
+
+        // add
+        $resp = $user_model->addUser($req);
+        return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
-
     /**
      * 删除用户
      */
-    public function deleUser()
+    public function deleteUser()
     {
+        $user_validate = new UserValidate();
+        $user_model = new UserModel();
 
+        $req = input('post.');
+        $result = $user_validate->scene('deleteUser')->check($req);
+        if ($result !== true) {
+            return apiReturn(CODE_ERROR, $user_validate->getError(), '');
+        }
+
+        $resp = $user_model->deleUser($req['id']);
+
+        return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
     /**
@@ -30,7 +57,23 @@ class User extends Base
      */
     public function editUser()
     {
+        $user_validate = new UserValidate();
+        $user_model = new UserModel();
 
+        $req = input('post.');
+        $result = $user_validate->scene('editUser')->check($req);
+        if ($result !== true) {
+            return apiReturn(CODE_ERROR, $user_validate->getError(), '');
+        }
+
+        $user = $user_model->searchUserById($req['user_id']);
+        if($user['code'] !== CODE_SUCCESS){
+            return apiReturn($user['code'], $user['msg'], '');
+        }
+
+        // edit
+        $resp = $user_model->editUser($req['user_id'], $req);
+        return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
     /**
@@ -50,7 +93,15 @@ class User extends Base
      */
     public function getTheUser()
     {
+        $user_model = new UserModel();
 
+        $req = input('post.');
+        if(!isset($req['user_id'])){
+            return apiReturn(CODE_ERROR, '未填写用户id', '');
+        }
+        $user = $user_model->searchUserById($req['user_id']);
+
+        return apiReturn($user['code'], $user['msg'], '');
     }
 
     /* 页面 */

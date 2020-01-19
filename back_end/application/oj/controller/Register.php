@@ -41,9 +41,6 @@ class Register extends Controller
             'class' => $req['class'],
             'contact' => $req['contact'],
             'mail' => $req['mail'],
-            'ac_problem' => json_encode(array()),
-            'wa_problem' => json_encode(array()),
-            'submit_data' => json_encode(array()),
         ));
 
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);

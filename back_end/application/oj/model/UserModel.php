@@ -33,12 +33,6 @@ class UserModel extends Model
         }
     }
 
-    public function deleUser($user_id)
-    {
-        $this->where('user_id', $user_id)->delete();
-        return ['code' => CODE_SUCCESS, 'msg' => '删除成功', 'data' => ''];
-    }
-
     public function editUser($user_id = 0, $data, $nick = 0)
     {
         try {
