@@ -97,10 +97,10 @@ class KnowledgeRelationModel extends Model {
     /**
      * @usage 获取前置知识点
      * @param string $name
-     * @param boolean $only_core
+     * @param boolean $core_only
      * @return array ['code', 'msg', 'data']
      */
-    public function getPreKnowledge($name, $only_core = false) {
+    public function getPreKnowledge($name, $core_only = false) {
         try {
             $knowledgeModel = new KnowledgeModel();
             $msg = $knowledgeModel->getSpecificKnowledge($name);
@@ -108,7 +108,7 @@ class KnowledgeRelationModel extends Model {
                 $where = [
                     'k.knowledge_id' => $msg['data']['id']
                 ];
-                if ($only_core) {
+                if ($core_only) {
                     $where['k.is_core'] = 1;
                 }
                 $result = $this->alias('k')
@@ -190,7 +190,7 @@ class KnowledgeRelationModel extends Model {
      * @param array $data ['name', 'pre_name']
      * @return array ['code', 'msg', 'data']
      */
-    public function removeCore($data) {
+    public function unsetCore($data) {
         try {
             $knowledgeModel = new KnowledgeModel();
             $msg = $knowledgeModel->getKnowledgePairID($data);

@@ -33,7 +33,7 @@ class KnowledgeModel extends Model {
             if ($result) {
                 return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $result];
             } else {
-                return ['code' => CODE_ERROR, 'msg' => '无此知识点', 'data' => $result];
+                return ['code' => CODE_ERROR, 'msg' => '无此知识点', 'data' => []];
             }
         } catch (DbException $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
