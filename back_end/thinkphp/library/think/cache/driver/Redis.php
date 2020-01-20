@@ -187,7 +187,7 @@ class Redis extends Driver
     {
         $this->writeTimes++;
 
-        return $this->handler->del($this->getCacheKey($name));
+        return $this->handler->delete($this->getCacheKey($name));
     }
 
     /**
