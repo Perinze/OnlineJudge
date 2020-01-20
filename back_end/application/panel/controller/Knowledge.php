@@ -4,72 +4,28 @@
 namespace app\panel\controller;
 
 
+use app\panel\model\KnowledgeModel;
+use app\panel\model\KnowledgeRelationModel;
+
 class Knowledge extends Base
 {
-    /* 接口 */
-    /**
-     * 添加知识点
-     */
-    public function addKnowledge()
-    {
-
+    public function test() {
+        $knowledgeModel = new KnowledgeModel();
+        $relationModel = new KnowledgeRelationModel();
+        $data = [
+            'name' => 'graph',
+            'pre_name'  => 'tree'
+        ];
+        //$msg = $knowledgeModel->addKnowledge($data);
+        //$msg = $relationModel->addRelation($data);
+        //$msg = $knowledgeModel->deleteKnowledge($data);
+        //$msg = $relationModel->deleteRelation($data);
+        //$msg = $relationModel->switchCore($data);
+        //$msg = $relationModel->deleteRelationByID(4);
+        $msg = $relationModel->getPreKnowledge('graph');
+        return apiReturn(200, 'ok', $msg);
     }
 
-    /**
-     * 删除知识点
-     */
-    public function deleKnowledge()
-    {
-
-    }
-
-    /**
-     * 修改知识点
-     */
-    public function editKnowledge()
-    {
-
-    }
-
-    /**
-     * 查询所有知识点
-     */
-    public function getAllKnowledge()
-    {
-
-    }
-
-    /**
-     * 查询单个知识点信息
-     */
-    public function getTheKnowledge()
-    {
-
-    }
-
-    /* 页面 */
-    /**
-     * 添加知识点页面
-     */
-    public function add()
-    {
-
-    }
-
-    /**
-     * 知识点详情页面
-     */
-    public function info()
-    {
-        $req = input('get.');
-        $id = isset($req['id']) ? $req['id'] : 0;
-        $this->assign('id', $id);
-        return $this->fetch();
-    }
-
-    /**
-     * 首页
-     */
     public function index()
     {
         return $this->fetch('index');
