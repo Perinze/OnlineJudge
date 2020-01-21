@@ -4,32 +4,91 @@
 namespace app\panel\controller;
 
 
+use app\panel\model\CacheModel;
 use app\panel\model\KnowledgeModel;
 use app\panel\model\KnowledgeRelationModel;
 use app\panel\model\ProblemKnowledgeModel;
 
 class Knowledge extends Base
 {
-    public function test() {
-        $knowledgeModel = new KnowledgeModel();
-        $relationModel = new KnowledgeRelationModel();
-        $problemModel = new ProblemKnowledgeModel();
-        $data = [
-            'problem_id' => 1001,
-            'knowledge'  => 'graph'
-        ];
-        //$msg = $problemModel->addRelation($data);
-        //$msg = $problemModel->switchCore($data);
-        //$msg = $knowledgeModel->addKnowledge($data);
-        //$msg = $problemModel->switchCore($data);
-        //$msg = $problemModel->getKnowledgeByProblem(1001, 1);
-        //$msg = $relationModel->addRelation($data);
-        //$msg = $knowledgeModel->deleteKnowledge($data);
-        //$msg = $relationModel->deleteRelation($data);
-        //$msg = $relationModel->switchCore($data);
-        //$msg = $relationModel->deleteRelationByID(4);
-        //$msg = $relationModel->getPreKnowledge('graph');
-        //return apiReturn(200, 'ok', $msg);
+    public function getAllKnowledge() {
+        $knowledge_model = new KnowledgeModel();
+        $req = input('post.aoData');
+        $where = aoDataFormat($req, 'group_name');
+        $resp = $knowledge_model->getKnowledge("");
+        echo datatable_response($resp['code'], $where['where'], $resp['data'], $knowledge_model);
+    }
+
+    public function searchKnowledge() {
+        $knowledge_model = new KnowledgeModel();
+        $name = input('get.name');
+        $msg = $knowledge_model->getKnowledge($name);
+        return apiReturn($msg['code'], $msg['msg'], $msg['data'], 200);
+    }
+
+    public function deleteKnowledge() {
+        $knowledge_model = new KnowledgeModel();
+        $name = input('get.name');
+        $knowledge_model->deleteKnowledge(['name' => $name]);
+        $this->redirect('panel/knowledge/index');
+    }
+
+    public function addKnowledge() {
+        $knowledge_model = new KnowledgeModel();
+        $name = input('get.name');
+        $msg = $knowledge_model->addKnowledge(['name' => $name]);
+        return apiReturn($msg['code'], $msg['msg'], $msg['data'], 200);
+    }
+
+    public function getPreKnowledge() {
+        $knowledge_relation_model = new KnowledgeRelationModel();
+        $req = input('post.aoData');
+        $name = input('post.knowledge_name');
+        $where = aoDataFormat($req, 'group_name');
+        $resp = $knowledge_relation_model->getPreKnowledge($name);
+        echo datatable_response($resp['code'], $where['where'], $resp['data'], $knowledge_relation_model);
+    }
+
+    public function deleteKnowledgeRelation() {
+        $knowledge_relation_model = new KnowledgeRelationModel();
+        $name = input('get.name');
+        $pre_name = input('get.pre');
+        $knowledge_relation_model->deleteRelation(['name' => $name, 'pre_name' => $pre_name]);
+        $this->redirect('panel/knowledge/relation', ['name' => $name]);
+    }
+
+    public function switchKnowledgeRelation() {
+        $knowledge_relation_model = new KnowledgeRelationModel();
+        $name = input('get.name');
+        $pre_name = input('get.pre');
+        $knowledge_relation_model->switchCore(['name' => $name, 'pre_name' => $pre_name]);
+        $this->redirect('panel/knowledge/relation', ['name' => $name]);
+    }
+
+    public function addKnowledgeRelation() {
+        $knowledge_relation_model = new KnowledgeRelationModel();
+        $name = input('post.name');
+        $knowledge = input('post.knowledge');
+        if (isset($knowledge['is_core'])) {
+            $is_core = true;
+        } else {
+            $is_core = false;
+        }
+        foreach ($knowledge as $item) {
+            if ($item == "is_core") continue;
+            $data = [
+                'name' => $name,
+                'pre_name' => $item,
+                'is_core' => $is_core
+            ];
+            $knowledge_relation_model->addRelation($data);
+        }
+        return apiReturn(CODE_SUCCESS, 'ok', [], 200);
+    }
+
+    public function relation()
+    {
+        return $this->fetch('relation', ['name' => input('get.name')]);
     }
 
     public function index()

@@ -15,6 +15,9 @@ class KnowledgeRelationModel extends Model {
      */
     public function addRelation($data) {
         try {
+            if ($data['name'] == $data['pre_name']) {
+                return ['code' => CODE_ERROR, 'msg' => '前后知识点相同', []];
+            }
             $knowledgeModel = new KnowledgeModel();
             $msg = $knowledgeModel->getKnowledgePairID($data);
             if ($msg['code'] == CODE_ERROR) {
@@ -114,7 +117,7 @@ class KnowledgeRelationModel extends Model {
                 $result = $this->alias('k')
                     ->join(['knowledge' => 'a'], 'a.id = k.pre_knowledge_id')
                     ->where($where)
-                    ->field(['a.id', 'a.name'])
+                    ->field(['a.id', 'a.name', 'k.is_core'])
                     ->select();
                 return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $result];
             } else {
