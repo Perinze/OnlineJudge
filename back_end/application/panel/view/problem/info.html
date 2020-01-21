@@ -89,11 +89,12 @@
                                     </div>
                                     <div class="form-group">
                                         <label>题目标签</label>
-                                        <select class="form-control" name="tagid" id="tagid">
-                                            <option value="1">数学</option>
-                                            <option value="2">贪心</option>
-                                            <option value="3">暴力</option>
-                                        </select>
+                                        <div id="tags">
+
+                                        </div>
+                                        <div>
+                                            <button type="button" class="btn btn-default" onclick="add()">添加标签</button>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
@@ -176,14 +177,25 @@
                     output_format.setMarkdown(data.data.output_format);
                     $("#source").val(data.data.source);
                     $("#title").val(data.data.title);
+                    let tag_array = JSON.parse(data.data.tag);
+                    tag_array.forEach(function (data) {
+                        add();
+                        $("#tagid" + (count - 1).toString()).val(data);
+                    })
                 } else if (data.status == -1) {
 
                 }
             },
         });
     });
+    var count = 0;
     function btn()
     {
+        let tags = $('[name=tagid] :selected');
+        let tag_array = [];
+        tags.map(function () {
+            tag_array.push($(this).val());
+        });
         $.ajax({
             url: "__PANEL__/problem/editProblem",
             type: "post",
@@ -197,6 +209,7 @@
                 output_format: output_format.getMarkdown(),
                 hint: hint.getMarkdown(),
                 source:   $("#source").val(),
+                tah: tag_array,
             },
             success: function (data) {
                 if (data.status == 0) {
@@ -207,6 +220,15 @@
                 }
             },
         });
+    }
+    function add() {
+        let html = "<select class=\"form-control\" name=\"tagid\" id=\"tagid"+ count + "\">\n" +
+            "                                                <option value=\"1\">数学</option>\n" +
+            "                                                <option value=\"2\">贪心</option>\n" +
+            "                                                <option value=\"3\">暴力</option>\n" +
+            "                                            </select>";
+        $("#tags").append(html);
+        count += 1;
     }
 </script>
 </body>
