@@ -57,6 +57,7 @@
                                             <th>通过数</th>
                                             <th>状态</th>
                                             <th>操作</th>
+                                            <th>知识点</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -129,6 +130,12 @@
                             "' target='_self'>编辑</a> | " +
                             "<a href='__API__/problem/info?id=" + data +
                             "' target='_self'>删除</a>";
+                    }
+                }, {
+                    "mData": "problem_id",
+                    "mRender": function (data, type, full) {
+                        return "<a href='__PANEL__/knowledge/problem?problem_id=" + data +
+                            "' target='_self'>查看</a>"
                     }
                 }],
                 "fnServerData": function (sSource, aoData, fnCallback) {

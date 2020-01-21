@@ -30,7 +30,7 @@ class ProblemKnowledgeModel extends Model {
                 $result = $this->alias('a')
                     ->join(['problem' => 'p'], 'p.problem_id = a.problem_id')
                     ->where($where)
-                    ->field(['p.problem_id'])
+                    ->field(['p.problem_id', 'a.is_core'])
                     ->select();
                 return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $result];
             } else {
@@ -58,13 +58,13 @@ class ProblemKnowledgeModel extends Model {
             $msg = $problemModel->searchProblemById($problem_id);
             if ($msg) {
                 $where = ['a.problem_id' => $problem_id];
-                if ($core_only) {
+                if ($core_only == true) {
                     $where['is_core'] = 1;
                 }
                 $result = $this->alias('a')
                     ->join(['knowledge' => 'k'], 'k.id = a.knowledge_id')
                     ->where($where)
-                    ->field(['k.id', 'k.name'])
+                    ->field(['k.id', 'k.name', 'a.is_core'])
                     ->select();
                 $cacheModel->setProblemKnowledgeCache($result, $problem_id, $core_only);
                 return ['code' => CODE_SUCCESS, 'msg' => '查找成功', 'data' => $result];
@@ -192,6 +192,7 @@ class ProblemKnowledgeModel extends Model {
                 $info = $this->where($where)->update($updateData);
                 $cacheModel = new CacheModel();
                 $cacheModel->unsetProblemKnowledgeCache($data['problem_id'], true);
+                $cacheModel->unsetProblemKnowledgeCache($data['problem_id'], false);
                 return ['code' => CODE_SUCCESS, 'msg' => '更新成功', 'data' => $info];
             } else {
                 return ['code' => CODE_ERROR, 'msg' => '关系不存在', []];
@@ -221,6 +222,7 @@ class ProblemKnowledgeModel extends Model {
                 $info = $this->where($where)->update($updateData);
                 $cacheModel = new CacheModel();
                 $cacheModel->unsetProblemKnowledgeCache($data['problem_id'], true);
+                $cacheModel->unsetProblemKnowledgeCache($data['problem_id'], false);
                 return ['code' => CODE_SUCCESS, 'msg' => '更新成功', 'data' => $info];
             } else {
                 return ['code' => CODE_ERROR, 'msg' => '关系不存在', []];
@@ -250,6 +252,7 @@ class ProblemKnowledgeModel extends Model {
                 $info = $this->where($where)->update($updateData);
                 $cacheModel = new CacheModel();
                 $cacheModel->unsetProblemKnowledgeCache($data['problem_id'], true);
+                $cacheModel->unsetProblemKnowledgeCache($data['problem_id'], false);
                 return ['code' => CODE_SUCCESS, 'msg' => '更新成功', 'data' => $info];
             } else {
                 return ['code' => CODE_ERROR, 'msg' => '关系不存在', []];

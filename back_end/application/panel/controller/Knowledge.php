@@ -86,6 +86,61 @@ class Knowledge extends Base
         return apiReturn(CODE_SUCCESS, 'ok', [], 200);
     }
 
+    public function addProblemKnowledgeRelation() {
+        $problem_knowledge_model = new ProblemKnowledgeModel();
+        $problem_id = input('post.problem_id');
+        $knowledge = input('post.knowledge');
+        if (isset($knowledge['is_core'])) {
+            $is_core = true;
+        } else {
+            $is_core = false;
+        }
+        foreach ($knowledge as $item) {
+            if ($item == "is_core") continue;
+            $data = [
+                'problem_id' => $problem_id,
+                'knowledge' => $item,
+                'is_core' => $is_core
+            ];
+            $problem_knowledge_model->addRelation($data);
+        }
+        return apiReturn(CODE_SUCCESS, 'ok', [], 200);
+    }
+
+    public function switchProblemKnowledgeRelation() {
+        $problem_knowledge_model = new ProblemKnowledgeModel();
+        $knowledge = input('get.knowledge');
+        $problem_id = input('get.problem_id');
+        $data = [
+            'problem_id' => $problem_id,
+            'knowledge' => $knowledge
+        ];
+        $problem_knowledge_model->switchCore($data);
+        $this->redirect('panel/knowledge/problem', ['problem_id' => $problem_id]);
+    }
+
+    public function deleteProblemKnowledgeRelation() {
+        $problem_knowledge_model = new ProblemKnowledgeModel();
+        $knowledge = input('get.knowledge');
+        $problem_id = input('get.problem_id');
+        $data = [
+            'problem_id' => $problem_id,
+            'knowledge' => $knowledge
+        ];
+        $problem_knowledge_model->deleteRelation($data);
+        $this->redirect('panel/knowledge/problem', ['problem_id' => $problem_id]);
+    }
+
+    public function getProblemKnowledge() {
+        $problem_knowledge_model = new ProblemKnowledgeModel();
+        $req = input('post.aoData');
+        $problem_id = input('post.problem_id');
+        $where = aoDataFormat($req, 'group_name');
+        $resp = $problem_knowledge_model->getKnowledgeByProblem($problem_id);
+        echo datatable_response($resp['code'], $where['where'], $resp['data'], $problem_knowledge_model);
+
+    }
+
     public function relation()
     {
         return $this->fetch('relation', ['name' => input('get.name')]);
@@ -94,5 +149,10 @@ class Knowledge extends Base
     public function index()
     {
         return $this->fetch('index');
+    }
+
+    public function problem()
+    {
+        return $this->fetch('problem', ['problem_id' => input('get.problem_id')]);
     }
 }
