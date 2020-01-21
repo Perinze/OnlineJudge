@@ -11,6 +11,9 @@ use app\panel\model\ProblemKnowledgeModel;
 
 class Knowledge extends Base
 {
+    /*
+     * 获取所有知识点
+     */
     public function getAllKnowledge() {
         $knowledge_model = new KnowledgeModel();
         $req = input('post.aoData');
@@ -19,6 +22,9 @@ class Knowledge extends Base
         echo datatable_response($resp['code'], $where['where'], $resp['data'], $knowledge_model);
     }
 
+    /*
+     * 获取知识点
+     */
     public function searchKnowledge() {
         $knowledge_model = new KnowledgeModel();
         $name = input('get.name');
@@ -26,6 +32,9 @@ class Knowledge extends Base
         return apiReturn($msg['code'], $msg['msg'], $msg['data'], 200);
     }
 
+    /*
+     * 删除知识点
+     */
     public function deleteKnowledge() {
         $knowledge_model = new KnowledgeModel();
         $name = input('get.name');
@@ -33,6 +42,9 @@ class Knowledge extends Base
         $this->redirect('panel/knowledge/index');
     }
 
+    /*
+     * 添加知识点
+     */
     public function addKnowledge() {
         $knowledge_model = new KnowledgeModel();
         $name = input('get.name');
@@ -40,6 +52,9 @@ class Knowledge extends Base
         return apiReturn($msg['code'], $msg['msg'], $msg['data'], 200);
     }
 
+    /*
+     * 获取前置知识点
+     */
     public function getPreKnowledge() {
         $knowledge_relation_model = new KnowledgeRelationModel();
         $req = input('post.aoData');
@@ -49,6 +64,9 @@ class Knowledge extends Base
         echo datatable_response($resp['code'], $where['where'], $resp['data'], $knowledge_relation_model);
     }
 
+    /*
+     * 删除知识点关系对
+     */
     public function deleteKnowledgeRelation() {
         $knowledge_relation_model = new KnowledgeRelationModel();
         $name = input('get.name');
@@ -57,6 +75,9 @@ class Knowledge extends Base
         $this->redirect('panel/knowledge/relation', ['name' => $name]);
     }
 
+    /*
+     * 切换知识点前置是否必要
+     */
     public function switchKnowledgeRelation() {
         $knowledge_relation_model = new KnowledgeRelationModel();
         $name = input('get.name');
@@ -65,6 +86,9 @@ class Knowledge extends Base
         $this->redirect('panel/knowledge/relation', ['name' => $name]);
     }
 
+    /*
+     * 添加知识点关系
+     */
     public function addKnowledgeRelation() {
         $knowledge_relation_model = new KnowledgeRelationModel();
         $name = input('post.name');
@@ -86,6 +110,9 @@ class Knowledge extends Base
         return apiReturn(CODE_SUCCESS, 'ok', [], 200);
     }
 
+    /*
+     * 添加问题知识点关系
+     */
     public function addProblemKnowledgeRelation() {
         $problem_knowledge_model = new ProblemKnowledgeModel();
         $problem_id = input('post.problem_id');
@@ -107,6 +134,9 @@ class Knowledge extends Base
         return apiReturn(CODE_SUCCESS, 'ok', [], 200);
     }
 
+    /*
+     * 切换问题知识点是否必要
+     */
     public function switchProblemKnowledgeRelation() {
         $problem_knowledge_model = new ProblemKnowledgeModel();
         $knowledge = input('get.knowledge');
@@ -119,6 +149,9 @@ class Knowledge extends Base
         $this->redirect('panel/knowledge/problem', ['problem_id' => $problem_id]);
     }
 
+    /*
+     * 删除问题知识点
+     */
     public function deleteProblemKnowledgeRelation() {
         $problem_knowledge_model = new ProblemKnowledgeModel();
         $knowledge = input('get.knowledge');
@@ -131,6 +164,9 @@ class Knowledge extends Base
         $this->redirect('panel/knowledge/problem', ['problem_id' => $problem_id]);
     }
 
+    /*
+     * 获取问题知识点
+     */
     public function getProblemKnowledge() {
         $problem_knowledge_model = new ProblemKnowledgeModel();
         $req = input('post.aoData');
