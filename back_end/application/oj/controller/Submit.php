@@ -273,37 +273,4 @@ class Submit extends Base
             $i++;
         }
     }
-    public function reJudge()
-    {
-        $req = input('post.');
-        $submit_model = new SubmitModel();
-        $user_id = Session::get('user_id');
-        $identity = Session::get('identity');
-        if (empty($user_id)) {
-            return apiReturn(CODE_ERROR, '未登录', '');
-        }
-        if($identity !== ADMINISTRATOR){
-            return apiReturn(CODE_ERROR, '权限不足', '');
-        }
-        if(!isset($req['id'])){
-            return apiReturn(CODE_ERROR, '请填写重新评测的id', '');
-        }
-        $problems = json_decode($req['id'], false);
-        foreach ($problems as $item){
-            $info = $submit_model->get_a_submit(['submit.id' => $item]);
-            if ($info['code'] !== CODE_SUCCESS) {
-                return apiReturn($info['code'], $info['msg'], $info['data']);
-            }
-            $info = $info['data'][0];
-            post('http://10.143.216.128:8819/submit', json_encode(array(
-                'id' => (string)$info['runid'],
-                'pid' => (string)$info['problem_id'],
-                'source' => [
-                    'language' => $info['language'],
-                    'code' => $info['source_code'],
-                ]
-            ), true));
-        }
-        return apiReturn(CODE_SUCCESS, '重新评测成功', '');
-    }
 }
