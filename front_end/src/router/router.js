@@ -12,6 +12,11 @@ import discussdetail from '../page/discussdetail';
 import submitpage from '../page/submitpage';
 import submitdetail from '../page/submitdetail';
 import page404 from '../page/page404';
+import group from '../page/group';
+import addGroup from '../page/addGroup';
+import editAdmin from "../page/editAdmin";
+import addProblem from "../page/addProblem";
+import store from "../store/index";
 
 Vue.use(VueRouter);
 
@@ -115,6 +120,38 @@ const routes = [
         }
     },
     {
+        // 小组首页
+        path: '/group',
+        component: group,
+        meta: {
+            isLogin: false
+        }
+    },
+    {
+        // 新增小组
+        path: '/addGroup',
+        component: addGroup,
+        meta: {
+            isLogin: false
+        }
+    },
+    {
+        // 设置管理员
+        path: '/editAdmin',
+        component: editAdmin,
+        meta: {
+            isLogin: false
+        }
+    },
+    {
+        // 创建题库
+        path: '/addProblem',
+        component: addProblem,
+        meta: {
+            isLogin: false
+        }
+    },
+    {
         // default
         path: '*',
         component: page404,
@@ -128,5 +165,16 @@ var router = new VueRouter({
     mode: 'history',
     routes: routes
 });
+
+const pathArr_noTopnav = ["/addGroup", "/editAdmin", "/addProblem"];
+
+router.beforeEach((to, from, next) => {
+    if (pathArr_noTopnav.indexOf(to.path) >= 0) {
+        store.dispatch("ui/changeIsShowTopnav", false);
+    } else {
+        store.dispatch("ui/changeIsShowTopnav", true);
+    }
+    next();
+})
 
 export default router;
