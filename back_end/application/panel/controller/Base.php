@@ -40,6 +40,13 @@ class Base extends Controller
             'child' => array()
         ),
         array(
+            'c' => 'submit',
+            'a' => 'index',
+            'title' => '提交列表',
+            'icon' => '',
+            'child' => array()
+        ),
+        array(
             'c' => 'knowledge',
             'a' => 'index',
             'title' => '知识树列表',

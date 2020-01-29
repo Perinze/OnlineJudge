@@ -4,7 +4,7 @@
 namespace app\panel\controller;
 
 
-use app\oj\model\SubmitModel;
+use app\panel\model\SubmitModel;
 use think\facade\Session;
 
 class Submit extends Base
@@ -12,12 +12,22 @@ class Submit extends Base
     /* 接口 */
     public function getAllSubmit()
     {
-
+        $submit_model = new SubmitModel();
+        $req = input('post.aoData');
+        $where = aoDataFormat($req, 'name');
+        $resp = $submit_model->getAllSubmit($where['where'], $where['limit'], $where['offset']);
+        echo datatable_response($resp['code'], $where['where'], $resp['data'], $submit_model);
     }
 
     public function getTheSubmit()
     {
-
+        $submit_model = new SubmitModel();
+        $req = input('post.');
+        if(!isset($req['id'])){
+            return apiReturn(CODE_ERROR, '请填写id', '');
+        }
+        $resp = $submit_model->getTheSubmit( $req['id']);
+        return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
     public function reJudge()
@@ -27,11 +37,14 @@ class Submit extends Base
         if(!isset($req['id'])){
             return apiReturn(CODE_ERROR, '请填写重新评测的id', '');
         }
-        $problems = json_decode($req['id'], false);
+        if(!is_array($req['id'])){
+            return apiReturn(CODE_ERROR, '请按规则提交', '');
+        }
+        $problems = $req['id'];
         $submit_url = config('wutoj_config.submit_url');
         $length = count($submit_url);
         foreach ($problems as $item){
-            $info = $submit_model->get_a_submit(['submit.id' => $item]);
+            $info = $submit_model->getTheSubmit($item);
             if ($info['code'] !== CODE_SUCCESS) {
                 return apiReturn($info['code'], $info['msg'], $info['data']);
             }
@@ -49,14 +62,18 @@ class Submit extends Base
         }
         return apiReturn(CODE_SUCCESS, '重新评测成功', '');
     }
+
     /* 页面 */
     public function index()
     {
-
+        return $this->fetch();
     }
 
     public function info()
     {
-
+        $req = input('get.');
+        $id = isset($req['id']) ? $req['id'] : 0;
+        $this->assign('id', $id);
+        return $this->fetch();
     }
 }

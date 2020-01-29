@@ -21,7 +21,7 @@ class ProblemModel extends Model
     public function get_all_problem($page)
     {
         try {
-            $page_limit = config('wutoj_cache.page_limit');
+            $page_limit = config('wutoj_config.page_limit');
             $info = $this->alias('p')
                 ->field(['p.problem_id as problem_id', 'title', 'tag',
                     'count(case when submit.status="AC" then submit.status end) as ac',
