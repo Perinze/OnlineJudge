@@ -39,7 +39,7 @@ class SubmitModel extends Model
             $info = $this->field(['id','user_id','nick', 'problem_id', 'language', 'status', 'time', 'memory', 'submit_time', 'source_code'])
                 ->where('id', $id)
                 ->withAttr('language', function($value) {
-                    $language = [0=>'c', 1=>'cpp', 2=>'py', 3=>'java'];
+                    $language = [0=>'c', 1=>'c++', 2=>'py', 3=>'java'];
                     return $language[$value];
                 })
                 ->find();

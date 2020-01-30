@@ -45,44 +45,44 @@
                                 <!--http://ziqiangshe.applinzi.com/tp5/public/index.php/panel/blog/editblog-->
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label>提交编号</label>
+                                        <label>提交编号: </label>
                                         <label id="id"></label>
                                     </div>
                                     <div class="form-group">
-                                        <label>用户id</label>
+                                        <label>用户id: </label>
                                         <label id="user_id"></label>
                                     </div>
                                     <div class="form-group">
-                                        <label>用户昵称</label>
+                                        <label>用户昵称: </label>
                                         <label id="nick"></label>
                                     </div>
                                     <div class="form-group">
-                                        <label>题目编号</label>
+                                        <label>题目编号: </label>
                                         <label id="problem_id"></label>
                                     </div>
                                     <div class="form-group">
-                                        <label>语言</label>
+                                        <label>语言: </label>
                                         <label id="language"></label>
                                     </div>
                                     <div class="form-group">
-                                        <label>状态</label>
+                                        <label>状态: </label>
                                         <label id="status"></label>
                                     </div>
                                     <div class="form-group">
-                                        <label>用时</label>
+                                        <label>用时: </label>
                                         <label id="time"></label>
                                     </div>
                                     <div class="form-group">
-                                        <label>内存</label>
+                                        <label>内存: </label>
                                         <label id="memory"></label>
                                     </div>
                                     <div class="form-group">
-                                        <label>源代码</label>
+                                        <label>源代码: </label>
                                         <textarea name="code" id="code"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
-                                    <button type="button" class="btn btn-default" onclick="btn()">提交</button>
+                                    <button type="button" class="btn btn-default" onclick="btn()">重测</button>
                                 </div>
                             </form>
                         </div>
@@ -108,6 +108,7 @@
         return string.substring(0, string.length - 1);
     }
     $(document).ready(function () {
+        console.log(Array().push({$id}));
         $.ajax({
             url: "__PANEL__/submit/getTheSubmit",
             type: "post",
@@ -117,7 +118,15 @@
             },
             success: function (data) {
                 if (data.status == 0) {
-
+                    $("#id").html(data.data.id);
+                    $("#user_id").html(data.data.user_id);
+                    $("#nick").html(data.data.nick);
+                    $("#problem_id").html(data.data.problem_id);
+                    $("#language").html(data.data.language);
+                    $("#status").html(data.data.status);
+                    $("#time").html(data.data.time);
+                    $("#memory").html(data.data.memory);
+                    $("#code").val(data.data.source_code);
                 } else if (data.status == -1) {
 
                 }
@@ -127,17 +136,11 @@
     function btn()
     {
         $.ajax({
-            url: "__PANEL__/contest/editContest",
+            url: "__PANEL__/submit/reJudge",
             type: "post",
             dataType: "json",
             data: {
-                contest_id:      $("#contest_id").val(),
-                contest_name:   $("#title").val(),
-                begin_time:     $("#begin_time").val(),
-                end_time:     $("#end_time").val(),
-                frozen: $("#frozen").val(),
-                problems: $("#problems").val().split(','),
-                colors: $("#colors").val().split(','),
+                id: Array().push({$id}),
             },
             success: function (data) {
                 if (data.status == 0) {
