@@ -1615,6 +1615,7 @@ null
   {
       "image":"file"//文件
   }
+  
   ```
 
   *response:*
@@ -1628,3 +1629,115 @@ null
   ```
 
 * upload_data_file
+
+
+## Knowledge
+
+* getAllKnowledge 获取所有知识点
+
+**request: GET**
+```json
+null
+```
+**response:**
+```json
+{
+    "status": 0,
+    "message": "查询成功",
+    "data": [
+        {
+            "id": 10,
+            "name": "force"
+        },
+        {
+            "id": 9,
+            "name": "graph"
+        },
+        {
+            "id": 1,
+            "name": "tree"
+        }
+    ]
+}
+```
+
+* getKnowledgeByKey 模糊查询知识点
+
+**request: GET**
+
+| param | data  |
+| ---- | ---- |
+| knowledge | e |
+
+
+**response:**
+```json
+{
+    "status": 0,
+    "message": "查询成功",
+    "data": [
+        {
+            "id": 10,
+            "name": "force"
+        },
+        {
+            "id": 1,
+            "name": "tree"
+        }
+    ]
+}
+```
+
+* getSpecificKnowledge 精确查询知识点
+
+**request: GET**
+
+| param | data |
+| ---- | ---- |
+| knowledge| force|
+
+**response**
+```json
+{
+    "status": 0,
+    "message": "查询成功",
+    "data": {
+        "id": 10,
+        "name": "force"
+    }
+}
+```
+
+* addKnowledge 添加知识点
+
+**request: POST**
+
+|param|data|
+|----|----|
+|knowledge|link|
+
+**response**
+```json
+{
+    "status": 0,
+    "message": "插入成功",
+    "data": ""
+}
+```
+
+* deleteKnowledge 删除知识点
+
+**request: POST**
+
+|param|data|
+|----|----|
+|knowledge|link|
+
+**response:**
+```json
+{
+    "status": 0,
+    "message": "删除成功",
+    "data": ""
+}
+```
