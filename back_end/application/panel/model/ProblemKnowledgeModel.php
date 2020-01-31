@@ -20,7 +20,7 @@ class ProblemKnowledgeModel extends Model {
         try {
             $knowledgeModel = new KnowledgeModel();
             $msg = $knowledgeModel->getSpecificKnowledge($knowledge);
-            if ($msg == CODE_SUCCESS) {
+            if ($msg['code'] == CODE_SUCCESS) {
                 $where = [
                     'a.knowledge_id' => $msg['data']['id'],
                 ];
@@ -56,7 +56,7 @@ class ProblemKnowledgeModel extends Model {
         try {
             $problemModel = new ProblemModel();
             $msg = $problemModel->searchProblemById($problem_id);
-            if ($msg) {
+            if ($msg['code'] == CODE_SUCCESS) {
                 $where = ['a.problem_id' => $problem_id];
                 if ($core_only == true) {
                     $where['is_core'] = 1;
