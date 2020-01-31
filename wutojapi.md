@@ -1844,3 +1844,129 @@ null
     "data": ""
 }
 ```
+
+* getProblemByKnowledge 获取知识点对应问题
+
+**request: GET**
+
+|param|type|data|comment|
+|----|----|----|----|
+|knowledge|string|"force"|知识点|
+|core_only|int|0|0/１，可为空|
+
+**response**
+```json
+{
+    "status": 0,
+    "message": "查询成功",
+    "data": [
+        {
+            "problem_id": 1001,
+            "is_core": 1
+        }
+    ]
+}
+```
+
+* getKnowledgeByProblem 获取问题对应知识点
+
+**request: GET**
+
+|param|type|data|comment|
+|----|----|----|----|
+|problem|string|"1001"|问题|
+|core_only|int|0|0/１，可为空|
+
+**response:**
+```json
+{
+    "status": 0,
+    "message": "查询成功",
+    "data": [
+        {
+            "id": 10,
+            "name": "force",
+            "is_core": 1
+        },
+        {
+            "id": 1,
+            "name": "tree",
+            "is_core": 0
+        }
+    ]
+}
+```
+
+- addProblemKnowledgeRelation 添加知识点问题关系
+
+**request: POST**
+
+|param|type|data|comment|
+|----|----|----|----|
+|knowledge|string|"force"|知识点|
+|problem|string|"1002"|问题|
+|is_core|int|0|0/１，可为空|
+
+**response:**
+```json
+{
+    "status": 0,
+    "message": "插入成功",
+    "data": ""
+}
+```
+
+- deleteProblemKnowledgeRelation 删除知识点问题关系
+
+**request: POST**
+
+|param|type|data|comment|
+|----|----|----|----|
+|knowledge|string|"force"|知识点|
+|problem|string|"1002"|问题|
+
+**response:**
+```json
+{
+    "status": 0,
+    "message": "删除成功",
+    "data": ""
+}
+```
+
+- setProblemKnowledgeRelationCore 设置知识点问题关系为必要
+
+**request: POST**
+
+|param|type|data|comment|
+|----|----|----|----|
+|knowledge|string|"force"|知识点|
+|problem|string|"1002"|问题|
+
+**response:**
+```json
+{
+    "status": 0,
+    "message": "更新成功",
+    "data": ""
+}
+```
+
+
+- unsetProblemKnowledgeRelationCore 设置知识点问题关系为不必要
+
+**request: POST**
+
+|param|type|data|comment|
+|----|----|----|----|
+|knowledge|string|"force"|知识点|
+|problem|string|"1002"|问题|
+
+**response:**
+```json
+{
+    "status": 0,
+    "message": "更新成功",
+    "data": ""
+}
+```

@@ -51,7 +51,7 @@ class ProblemKnowledgeModel extends Model {
         $OJCacheModel = new OJCacheModel();
         $cache = $OJCacheModel->getProblemKnowledgeCache($problem_id, $core_only);
         if ($cache['code'] == CODE_SUCCESS) {
-            return $cache;
+            return ['code' => $cache['code'], 'msg' => '查询成功', 'data' => $cache['data']];
         }
         try {
             $problemModel = new ProblemModel();
