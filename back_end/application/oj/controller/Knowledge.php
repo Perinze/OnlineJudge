@@ -4,7 +4,9 @@ namespace app\oj\controller;
 
 use app\index\widget\Token;
 use app\oj\model\KnowledgeModel;
+use app\oj\model\KnowledgeRelationModel;
 use app\oj\validate\KnowledgeValidate;
+use think\composer\ThinkExtend;
 use think\response\Json;
 
 class Knowledge extends Base {
@@ -88,6 +90,121 @@ class Knowledge extends Base {
             'name' => $req['knowledge']
         ];
         $resp = $knowledgeModel->deleteKnowledge($data);
+        return apiReturn($resp['code'], $resp['msg'], '');
+    }
+
+    /**
+     * @usage 添加知识点关系
+     * @method post
+     * @param string knowledge
+     * @param string pre_knowledge
+     * @param boolean is_core
+     * @return json
+     */
+    public function addKnowledgeRelation() {
+        $req = input('post.');
+        $knowledgeRelationModel = new KnowledgeRelationModel();
+        $knowledgeValidate = new KnowledgeValidate();
+        $result = $knowledgeValidate->scene('add_knowledge_relation')->check($req);
+        if ($result != VALIDATE_PASS) {
+            return apiReturn(CODE_ERROR, $knowledgeValidate->getError(), '');
+        }
+        $data = [
+            'name' => $req['knowledge'],
+            'pre_name' => $req['pre_knowledge'],
+            'is_core' => isset($req['is_core'])?$req['is_core']:0
+        ];
+        $resp = $knowledgeRelationModel->addRelation($data);
+        return apiReturn($resp['code'], $resp['msg'], '');
+    }
+
+    /**
+     * @usage 删除知识点关系
+     * @method post
+     * @param string knowledge
+     * @param string pre_knowledge
+     * @return json
+     */
+    public function deleteKnowledgeRelation() {
+        $req = input('post.');
+        $knowledgeRelationModel = new KnowledgeRelationModel();
+        $knowledgeValidate = new KnowledgeValidate();
+        $result = $knowledgeValidate->scene('delete_knowledge_relation')->check($req);
+        if ($result != VALIDATE_PASS) {
+            return apiReturn(CODE_ERROR, $knowledgeValidate->getError(), '');
+        }
+        $data = [
+            'name' => $req['knowledge'],
+            'pre_name' => $req['pre_knowledge'],
+        ];
+        $resp = $knowledgeRelationModel->deleteRelation($data);
+        return apiReturn($resp['code'], $resp['msg'], '');
+    }
+
+    /**
+     * @usage 获取前置知识点
+     * @method get
+     * @param string knowledge
+     * @param boolean core_only
+     * @return json
+     */
+    public function getPreKnowledge() {
+        $req = input('get.');
+        $knowledgeRelationModel = new KnowledgeRelationModel();
+        $knowledgeValidate = new KnowledgeValidate();
+        $result = $knowledgeValidate->scene('get_pre_knowledge')->check($req);
+        if ($result != VALIDATE_PASS) {
+            return apiReturn(CODE_ERROR, $knowledgeValidate->getError(), '');
+        }
+        $knowledge = $req['knowledge'];
+        $core_only = isset($req['core_only'])?$req['core_only']:0;
+        $resp = $knowledgeRelationModel->getPreKnowledge($knowledge, $core_only);
+        return apiReturn($resp['code'], $resp['msg'], $resp['data']);
+    }
+
+    /**
+     * @usage 切换知识点对为必须
+     * @method post
+     * @param string knowledge
+     * @param string pre_knowledge
+     * @return json
+     */
+    public function setKnowledgeRelationCore() {
+        $req = input('post.');
+        $knowledgeRelationModel = new KnowledgeRelationModel();
+        $knowledgeValidate = new KnowledgeValidate();
+        $result = $knowledgeValidate->scene('set_knowledge_relation')->check($req);
+        if ($result != VALIDATE_PASS) {
+            return apiReturn(CODE_ERROR, $knowledgeValidate->getError(), '');
+        }
+        $data = [
+            'name' => $req['knowledge'],
+            'pre_name' => $req['pre_knowledge']
+        ];
+        $resp = $knowledgeRelationModel->setCore($data);
+        return apiReturn($resp['code'], $resp['msg'], '');
+    }
+
+    /**
+     * @usage 切换知识点对为必须
+     * @method post
+     * @param string knowledge
+     * @param string pre_knowledge
+     * @return json
+     */
+    public function unsetKnowledgeRelationCore() {
+        $req = input('post.');
+        $knowledgeRelationModel = new KnowledgeRelationModel();
+        $knowledgeValidate = new KnowledgeValidate();
+        $result = $knowledgeValidate->scene('set_knowledge_relation')->check($req);
+        if ($result != VALIDATE_PASS) {
+            return apiReturn(CODE_ERROR, $knowledgeValidate->getError(), '');
+        }
+        $data = [
+            'name' => $req['knowledge'],
+            'pre_name' => $req['pre_knowledge']
+        ];
+        $resp = $knowledgeRelationModel->unsetCore($data);
         return apiReturn($resp['code'], $resp['msg'], '');
     }
 }

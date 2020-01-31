@@ -1665,9 +1665,9 @@ null
 
 **request: GET**
 
-| param | data  |
-| ---- | ---- |
-| knowledge | e |
+| param | type| data  |
+| ---- | ----| ---- |
+| knowledge | string| "e" |
 
 
 **response:**
@@ -1692,9 +1692,9 @@ null
 
 **request: GET**
 
-| param | data |
-| ---- | ---- |
-| knowledge| force|
+| param | type| data  |
+| ---- | ----| ---- |
+| knowledge | string| "force" |
 
 **response**
 ```json
@@ -1712,9 +1712,9 @@ null
 
 **request: POST**
 
-|param|data|
-|----|----|
-|knowledge|link|
+| param | type| data  |
+| ---- | ----| ---- |
+| knowledge | string|"link" |
 
 **response**
 ```json
@@ -1729,15 +1729,118 @@ null
 
 **request: POST**
 
-|param|data|
-|----|----|
-|knowledge|link|
+| param | type| data  |
+| ---- | ----| ---- |
+| knowledge | string| "link" |
 
 **response:**
 ```json
 {
     "status": 0,
     "message": "删除成功",
+    "data": ""
+}
+```
+
+* addKnowledgeRelation 添加知识点关系
+
+**request: POST**
+
+|param|type|data|comment|
+|----|----|----|----|
+|knowledge|string|"force"|知识点|
+|pre_knowledge|string|"graph"|前置知识点|
+|is_core|int|0|0/１，可为空|
+
+**response:**
+```json
+{
+    "status": 0,
+    "message": "插入成功",
+    "data": ""
+}
+```
+
+* deleteKnowledgeRelation 删除知识点关系
+
+**request: POST**
+
+|param|type|data|comment|
+|----|----|----|----|
+|knowledge|string|"force"|知识点|
+|pre_knowledge|string|"graph"|前置知识点|
+
+**response:**
+
+```json
+{
+    "status": 0,
+    "message": "删除成功",
+    "data": ""
+}
+```
+
+* getPreKnowledge 获取前置知识点
+
+**request: GET**
+
+|param|type|data|comment|
+|----|----|----|----|
+|knowledge|string|"force"|知识点|
+|core_only|int|0|0/１，可为空|
+
+**response:**
+```json
+{
+    "status": 0,
+    "message": "查询成功",
+    "data": [
+        {
+            "id": 1,
+            "name": "tree",
+            "is_core": 0
+        },
+        {
+            "id": 9,
+            "name": "graph",
+            "is_core": 0
+        }
+    ]
+}
+```
+
+* setKnowledgeRelationCore 设置为必要前置
+
+**request: POST**
+
+|param|type|data|comment|
+|----|----|----|----|
+|knowledge|string|"force"|知识点|
+|pre_knowledge|string|"graph"|前置知识点|
+
+**response:**
+```json
+{
+    "status": 0,
+    "message": "更新成功",
+    "data": ""
+}
+```
+
+* unsetKnowledgeRelationCore 设置为非必要前置
+
+**request: POST**
+
+|param|type|data|comment|
+|----|----|----|----|
+|knowledge|string|"force"|知识点|
+|pre_knowledge|string|"graph"|前置知识点|
+
+**response:**
+```json
+{
+    "status": 0,
+    "message": "更新成功",
     "data": ""
 }
 ```

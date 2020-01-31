@@ -44,7 +44,7 @@ class KnowledgeRelationModel extends Model {
 
     /**
      * @usage 删除知识点关系
-     * @param array $data ['name', 'pre_name', 'is_core']
+     * @param array $data ['name', 'pre_name']
      * @return array ['code', 'msg', 'data']
      */
     public function deleteRelation($data)
