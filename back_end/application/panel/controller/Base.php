@@ -26,6 +26,13 @@ class Base extends Controller
             'child' => array()
         ),
         array(
+            'c' => 'tag',
+            'a' => 'index',
+            'title' => '标签列表',
+            'icon' => '',
+            'child' => array()
+        ),
+        array(
             'c' => 'contest',
             'a' => 'index',
             'title' => '比赛列表',

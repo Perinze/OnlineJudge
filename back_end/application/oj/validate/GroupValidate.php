@@ -15,7 +15,7 @@ class GroupValidate extends Validate
     protected $rule = [
         'group_id' => 'require|number',
         'group_name' => 'require|max:64',
-        'desc' => 'text', // TODO check
+        'desc' => 'require', // TODO check
         'group_creator' => 'require|number'
     ];
 
@@ -26,7 +26,7 @@ class GroupValidate extends Validate
         'group_name.max' => '分组名称应小于64个字符',
         'group_creator.require' => '缺少创建者ID',
         'group_creator.number' => '创建者ID格式不正确',
-        'desc.text' => '团队描述格式不正确',
+        'desc.require' => '缺少团队描述格式',
     ];
 
     protected $scene = [

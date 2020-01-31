@@ -38,4 +38,14 @@ class Tag extends Base
 
     }
 
+    /* 页面 */
+    public function index()
+    {
+        return $this->fetch();
+    }
+
+    public function info()
+    {
+        return $this->fetch();
+    }
 }
