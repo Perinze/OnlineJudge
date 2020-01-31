@@ -107,7 +107,7 @@ class KnowledgeRelationModel extends Model {
         try {
             $knowledgeModel = new KnowledgeModel();
             $msg = $knowledgeModel->getSpecificKnowledge($name);
-            if ($msg) {
+            if ($msg['code'] == CODE_SUCCESS) {
                 $where = [
                     'k.knowledge_id' => $msg['data']['id']
                 ];

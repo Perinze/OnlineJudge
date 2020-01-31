@@ -20,7 +20,7 @@ class ProblemKnowledgeModel extends Model {
         try {
             $knowledgeModel = new KnowledgeModel();
             $msg = $knowledgeModel->getSpecificKnowledge($knowledge);
-            if ($msg) {
+            if ($msg == CODE_SUCCESS) {
                 $where = [
                     'a.knowledge_id' => $msg['data']['id'],
                 ];
