@@ -43,7 +43,7 @@ class Discuss extends Controller
             $stauts = 8; // notice status equals 8
         }
         $data = array(
-            'contest_id' => $req['contest_id'],
+            'contest_id' => isset($req['contest_id']) ? $req['contest_id'] : 0,
             'problem_id' => $req['problem_id'],
             'user_id' => $user_id,
             'content' => $req['content'],
@@ -94,16 +94,27 @@ class Discuss extends Controller
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
-    public function getAllDiscuss()
+    public function getAllTopic()
     {
         $discuss_model = new DiscussModel();
-        // get all discuss in the contest
+        // TODO 上redis
         $req = input('post.');
-        if(!isset($req['contest_id'])){
-            return apiReturn(CODE_ERROR, '未填写比赛id', '');
-        }
-        $resp = $discuss_model->get_all_discuss($req['contest_id']);
+        $resp = $discuss_model->get_all_topic(isset($req['contest']) ? 1 : 0);
+        return apiReturn($resp['code'], $resp['msg'], $resp['data']);
+    }
 
+    public function getAllDiscuss()
+    {
+        // TODO 上redis
+        $discuss_model = new DiscussModel();
+
+        // get all discuss
+        $req = input('post.');
+        if(!isset($req['contest_id']) && !isset($req['problem_id'])){
+            return apiReturn(CODE_ERROR, '未填写id', '');
+        }
+
+        $resp = $discuss_model->get_all_discuss(isset($req['contest_id']) ? $req['contest_id'] : 0, isset($req['problem_id']) ? $req['problem_id'] : 0);
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 

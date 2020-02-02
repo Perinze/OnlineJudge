@@ -1176,19 +1176,72 @@ null
 }
 ```
 
+* getAllTopic
+
+  *request:*
+
+  ```json
+  {
+      "contest": "1",//不传值就是普通题目讨论，传值就是比赛讨论
+  }
+  ```
+
+  *response:*
+
+  ``` json
+  题目讨论
+  {
+      "status": 0,
+      "message": "查询成功",
+      "data": [
+          {
+              "id": 6,
+              "problem_id": 1001,
+              "title": "wyhsb",
+              "background": "# wyhsb\n\n* s\n* s\n* wyhsb"
+          }
+      ]
+  }
+  比赛讨论
+  {
+      "status": 0,
+      "message": "查询成功",
+      "data": [
+          {
+              "id": 1,
+              "contest_id": 1001,
+              "contest_name": "test",
+              "begin_time": "2019-10-16 16:12:47",
+              "end_time": "2019-10-17 16:12:47"
+          },
+          {
+              "id": 5,
+              "contest_id": 1002,
+              "contest_name": "test1",
+              "begin_time": "2020-01-01 00:00:00",
+              "end_time": "2020-01-02 00:00:00"
+          }
+      ]
+  }
+  ```
+
+  
+
 * getAllDiscuss
 
 *request:*
 
 ```json
 {
-    "contest_id": "1001",
+    "contest_id": "1001",// 题目讨论时不传值
+    "problem_id": "1001",// 比赛讨论时不传值， contest_id优先级更大
 }
 ```
 
 *response:*
 
 ``` json
+比赛讨论
 {
     "status": 0,
     "message": "查询成功",
@@ -1196,18 +1249,16 @@ null
         {
             "id": 1,
             "problem_id": 1001,
-            "contest_id": 1001,
             "user_id": 1,
             "nick": "123",
             "title": "wyhsb",
             "content": "wyhsb",
             "time": "2019-10-13 15:49:45",
-            "status": 1
+            "status": 1 // 0为无管理员回复，1为有管理员回复，8为管理员公示
         },
         {
             "id": 2,
             "problem_id": 1001,
-            "contest_id": 1001,
             "user_id": 1,
             "nick": "123",
             "title": "wyhsb",
@@ -1218,7 +1269,6 @@ null
         {
             "id": 3,
             "problem_id": 1001,
-            "contest_id": 1001,
             "user_id": 2,
             "nick": "kdl12138",
             "title": "ssss",
@@ -1229,7 +1279,23 @@ null
         {
             "id": 4,
             "problem_id": 1001,
-            "contest_id": 1001,
+            "user_id": 1,
+            "nick": "123",
+            "title": "ssss",
+            "content": "wyhsb",
+            "time": "2019-10-13 16:00:31",
+            "status": 8
+        }
+    ]
+}
+题目讨论
+{
+    "status": 0,
+    "message": "查询成功",
+    "data": [
+        {
+            "id": 6,
+            "problem_id": 1001,
             "user_id": 1,
             "nick": "123",
             "title": "ssss",
