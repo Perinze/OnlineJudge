@@ -100,11 +100,11 @@
 
     function change(status)
     {
-        var st = 0;
+        var st = 1;
         $('#dataTable tbody').one( 'click', 'tr', function () {
             id = $('#dataTable').DataTable().row( this ).data().id;
             if(status === "正常"){
-                st = 1;
+                st = 0;
             }
             $.ajax({
                 url: "__PANEL__/tag/editTag",

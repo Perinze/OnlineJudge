@@ -89,11 +89,11 @@
                                     </div>
                                     <div class="form-group">
                                         <label>题目标签</label>
-                                        <div id="tags">
+                                        <div class="form-group" id="tags">
 
                                         </div>
                                         <div>
-                                            <button type="button" class="btn btn-default" onclick="add()">添加标签</button>
+                                            <button type="button" class="btn btn-default" onclick="add(1)">添加标签</button>
                                         </div>
                                     </div>
                                 </div>
@@ -160,6 +160,7 @@
         initialValue: [],
         exts: ['scrollSync']
     });
+    var count = 0;
     $(document).ready(function () {
         $.ajax({
             url: "__PANEL__/problem/getTheProblem",
@@ -179,8 +180,7 @@
                     $("#title").val(data.data.title);
                     let tag_array = JSON.parse(data.data.tag);
                     tag_array.forEach(function (data) {
-                        add();
-                        $("#tagid" + (count - 1).toString()).val(data);
+                        add(data);
                     })
                 } else if (data.status == -1) {
 
@@ -188,7 +188,6 @@
             },
         });
     });
-    var count = 0;
     function btn()
     {
         let tags = $('[name=tagid] :selected');
@@ -221,14 +220,34 @@
             },
         });
     }
-    function add() {
-        let html = "<select class=\"form-control\" name=\"tagid\" id=\"tagid"+ count + "\">\n" +
-            "                                                <option value=\"1\">数学</option>\n" +
-            "                                                <option value=\"2\">贪心</option>\n" +
-            "                                                <option value=\"3\">暴力</option>\n" +
-            "                                            </select>";
-        $("#tags").append(html);
-        count += 1;
+    function dele(data){
+        $("#tagid"+data).remove();
+        $("#button"+data).remove();
+    }
+    function add(datas) {
+        var html = "";
+        $.ajax({
+            url: "__PANEL__/tag/getAllTags",
+            type: "post",
+            dataType: "json",
+            data: {},
+            success: function (data) {
+                if (data.status == 0) {
+                    html = "<select class=\"form-control\" name=\"tagid\" id=\"tagid"+ count + "\">\n";
+                    data.data.forEach(function (data) {
+                        html += "<option value="+ data.id+">" + data.name + "</option>\n";
+                    });
+                    html += "</select>";
+                    html += "<button id=button"+ count.toString() +" type=\"button\" class=\"btn btn-default\" onclick=\"dele("+ count.toString() +")\">删除标签</button>";
+                    $("#tags").append(html);
+                    $("#tagid" + count.toString()).val(datas);
+                    count += 1;
+                } else if (data.status == -1) {
+                    alert(data.message);
+                }
+            },
+        });
+
     }
 </script>
 </body>
