@@ -129,6 +129,37 @@ class KnowledgeRelationModel extends Model {
     }
 
     /**
+     * @usage 获取后置知识点
+     * @param string $name
+     * @param boolean $core_only
+     * @return array ['code', 'msg', 'data']
+     */
+    public function getAfterKnowledge($name, $core_only = false) {
+        try {
+            $knowledgeModel = new KnowledgeModel();
+            $msg = $knowledgeModel->getSpecificKnowledge($name);
+            if ($msg['code'] == CODE_SUCCESS) {
+                $where = [
+                    'k.pre_knowledge_id' => $msg['data']['id']
+                ];
+                if ($core_only) {
+                    $where['k.is_core'] = 1;
+                }
+                $result = $this->alias('k')
+                    ->join(['knowledge' => 'a'], 'a.id = k.knowledge_id')
+                    ->where($where)
+                    ->field(['a.id', 'a.name', 'k.is_core'])
+                    ->select();
+                return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $result];
+            } else {
+                return ['code' => CODE_ERROR, 'msg' => '知识点不存在', 'data' => $msg];
+            }
+        } catch (DbException $e) {
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+        }
+    }
+
+    /**
      * @usage 切换是否为必须前置
      * @param array $data['name', 'pre_name']
      * @return array ['code', 'msg', 'data']

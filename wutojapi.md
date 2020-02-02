@@ -1633,7 +1633,7 @@ null
 
 ## Knowledge
 
-* getAllKnowledge 获取所有知识点
+#### getAllKnowledge 获取所有知识点
 
 **request: GET**
 ```json
@@ -1661,7 +1661,7 @@ null
 }
 ```
 
-* getKnowledgeByKey 模糊查询知识点
+#### getKnowledgeByKey 模糊查询知识点
 
 **request: GET**
 
@@ -1688,7 +1688,7 @@ null
 }
 ```
 
-* getSpecificKnowledge 精确查询知识点
+#### getSpecificKnowledge 精确查询知识点
 
 **request: GET**
 
@@ -1708,7 +1708,7 @@ null
 }
 ```
 
-* addKnowledge 添加知识点
+#### addKnowledge 添加知识点
 
 **request: POST**
 
@@ -1725,7 +1725,7 @@ null
 }
 ```
 
-* deleteKnowledge 删除知识点
+#### deleteKnowledge 删除知识点
 
 **request: POST**
 
@@ -1742,7 +1742,7 @@ null
 }
 ```
 
-* addKnowledgeRelation 添加知识点关系
+#### addKnowledgeRelation 添加知识点关系
 
 **request: POST**
 
@@ -1761,7 +1761,7 @@ null
 }
 ```
 
-* deleteKnowledgeRelation 删除知识点关系
+#### deleteKnowledgeRelation 删除知识点关系
 
 **request: POST**
 
@@ -1780,7 +1780,7 @@ null
 }
 ```
 
-* getPreKnowledge 获取前置知识点
+#### getPreKnowledge 获取前置知识点
 
 **request: GET**
 
@@ -1809,7 +1809,32 @@ null
 }
 ```
 
-* setKnowledgeRelationCore 设置为必要前置
+
+#### getAfterKnowledge 获取后继知识点
+
+**request: GET**
+
+|param|type|data|comment|
+|----|----|----|----|
+|knowledge|string|"tree"|知识点|
+|core_only|int|0|0/１，可为空|
+
+**response:**
+```json
+{
+    "status": 0,
+    "message": "查询成功",
+    "data": [
+        {
+            "id": 10,
+            "name": "force",
+            "is_core": 0
+        }
+    ]
+}
+```
+
+#### setKnowledgeRelationCore 设置为必要前置
 
 **request: POST**
 
@@ -1827,7 +1852,7 @@ null
 }
 ```
 
-* unsetKnowledgeRelationCore 设置为非必要前置
+#### unsetKnowledgeRelationCore 设置为非必要前置
 
 **request: POST**
 
@@ -1845,7 +1870,7 @@ null
 }
 ```
 
-* getProblemByKnowledge 获取知识点对应问题
+#### getProblemByKnowledge 获取知识点对应问题
 
 **request: GET**
 
@@ -1868,7 +1893,7 @@ null
 }
 ```
 
-* getKnowledgeByProblem 获取问题对应知识点
+#### getKnowledgeByProblem 获取问题对应知识点
 
 **request: GET**
 
@@ -1897,7 +1922,7 @@ null
 }
 ```
 
-- addProblemKnowledgeRelation 添加知识点问题关系
+#### addProblemKnowledgeRelation 添加知识点问题关系
 
 **request: POST**
 
@@ -1916,7 +1941,7 @@ null
 }
 ```
 
-- deleteProblemKnowledgeRelation 删除知识点问题关系
+#### deleteProblemKnowledgeRelation 删除知识点问题关系
 
 **request: POST**
 
@@ -1934,7 +1959,7 @@ null
 }
 ```
 
-- setProblemKnowledgeRelationCore 设置知识点问题关系为必要
+#### setProblemKnowledgeRelationCore 设置知识点问题关系为必要
 
 **request: POST**
 
@@ -1953,7 +1978,7 @@ null
 ```
 
 
-- unsetProblemKnowledgeRelationCore 设置知识点问题关系为不必要
+#### unsetProblemKnowledgeRelationCore 设置知识点问题关系为不必要
 
 **request: POST**
 

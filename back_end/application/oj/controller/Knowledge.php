@@ -153,13 +153,34 @@ class Knowledge extends Base {
         $req = input('get.');
         $knowledgeRelationModel = new KnowledgeRelationModel();
         $knowledgeValidate = new KnowledgeValidate();
-        $result = $knowledgeValidate->scene('get_pre_knowledge')->check($req);
+        $result = $knowledgeValidate->scene('get_knowledge')->check($req);
         if ($result != VALIDATE_PASS) {
             return apiReturn(CODE_ERROR, $knowledgeValidate->getError(), '');
         }
         $knowledge = $req['knowledge'];
         $core_only = isset($req['core_only'])?$req['core_only']:0;
         $resp = $knowledgeRelationModel->getPreKnowledge($knowledge, $core_only);
+        return apiReturn($resp['code'], $resp['msg'], $resp['data']);
+    }
+
+    /**
+     * @usage 获取后置知识点
+     * @method get
+     * @param string knowledge
+     * @param boolean core_only
+     * @return json
+     */
+    public function getAfterKnowledge() {
+        $req = input('get.');
+        $knowledgeRelationModel = new KnowledgeRelationModel();
+        $knowledgeValidate = new KnowledgeValidate();
+        $result = $knowledgeValidate->scene('get_knowledge')->check($req);
+        if ($result != VALIDATE_PASS) {
+            return apiReturn(CODE_ERROR, $knowledgeValidate->getError(), '');
+        }
+        $knowledge = $req['knowledge'];
+        $core_only = isset($req['core_only'])?$req['core_only']:0;
+        $resp = $knowledgeRelationModel->getAfterKnowledge($knowledge, $core_only);
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 

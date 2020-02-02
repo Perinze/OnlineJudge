@@ -22,7 +22,7 @@ class KnowledgeValidate extends Validate {
         'delete_knowledge'          => ['knowledge'],
         'add_knowledge_relation'    => ['knowledge', 'pre_knowledge'],
         'delete_knowledge_relation' => ['knowledge', 'pre_knowledge'],
-        'get_pre_knowledge'         => ['knowledge'] ,
+        'get_knowledge'         => ['knowledge'] ,
         'set_knowledge_relation'    => ['knowledge', 'pre_knowledge'],
         'get_problem_by_knowledge'  => ['knowledge'],
         'get_knowledge_by_problem'  => ['problem'],
