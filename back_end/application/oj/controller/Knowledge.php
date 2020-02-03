@@ -5,7 +5,7 @@ namespace app\oj\controller;
 use app\index\widget\Token;
 use app\oj\model\KnowledgeModel;
 use app\oj\model\KnowledgeRelationModel;
-use app\oj\model\ProblemKnowledgeModel;
+use app\oj\model\KnowledgeProblemModel;
 use app\oj\validate\KnowledgeValidate;
 use think\composer\ThinkExtend;
 use think\response\Json;
@@ -239,7 +239,7 @@ class Knowledge extends Base {
      */
     public function getProblemByKnowledge() {
         $req = input('get.');
-        $problemKnowledgeModel = new ProblemKnowledgeModel();
+        $problemKnowledgeModel = new KnowledgeProblemModel();
         $knowledgeValidate = new KnowledgeValidate();
         $result = $knowledgeValidate->scene('get_problem_by_knowledge')->check($req);
         if ($result != VALIDATE_PASS) {
@@ -260,7 +260,7 @@ class Knowledge extends Base {
      */
     public function getKnowledgeByProblem() {
         $req = input('get.');
-        $problemKnowledgeModel = new ProblemKnowledgeModel();
+        $problemKnowledgeModel = new KnowledgeProblemModel();
         $knowledgeValidate = new KnowledgeValidate();
         $result = $knowledgeValidate->scene('get_knowledge_by_problem')->check($req);
         if ($result != VALIDATE_PASS) {
@@ -282,7 +282,7 @@ class Knowledge extends Base {
      */
     public function addProblemKnowledgeRelation() {
         $req = input('post.');
-        $problemKnowledgeModel = new ProblemKnowledgeModel();
+        $problemKnowledgeModel = new KnowledgeProblemModel();
         $knowledgeValidate = new KnowledgeValidate();
         $result = $knowledgeValidate->scene('handle_knowledge_problem_relation')->check($req);
         if ($result != VALIDATE_PASS) {
@@ -306,7 +306,7 @@ class Knowledge extends Base {
      */
     public function deleteProblemKnowledgeRelation() {
         $req = input('post.');
-        $problemKnowledgeModel = new ProblemKnowledgeModel();
+        $problemKnowledgeModel = new KnowledgeProblemModel();
         $knowledgeValidate = new KnowledgeValidate();
         $result = $knowledgeValidate->scene('handle_knowledge_problem_relation')->check($req);
         if ($result != VALIDATE_PASS) {
@@ -329,7 +329,7 @@ class Knowledge extends Base {
      */
     public function setProblemKnowledgeRelationCore() {
         $req = input('post.');
-        $problemKnowledgeModel = new ProblemKnowledgeModel();
+        $problemKnowledgeModel = new KnowledgeProblemModel();
         $knowledgeValidate = new KnowledgeValidate();
         $result = $knowledgeValidate->scene('handle_knowledge_problem_relation')->check($req);
         if ($result != VALIDATE_PASS) {
@@ -352,7 +352,7 @@ class Knowledge extends Base {
      */
     public function unsetProblemKnowledgeRelationCore() {
         $req = input('post.');
-        $problemKnowledgeModel = new ProblemKnowledgeModel();
+        $problemKnowledgeModel = new KnowledgeProblemModel();
         $knowledgeValidate = new KnowledgeValidate();
         $result = $knowledgeValidate->scene('handle_knowledge_problem_relation')->check($req);
         if ($result != VALIDATE_PASS) {

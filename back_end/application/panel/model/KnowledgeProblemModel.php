@@ -1,13 +1,13 @@
 <?php
 
-namespace app\oj\model;
+namespace app\panel\model;
 
 use Exception;
 use think\facade\Cache;
 use think\exception\DbException;
 use think\Model;
 
-class ProblemKnowledgeModel extends Model {
+class KnowledgeProblemModel extends Model {
     protected $table = 'knowledge__problem';
 
     /**
@@ -48,10 +48,10 @@ class ProblemKnowledgeModel extends Model {
      * @return array ['code', 'msg', 'data']
      */
     public function getKnowledgeByProblem($problem_id, $core_only = false) {
-        $OJCacheModel = new OJCacheModel();
-        $cache = $OJCacheModel->getProblemKnowledgeCache($problem_id, $core_only);
+        $cacheModel = new CacheModel();
+        $cache = $cacheModel->getProblemKnowledgeCache($problem_id, $core_only);
         if ($cache['code'] == CODE_SUCCESS) {
-            return ['code' => $cache['code'], 'msg' => '查询成功', 'data' => $cache['data']];
+            return $cache;
         }
         try {
             $problemModel = new ProblemModel();
@@ -66,7 +66,7 @@ class ProblemKnowledgeModel extends Model {
                     ->where($where)
                     ->field(['k.id', 'k.name', 'a.is_core'])
                     ->select();
-                $OJCacheModel->setProblemKnowledgeCache($result, $problem_id, $core_only);
+                $cacheModel->setProblemKnowledgeCache($result, $problem_id, $core_only);
                 return ['code' => CODE_SUCCESS, 'msg' => '查找成功', 'data' => $result];
             } else {
                 return ['code' => CODE_ERROR, 'msg' => '知识点不存在', 'data' => []];
@@ -99,8 +99,8 @@ class ProblemKnowledgeModel extends Model {
                     'is_core' => isset($data['is_core'])?$data['is_core']:0,
                 ];
                 $info = $this->insertGetId($insertData);
-                $OJCacheModel = new OJCacheModel();
-                $OJCacheModel->unsetProblemKnowledgeCache($insertData['problem_id'], $insertData['is_core']);
+                $cacheModel = new CacheModel();
+                $cacheModel->unsetProblemKnowledgeCache($insertData['problem_id'], $insertData['is_core']);
                 return ['code' => CODE_SUCCESS, 'msg' => '插入成功', 'data' => $info];
             }
 
@@ -154,9 +154,9 @@ class ProblemKnowledgeModel extends Model {
                     'id' => $msg['id'],
                 ];
                 $info = $this->where($where)->delete();
-                $OJCacheModel = new OJCacheModel();
-                $OJCacheModel->unsetProblemKnowledgeCache($data['problem_id'], true);
-                $OJCacheModel->unsetProblemKnowledgeCache($data['problem_id'], false);
+                $cacheModel = new CacheModel();
+                $cacheModel->unsetProblemKnowledgeCache($data['problem_id'], true);
+                $cacheModel->unsetProblemKnowledgeCache($data['problem_id'], false);
                 return ['code' => CODE_SUCCESS, 'msg' => '删除成功', 'data' => $info];
             } else {
                 return ['code' => CODE_ERROR, 'msg' => '关系不存在', []];
@@ -190,9 +190,9 @@ class ProblemKnowledgeModel extends Model {
                     $updateData = ['is_core' => 1];
                 }
                 $info = $this->where($where)->update($updateData);
-                $OJCacheModel = new OJCacheModel();
-                $OJCacheModel->unsetProblemKnowledgeCache($data['problem_id'], true);
-                $OJCacheModel->unsetProblemKnowledgeCache($data['problem_id'], false);
+                $cacheModel = new CacheModel();
+                $cacheModel->unsetProblemKnowledgeCache($data['problem_id'], true);
+                $cacheModel->unsetProblemKnowledgeCache($data['problem_id'], false);
                 return ['code' => CODE_SUCCESS, 'msg' => '更新成功', 'data' => $info];
             } else {
                 return ['code' => CODE_ERROR, 'msg' => '关系不存在', []];
@@ -220,9 +220,9 @@ class ProblemKnowledgeModel extends Model {
                 $where = [ 'id' => $msg['id']];
                 $updateData = ['is_core' => 1];
                 $info = $this->where($where)->update($updateData);
-                $OJCacheModel = new OJCacheModel();
-                $OJCacheModel->unsetProblemKnowledgeCache($data['problem_id'], true);
-                $OJCacheModel->unsetProblemKnowledgeCache($data['problem_id'], false);
+                $cacheModel = new CacheModel();
+                $cacheModel->unsetProblemKnowledgeCache($data['problem_id'], true);
+                $cacheModel->unsetProblemKnowledgeCache($data['problem_id'], false);
                 return ['code' => CODE_SUCCESS, 'msg' => '更新成功', 'data' => $info];
             } else {
                 return ['code' => CODE_ERROR, 'msg' => '关系不存在', []];
@@ -250,9 +250,9 @@ class ProblemKnowledgeModel extends Model {
                 $where = [ 'id' => $msg['id']];
                 $updateData = ['is_core' => 0];
                 $info = $this->where($where)->update($updateData);
-                $OJCacheModel = new OJCacheModel();
-                $OJCacheModel->unsetProblemKnowledgeCache($data['problem_id'], true);
-                $OJCacheModel->unsetProblemKnowledgeCache($data['problem_id'], false);
+                $cacheModel = new CacheModel();
+                $cacheModel->unsetProblemKnowledgeCache($data['problem_id'], true);
+                $cacheModel->unsetProblemKnowledgeCache($data['problem_id'], false);
                 return ['code' => CODE_SUCCESS, 'msg' => '更新成功', 'data' => $info];
             } else {
                 return ['code' => CODE_ERROR, 'msg' => '关系不存在', []];

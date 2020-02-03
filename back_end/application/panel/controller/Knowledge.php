@@ -7,7 +7,7 @@ namespace app\panel\controller;
 use app\panel\model\CacheModel;
 use app\panel\model\KnowledgeModel;
 use app\panel\model\KnowledgeRelationModel;
-use app\panel\model\ProblemKnowledgeModel;
+use app\panel\model\KnowledgeProblemModel;
 
 class Knowledge extends Base
 {
@@ -114,7 +114,7 @@ class Knowledge extends Base
      * 添加问题知识点关系
      */
     public function addProblemKnowledgeRelation() {
-        $problem_knowledge_model = new ProblemKnowledgeModel();
+        $problem_knowledge_model = new KnowledgeProblemModel();
         $problem_id = input('post.problem_id');
         $knowledge = input('post.knowledge');
         if (isset($knowledge['is_core'])) {
@@ -138,7 +138,7 @@ class Knowledge extends Base
      * 切换问题知识点是否必要
      */
     public function switchProblemKnowledgeRelation() {
-        $problem_knowledge_model = new ProblemKnowledgeModel();
+        $problem_knowledge_model = new KnowledgeProblemModel();
         $knowledge = input('get.knowledge');
         $problem_id = input('get.problem_id');
         $data = [
@@ -153,7 +153,7 @@ class Knowledge extends Base
      * 删除问题知识点
      */
     public function deleteProblemKnowledgeRelation() {
-        $problem_knowledge_model = new ProblemKnowledgeModel();
+        $problem_knowledge_model = new KnowledgeProblemModel();
         $knowledge = input('get.knowledge');
         $problem_id = input('get.problem_id');
         $data = [
@@ -168,7 +168,7 @@ class Knowledge extends Base
      * 获取问题知识点
      */
     public function getProblemKnowledge() {
-        $problem_knowledge_model = new ProblemKnowledgeModel();
+        $problem_knowledge_model = new KnowledgeProblemModel();
         $req = input('post.aoData');
         $problem_id = input('post.problem_id');
         $where = aoDataFormat($req, 'group_name');
