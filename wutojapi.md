@@ -2061,3 +2061,180 @@ null
     "data": ""
 }
 ```
+
+#### getUserAllDoingKnowledge 获取用户所有进行中的知识点
+
+**request: GET**
+
+|param|type|data|comment|
+|----|----|----|----|
+|user_id|int|1|用户id|
+
+**response:**
+```json
+{
+    "status": 0,
+    "message": "查询成功",
+    "data": [
+        "tree"
+    ]
+}
+```
+
+#### getUserAllDoneKnowledge 获取所有完成的知识点
+
+**request: GET** 
+
+|param|type|data|comment|
+|----|----|----|----|
+|user_id|int|1|用户id|
+
+**response:**
+```json
+{
+    "status": 0,
+    "message": "查询成功",
+    "data": [
+        {
+            "name": "graph",
+            "score": 100
+        }
+    ]
+}
+```
+
+#### getUserKnowledgeStatus　获取用户知识点的状态
+
+**request: GET**
+
+|param|type|data|comment|
+|----|----|----|----|
+|user_id|int|1|用户id|
+|knowledge|string|"tree"|知识点|
+
+**response:**
+
+- 知识点进行中
+```json
+{
+    "status": 0,
+    "message": "知识点进行中",
+    "data": 0
+}
+```
+
+- 知识点已完成
+```json
+{
+    "status": 0,
+    "message": "知识点已完成",
+    "data": 1
+}
+```
+
+- 知识点未开始
+```json
+{
+    "status": 0,
+    "message": "知识点未开始",
+    "data": -1
+}
+```
+
+#### addUserDoingKnowledge 添加进行的知识点
+
+**request: POST**
+
+|param|type|data|comment|
+|----|----|----|----|
+|user_id|int|1|用户id|
+|knowledge|string|"tree"|知识点|
+
+**response:**
+
+- 添加成功
+```json
+{
+    "status": 0,
+    "message": "添加成功",
+    "data": 1
+}
+```
+- 知识点进行中
+```json
+{
+    "status": -1,
+    "message": "知识点进行中",
+    "data": []
+}
+```
+- 知识点已完成
+```json
+{
+    "status": -1,
+    "message": "知识点已完成",
+    "data": []
+}
+```
+- 前置知识点未完成
+```json
+{
+    "status": -1,
+    "message": "存在前置知识点未完成",
+    "data": {
+        "id": 4,
+        "name": "graph",
+        "is_core": 1
+    }
+}
+```
+
+
+#### addUserDoneKnowledge 添加完成的知识点
+
+**request: POST**
+
+|param|type|data|comment|
+|----|----|----|----|
+|user_id|int|1|用户id|
+|knowledge|string|"tree"|知识点|
+
+**response:**
+- 添加成功
+```json
+{
+    "status": 0,
+    "message": "更新成功",
+    "data": 1
+}
+```
+
+- 知识点已完成
+```json
+{
+    "status": -1,
+    "message": "知识点已完成",
+    "data": []
+}
+```
+
+- 知识点未开始
+```json
+{
+    "status": -1,
+    "message": "知识点未进行",
+    "data": []
+}
+```
+
+- 有题目未完成
+```json
+{
+    "status": -1,
+    "message": "有题目未完成",
+    "data": {
+        "problem_id": 1002,
+        "is_core": 1
+    }
+}
+```

@@ -17,6 +17,15 @@ class KnowledgeUserModel extends Model
     public function getAllDoingKnowledge($user_id) {
         try {
             $result = $this->where(['user_id' => $user_id])->find();
+            if (!$result) {
+                $insertData = [
+                    'user_id' => $user_id,
+                    'knowledge_doing' => array(),
+                    'knowledge_done' => array()
+                ];
+                $this->insertGetId($insertData);
+                return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => []];
+            }
             $returnData = json_decode($result['knowledge_doing']);
             return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $returnData];
         } catch (DbException $e) {
@@ -32,6 +41,15 @@ class KnowledgeUserModel extends Model
     public function getAllDoneKnowledge($user_id) {
         try {
             $result = $this->where(['user_id' => $user_id])->find();
+            if (!$result) {
+                $insertData = [
+                    'user_id' => $user_id,
+                    'knowledge_doing' => array(),
+                    'knowledge_done' => array()
+                ];
+                $this->insertGetId($insertData);
+                return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => []];
+            }
             $returnData = json_decode($result['knowledge_done']);
             return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $returnData];
         } catch (DbException $e) {
@@ -48,6 +66,15 @@ class KnowledgeUserModel extends Model
     public function getKnowledgeStatus($user_id, $knowledge) {
         try {
             $result = $this->where(['user_id' => $user_id])->find();
+            if (!$result) {
+                $insertData = [
+                    'user_id' => $user_id,
+                    'knowledge_doing' => array(),
+                    'knowledge_done' => array()
+                ];
+                $this->insertGetId($insertData);
+                return ['code' => CODE_SUCCESS, 'msg' => '知识点未开始', 'data' => -1];
+            }
             $knowledge_doing = json_decode($result['knowledge_doing']);
             $knowledge_done = json_decode($result['knowledge_done']);
             if ($this->checkDoingKnowledge($knowledge_doing, $knowledge)) {

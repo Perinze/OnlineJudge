@@ -6,6 +6,7 @@ use app\index\widget\Token;
 use app\oj\model\KnowledgeModel;
 use app\oj\model\KnowledgeRelationModel;
 use app\oj\model\KnowledgeProblemModel;
+use app\oj\model\KnowledgeUserModel;
 use app\oj\validate\KnowledgeValidate;
 use think\composer\ThinkExtend;
 use think\response\Json;
@@ -365,4 +366,98 @@ class Knowledge extends Base {
         $resp = $problemKnowledgeModel->unsetCore($data);
         return apiReturn($resp['code'], $resp['msg'], '');
     }
+
+    /**
+     * @usage 获取用户所有进行中的知识点
+     * @method get
+     * @param int user_id
+     * @return json
+     */
+    public function getUserAllDoingKnowledge() {
+        $req = input('get.');
+        $userKnowledgeModel = new KnowledgeUserModel();
+        $knowledgeValidate = new KnowledgeValidate();
+        $result = $knowledgeValidate->scene('user_all_knowledge')->check($req);
+        if ($result != VALIDATE_PASS) {
+            return apiReturn(CODE_ERROR, $knowledgeValidate->getError(), '');
+        }
+        $resp = $userKnowledgeModel->getAllDoingKnowledge($req['user_id']);
+        return apiReturn($resp['code'], $resp['msg'], $resp['data']);
+    }
+
+    /**
+     * @usage 获取用户所有完成的知识点
+     * @method get
+     * @param int user_id
+     * @return json
+     */
+    public function getUserAllDoneKnowledge() {
+        $req = input('get.');
+        $userKnowledgeModel = new KnowledgeUserModel();
+        $knowledgeValidate = new KnowledgeValidate();
+        $result = $knowledgeValidate->scene('user_all_knowledge')->check($req);
+        if ($result != VALIDATE_PASS) {
+            return apiReturn(CODE_ERROR, $knowledgeValidate->getError(), '');
+        }
+        $resp = $userKnowledgeModel->getAllDoneKnowledge($req['user_id']);
+        return apiReturn($resp['code'], $resp['msg'], $resp['data']);
+    }
+
+    /**
+     * @usage 获取用户某知识点的状态
+     * @method get
+     * @param int user_id
+     * @param string knowledge
+     * @return Json
+     */
+    public function getUserKnowledgeStatus() {
+        $req = input('get.');
+        $userKnowledgeModel = new KnowledgeUserModel();
+        $knowledgeValidate = new KnowledgeValidate();
+        $result = $knowledgeValidate->scene('user_specific_knowledge')->check($req);
+        if ($result != VALIDATE_PASS) {
+            return apiReturn(CODE_ERROR, $knowledgeValidate->getError(), '');
+        }
+        $resp = $userKnowledgeModel->getKnowledgeStatus($req['user_id'], $req['knowledge']);
+        return apiReturn($resp['code'], $resp['msg'], $resp['data']);
+    }
+
+    /**
+     * @usage 添加正在进行的知识点
+     * @method post
+     * @param int user_id
+     * @param string knowledge
+     * @return Json
+     */
+    public function addUserDoingKnowledge() {
+        $req = input('post.');
+        $userKnowledgeModel = new KnowledgeUserModel();
+        $knowledgeValidate = new KnowledgeValidate();
+        $result = $knowledgeValidate->scene('user_specific_knowledge')->check($req);
+        if ($result != VALIDATE_PASS) {
+            return apiReturn(CODE_ERROR, $knowledgeValidate->getError(), '');
+        }
+        $resp = $userKnowledgeModel->addDoingKnowledge($req['user_id'], $req['knowledge']);
+        return apiReturn($resp['code'], $resp['msg'], $resp['data']);
+    }
+
+    /**
+     * @usage 添加完成的知识点
+     * @method post
+     * @param int user_id
+     * @param string knowledge
+     * @return Json
+     */
+    public function addUserDoneKnowledge() {
+        $req = input('post.');
+        $userKnowledgeModel = new KnowledgeUserModel();
+        $knowledgeValidate = new KnowledgeValidate();
+        $result = $knowledgeValidate->scene('user_specific_knowledge')->check($req);
+        if ($result != VALIDATE_PASS) {
+            return apiReturn(CODE_ERROR, $knowledgeValidate->getError(), '');
+        }
+        $resp = $userKnowledgeModel->addDoneKnowledge($req['user_id'], $req['knowledge']);
+        return apiReturn($resp['code'], $resp['msg'], $resp['data']);
+    }
+
 }

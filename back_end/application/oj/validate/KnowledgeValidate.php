@@ -8,13 +8,15 @@ class KnowledgeValidate extends Validate {
     protected $rule = [
         'knowledge'         => 'require',
         'pre_knowledge'     => 'require',
-        'problem'           => 'require'
+        'problem'           => 'require',
+        'user_id'           => 'require',
     ];
 
     protected $message = [
         'knowledge.require'         => '未输入知识点',
         'pre_knowledge.require'     => '未输入前置知识点',
-        'problem.require'           => '未输入问题'
+        'problem.require'           => '未输入问题',
+        'user_id'                   => '未输入用户id'
     ];
 
     protected $scene = [
@@ -26,6 +28,8 @@ class KnowledgeValidate extends Validate {
         'set_knowledge_relation'    => ['knowledge', 'pre_knowledge'],
         'get_problem_by_knowledge'  => ['knowledge'],
         'get_knowledge_by_problem'  => ['problem'],
-        'handle_knowledge_problem_relation' => ['knowledge', 'problem']
+        'handle_knowledge_problem_relation' => ['knowledge', 'problem'],
+        'user_all_knowledge'        => ['user_id'],
+        'user_specific_knowledge'   => ['user_id', 'knowledge']
     ];
 }
