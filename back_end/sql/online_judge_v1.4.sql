@@ -121,7 +121,7 @@ CREATE TABLE `knowledge` (
 
 INSERT INTO `knowledge` (`id`, `name`) VALUES
 (3,	'force'),
-(2,	'graph'),
+(4,	'graph'),
 (1,	'tree');
 
 DROP TABLE IF EXISTS `knowledge_relationship`;
@@ -138,8 +138,8 @@ CREATE TABLE `knowledge_relationship` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `knowledge_relationship` (`id`, `knowledge_id`, `pre_knowledge_id`, `is_core`) VALUES
-(1,	3,	2,	0),
-(2,	3,	1,	0);
+(2,	3,	1,	0),
+(3,	3,	4,	1);
 
 DROP TABLE IF EXISTS `knowledge__problem`;
 CREATE TABLE `knowledge__problem` (
@@ -156,19 +156,21 @@ CREATE TABLE `knowledge__problem` (
 
 INSERT INTO `knowledge__problem` (`id`, `problem_id`, `knowledge_id`, `is_core`) VALUES
 (1,	1001,	3,	0),
-(2,	1001,	2,	0);
+(3,	1002,	1,	1);
 
 DROP TABLE IF EXISTS `knowledge__user`;
 CREATE TABLE `knowledge__user` (
   `id` int(8) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
-  `knowledge_doing` json NOT NULL,
-  `knowledge_done` json NOT NULL,
+  `knowledge_doing` json DEFAULT NULL,
+  `knowledge_done` json DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `knowledge__user_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+INSERT INTO `knowledge__user` (`id`, `user_id`, `knowledge_doing`, `knowledge_done`) VALUES
+(9,	1,	'{\"1\": \"tree\"}',	'[{\"name\": \"graph\", \"score\": 100}]');
 
 DROP TABLE IF EXISTS `notice`;
 CREATE TABLE `notice` (
@@ -238,7 +240,7 @@ DROP TABLE IF EXISTS `role_group`;
 CREATE TABLE `role_group` (
   `id` int(8) unsigned NOT NULL AUTO_INCREMENT,
   `group_name` varchar(20) NOT NULL,
-  `authority` json NOT NULL,
+  `authority` json DEFAULT NULL,
   `enabled` tinyint(1) NOT NULL DEFAULT '1',
   `user_num` int(8) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
@@ -249,7 +251,7 @@ INSERT INTO `role_group` (`id`, `group_name`, `authority`, `enabled`, `user_num`
 (1,	'guest',	'{\"auth\": [\"add\"]}',	1,	0),
 (2,	'admin',	'{\"auth\": []}',	1,	0),
 (3,	'problemEditor',	'{\"auth\": []}',	1,	0),
-(4,	'super',	'{\"auth\": []}',	1,	0);
+(4,	'super',	'{\"auth\": []}',	1,	1);
 
 DROP TABLE IF EXISTS `rotation`;
 CREATE TABLE `rotation` (
@@ -376,14 +378,14 @@ CREATE TABLE `users` (
   `desc` text,
   `mail` varchar(64) NOT NULL,
   `status` tinyint(4) NOT NULL DEFAULT '0',
-  `role_group` json NOT NULL,
+  `role_group` json DEFAULT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `users` (`user_id`, `nick`, `password`, `realname`, `school`, `major`, `class`, `contact`, `identity`, `desc`, `mail`, `status`, `role_group`) VALUES
 (1,	'123',	'eb5637cef0d0ba8a35a8091116d07561',	'1',	'1',	'1',	'14',	'123',	0,	NULL,	'1@163.com',	0,	'null'),
 (2,	'kdl12138',	'87d9bb400c0634691f0e3baaf1e2fd0d',	'kdl',	'wut',	'cs',	'zy',	'13282560058',	3,	'1234',	'ssbljw@163.com',	0,	'null'),
-(3,	'lxh001',	'19991107',	'1',	'1',	'1',	'1',	'1',	3,	'111',	'1',	0,	'null'),
+(3,	'lxh001',	'19991107',	'1',	'1',	'1',	'1',	'1',	3,	'111',	'1',	0,	'{\"group\": [\"super\"]}'),
 (4,	'kdl12137',	'87d9bb400c0634691f0e3baaf1e2fd0d',	'123',	'123',	'3123',	'123',	'13282560058',	0,	'123',	'ssbljw@163.com',	0,	'[]');
 
 DROP TABLE IF EXISTS `user_group`;
@@ -397,4 +399,4 @@ CREATE TABLE `user_group` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
--- 2020-02-03 03:16:32
+-- 2020-02-03 07:14:21
