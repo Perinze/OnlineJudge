@@ -16,7 +16,7 @@ class KnowledgeRelationModel extends Model {
     public function addRelation($data) {
         try {
             if ($data['name'] == $data['pre_name']) {
-                return ['code' => CODE_ERROR, 'msg' => '前后知识点相同', []];
+                return ['code' => CODE_ERROR, 'msg' => '前后知识点相同', 'data' => []];
             }
             $knowledgeModel = new KnowledgeModel();
             $msg = $knowledgeModel->getKnowledgePairID($data);
@@ -27,7 +27,7 @@ class KnowledgeRelationModel extends Model {
             }
             $msg = $this->where($id_pair)->find();
             if ($msg) {
-                return ['code' => CODE_ERROR, 'msg' => '关系已存在', []];
+                return ['code' => CODE_ERROR, 'msg' => '关系已存在', 'data' => []];
             } else {
                 $insertData = [
                     'knowledge_id' => $id_pair['knowledge_id'],
@@ -65,7 +65,7 @@ class KnowledgeRelationModel extends Model {
                 $info = $this->where($where)->delete();
                 return ['code' => CODE_SUCCESS, 'msg' => '删除成功', 'data' => $info];
             } else {
-                return ['code' => CODE_ERROR, 'msg' => '关系不存在', []];
+                return ['code' => CODE_ERROR, 'msg' => '关系不存在', 'data' => []];
             }
         } catch (DbException $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
@@ -88,7 +88,7 @@ class KnowledgeRelationModel extends Model {
                 $info = $this->where($where)->delete();
                 return ['code' => CODE_SUCCESS, 'msg' => '删除成功', 'data' => $info];
             } else {
-                return ['code' => CODE_ERROR, 'msg' => '关系不存在', []];
+                return ['code' => CODE_ERROR, 'msg' => '关系不存在', 'data' => []];
             }
         } catch (DbException $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
@@ -153,7 +153,7 @@ class KnowledgeRelationModel extends Model {
                 $info = $this->where($where)->update($updateData);
                 return ['code' => CODE_SUCCESS, 'msg' => '更新成功', 'data' => $info];
             } else {
-                return ['code' => CODE_ERROR, 'msg' => '关系不存在', []];
+                return ['code' => CODE_ERROR, 'msg' => '关系不存在', 'data' => []];
             }
         } catch (DbException $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
@@ -181,7 +181,7 @@ class KnowledgeRelationModel extends Model {
                 $info = $this->where($where)->update($updateData);
                 return ['code' => CODE_SUCCESS, 'msg' => '更新成功', 'data' => $info];
             } else {
-                return ['code' => CODE_ERROR, 'msg' => '关系不存在', []];
+                return ['code' => CODE_ERROR, 'msg' => '关系不存在', 'data' => []];
             }
         } catch (DbException $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
@@ -209,7 +209,7 @@ class KnowledgeRelationModel extends Model {
                 $info = $this->where($where)->update($updateData);
                 return ['code' => CODE_SUCCESS, 'msg' => '更新成功', 'data' => $info];
             } else {
-                return ['code' => CODE_ERROR, 'msg' => '关系不存在', []];
+                return ['code' => CODE_ERROR, 'msg' => '关系不存在', 'data' => []];
             }
         } catch (DbException $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];

@@ -51,13 +51,13 @@ class KnowledgeModel extends Model {
             if ($msg['code'] == CODE_SUCCESS) {
                 $knowledge_id = $msg['data']['id'];
             } else {
-                return ['code' => CODE_ERROR, 'msg' => '知识点不存在', []];
+                return ['code' => CODE_ERROR, 'msg' => '知识点不存在', 'data' => []];
             }
             $msg = $this->getSpecificKnowledge($data['pre_name']);
             if ($msg['code'] == CODE_SUCCESS) {
                 $pre_knowledge_id = $msg['data']['id'];
             } else {
-                return ['code' => CODE_ERROR, 'msg' => '前置知识点不存在', []];
+                return ['code' => CODE_ERROR, 'msg' => '前置知识点不存在', 'data' => []];
             }
             $returnData = [
                 'knowledge_id'    => $knowledge_id,

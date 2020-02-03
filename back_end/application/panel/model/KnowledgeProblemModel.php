@@ -159,7 +159,7 @@ class KnowledgeProblemModel extends Model {
                 $cacheModel->unsetProblemKnowledgeCache($data['problem_id'], false);
                 return ['code' => CODE_SUCCESS, 'msg' => '删除成功', 'data' => $info];
             } else {
-                return ['code' => CODE_ERROR, 'msg' => '关系不存在', []];
+                return ['code' => CODE_ERROR, 'msg' => '关系不存在', 'data' => []];
             }
         } catch (DbException $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
@@ -195,7 +195,7 @@ class KnowledgeProblemModel extends Model {
                 $cacheModel->unsetProblemKnowledgeCache($data['problem_id'], false);
                 return ['code' => CODE_SUCCESS, 'msg' => '更新成功', 'data' => $info];
             } else {
-                return ['code' => CODE_ERROR, 'msg' => '关系不存在', []];
+                return ['code' => CODE_ERROR, 'msg' => '关系不存在', 'data' => []];
             }
         } catch (DbException $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
@@ -225,7 +225,7 @@ class KnowledgeProblemModel extends Model {
                 $cacheModel->unsetProblemKnowledgeCache($data['problem_id'], false);
                 return ['code' => CODE_SUCCESS, 'msg' => '更新成功', 'data' => $info];
             } else {
-                return ['code' => CODE_ERROR, 'msg' => '关系不存在', []];
+                return ['code' => CODE_ERROR, 'msg' => '关系不存在', 'data' => []];
             }
         } catch (DbException $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
@@ -255,7 +255,7 @@ class KnowledgeProblemModel extends Model {
                 $cacheModel->unsetProblemKnowledgeCache($data['problem_id'], false);
                 return ['code' => CODE_SUCCESS, 'msg' => '更新成功', 'data' => $info];
             } else {
-                return ['code' => CODE_ERROR, 'msg' => '关系不存在', []];
+                return ['code' => CODE_ERROR, 'msg' => '关系不存在', 'data' => []];
             }
         } catch (DbException $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
