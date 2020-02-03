@@ -2,6 +2,7 @@
 
 namespace app\panel\model;
 
+use app\panel\model\KnowledgeUserModel;
 use think\exception\DbException;
 use think\Model;
 
@@ -101,6 +102,10 @@ class KnowledgeModel extends Model {
             $where = ['name' => $data['name']];
             $msg = $this->where($where)->find();
             if ($msg) {
+                $knowledgeUserModel = new KnowledgeUserModel();
+                if ($knowledgeUserModel->deleteKnowledge($data['name']) == false) {
+                    return ['code' => CODE_ERROR, 'msg' => '删除失败', 'data' => []];
+                }
                 $info = $this->where($where)->delete();
                 return ['code' => CODE_SUCCESS, 'msg' => '删除成功', 'data' => $info];
             } else {

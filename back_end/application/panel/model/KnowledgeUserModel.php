@@ -1,6 +1,6 @@
 <?php
 
-namespace app\oj\model;
+namespace app\panel\model;
 
 use think\exception\DbException;
 use think\Model;
