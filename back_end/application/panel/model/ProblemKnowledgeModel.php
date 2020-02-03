@@ -8,7 +8,7 @@ use think\exception\DbException;
 use think\Model;
 
 class ProblemKnowledgeModel extends Model {
-    protected $table = 'problem__knowledge';
+    protected $table = 'knowledge__problem';
 
     /**
      * @usage 获取知识点问题
