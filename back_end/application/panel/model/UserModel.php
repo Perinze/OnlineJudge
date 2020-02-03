@@ -120,9 +120,10 @@ class UserModel extends Model
             $where = ['nick' => $data['nick']];
             $msg = $this->where($where)->find();
             if ($msg) {
-                $groups = $this->getRoleGroups($data)['data']->group;
+                $groups = $this->getRoleGroups($data)['data'];
                 if ($groups != null) {
                     //删除现有权限组的注册
+                    $groups = $groups->group;
                     foreach ($groups as $group) {
                         $roleGroupModel->decUserNumber($group);
                     }
