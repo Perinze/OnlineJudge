@@ -25,6 +25,6 @@ class DiscussValidate extends Validate
     ];
 
     protected $scene = [
-        'add_discuss' => ['contest_id', 'problem_id', 'title', 'content'],
+        'add_discuss' => ['problem_id', 'title', 'content'],
     ];
 }

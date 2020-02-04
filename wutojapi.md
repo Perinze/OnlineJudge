@@ -1058,7 +1058,7 @@ null
 
 ```json
 {
-    "contest_id": "1001",
+    "contest_id": "1001",//非比赛讨论时无需传值
     "problem_id": "1001",
     "content": "xxxxx",
     "title": "wyh",
