@@ -20,29 +20,23 @@ class UsergroupModel extends Model
 
     public function find_group($user_id)
     {
-        $group_model = new GroupModel();
         try {
-            $info = $this->where('user_id', $user_id)->select()->toArray();
+            $info = $this->alias(['user_group' => 'ug'])
+                ->field(['ug.group_id as group_id', 'group_name', 'identity', 'desc'])
+                ->where('user_id', $user_id)
+                ->where('group.status', 0)
+                ->rightJoin('group', 'ug.group_id = group.group_id')
+                ->group('ug.group_id')
+                ->withAttr('identity', function($value) {
+                    $identity = [0=>'正常', 1=>'管理员', 2=>'创建者'];
+                    return $identity[$value];
+                })
+                ->select()
+                ->toArray();
             if (empty($info)) {
                 return ['code' => CODE_ERROR, 'msg' => '查询失败', 'data' => ''];
-            } else {
-                $i = 0;
-                $data = array();
-                foreach ($info as $key => $value) {
-                    $a_group_res = $group_model->get_the_group($value['group_id']);
-                    if ($a_group_res['code'] == CODE_SUCCESS) {
-                        if (!empty($a_group_res['data'])) {
-                            $data[$i] = $a_group_res['data'];
-                        } else {
-                            $data[$i] = '分组不存在';
-                        }
-                    } else {
-                        $data[$i] = '查询错误';
-                    }
-                    $i++;
-                }
-                return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $data];
             }
+            return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $info];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
         }
@@ -50,29 +44,21 @@ class UsergroupModel extends Model
 
     public function find_user($group_id)
     {
-        $user_model = new UserModel();
         try {
-            $info = $this->where('group_id', $group_id)->select()->toArray();
+            $info = $this->alias(['user_group' => 'ug'])
+                ->field(['ug.user_id as user_id', 'ug.identity as identity', 'nick'])
+                ->where('group_id', $group_id)
+                ->rightJoin('users', 'ug.user_id = users.user_id')
+                ->withAttr('identity', function($value) {
+                    $identity = [0=>'正常', 1=>'管理员', 2=>'创建者'];
+                    return $identity[$value];
+                })
+                ->select()
+                ->toArray();
             if (empty($info)) {
-                return ['code' => CODE_ERROR, 'msg' => '查询失败', 'data' => ''];
-            } else {
-                $i = 0;
-                $data = array();
-                foreach ($info as $key => $value) {
-                    $a_group_res = $user_model->searchUserById($value['user_id']);
-                    if ($a_group_res['code'] == CODE_SUCCESS) {
-                        if (!empty($a_group_res['data'])) {
-                            $data[$i] = $a_group_res['data'];
-                        } else {
-                            $data[$i] = '用户不存在';
-                        }
-                    } else {
-                        $data[$i] = '查询错误';
-                    }
-                    $i++;
-                }
-                return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $data];
+                return ['code' => CODE_SUCCESS, 'msg' => '查询失败', 'data' => ''];
             }
+                return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $info];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => ''];
         }
@@ -97,10 +83,10 @@ class UsergroupModel extends Model
         }
     }
 
-    public function addRelation($group_id, $user_id)
+    public function addRelation($group_id, $user_id, $identity)
     {
         try {
-            $res = $this->insert(['group_id' => $group_id, 'user_id' => $user_id]);
+            $res = $this->insert(['group_id' => $group_id, 'user_id' => $user_id, 'identity' => $identity]);
             if ($res) {
                 return ['code' => CODE_SUCCESS, 'msg' => '成功', 'data' => ''];
             } else {

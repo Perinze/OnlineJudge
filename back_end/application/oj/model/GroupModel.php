@@ -18,12 +18,11 @@ class GroupModel extends Model
     public function get_all_group()
     {
         try {
-            $info = $this->where('state', 0)->select()->toArray();
+            $info = $this->where('status', 0)->select()->toArray();
             if (empty($info)) {
                 return ['code' => CODE_ERROR, 'msg' => '分组不存在', 'data' => $this->getError()];
-            } else {
-                return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $info];
             }
+            return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $info];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => ''];
         }
@@ -32,14 +31,13 @@ class GroupModel extends Model
     public function get_the_group($group_id)
     {
         try {
-            $info = $this->where([['group_id', '=', $group_id], ['state', '=', 0]])->find();
+            $info = $this->where([['group_id', '=', $group_id], ['status', '=', 0]])->find();
             if (empty($info)) {
                 return ['code' => CODE_ERROR, 'msg' => '分组不存在', 'data' => $this->getError()];
-            } else {
-                return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $info];
             }
+            return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $info];
         } catch (Exception $e) {
-            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => ''];
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
         }
     }
 
@@ -53,14 +51,13 @@ class GroupModel extends Model
             $res = $this->insert($data);
             if ($res) {
                 $usergroup_model = new UsergroupModel();
-                $resp = $usergroup_model->addRelation($res, $data['group_creator']);
+                $resp = $usergroup_model->addRelation($res, $data['group_creator'], 2);
                 if ($resp['code'] !== CODE_SUCCESS) {
                     return ['code' => CODE_ERROR, 'msg' => '创建分组失败', 'data' => ''];
                 }
                 return ['code' => CODE_SUCCESS, 'msg' => '创建分组成功', 'data' => ''];
-            } else {
-                return ['code' => CODE_ERROR, 'msg' => '创建分组失败', 'data' => $this->getError()];
             }
+            return ['code' => CODE_ERROR, 'msg' => '创建分组失败', 'data' => $this->getError()];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];
         }
@@ -72,9 +69,8 @@ class GroupModel extends Model
             $res = $this->where('group_id', $group_id)->update($data);
             if ($res) {
                 return ['code' => CODE_SUCCESS, 'msg' => '修改分组成功', 'data' => ''];
-            } else {
-                return ['code' => CODE_ERROR, 'msg' => '修改分组失败', 'data' => $this->getError()];
             }
+            return ['code' => CODE_ERROR, 'msg' => '修改分组失败', 'data' => $this->getError()];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];
         }
@@ -86,9 +82,8 @@ class GroupModel extends Model
             $res = $this->where('group_id', $group_id)->delete();
             if ($res) {
                 return ['code' => CODE_SUCCESS, 'msg' => '删除分组成功', 'data' => ''];
-            } else {
-                return ['code' => CODE_ERROR, 'msg' => '删除分组失败', 'data' => $this->getError()];
             }
+            return ['code' => CODE_ERROR, 'msg' => '删除分组失败', 'data' => $this->getError()];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];
         }

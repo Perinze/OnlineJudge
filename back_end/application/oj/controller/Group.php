@@ -41,7 +41,7 @@ class Group extends Controller
         if (empty($session)) {
             return apiReturn(CODE_ERROR, '未登录', '');
         }
-        $resp = $usergroup_model->find_group($session['id']);
+        $resp = $usergroup_model->find_group($session);
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
@@ -54,14 +54,13 @@ class Group extends Controller
         $usergroup_model = new UsergroupModel();
         $group_model = new GroupModel();
 
-        $req = input('post');
+        $req = input('post.');
         $result = $group_validate->scene('get_the_group')->check($req);
         if ($result !== true) {
             return apiReturn(CODE_ERROR, $group_validate->getError(), '');
         }
         $resp = $usergroup_model->find_user($req['group_id']);// find all users who joined this group
         $resp1 = $group_model->get_the_group($req['group_id']);// get this group's info
-
         return apiReturn($resp['code'], $resp['msg'], array(
             'user' => $resp['data'],
             'group' => $resp1['data']
@@ -94,7 +93,6 @@ class Group extends Controller
             'desc' => $req['desc'],
             'group_creator' => $req['group_creator'],
         ));
-
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 

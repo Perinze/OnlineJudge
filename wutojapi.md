@@ -283,13 +283,22 @@ null
 {
     "status": 0,//0-success, -1-error
     "message": "查询成功",
-    "data": {
-        "group_id": 0,
-        "group_name": "wyh女装",
-        "desc": "wyh女装协会",
-        "group_creator": 0,
-        "state": 0
-    }
+    "data": [
+        {
+            "group_id": 1,
+            "group_name": "wyhsb",
+            "desc": "wyhsb",
+            "group_creator": 1,
+            "status": 0
+        },
+        {
+            "group_id": 2,
+            "group_name": "wyhsb2",
+            "desc": "wyhsb2",
+            "group_creator": 2,
+            "status": 0
+        }
+    ]
 }
 ```
 
@@ -305,68 +314,20 @@ null
 {
     "status": 0,//0-success, -1-error
     "message": "查询成功",
-    "data": {
-        "group_id": 0,
-        "group_name": "wyh女装",
-        "desc": "wyh女装协会",
-        "group_creator": 0,
-        "state": 0
-    }
-}
-```
-
-* get_the_group
-
-*request:*
-
-``` json
-{
-    "group_id": 1000
-}
-```
-
-*response:*
-
-``` json
-{
-    "status": 0,//0-success, -1-error
-    "message": "查询成功",
-    "data": {
-        "user": {
-            0: {
-                "user_id": 1,
-                "nick": "wyh女装",
-                "realname": "wyh女装",
-                "school": "女装大学",
-                "major": "女装",
-                "class": "女装1班",
-                "contact": "13256456654",
-                "identity": 0,
-                "desc": "wyh特别喜欢女装",
-                "mail": "wyhnz@163.com",
-                "ac_problem": {
-                    0: 1000,
-                    1: 1001
-                },
-                "wa_problem": {
-                    0: 1000,
-                    1: 1001,
-                    2: 1002
-                },
-                "wa_num": 10,
-                "submit_data": {
-                    0: 1000,
-                    1: 1001,
-                    2: 1002,
-                }
-            },
-            1: 1
+    "data": [
+        {
+            "group_id": 1,
+            "group_name": "wyhsb",
+            "identity": "管理员",
+            "desc": "wyhsb"
         },
-        "group_name": "wyh女装",
-        "desc": "wyh女装协会",
-        "group_creator": 0,
-        "state": 0
-    }
+        {
+            "group_id": 2,
+            "group_name": "wyhsb2",
+            "identity": "创建者",
+            "desc": "wyhsb2"
+        }
+    ]
 }
 ```
 
@@ -376,7 +337,7 @@ null
 
 ``` json
 {
-    "group_id": 1000
+    "group_id": 1
 }
 ```
 
@@ -384,69 +345,28 @@ null
 
 ``` json
 {
-    "status": 0,//0-success, -1-error
+    "status": 0,
     "message": "查询成功",
     "data": {
-        "user": {
-            0: {
+        "user": [
+            {
                 "user_id": 1,
-                "nick": "wyh女装",
-                "realname": "wyh女装",
-                "school": "女装大学",
-                "major": "女装",
-                "class": "女装1班",
-                "contact": "13256456654",
-                "identity": 0,
-                "desc": "wyh特别喜欢女装",
-                "mail": "wyhnz@163.com",
-                "ac_problem": {
-                    0: 1000,
-                    1: 1001
-                },
-                "wa_problem": {
-                    0: 1000,
-                    1: 1001,
-                    2: 1002
-                },
-                "wa_num": 10,
-                "submit_data": {
-                    0: 1000,
-                    1: 1001,
-                    2: 1002,
-                }
+                "identity": "创建者",
+                "nick": "123"
             },
-            1: {
+            {
                 "user_id": 2,
-                "nick": "wyh女装",
-                "realname": "wyh女装",
-                "school": "女装大学",
-                "major": "女装",
-                "class": "女装1班",
-                "contact": "13256456654",
-                "identity": 0,
-                "desc": "wyh特别喜欢女装",
-                "mail": "wyhnz@163.com",
-                "ac_problem": {
-                    0: 1000,
-                    1: 1001
-                },
-                "wa_problem": {
-                    0: 1000,
-                    1: 1001,
-                    2: 1002
-                },
-                "wa_num": 10,
-                "submit_data": {
-                    0: 1000,
-                    1: 1001,
-                    2: 1002,
-                }
-            },
-        },
-        "group_name": "wyh女装",
-        "desc": "wyh女装协会",
-        "group_creator": 0,
-        "state": 0
+                "identity": "管理员",
+                "nick": "kdl12138"
+            }
+        ],
+        "group": {
+            "group_id": 1,
+            "group_name": "wyhsb",
+            "desc": "wyhsb",
+            "group_creator": 1,
+            "status": 0
+        }
     }
 }
 ```
