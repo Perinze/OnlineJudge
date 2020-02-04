@@ -23,9 +23,6 @@ export default {
       isSubmenuActive: false
     };
   },
-  mounted() {
-    console.log(this);
-  },
   methods: {
     toggleSubmenu: function() {
       this.isSubmenuActive = !this.isSubmenuActive;
@@ -70,12 +67,9 @@ export default {
   margin-top: 20px;
   background: rgba(66, 136, 206, 1);
   border-radius: 6px;
-  border: none;
-  outline: none;
   font-size: 13px;
   font-weight: 400;
   color: rgba(255, 255, 255, 1);
-  cursor: pointer;
 }
 .submenu {
   position: absolute;
@@ -90,9 +84,6 @@ export default {
   width: 100px;
   height: 26px;
   border-radius: 6px;
-  border: none;
-  outline: none;
-  cursor: pointer;
 }
 .btn-dismiss {
   background: rgba(170, 170, 170, 1);

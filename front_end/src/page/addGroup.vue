@@ -60,9 +60,7 @@ import memberCard from "../components/memberCard";
 export default {
   name: "addGroup",
   components: { memberCard },
-  mounted() {
-    console.log(this);
-  }
+  mounted() {}
 };
 </script>
 
@@ -96,8 +94,6 @@ export default {
   font-size: 12px;
   font-weight: 400;
   color: rgba(255, 255, 255, 1);
-  border: none;
-  outline: none;
   position: relative;
   overflow: hidden;
 }
@@ -151,8 +147,6 @@ export default {
 }
 .member-input {
   flex-grow: 1;
-  border: none;
-  outline: none;
   margin-left: 10px;
   background: rgba(251, 251, 251, 1);
   font-size: 13px;
@@ -176,6 +170,5 @@ export default {
   font-size: 13px;
   font-weight: bold;
   color: rgba(255, 255, 255, 1);
-  cursor: pointer;
 }
 </style>

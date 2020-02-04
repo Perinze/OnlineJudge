@@ -14,8 +14,13 @@ import submitdetail from '../page/submitdetail';
 import page404 from '../page/page404';
 import group from '../page/group';
 import addGroup from '../page/addGroup';
-import editAdmin from "../page/editAdmin";
-import addProblem from "../page/addProblem";
+import editAdmin from '../page/editAdmin';
+import addProblem from '../page/addProblem';
+import groupManager from '../page/groupManager';
+import discussion from '../page/discussion';
+import discussionInfo from '../page/discussionInfo';
+import addDiscussion from '../page/addDiscussion';
+import rank from '../page/rank';
 import store from "../store/index";
 
 Vue.use(VueRouter);
@@ -152,6 +157,46 @@ const routes = [
         }
     },
     {
+        // 小组管理
+        path: '/groupManager',
+        component: groupManager,
+        meta: {
+            isLogin: false
+        }
+    },
+    {
+        // 讨论区
+        path: '/discussion',
+        component: discussion,
+        meta: {
+            isLogin: false
+        }
+    },
+    {
+        // 讨论区某条帖子
+        path: '/discussionInfo',
+        component: discussionInfo,
+        meta: {
+            isLogin: false
+        }
+    },
+    {
+        // 新增帖子
+        path: '/addDiscussion',
+        component: addDiscussion,
+        meta: {
+            isLogin: false
+        }
+    },
+    {
+        // 排行榜
+        path: '/rank',
+        component: rank,
+        meta: {
+            isLogin: false
+        }
+    },
+    {
         // default
         path: '*',
         component: page404,
@@ -166,7 +211,7 @@ var router = new VueRouter({
     routes: routes
 });
 
-const pathArr_noTopnav = ["/addGroup", "/editAdmin", "/addProblem"];
+const pathArr_noTopnav = ["/addGroup", "/editAdmin", "/addProblem", "/groupManager", "/discussionInfo", "/addDiscussion"];
 
 router.beforeEach((to, from, next) => {
     if (pathArr_noTopnav.indexOf(to.path) >= 0) {

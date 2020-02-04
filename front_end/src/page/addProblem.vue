@@ -27,7 +27,7 @@
     <div class="table">
       <el-table
         :data="tableData"
-        style="width: 100%"
+        style="width: 100%;"
         :header-cell-style="{fontSize:20 + 'px', fontWeight: 'bold', color: 'rgba(124,127,132,1)'}"
         :cell-style="{fontSize: 15 + 'px', fontWeight: 'bold', color: 'rgba(124,127,132,1)'}"
       >
@@ -35,7 +35,7 @@
         <el-table-column label="题目" prop="problemCon"></el-table-column>
         <el-table-column align="right">
           <template slot="header" slot-scope="scope">
-            <button class="choose-all">本页全选</button>
+            <button class="btn-choose-all" @click="chooseAll">本页全选</button>
           </template>
           <template slot-scope="scope">
             <div
@@ -51,12 +51,17 @@
           </template>
         </el-table-column>
       </el-table>
+      <pagination :total="70" :pageSize="10" :pageCount="7"></pagination>
     </div>
+    <button class="btn-compelete">完成</button>
   </div>
 </template>
 <script>
+import pagination from "../components/pagination";
+
 export default {
   name: "addProblem",
+  components: { pagination },
   data() {
     return {
       tableData: [
@@ -86,6 +91,11 @@ export default {
   methods: {
     choose: function(index) {
       this.tableData[index].isChoose = !this.tableData[index].isChoose;
+    },
+    chooseAll: function() {
+      for (let i = 0; i < this.tableData.length; i++) {
+        this.tableData[i].isChoose = true;
+      }
     }
   }
 };
@@ -120,8 +130,6 @@ export default {
 }
 .problem-input {
   flex-grow: 1;
-  border: none;
-  outline: none;
   margin-left: 10px;
   background: rgba(251, 251, 251, 1);
   font-size: 13px;
@@ -134,7 +142,7 @@ export default {
   background: #fff;
   border-radius: 8px;
 }
-.choose-all {
+.btn-choose-all {
   width: 122px;
   height: 29px;
   background: rgba(66, 136, 206, 1);
@@ -142,7 +150,6 @@ export default {
   font-size: 14px;
   font-weight: 400;
   color: rgba(255, 255, 255, 1);
-  cursor: pointer;
 }
 .radio {
   width: 21px;
@@ -154,6 +161,7 @@ export default {
   justify-content: center;
   align-items: center;
   float: right;
+  cursor: pointer;
 }
 .radio-choose {
   background: rgba(66, 136, 206, 1);
@@ -161,5 +169,19 @@ export default {
 .choose-icon {
   width: 9.5px;
   height: 7px;
+}
+.empty {
+  height: 23px;
+}
+.btn-compelete {
+  width: 111px;
+  height: 26px;
+  background: rgba(66, 136, 206, 1);
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 1);
+  margin-top: 33px;
+  float: right;
 }
 </style>

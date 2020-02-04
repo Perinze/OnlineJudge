@@ -41,6 +41,5 @@ export default {
   font-size: 13px;
   font-weight: bold;
   color: rgba(255, 255, 255, 1);
-  cursor: pointer;
 }
 </style>
