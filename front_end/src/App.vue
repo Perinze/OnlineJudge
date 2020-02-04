@@ -78,6 +78,17 @@ $tleColor: #82b1ff;
 $mleColor: #decb6b;
 $reColor: rgb(131, 118, 169);
 
+button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+input {
+  border: none;
+  outline: none;
+}
+
 .layout-content {
   position: relative;
   padding-left: 200px;
