@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { Carousel, CarouselItem, Message, Table, TableColumn } from 'element-ui';
+import { Carousel, CarouselItem, Message, Table, TableColumn, Form, FormItem, DatePicker } from 'element-ui';
 import App from './App'
 import router from './router/router';
 import store from './store';
@@ -21,6 +21,9 @@ Vue.use(CarouselItem);
 Vue.use(Message);
 Vue.use(Table);
 Vue.use(TableColumn);
+Vue.use(Form);
+Vue.use(FormItem);
+Vue.use(DatePicker);
 Vue.use(codemirror);
 Vue.use(loadingPlugin, {
     progressColor: '#4288ce'
