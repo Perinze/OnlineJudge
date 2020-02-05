@@ -68,9 +68,6 @@ class Submit extends Base
                 }
             }
             $resp = $submit_model->get_the_submit($where, $page);
-            $temp = $resp['data'];
-            unset($resp['data']);
-            $resp['data']['submit_info'] = $temp;
 
             // format
             $resp['data']['penalty'] = $this->handle_data($resp['data']['submit_info'],  $contest['data']['begin_time'], json_decode($contest['data']['problems'], true));
