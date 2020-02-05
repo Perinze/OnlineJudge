@@ -91,7 +91,8 @@ class Group extends Controller
         $resp = $group_model->newGroup(array(
             'group_name' => $req['group_name'],
             'desc' => $req['desc'],
-            'group_creator' => $req['group_creator'],
+            'join_code' => isset($req['join_code']) ?  strlen($req['join_code']) > 16 ? substr($req['join_code'], 0, 16) : $req['join_code'] : '',
+            'group_creator' => $session,
         ));
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
@@ -103,6 +104,7 @@ class Group extends Controller
     {
         $group_validate = new GroupValidate();
         $usergroup_model = new UsergroupModel();
+        $group_model = new GroupModel();
         $session = Session::get('user_id');
 
         // check login
@@ -114,8 +116,18 @@ class Group extends Controller
         if ($result !== true) {
             return apiReturn(CODE_ERROR, $group_validate->getError(), '');
         }
-        // TODO 申请逻辑，若无需审核直接添加，若需审核，加入提醒数据表
-        $resp = 0;
+        $join_code = $group_model->get_the_group($req['group_id']);
+        if($join_code['code'] !== CODE_SUCCESS){
+            return apiReturn($join_code['code'], $join_code['msg'], $join_code['data']);
+        }
+        if($join_code['data']['join_code'] !== $req['join_code']){
+            return apiReturn(CODE_ERROR, '加群码错误', '');
+        }
+        $resp = $usergroup_model->addRelation($req['group_id'], $session, 0);
+        if(strpos($resp['data'], 'Duplicate entry') !== false){
+            $resp['msg'] = '已在群组内';
+            $resp['data'] = '';
+        }
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 

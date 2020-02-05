@@ -41,16 +41,13 @@ class Upload extends Base
         if(empty($user_id)){
             return apiReturn(CODE_ERROR, '未登录', '');
         }
-        $user_model = new UserModel();
-        $file = request()->file('image');
-        $info = $file->validate($this->validate)->move($this->path);
-        if ($info !== VALIDATE_PASS) {
-            return apiReturn(CODE_ERROR, $file->getError(), '');
-        } else {
-            $url = $this->path.$info->getSaveName();
-            $resp = $user_model->editUser($user_id, ['avatar' => $url]);
-            return apiReturn($resp['code'], $resp['msg'], '');
+        $req = input('post.');
+        if(!isset($req['url'])){
+            return apiReturn(CODE_ERROR, '未填写头像url', '');
         }
+        $user_model = new UserModel();
+        $resp = $user_model->editUser($user_id, ['avatar' => $req['url']]);
+        return apiReturn($resp['code'], $resp['msg'], '');
     }
 
     /**

@@ -281,24 +281,29 @@ null
 
 ``` json
 {
-    "status": 0,//0-success, -1-error
+    "status": 0,
     "message": "查询成功",
-    "data": [
-        {
-            "group_id": 1,
-            "group_name": "wyhsb",
-            "desc": "wyhsb",
-            "group_creator": 1,
-            "status": 0
-        },
-        {
-            "group_id": 2,
-            "group_name": "wyhsb2",
-            "desc": "wyhsb2",
-            "group_creator": 2,
-            "status": 0
-        }
-    ]
+    "data": {
+        "data": [
+            {
+                "group_id": 1,
+                "group_name": "wyhsb",
+                "desc": "wyhsb",
+                "join_code": "12138",
+                "group_creator": 1,
+                "status": 0
+            },
+            {
+                "group_id": 2,
+                "group_name": "wyhsb2",
+                "desc": "wyhsb2",
+                "join_code": "12138",
+                "group_creator": 2,
+                "status": 0
+            }
+        ],
+        "count": 2
+    }
 }
 ```
 
@@ -312,22 +317,25 @@ null
 
 ``` json
 {
-    "status": 0,//0-success, -1-error
+    "status": 0,
     "message": "查询成功",
-    "data": [
-        {
-            "group_id": 1,
-            "group_name": "wyhsb",
-            "identity": "管理员",
-            "desc": "wyhsb"
-        },
-        {
-            "group_id": 2,
-            "group_name": "wyhsb2",
-            "identity": "创建者",
-            "desc": "wyhsb2"
-        }
-    ]
+    "data": {
+        "data": [
+            {
+                "group_id": 1,
+                "group_name": "wyhsb",
+                "identity": "管理员",
+                "desc": "wyhsb"
+            },
+            {
+                "group_id": 2,
+                "group_name": "wyhsb2",
+                "identity": "创建者",
+                "desc": "wyhsb2"
+            }
+        ],
+        "count": 2
+    }
 }
 ```
 
@@ -378,7 +386,8 @@ null
 ``` json
 {
     "group_name": "wyh女装",
-    "desc": "wyh女装"
+    "desc": "wyh女装",
+    "join_code": "wyhsb"
 }
 ```
 
@@ -387,7 +396,7 @@ null
 ``` json
 {
     "status": 0,//0-success, -1-error
-    "message": "查询成功",
+    "message": "创建分组成功",
     "data": ""
 }
 ```
@@ -398,7 +407,8 @@ null
 
 ``` json
 {
-    "group_id": 1000
+    "group_id": 1000,
+    "join_code": "wyhsb"
 }
 ```
 
@@ -1653,7 +1663,7 @@ null
   {
       "status": 0,
       "message": "上传成功",
-      "data": ""
+      "data": "url"
   }
   ```
 
@@ -1665,7 +1675,7 @@ null
 
   ```json
   {
-      "image":"file"//文件
+      "url":"url"//头像地址
   }
   
   ```

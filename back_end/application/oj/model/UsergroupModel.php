@@ -92,7 +92,7 @@ class UsergroupModel extends Model
             if ($res) {
                 return ['code' => CODE_SUCCESS, 'msg' => '成功', 'data' => ''];
             }
-            return ['code' => CODE_ERROR, 'msg' => '失败', 'data' => ''];
+            return ['code' => CODE_ERROR, 'msg' => '你已在团队中', 'data' => ''];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];
         }

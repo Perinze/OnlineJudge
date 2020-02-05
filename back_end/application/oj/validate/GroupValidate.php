@@ -15,8 +15,9 @@ class GroupValidate extends Validate
     protected $rule = [
         'group_id' => 'require|number',
         'group_name' => 'require|max:64',
-        'desc' => 'require', // TODO check
-        'group_creator' => 'require|number'
+        'desc' => 'require',
+        'group_creator' => 'require|number',
+        'join_code' => 'require'
     ];
 
     protected $message = [
@@ -27,10 +28,12 @@ class GroupValidate extends Validate
         'group_creator.require' => '缺少创建者ID',
         'group_creator.number' => '创建者ID格式不正确',
         'desc.require' => '缺少团队描述格式',
+        'join_code.require' => '缺少加群码'
     ];
 
     protected $scene = [
         'get_the_group' => ['group'],
-        'add_group' => ['group_name', 'desc', 'group_creator'],
+        'add_group' => ['group_name', 'desc', 'join_code'],
+        'join_group' => ['group_id', 'join_code'],
     ];
 }
