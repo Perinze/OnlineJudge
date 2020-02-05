@@ -117,16 +117,25 @@ class Problem extends Controller
         $resp1 = $problem_model->searchProblemById($req['search']);
         $resp2 = $problem_model->searchProblemByTitle($req['search']);
         if ($resp1['code'] !== CODE_SUCCESS && $resp2['code'] !== CODE_SUCCESS) {
-            return apiReturn(CODE_ERROR, '查询失败', '');
+            return apiReturn(CODE_ERROR, '暂无数据', '');
         }
-        $resp = [];
+        $page_limit = config('wutoj_config.page_limit');
+        $page = isset($req['page']) ? $req['page'] : 0;
+        $resp['data'] = [];
+        $resp['count'] = 0;
         if ($resp1['code'] === CODE_SUCCESS) {
-            $resp[] = $resp1['data'];
+            $resp['data'][] = $resp1['data'];
+            $resp['count'] += 1;
         }
         if ($resp2['code'] === CODE_SUCCESS) {
-            foreach ($resp2['data'] as $k) {
-                $resp[] = $k;
+            $count = count($resp2['data']['data']);
+            $start = $page * $page_limit - $resp['count'];
+            $start = $start > 0 ? $start : 0;
+            $end = $start + $page_limit;
+            for ($i = $start; $i < $count && $i < $end; $i++) {
+                $resp['data'][] = $resp2['data']['data'][$i];
             }
+            $resp['count'] += $count;
         }
 
         return apiReturn(CODE_SUCCESS, '查询成功', $resp);

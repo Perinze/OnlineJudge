@@ -18,10 +18,11 @@ class UsergroupModel extends Model
 
     protected $table = 'user_group';
 
-    public function find_group($user_id)
+    public function find_group($user_id, $page)
     {
         try {
-            $info = $this->alias(['user_group' => 'ug'])
+            $page_limit = config('wutoj_config.page_limit');
+            $info['data'] = $this->alias(['user_group' => 'ug'])
                 ->field(['ug.group_id as group_id', 'group_name', 'identity', 'desc'])
                 ->where('user_id', $user_id)
                 ->where('group.status', 0)
@@ -31,11 +32,13 @@ class UsergroupModel extends Model
                     $identity = [0=>'正常', 1=>'管理员', 2=>'创建者'];
                     return $identity[$value];
                 })
+                ->limit($page * $page_limit, $page_limit)
                 ->select()
                 ->toArray();
-            if (empty($info)) {
-                return ['code' => CODE_ERROR, 'msg' => '查询失败', 'data' => ''];
+            if (empty($info['data'])) {
+                return ['code' => CODE_ERROR, 'msg' => '暂无数据', 'data' => ''];
             }
+            $info['count'] = count($info['data']);
             return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $info];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
@@ -56,7 +59,7 @@ class UsergroupModel extends Model
                 ->select()
                 ->toArray();
             if (empty($info)) {
-                return ['code' => CODE_SUCCESS, 'msg' => '查询失败', 'data' => ''];
+                return ['code' => CODE_ERROR, 'msg' => '暂无数据', 'data' => ''];
             }
                 return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $info];
         } catch (Exception $e) {
@@ -75,9 +78,8 @@ class UsergroupModel extends Model
             $content = $this->where([['group_id', '=', $group_id, 'user_id', '=', $user_id]])->select()[0]; // return object
             if ($content) {
                 return ['code' => CODE_SUCCESS, 'msg' => '成功', 'data' => $content];
-            } else {
-                return ['code' => CODE_ERROR, 'msg' => '失败', 'data' => ''];
             }
+            return ['code' => CODE_ERROR, 'msg' => '失败', 'data' => ''];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
         }
@@ -89,9 +91,8 @@ class UsergroupModel extends Model
             $res = $this->insert(['group_id' => $group_id, 'user_id' => $user_id, 'identity' => $identity]);
             if ($res) {
                 return ['code' => CODE_SUCCESS, 'msg' => '成功', 'data' => ''];
-            } else {
-                return ['code' => CODE_ERROR, 'msg' => '失败', 'data' => ''];
             }
+            return ['code' => CODE_ERROR, 'msg' => '失败', 'data' => ''];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];
         }
@@ -103,9 +104,8 @@ class UsergroupModel extends Model
             $res = $this->where([['group_id', '=', $group_id, 'user_id', '=', $user_id]])->delete();
             if ($res) {
                 return ['code' => CODE_SUCCESS, 'msg' => '成功', 'data' => ''];
-            } else {
-                return ['code' => CODE_ERROR, 'msg' => '失败', 'data' => ''];
             }
+            return ['code' => CODE_ERROR, 'msg' => '失败', 'data' => ''];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];
         }

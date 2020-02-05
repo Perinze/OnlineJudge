@@ -675,7 +675,13 @@ null
 
 *request:*
 
-null
+``` json
+{
+    "page": 1 // 可不填，默认为0
+}
+```
+
+
 
 *response:*
 
@@ -683,44 +689,47 @@ null
 {
     "status": 0,
     "message": "查找成功",
-    "data": [
-        {
-            "problem_id": 1000,
-            "title": "wyhsb",
-            "tag": null,
-            "ac": 1,
-            "wa": 0,
-            "tle": 0,
-            "mle": 0,
-            "re": 0,
-            "se": 0,
-            "ce": 0
-        },
-        {
-            "problem_id": 1001,
-            "title": "wyhsb",
-            "tag": null,
-            "ac": 1,
-            "wa": 0,
-            "tle": 0,
-            "mle": 0,
-            "re": 0,
-            "se": 0,
-            "ce": 0
-        },
-        {
-            "problem_id": 1002,
-            "title": "wyhsb",
-            "tag": null,
-            "ac": 0,
-            "wa": 2,
-            "tle": 0,
-            "mle": 0,
-            "re": 0,
-            "se": 0,
-            "ce": 0
-        }
-    ]
+    "data": {
+        "data": [
+            {
+                "problem_id": 1001,
+                "title": "wyhsb",
+                "tag": "[\"1\",\"2\"]",
+                "ac": 1,
+                "wa": 0,
+                "tle": 0,
+                "mle": 0,
+                "re": 0,
+                "se": 0,
+                "ce": 0
+            },
+            {
+                "problem_id": 1002,
+                "title": "wyhsb",
+                "tag": null,
+                "ac": 0,
+                "wa": 2,
+                "tle": 0,
+                "mle": 0,
+                "re": 0,
+                "se": 0,
+                "ce": 0
+            },
+            {
+                "problem_id": 1003,
+                "title": "test",
+                "tag": "",
+                "ac": 0,
+                "wa": 0,
+                "tle": 0,
+                "mle": 0,
+                "re": 0,
+                "se": 0,
+                "ce": 0
+            }
+        ],
+        "count": 3
+    }
 }
 ```
 
@@ -778,7 +787,8 @@ null
 
 ```json
 {
-    "search": "xxx"//可以是id，也可以是标题
+    "search": "xxx",//可以是id，也可以是标题
+    "page": 1//可不填写，默认为0
 }
 ```
 
@@ -786,24 +796,49 @@ null
 
 ``` json
 {
-    "status": 0,//0-success, -1-error
-    "message": "操作成功",
-    "data": [
-        {
-            "problem_id": 1001,
-            "title": "wyhsb",
-            "ac": 0,
-            "wa": 0,
-            "tag": null
-        },
-        {
-            "problem_id": 1002,
-            "title": "wyhsb",
-            "ac": 0,
-            "wa": 0,
-            "tag": null
-        }
-    ]
+    "status": 0,
+    "message": "查询成功",
+    "data": {
+        "data": [
+            {
+                "problem_id": 1001,
+                "title": "wyhsb1",
+                "tag": "[\"1\",\"2\"]",
+                "ac": 1,
+                "wa": 0,
+                "tle": 0,
+                "mle": 0,
+                "re": 0,
+                "se": 0,
+                "ce": 0
+            },
+            {
+                "problem_id": 1002,
+                "title": "wyhsb11",
+                "tag": null,
+                "ac": 0,
+                "wa": 2,
+                "tle": 0,
+                "mle": 0,
+                "re": 0,
+                "se": 0,
+                "ce": 0
+            },
+            {
+                "problem_id": 1003,
+                "title": "test1001",
+                "tag": "",
+                "ac": 0,
+                "wa": 0,
+                "tle": 0,
+                "mle": 0,
+                "re": 0,
+                "se": 0,
+                "ce": 0
+            }
+        ],
+        "count": 3
+    }
 }
 ```
 
@@ -1103,6 +1138,7 @@ null
   ```json
   {
       "contest": "1",//不传值就是普通题目讨论，传值就是比赛讨论
+      "page": 1//可不传值，默认为0
   }
   ```
 
@@ -1113,35 +1149,44 @@ null
   {
       "status": 0,
       "message": "查询成功",
-      "data": [
-          {
-              "id": 6,
-              "problem_id": 1001,
-              "title": "wyhsb",
-              "background": "# wyhsb\n\n* s\n* s\n* wyhsb"
-          }
-      ]
+      "data": {
+          "data": [
+              {
+                  "id": 6,
+                  "problem_id": 1001,
+                  "title": "wyhsb1",
+                  "background": "# wyhsb\n\n* s\n* s\n* wyhsb",
+                  "count": 1
+              }
+          ],
+          "count": 1
+      }
   }
   比赛讨论
   {
       "status": 0,
       "message": "查询成功",
-      "data": [
-          {
-              "id": 1,
-              "contest_id": 1001,
-              "contest_name": "test",
-              "begin_time": "2019-10-16 16:12:47",
-              "end_time": "2019-10-17 16:12:47"
-          },
-          {
-              "id": 5,
-              "contest_id": 1002,
-              "contest_name": "test1",
-              "begin_time": "2020-01-01 00:00:00",
-              "end_time": "2020-01-02 00:00:00"
-          }
-      ]
+      "data": {
+          "data": [
+              {
+                  "id": 1,
+                  "contest_id": 1001,
+                  "contest_name": "test",
+                  "begin_time": "2019-10-16 16:12:47",
+                  "end_time": "2019-10-17 16:12:47",
+                  "count": 4
+              },
+              {
+                  "id": 5,
+                  "contest_id": 1002,
+                  "contest_name": "test1",
+                  "begin_time": "2020-01-01 00:00:00",
+                  "end_time": "2020-01-02 00:00:00",
+                  "count": 1
+              }
+          ],
+          "count": 2
+      }
   }
   ```
 
@@ -1155,6 +1200,7 @@ null
 {
     "contest_id": "1001",// 题目讨论时不传值
     "problem_id": "1001",// 比赛讨论时不传值， contest_id优先级更大
+    "page": 1//可不传值，默认为0
 }
 ```
 
@@ -1165,65 +1211,71 @@ null
 {
     "status": 0,
     "message": "查询成功",
-    "data": [
-        {
-            "id": 1,
-            "problem_id": 1001,
-            "user_id": 1,
-            "nick": "123",
-            "title": "wyhsb",
-            "content": "wyhsb",
-            "time": "2019-10-13 15:49:45",
-            "status": 1 // 0为无管理员回复，1为有管理员回复，8为管理员公示
-        },
-        {
-            "id": 2,
-            "problem_id": 1001,
-            "user_id": 1,
-            "nick": "123",
-            "title": "wyhsb",
-            "content": "wyhsb",
-            "time": "2019-10-13 15:56:46",
-            "status": 0
-        },
-        {
-            "id": 3,
-            "problem_id": 1001,
-            "user_id": 2,
-            "nick": "kdl12138",
-            "title": "ssss",
-            "content": "wyhsb",
-            "time": "2019-10-13 15:59:34",
-            "status": 0
-        },
-        {
-            "id": 4,
-            "problem_id": 1001,
-            "user_id": 1,
-            "nick": "123",
-            "title": "ssss",
-            "content": "wyhsb",
-            "time": "2019-10-13 16:00:31",
-            "status": 8
-        }
-    ]
+    "data": {
+        "data": [
+            {
+                "id": 1,
+                "problem_id": 1001,
+                "user_id": 1,
+                "nick": "123",
+                "title": "wyhsb",
+                "content": "wyhsb",
+                "time": "2019-10-13 15:49:45",
+                "status": 1
+            },
+            {
+                "id": 2,
+                "problem_id": 1001,
+                "user_id": 1,
+                "nick": "123",
+                "title": "wyhsb",
+                "content": "wyhsb",
+                "time": "2019-10-13 15:56:46",
+                "status": 0
+            },
+            {
+                "id": 3,
+                "problem_id": 1001,
+                "user_id": 2,
+                "nick": "kdl12138",
+                "title": "ssss",
+                "content": "wyhsb",
+                "time": "2019-10-13 15:59:34",
+                "status": 0
+            },
+            {
+                "id": 4,
+                "problem_id": 1001,
+                "user_id": 1,
+                "nick": "123",
+                "title": "ssss",
+                "content": "wyhsb",
+                "time": "2019-10-13 16:00:31",
+                "status": 8
+            }
+        ],
+        "count": 4
+    }
 }
 题目讨论
 {
     "status": 0,
     "message": "查询成功",
-    "data": [
-        {
-            "id": 6,
-            "problem_id": 1001,
-            "user_id": 1,
-            "nick": "123",
-            "title": "ssss",
-            "content": "wyhsb",
-            "time": "2019-10-13 16:00:31",
-            "status": 8
-        }
-    ]
+    "data": {
+        "data": [
+            {
+                "id": 6,
+                "problem_id": 1001,
+                "user_id": 1,
+                "nick": "123",
+                "title": "ssss",
+                "content": "wyhsb",
+                "time": "2019-10-13 16:00:31",
+                "status": 8
+            }
+        ],
+        "count": 1
+    }
 }
 ```
 
@@ -1234,6 +1286,7 @@ null
 ```json
 {
     "discuss_id": "1",
+    "page": 1// 可不填，默认为0
 }
 ```
 
@@ -1243,8 +1296,8 @@ null
 {
     "status": 0,
     "message": "查询成功",
-    "data": [
-        {
+    "data": {
+        "discuss": {
             "id": 1,
             "problem_id": 1001,
             "contest_id": 1001,
@@ -1255,33 +1308,36 @@ null
             "time": "2019-10-13 15:49:45",
             "status": 1
         },
-        [
-            {
-                "id": 1,
-                "user_id": 1,
-                "nick": "123",
-                "discuss_id": 1,
-                "content": "wyhqssb",
-                "time": "2019-10-13 15:52:12"
-            },
-            {
-                "id": 2,
-                "user_id": 1,
-                "nick": "123",
-                "discuss_id": 1,
-                "content": "wyhsb",
-                "time": "2019-10-13 16:02:05"
-            },
-            {
-                "id": 3,
-                "user_id": 1,
-                "nick": "123",
-                "discuss_id": 1,
-                "content": "wyhsb",
-                "time": "2019-10-13 16:02:43"
-            }
-        ]
-    ]
+        "reply": {
+            "data": [
+                {
+                    "id": 1,
+                    "user_id": 1,
+                    "nick": "123",
+                    "discuss_id": 1,
+                    "content": "wyhqssb",
+                    "time": "2019-10-13 15:52:12"
+                },
+                {
+                    "id": 2,
+                    "user_id": 1,
+                    "nick": "123",
+                    "discuss_id": 1,
+                    "content": "wyhsb",
+                    "time": "2019-10-13 16:02:05"
+                },
+                {
+                    "id": 3,
+                    "user_id": 1,
+                    "nick": "123",
+                    "discuss_id": 1,
+                    "content": "wyhsb",
+                    "time": "2019-10-13 16:02:43"
+                }
+            ],
+            "count": 3
+        }
+    }
 }
 ```
 
@@ -1303,41 +1359,33 @@ null
   {
       "status": 0,
       "message": "查询成功",
-      "data": [
-          {
-              "id": 1,
-              "problem_id": 1001,
-              "contest_id": 1001,
-              "user_id": 1,
-              "nick": "123",
-              "title": "wyhsb",
-              "content": "wyhsb",
-              "time": "2019-10-13 15:49:45",
-              "status": 1
-          },
-          {
-              "id": 2,
-              "problem_id": 1001,
-              "contest_id": 1001,
-              "user_id": 1,
-              "nick": "123",
-              "title": "wyhsb",
-              "content": "wyhsb",
-              "time": "2019-10-13 15:56:46",
-              "status": 0
-          },
-          {
-              "id": 4,
-              "problem_id": 1001,
-              "contest_id": 1001,
-              "user_id": 1,
-              "nick": "123",
-              "title": "ssss",
-              "content": "wyhsb",
-              "time": "2019-10-13 16:00:31",
-              "status": 8
-          }
-    ]
+      "data": {
+          "data": [
+              {
+                  "id": 3,
+                  "problem_id": 1001,
+                  "contest_id": 1001,
+                  "user_id": 2,
+                  "nick": "kdl12138",
+                  "title": "ssss",
+                  "content": "wyhsb",
+                  "time": "2019-10-13 15:59:34",
+                  "status": 0
+              },
+              {
+                  "id": 4,
+                  "problem_id": 1001,
+                  "contest_id": 1001,
+                  "user_id": 1,
+                  "nick": "123",
+                  "title": "ssss",
+                  "content": "wyhsb",
+                  "time": "2019-10-13 16:00:31",
+                  "status": 8
+              }
+          ],
+          "count": 2
+      }
   }
   ```
   
@@ -1420,6 +1468,7 @@ null
                 "submit_time": "2019-03-31 13:00:00"
             }
         ],
+        "count": 2,
         "penalty": {
             "nick": "123",
             "penalty": -17205167,
@@ -1445,30 +1494,44 @@ null
 {
     "status": 0,
     "message": "查询成功",
-    "data": [
-        {
-            "runid": 1,
-            "user_id": 1,
-            "nick": "123",
-            "problem_id": 1001,
-            "language": "c++",
-            "status": "AC",
-            "time": "",
-            "memory": "",
-            "submit_time": "2019-03-31 13:00:00"
-        },
-        {
-            "runid": 1,
-            "user_id": 1,
-            "nick": "123",
-            "problem_id": 1002,
-            "language": "c++",
-            "status": "WA",
-            "time": "",
-            "memory": "",
-            "submit_time": "2019-03-31 13:00:00"
-        }
-    ]
+    "data": {
+        "submit_info": [
+            {
+                "runid": 3,
+                "user_id": 1,
+                "nick": "123",
+                "problem_id": 1001,
+                "language": "cpp.g++",
+                "status": "AC",
+                "time": 0,
+                "memory": 0,
+                "submit_time": "2019-03-31 13:00:00"
+            },
+            {
+                "runid": 4,
+                "user_id": 1,
+                "nick": "123",
+                "problem_id": 1002,
+                "language": "cpp.g++",
+                "status": "WA",
+                "time": 0,
+                "memory": 0,
+                "submit_time": "2019-03-31 13:00:00"
+            },
+            {
+                "runid": 1,
+                "user_id": 1,
+                "nick": "123",
+                "problem_id": 123,
+                "language": "cpp.g++",
+                "status": "1",
+                "time": 0,
+                "memory": 0,
+                "submit_time": "2019-03-31 14:09:47"
+            }
+        ],
+        "count": 3
+    }
 }
 ```
 
@@ -1528,19 +1591,22 @@ null
 {
     "status": 0,
     "message": "查询成功",
-    "data": [
-        {
-            "runid": 1,
-            "user_id": 1,
-            "nick": "123",
-            "problem_id": 123,
-            "language": "c++",
-            "status": "1",
-            "time": "",
-            "memory": "",
-            "submit_time": "2019-03-31 14:09:47"
-        }
-    ]
+    "data": {
+        "submit_info": [
+            {
+                "runid": 1,
+                "user_id": 1,
+                "nick": "123",
+                "problem_id": 123,
+                "language": "cpp.g++",
+                "status": "1",
+                "time": 0,
+                "memory": 0,
+                "submit_time": "2019-03-31 14:09:47"
+            }
+        ],
+        "count": 1
+    }
 }
 ```
 

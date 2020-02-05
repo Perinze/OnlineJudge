@@ -21,18 +21,17 @@ class Group extends Controller
     // uncheck
     /**
      * 获取所有团队
-     * TODO 分页返回
      */
     public function get_all_group()
     {
         $group_model = new GroupModel();
-        $resp = $group_model->get_all_group();
+        $req = input('post.');
+        $resp = $group_model->get_all_group(isset($req['page']) ? $req['page'] : 0);
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
     /**
      * 获取一个用户加入的所有团队
-     * TODO 分页返回
      */
     public function user_get_all_group()
     {
@@ -41,7 +40,8 @@ class Group extends Controller
         if (empty($session)) {
             return apiReturn(CODE_ERROR, '未登录', '');
         }
-        $resp = $usergroup_model->find_group($session);
+        $req = input('post.');
+        $resp = $usergroup_model->find_group($session, isset($req['page']) ? $req['page'] : 0);
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
@@ -170,7 +170,7 @@ class Group extends Controller
         if ($resp['data']['group_creator'] !== $session['user_id']) {// TODO 团队管理员权限
             return apiReturn(CODE_ERROR, '你没有权限', '');
         }
-        $resp = $usergroup_model->addRelation($req['group_id'], $req['user_id']);
+        $resp = $usergroup_model->addRelation($req['group_id'], $req['user_id'], 0);
 
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }

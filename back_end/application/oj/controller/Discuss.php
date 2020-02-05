@@ -99,7 +99,7 @@ class Discuss extends Controller
         $discuss_model = new DiscussModel();
         // TODO 上redis
         $req = input('post.');
-        $resp = $discuss_model->get_all_topic(isset($req['contest']) ? 1 : 0);
+        $resp = $discuss_model->get_all_topic(isset($req['contest']) ? 1 : 0, isset($req['page']) ? $req['page'] : 0);
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
@@ -114,7 +114,9 @@ class Discuss extends Controller
             return apiReturn(CODE_ERROR, '未填写id', '');
         }
 
-        $resp = $discuss_model->get_all_discuss(isset($req['contest_id']) ? $req['contest_id'] : 0, isset($req['problem_id']) ? $req['problem_id'] : 0);
+        $resp = $discuss_model->get_all_discuss(isset($req['contest_id']) ? $req['contest_id'] : 0,
+            isset($req['problem_id']) ? $req['problem_id'] : 0,
+            isset($req['page']) ? $req['page'] : 0);
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
@@ -131,9 +133,9 @@ class Discuss extends Controller
         if(empty($resp['data'])){
             return apiReturn(CODE_ERROR, '没有这个讨论', '');
         }
-        $data[] = $resp['data'];// discuss
-        $resp = $reply_model->get_the_discuss($req['discuss_id']);
-        $data[] = $resp['data'];// reply
+        $data['discuss'] = $resp['data'];// discuss
+        $resp = $reply_model->get_the_discuss($req['discuss_id'], isset($req['page']) ? $req['page'] : 0);
+        $data['reply'] = $resp['data'];// reply
 
         return apiReturn($resp['code'], $resp['msg'], $data);
     }
@@ -158,7 +160,7 @@ class Discuss extends Controller
         if($info['code'] !== CODE_SUCCESS){
             return apiReturn($info['code'], $info['msg'], $info['data']);
         }
-        $resp = $discuss_model->get_user_discuss($user_id, $contest_id);
+        $resp = $discuss_model->get_user_discuss($user_id, $contest_id, isset($req['page']) ? $req['page'] : 0);
 
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }

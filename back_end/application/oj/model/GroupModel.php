@@ -15,13 +15,19 @@ class GroupModel extends Model
 {
     protected $table = 'group';
 
-    public function get_all_group()
+    public function get_all_group($page)
     {
         try {
-            $info = $this->where('status', 0)->select()->toArray();
-            if (empty($info)) {
+            $page_limit = config('wutoj_config.page_limit');
+            $info['data'] = $this
+                ->where('status', 0)
+                ->limit($page * $page_limit, $page_limit)
+                ->select()
+                ->toArray();
+            if (empty($info['data'])) {
                 return ['code' => CODE_ERROR, 'msg' => '分组不存在', 'data' => $this->getError()];
             }
+            $info['count'] = count($info['data']);
             return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $info];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => ''];
