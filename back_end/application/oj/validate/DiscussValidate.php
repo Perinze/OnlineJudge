@@ -12,7 +12,7 @@ class DiscussValidate extends Validate
         'contest_id' => 'require',
         'problem_id' => 'require',
         'title' => 'require|max:30',
-        'content' => 'require|max:200',
+        'content' => 'require|max:10000',
     ];
 
     protected $message = [
