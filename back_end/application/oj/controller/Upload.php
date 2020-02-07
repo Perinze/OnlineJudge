@@ -28,12 +28,15 @@ class Upload extends Base
             return apiReturn(CODE_ERROR, '未登录', '');
         }
         $file = request()->file('image');
-        $info = $file->validate($this->validate)->move($this->path);
-        if ($info !== VALIDATE_PASS) {
-            return apiReturn(CODE_ERROR, $file->getError(), '');
+        if(empty($file)){
+            return apiReturn(CODE_ERROR, '请上传图片', '');
         }
-        $url = $this->path.$info->getSaveName();
-        return apiReturn(CODE_SUCCESS, '上传成功', $url);
+        $info = $file->validate($this->validate)->move($this->path);
+        if ($info) {
+            $url = $this->path.$info->getSaveName();
+            return apiReturn(CODE_SUCCESS, '上传成功', $url);
+        }
+        return apiReturn(CODE_ERROR, $file->getError(), '');
     }
     public function upload_avatar()
     {

@@ -20,6 +20,7 @@ class GroupModel extends Model
         try {
             $page_limit = config('wutoj_config.page_limit');
             $info['data'] = $this
+                ->field(['group_id', 'group_name', 'group_creator', 'desc'])
                 ->where('status', 0)
                 ->limit($page * $page_limit, $page_limit)
                 ->select()
