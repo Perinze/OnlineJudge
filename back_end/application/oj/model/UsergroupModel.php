@@ -23,7 +23,7 @@ class UsergroupModel extends Model
         try {
             $page_limit = config('wutoj_config.page_limit');
             $info['data'] = $this->alias(['user_group' => 'ug'])
-                ->field(['ug.group_id as group_id', 'group_name', 'identity', 'desc'])
+                ->field(['ug.group_id as group_id', 'group.avatar as avatar', 'group_name', 'identity', 'desc'])
                 ->where('user_id', $user_id)
                 ->where('group.status', 0)
                 ->rightJoin('group', 'ug.group_id = group.group_id')
@@ -38,7 +38,11 @@ class UsergroupModel extends Model
             if (empty($info['data'])) {
                 return ['code' => CODE_ERROR, 'msg' => '暂无数据', 'data' => ''];
             }
-            $info['count'] = count($info['data']);
+            foreach ($info['data'] as &$item){
+                $item['count'] = $this->where('group_id', $item['group_id'])->count();
+            }
+            $info['count'] = $this->alias(['user_group' => 'ug'])->where('user_id', $user_id)
+                ->where('group.status', 0)->rightJoin('group', 'ug.group_id = group.group_id') ->count();
             return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $info];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];

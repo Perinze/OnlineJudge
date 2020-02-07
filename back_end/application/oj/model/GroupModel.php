@@ -8,6 +8,7 @@
 
 namespace app\oj\model;
 
+use think\Db;
 use think\Exception;
 use think\Model;
 
@@ -42,6 +43,7 @@ class GroupModel extends Model
             if (empty($info)) {
                 return ['code' => CODE_ERROR, 'msg' => '分组不存在', 'data' => $this->getError()];
             }
+            $info['count'] = Db::table('user_group')->where('group_id', $group_id)->count();
             return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $info];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];

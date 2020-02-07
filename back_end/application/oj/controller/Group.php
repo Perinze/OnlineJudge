@@ -90,6 +90,7 @@ class Group extends Controller
         }
         $resp = $group_model->newGroup(array(
             'group_name' => $req['group_name'],
+            'avatar' => isset($req['avatar']) ? $req['avatar'] : '',
             'desc' => $req['desc'],
             'join_code' => isset($req['join_code']) ?  strlen($req['join_code']) > 16 ? substr($req['join_code'], 0, 16) : $req['join_code'] : '',
             'group_creator' => $session,

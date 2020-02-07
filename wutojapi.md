@@ -323,15 +323,19 @@ null
         "data": [
             {
                 "group_id": 1,
+                "avatar": "",
                 "group_name": "wyhsb",
-                "identity": "管理员",
-                "desc": "wyhsb"
+                "identity": "正常",
+                "desc": "wyhsb",
+                "count": 2
             },
             {
                 "group_id": 2,
+                "avatar": "",
                 "group_name": "wyhsb2",
                 "identity": "创建者",
-                "desc": "wyhsb2"
+                "desc": "wyhsb2",
+                "count": 1
             }
         ],
         "count": 2
@@ -364,16 +368,19 @@ null
             },
             {
                 "user_id": 2,
-                "identity": "管理员",
+                "identity": "正常",
                 "nick": "kdl12138"
             }
         ],
         "group": {
             "group_id": 1,
             "group_name": "wyhsb",
+            "avatar": "",
             "desc": "wyhsb",
+            "join_code": "12138",
             "group_creator": 1,
-            "status": 0
+            "status": 0,
+            "count": 2
         }
     }
 }
@@ -386,6 +393,7 @@ null
 ``` json
 {
     "group_name": "wyh女装",
+    "avatar": "url",//可不填
     "desc": "wyh女装",
     "join_code": "wyhsb"
 }
