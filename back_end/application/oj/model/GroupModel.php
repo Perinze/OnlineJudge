@@ -54,17 +54,20 @@ class GroupModel extends Model
      * @param $data
      * @return array $data : $group_name $desc $group_creator
      */
-    public function newGroup($data)
+    public function newGroup($data, $user_id)
     {
         try {
-            $res = $this->insert($data);
+            $res = $this->insertGetId($data);
             if ($res) {
                 $usergroup_model = new UsergroupModel();
                 $resp = $usergroup_model->addRelation($res, $data['group_creator'], 2);
+                foreach ($user_id as $item){
+                    $resp = $usergroup_model->addRelation($res, $item['user_id'], (int)($item['identity'] === 1));
+                }
                 if ($resp['code'] !== CODE_SUCCESS) {
                     return ['code' => CODE_ERROR, 'msg' => '创建分组失败', 'data' => ''];
                 }
-                return ['code' => CODE_SUCCESS, 'msg' => '创建分组成功', 'data' => ''];
+                return ['code' => CODE_SUCCESS, 'msg' => '创建分组成功', 'data' => $res];
             }
             return ['code' => CODE_ERROR, 'msg' => '创建分组失败', 'data' => $this->getError()];
         } catch (Exception $e) {

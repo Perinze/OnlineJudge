@@ -27,7 +27,7 @@ class GroupValidate extends Validate
         'group_name.max' => '分组名称应小于64个字符',
         'group_creator.require' => '缺少创建者ID',
         'group_creator.number' => '创建者ID格式不正确',
-        'desc.require' => '缺少团队描述格式',
+        'desc.require' => '缺少团队描述',
         'join_code.require' => '缺少加群码'
     ];
 

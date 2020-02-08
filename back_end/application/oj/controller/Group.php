@@ -88,13 +88,17 @@ class Group extends Controller
         if ($result !== true) {
             return apiReturn(CODE_ERROR, $group_validate->getError(), '');
         }
+        $user_id = isset($req['user_id']) ? $req['user_id'] : array();
+        if(!is_array($user_id)){
+            return apiReturn(CODE_ERROR, '添加用户格式错误', '');
+        }
         $resp = $group_model->newGroup(array(
             'group_name' => $req['group_name'],
             'avatar' => isset($req['avatar']) ? $req['avatar'] : '',
             'desc' => $req['desc'],
             'join_code' => isset($req['join_code']) ?  strlen($req['join_code']) > 16 ? substr($req['join_code'], 0, 16) : $req['join_code'] : '',
             'group_creator' => $session,
-        ));
+        ), $user_id);
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 

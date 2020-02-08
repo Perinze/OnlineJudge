@@ -395,7 +395,17 @@ null
     "group_name": "wyh女装",
     "avatar": "url",//可不填
     "desc": "wyh女装",
-    "join_code": "wyhsb"
+    "join_code": "wyhsb",
+    "user_id": [
+        {
+            "user_id": 1,
+            "identity": 1 // 1为管理员，0为普通成员，填其余内容都会被变为0
+        },
+        {
+            "user_id": 2,
+            "identity": 1
+        }
+    ]// 可不填写该字段, 数组类型
 }
 ```
 
@@ -1042,12 +1052,10 @@ null
           "major": "1",
           "class": "14",
           "desc": "14",
-          "ac_num": 0,
-          "wa_num": 0
       }
   }
   ```
-
+  
   
 
 * edituser
