@@ -1786,78 +1786,6 @@ null
 }
 ```
 
-#### addKnowledge 添加知识点
-
-**request: POST**
-
-| param | type| data  |
-| ---- | ----| ---- |
-| knowledge | string|"link" |
-
-**response**
-```json
-{
-    "status": 0,
-    "message": "插入成功",
-    "data": ""
-}
-```
-
-#### deleteKnowledge 删除知识点
-
-**request: POST**
-
-| param | type| data  |
-| ---- | ----| ---- |
-| knowledge | string| "link" |
-
-**response:**
-```json
-{
-    "status": 0,
-    "message": "删除成功",
-    "data": ""
-}
-```
-
-#### addKnowledgeRelation 添加知识点关系
-
-**request: POST**
-
-|param|type|data|comment|
-|----|----|----|----|
-|knowledge|string|"force"|知识点|
-|pre_knowledge|string|"graph"|前置知识点|
-|is_core|int|0|0/１，可为空|
-
-**response:**
-```json
-{
-    "status": 0,
-    "message": "插入成功",
-    "data": ""
-}
-```
-
-#### deleteKnowledgeRelation 删除知识点关系
-
-**request: POST**
-
-|param|type|data|comment|
-|----|----|----|----|
-|knowledge|string|"force"|知识点|
-|pre_knowledge|string|"graph"|前置知识点|
-
-**response:**
-
-```json
-{
-    "status": 0,
-    "message": "删除成功",
-    "data": ""
-}
-```
-
 #### getPreKnowledge 获取前置知识点
 
 **request: GET**
@@ -1912,42 +1840,6 @@ null
 }
 ```
 
-#### setKnowledgeRelationCore 设置为必要前置
-
-**request: POST**
-
-|param|type|data|comment|
-|----|----|----|----|
-|knowledge|string|"force"|知识点|
-|pre_knowledge|string|"graph"|前置知识点|
-
-**response:**
-```json
-{
-    "status": 0,
-    "message": "更新成功",
-    "data": ""
-}
-```
-
-#### unsetKnowledgeRelationCore 设置为非必要前置
-
-**request: POST**
-
-|param|type|data|comment|
-|----|----|----|----|
-|knowledge|string|"force"|知识点|
-|pre_knowledge|string|"graph"|前置知识点|
-
-**response:**
-```json
-{
-    "status": 0,
-    "message": "更新成功",
-    "data": ""
-}
-```
-
 #### getProblemByKnowledge 获取知识点对应问题
 
 **request: GET**
@@ -1997,80 +1889,6 @@ null
             "is_core": 0
         }
     ]
-}
-```
-
-#### addProblemKnowledgeRelation 添加知识点问题关系
-
-**request: POST**
-
-|param|type|data|comment|
-|----|----|----|----|
-|knowledge|string|"force"|知识点|
-|problem|string|"1002"|问题|
-|is_core|int|0|0/１，可为空|
-
-**response:**
-```json
-{
-    "status": 0,
-    "message": "插入成功",
-    "data": ""
-}
-```
-
-#### deleteProblemKnowledgeRelation 删除知识点问题关系
-
-**request: POST**
-
-|param|type|data|comment|
-|----|----|----|----|
-|knowledge|string|"force"|知识点|
-|problem|string|"1002"|问题|
-
-**response:**
-```json
-{
-    "status": 0,
-    "message": "删除成功",
-    "data": ""
-}
-```
-
-#### setProblemKnowledgeRelationCore 设置知识点问题关系为必要
-
-**request: POST**
-
-|param|type|data|comment|
-|----|----|----|----|
-|knowledge|string|"force"|知识点|
-|problem|string|"1002"|问题|
-
-**response:**
-```json
-{
-    "status": 0,
-    "message": "更新成功",
-    "data": ""
-}
-```
-
-
-#### unsetProblemKnowledgeRelationCore 设置知识点问题关系为不必要
-
-**request: POST**
-
-|param|type|data|comment|
-|----|----|----|----|
-|knowledge|string|"force"|知识点|
-|problem|string|"1002"|问题|
-
-**response:**
-```json
-{
-    "status": 0,
-    "message": "更新成功",
-    "data": ""
 }
 ```
 
