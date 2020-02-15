@@ -55,6 +55,7 @@ class User extends Controller
         $resp = $user_model->editUser($user_id, [
             'user_id' => $user_id,
             'realname' => isset($req['realname']) ? $req['realname'] : $data['realname'],
+            'avatar' => isset($req['avatar']) ? $req['avatar'] : $data['avatar'],
             'school' => isset($req['school']) ? $req['school'] : $data['school'],
             'contact' => isset($req['contact']) ? $req['contact'] : $data['contact'],
             'major' => isset($req['major']) ? $req['major'] : $data['major'],

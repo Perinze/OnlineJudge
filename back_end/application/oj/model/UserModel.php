@@ -54,7 +54,7 @@ class UserModel extends Model
     {
         try {
             $content = $this
-                ->field(['user_id', 'nick', 'realname', 'school', 'major', 'class', 'contact', 'mail', 'desc'])
+                ->field(['user_id', 'nick', 'avatar', 'realname', 'school', 'major', 'class', 'contact', 'mail', 'desc'])
                 ->where('user_id', $user_id)->find();
             return ['code' => CODE_SUCCESS, 'msg' => '查找成功', 'data' => $content];
         } catch (Exception $e) {
@@ -66,7 +66,7 @@ class UserModel extends Model
     {
         try {
             $content = $this
-                ->field(['user_id', 'nick', 'realname', 'school', 'major', 'class', 'contact', 'mail', 'desc'])
+                ->field(['user_id', 'nick', 'avatar', 'realname', 'school', 'major', 'class', 'contact', 'mail', 'desc'])
                 ->where('nick', $nick)->find();
             if (empty($content)) {
                 return ['code' => CODE_ERROR, 'msg' => '用户名不存在', 'data' => $content];
