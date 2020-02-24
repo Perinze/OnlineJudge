@@ -51,7 +51,7 @@
             </div>
         </div>
         <div>
-            <div class="button-blank"></div>
+<!--            <div class="button-blank"></div>-->
             <menu-item
                     v-for="(item,index) in items"
                     :title="item.title"
@@ -128,10 +128,22 @@
                         routeName: "rank"
                     },
                     {
+                        title: '成就 暂未写',
+                        keyName: 'discussion',
+                        imgSrc: require('../../assets/icon/achievement.svg'),
+                        routeName: "discussion"
+                    },
+                    {
                         title: '小组 Groups',
                         keyName: 'grouplist',
                         imgSrc: require('../../assets/icon/group.svg'),
                         routeName: "group"
+                    },
+                    {
+                        title: '讨论 Discussion',
+                        keyName: 'discussion',
+                        imgSrc: require('../../assets/icon/discussion.svg'),
+                        routeName: "discussion"
                     },
                 ],
                 userinfo: {
@@ -346,7 +358,7 @@
         flex-direction: row;
         justify-content: left;
         align-items: center;
-        height: 60px;
+        height: 53px;
         border-left: 7px solid transparent;
         cursor: pointer;
         &:hover {
