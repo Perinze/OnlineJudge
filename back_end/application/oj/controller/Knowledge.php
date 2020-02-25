@@ -34,7 +34,7 @@ class Knowledge extends Base {
     public function getKnowledgeByKey() {
         $req = input('get.');
         $knowledgeModel = new KnowledgeModel();
-        $knowledge = isset($data['knowledge'])?$req['knowledge']:'';
+        $knowledge = isset($req['knowledge'])?$req['knowledge']:'';
         $resp = $knowledgeModel->getKnowledge($knowledge);
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
@@ -48,7 +48,7 @@ class Knowledge extends Base {
     public function getSpecificKnowledge() {
         $req = input('get.');
         $knowledgeModel = new KnowledgeModel();
-        $knowledge = isset($data['knowledge'])?$req['knowledge']:'';
+        $knowledge = isset($req['knowledge'])?$req['knowledge']:'';
         $resp = $knowledgeModel->getSpecificKnowledge($knowledge);
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }

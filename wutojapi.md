@@ -1724,16 +1724,19 @@ null
     "message": "查询成功",
     "data": [
         {
-            "id": 10,
-            "name": "force"
-        },
-        {
-            "id": 9,
-            "name": "graph"
-        },
-        {
             "id": 1,
-            "name": "tree"
+            "name": "tree",
+            "point": 1
+        },
+        {
+            "id": 3,
+            "name": "force",
+            "point": 1
+        },
+        {
+            "id": 4,
+            "name": "graph",
+            "point": 1
         }
     ]
 }
@@ -1755,15 +1758,17 @@ null
     "message": "查询成功",
     "data": [
         {
-            "id": 10,
-            "name": "force"
+            "id": 1,
+            "name": "tree",
+            "point": 1
         },
         {
-            "id": 1,
-            "name": "tree"
+            "id": 3,
+            "name": "force",
+            "point": 1
         }
     ]
-}
+}   
 ```
 
 #### getSpecificKnowledge 精确查询知识点
@@ -1780,8 +1785,9 @@ null
     "status": 0,
     "message": "查询成功",
     "data": {
-        "id": 10,
-        "name": "force"
+        "id": 3,
+        "name": "force",
+        "point": 1
     }
 }
 ```
@@ -1807,9 +1813,9 @@ null
             "is_core": 0
         },
         {
-            "id": 9,
+            "id": 4,
             "name": "graph",
-            "is_core": 0
+            "is_core": 1
         }
     ]
 }
@@ -1832,7 +1838,7 @@ null
     "message": "查询成功",
     "data": [
         {
-            "id": 10,
+            "id": 3,
             "name": "force",
             "is_core": 0
         }
@@ -1845,7 +1851,7 @@ null
 **request: GET**
 
 |param|type|data|comment|
-|----|----|----|----|
+|----|----|----|----|   
 |knowledge|string|"force"|知识点|
 |core_only|int|0|0/１，可为空|
 
@@ -1857,7 +1863,7 @@ null
     "data": [
         {
             "problem_id": 1001,
-            "is_core": 1
+            "is_core": 0
         }
     ]
 }
@@ -1876,16 +1882,11 @@ null
 ```json
 {
     "status": 0,
-    "message": "查询成功",
+    "message": "查找成功",
     "data": [
         {
-            "id": 10,
+            "id": 3,
             "name": "force",
-            "is_core": 1
-        },
-        {
-            "id": 1,
-            "name": "tree",
             "is_core": 0
         }
     ]
@@ -1905,9 +1906,9 @@ null
 {
     "status": 0,
     "message": "查询成功",
-    "data": [
-        "tree"
-    ]
+    "data": {
+        "1": "tree"
+    }
 }
 ```
 

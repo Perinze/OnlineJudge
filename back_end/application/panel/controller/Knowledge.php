@@ -48,7 +48,8 @@ class Knowledge extends Base
     public function addKnowledge() {
         $knowledge_model = new KnowledgeModel();
         $name = input('get.name');
-        $msg = $knowledge_model->addKnowledge(['name' => $name]);
+        $point = input('get.point');
+        $msg = $knowledge_model->addKnowledge(['name' => $name, 'point' => $point]);
         return apiReturn($msg['code'], $msg['msg'], $msg['data'], 200);
     }
 

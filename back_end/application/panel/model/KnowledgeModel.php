@@ -73,7 +73,7 @@ class KnowledgeModel extends Model {
 
     /**
      * @usage 添加知识点
-     * @param array $data ['name']
+     * @param array $data ['name', 'point']
      * @return array ['code', 'msg', 'data']
      */
     public function addKnowledge($data) {
@@ -83,7 +83,7 @@ class KnowledgeModel extends Model {
             if ($msg) {
                 return ['code' => CODE_ERROR, 'msg' => '已存在此知识点', 'data' => $msg];
             } else {
-                $insertData = ['name' => $data['name']];
+                $insertData = ['name' => $data['name'], 'point' => $data['point']];
                 $info = $this->insertGetId($data);
                 return ['code' => CODE_SUCCESS, 'msg' => '插入成功', 'data' => $info];
             }
