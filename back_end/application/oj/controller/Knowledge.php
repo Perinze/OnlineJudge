@@ -460,4 +460,25 @@ class Knowledge extends Base {
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
+    /**
+     * @usage 获取成就点
+     * @method get
+     * @param int user_id
+     * @return Json
+     */
+    public function getUserKnowledgePoint() {
+        $req = input('get.');
+        $userKnowledgeModel = new KnowledgeUserModel();
+        $knowledgeValidate = new KnowledgeValidate();
+        $result = $knowledgeValidate->scene('user_all_knowledge')->check($req);
+        if ($result != VALIDATE_PASS) {
+            return apiReturn(CODE_ERROR, $knowledgeValidate->getError(), '');
+        }
+        $resp = $userKnowledgeModel->getAllDoneKnowledge($req['user_id']);
+        $score = 0;
+        foreach ($resp['data'] as $item) {
+            $score += $item->score;
+        }
+        return apiReturn($resp['code'], $resp['msg'], ['score' => $score]);
+    }
 }

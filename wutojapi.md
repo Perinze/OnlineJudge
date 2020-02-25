@@ -1972,6 +1972,25 @@ null
 }
 ```
 
+#### getUserKnowledgePoint　获取用户分数
+
+**request: GET**
+
+|param|type|data|comment|
+|----|----|----|----|
+|user_id|int|1|用户id|
+
+**response:**
+```json
+{
+    "status": 0,
+    "message": "查询成功",
+    "data": {
+        "score": 100
+    }
+}
+```
+
 #### addUserDoingKnowledge 添加进行的知识点
 
 **request: POST**
