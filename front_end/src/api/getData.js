@@ -222,3 +222,17 @@ export const getUserGroups = () => fetch('/Group/user_get_all_group');
  */
 
 export const getAllDiscussion = (data) => fetch('/discuss/getAllDiscuss', 'post', data);
+
+ //knowledgeTree
+
+/**
+ * 获取知识树星级排名，待下一版添加
+ */
+
+// export const getUserRank = () => fetch('/achievement/getUserRank');
+
+/**
+ * 获取知识树上知识点
+ */
+
+export const getAllKnowledge = () => fetch('/knowledge/getAllKnowledge');
