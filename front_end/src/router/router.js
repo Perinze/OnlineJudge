@@ -20,6 +20,8 @@ import groupManager from '../page/groupManager';
 import discussion from '../page/discussion';
 import discussionInfo from '../page/discussionInfo';
 import addDiscussion from '../page/addDiscussion';
+import achievement from "../page/achievement";
+import achievementInfo from "../page/achievementInfo";
 import rank from '../page/rank';
 import store from "../store/index";
 
@@ -203,7 +205,23 @@ const routes = [
         meta: {
             isLogin: false
         }
-    }
+    },
+    {
+        //知识树
+        path: '/achievement',
+        component: achievement,
+        meta: {
+            isLogin: false
+        }
+    },
+    {
+        //知识树详情
+        path: '/achievementInfo',
+        component: achievementInfo,
+        meta: {
+            isLogin: false
+        }
+    },
 ];
 
 var router = new VueRouter({
@@ -211,7 +229,7 @@ var router = new VueRouter({
     routes: routes
 });
 
-const pathArr_noTopnav = ["/addGroup", "/editAdmin", "/addProblem", "/groupManager", "/discussionInfo", "/addDiscussion"];
+const pathArr_noTopnav = ["/addGroup", "/editAdmin", "/addProblem", "/groupManager", "/discussionInfo", "/addDiscussion","/achievementInfo"];
 
 router.beforeEach((to, from, next) => {
     if (pathArr_noTopnav.indexOf(to.path) >= 0) {

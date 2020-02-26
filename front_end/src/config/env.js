@@ -7,7 +7,7 @@
  * baseUrl: 请求域名前缀
  */
 
-let baseUrl = 'http://acmwhut.com/api/oj/';
+let baseUrl = 'http://dev.acmwhut.com/api/oj/';
 
 /**
  * 百度统计

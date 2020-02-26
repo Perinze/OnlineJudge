@@ -128,16 +128,16 @@
                         routeName: "rank"
                     },
                     {
-                        title: '成就 暂未写',
-                        keyName: 'discussion',
-                        imgSrc: require('../../assets/icon/achievement.svg'),
-                        routeName: "discussion"
-                    },
-                    {
                         title: '小组 Groups',
                         keyName: 'grouplist',
                         imgSrc: require('../../assets/icon/group.svg'),
                         routeName: "group"
+                    },
+                    {
+                        title: '成就 Achievement',
+                        keyName: 'achievement',
+                        imgSrc: require('../../assets/icon/achievement.svg'),
+                        routeName: "achievement"
                     },
                     {
                         title: '讨论 Discussion',
@@ -245,6 +245,8 @@
                     case '/contest': return 2;
                     case '/rank': return 3;
                     case '/group': return 4;
+                    case '/achievement': return 5;
+                    case '/discussion': return 6;
                 }
                 return null;
             },
