@@ -2088,3 +2088,31 @@ null
     }
 }
 ```
+
+#### getAllTag 获取所有标签
+
+**request: GET**
+
+|param|type|data|comment|
+|----|----|----|----|
+|knowledge_id|int|1|知识点id|
+
+**response:**
+```json
+{
+    "status": 0,
+    "message": "查询成功",
+    "data": [
+        {
+            "id": 1,
+            "name": "贪心",
+            "description": "瞎吉儿搞"
+        },
+        {
+            "id": 2,
+            "name": "数学",
+            "description": "ljw的最爱"
+        }
+    ]
+}
+```

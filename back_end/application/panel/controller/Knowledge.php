@@ -8,6 +8,7 @@ use app\panel\model\CacheModel;
 use app\panel\model\KnowledgeModel;
 use app\panel\model\KnowledgeRelationModel;
 use app\panel\model\KnowledgeProblemModel;
+use app\panel\model\KnowledgeTagModel;
 
 class Knowledge extends Base
 {
@@ -172,10 +173,47 @@ class Knowledge extends Base
         $problem_knowledge_model = new KnowledgeProblemModel();
         $req = input('post.aoData');
         $problem_id = input('post.problem_id');
-        $where = aoDataFormat($req, 'group_name');
+        $where = aoDataFormat($req, 'problem_id');
         $resp = $problem_knowledge_model->getKnowledgeByProblem($problem_id);
         echo datatable_response($resp['code'], $where['where'], $resp['data'], $problem_knowledge_model);
 
+    }
+
+    /*
+     * 添加知识点标签
+     */
+    public function addKnowledgeTag() {
+        $knowledge_tag_model = new KnowledgeTagModel();
+        $tag_id = input('post.tag_id');
+        $knowledge_id = input('post.knowledge_id');
+        $msg = $knowledge_tag_model->addKnowledgeTag($knowledge_id, $tag_id);
+        return apiReturn($msg['code'], $msg['msg'], $msg['data'], 200);
+    }
+
+    /*
+     * 删除知识点标签
+     */
+    public function deleteKnowledgeTag() {
+        $knowledge_tag_model = new KnowledgeTagModel();
+        $knowledge_id = input('get.knowledge_id');
+        $tag_id = input('get.tag_id');
+        $knowledge_tag_model->deleteKnowledgeTag($knowledge_id, $tag_id);
+        $this->redirect('panel/knowledge/tag', ['knowledge_id' => $knowledge_id]);
+    }
+    /*
+     * 获取知识点标签
+     */
+    public function getKnowledgeTag() {
+        $knowledge_tag_model = new KnowledgeTagModel();
+        $knowledge_id = input('post.knowledge_id');
+        $req = input('post.aoData');
+        $where = aoDataFormat($req, 'id');
+        $resp = $knowledge_tag_model->getKnowledgeTag($knowledge_id);
+        echo datatable_response($resp['code'], $where['where'], $resp['data'], $knowledge_tag_model);
+    }
+    public function tag()
+    {
+        return $this->fetch('tag', ['knowledge_id' => input('get.id')]);
     }
 
     public function relation()

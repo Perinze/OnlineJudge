@@ -6,6 +6,7 @@ use app\index\widget\Token;
 use app\oj\model\KnowledgeModel;
 use app\oj\model\KnowledgeRelationModel;
 use app\oj\model\KnowledgeProblemModel;
+use app\oj\model\KnowledgeTagModel;
 use app\oj\model\KnowledgeUserModel;
 use app\oj\validate\KnowledgeValidate;
 use think\composer\ThinkExtend;
@@ -480,5 +481,23 @@ class Knowledge extends Base {
             $score += $item->score;
         }
         return apiReturn($resp['code'], $resp['msg'], ['score' => $score]);
+    }
+
+    /**
+     * @usage 获取标签
+     * @method get
+     * @param int knowledge_id
+     * @return Json
+     */
+    public function getAllTag() {
+        $req = input('get.');
+        $knowledgeTagModel = new KnowledgeTagModel();
+        $knowledgeValidate = new KnowledgeValidate();
+        $result = $knowledgeValidate->scene('knowledge_id')->check($req);
+        if ($result != VALIDATE_PASS) {
+            return apiReturn(CODE_ERROR, $knowledgeValidate->getError(), '');
+        }
+        $resp = $knowledgeTagModel->getKnowledgeTag($req['knowledge_id']);
+        return apiReturn($resp['code'], $resp['msg'], $resp['data'], 200);
     }
 }
