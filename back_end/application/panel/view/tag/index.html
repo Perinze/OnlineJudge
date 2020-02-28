@@ -46,8 +46,12 @@
                             <input name="color" id="color" value="" class="form-control" style="width: 120px">
                             <p class="help-block">示例：#FFFFFF可不填</p>
                         </div>
+                        <div>
+                            <label>描述</label>
+                            <input name="description" id="description" value="" class="form-control" style="width: 120px">
+                        </div>
                         <div style="text-align:right;">
-                            <button type="button" class="btn btn-success" onclick="add($('#name').val(),$('#color').val())" >添加标签</button>
+                            <button type="button" class="btn btn-success" onclick="add($('#name').val(),$('#color').val(),$('#description').val())" >添加标签</button>
                         </div>
                         <div class="dataTable_wrapper">
                             <table class="table table-striped table-bordered table-hover" id="dataTable">
@@ -55,6 +59,7 @@
                                 <tr>
                                     <th>编号</th>
                                     <th>标签名</th>
+                                    <th>描述</th>
                                     <th>是否显示</th>
                                     <th>颜色</th>
                                     <th>操作</th>
@@ -78,7 +83,7 @@
 <script src="__JS__/sb-admin-2.js"></script>
 <script>
     var id = 0;
-    function add(name, color){
+    function add(name, color, description){
         $.ajax({
             url: "__PANEL__/tag/addTag",
             type: "post",
@@ -86,6 +91,7 @@
             data: {
                 name: name,
                 color: color,
+                description: description
             },
             success: function (data) {
                 if (data.status == 0) {
@@ -164,6 +170,8 @@
                 "mData": "id",
             }, {
                 "mData": "name",
+            }, {
+                "mData": "description",
             }, {
                 "mData": "status",
                 "mRender": function (data, type, full) {
