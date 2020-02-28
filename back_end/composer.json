@@ -22,7 +22,6 @@
         "topthink/think-captcha": "2.0.x-dev",
         "topthink/think-installer": "2.0.x-dev",
         "ext-json": "*",
-        "phpoffice/phpspreadsheet": "^1.8",
         "phpoffice/phpexcel": "^1.8"
     },
     "autoload": {
