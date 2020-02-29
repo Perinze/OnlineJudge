@@ -236,3 +236,10 @@ export const getAllDiscussion = (data) => fetch('/discuss/getAllDiscuss', 'post'
  */
 
 export const getAllKnowledge = () => fetch('/knowledge/getAllKnowledge');
+
+/**
+ * 获取知识点对应标签
+ */
+
+export const getAllTag = data => fetch('/knowledge/getAllTag', 'post', data);
+
