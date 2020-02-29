@@ -8,6 +8,7 @@
 
 namespace app\oj\model;
 
+use think\Db;
 use think\Exception;
 use think\Model;
 
@@ -81,12 +82,17 @@ class UserModel extends Model
     {
         // uncheck
         try {
-            $res = $this->where([['nick', '=', $req['nick']], ['password', '=', $req['password']]])->find();
+            $res = $this->where([['nick', '=', $req['nick']], ['password', '=', $req['password']]])
+                ->find();
             if ($res) {
+                $res['all_problems'] = Db::table('submit')
+                    ->field(['status', 'count(*) as cnt'])
+                    ->where('user_id', $res['user_id'])
+                    ->group('status')
+                    ->select();
                 return ['code' => CODE_SUCCESS, 'msg' => '登陆成功', 'data' => $res];
-            } else {
-                return ['code' => CODE_ERROR, 'msg' => '用户名或密码错误', 'data' => ''];
             }
+            return ['code' => CODE_ERROR, 'msg' => '用户名或密码错误', 'data' => ''];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];
         }
