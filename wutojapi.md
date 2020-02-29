@@ -1713,7 +1713,7 @@ null
 
 #### getAllKnowledge 获取所有知识点
 
-**request: GET**
+**request: POST**
 ```json
 null
 ```
@@ -1744,7 +1744,7 @@ null
 
 #### getKnowledgeByKey 模糊查询知识点
 
-**request: GET**
+**request: POST**
 
 | param | type| data  |
 | ---- | ----| ---- |
@@ -1773,7 +1773,7 @@ null
 
 #### getSpecificKnowledge 精确查询知识点
 
-**request: GET**
+**request: POST**
 
 | param | type| data  |
 | ---- | ----| ---- |
@@ -1794,7 +1794,7 @@ null
 
 #### getPreKnowledge 获取前置知识点
 
-**request: GET**
+**request: POST**
 
 |param|type|data|comment|
 |----|----|----|----|
@@ -1824,7 +1824,7 @@ null
 
 #### getAfterKnowledge 获取后继知识点
 
-**request: GET**
+**request: POST**
 
 |param|type|data|comment|
 |----|----|----|----|
@@ -1848,7 +1848,7 @@ null
 
 #### getProblemByKnowledge 获取知识点对应问题
 
-**request: GET**
+**request: POST**
 
 |param|type|data|comment|
 |----|----|----|----|   
@@ -1871,7 +1871,7 @@ null
 
 #### getKnowledgeByProblem 获取问题对应知识点
 
-**request: GET**
+**request: POST**
 
 |param|type|data|comment|
 |----|----|----|----|
@@ -1895,7 +1895,7 @@ null
 
 #### getUserAllDoingKnowledge 获取用户所有进行中的知识点
 
-**request: GET**
+**request: POST**
 
 |param|type|data|comment|
 |----|----|----|----|
@@ -1906,15 +1906,15 @@ null
 {
     "status": 0,
     "message": "查询成功",
-    "data": {
-        "1": "tree"
-    }
+    "data": [
+        "tree"
+    ]
 }
 ```
 
 #### getUserAllDoneKnowledge 获取所有完成的知识点
 
-**request: GET** 
+**request: POST** 
 
 |param|type|data|comment|
 |----|----|----|----|
@@ -1936,7 +1936,7 @@ null
 
 #### getUserKnowledgeStatus　获取用户知识点的状态
 
-**request: GET**
+**request: POST**
 
 |param|type|data|comment|
 |----|----|----|----|
@@ -1974,7 +1974,7 @@ null
 
 #### getUserKnowledgePoint　获取用户分数
 
-**request: GET**
+**request: POST**
 
 |param|type|data|comment|
 |----|----|----|----|
@@ -2091,7 +2091,7 @@ null
 
 #### getAllTag 获取所有标签
 
-**request: GET**
+**request: POST**
 
 |param|type|data|comment|
 |----|----|----|----|
