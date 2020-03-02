@@ -50,6 +50,8 @@ class Login extends Controller
                 'userId' => $result['data']['user_id'],
                 'nick' => $result['data']['nick'],
                 'desc' => $result['data']['desc'],
+                'avatar' => $result['data']['avatar'],
+                'all_problems' => $result['data']['all_problems']
             );
             session('user_id', $result['data']['user_id']);
             session('nick', $result['data']['nick']);

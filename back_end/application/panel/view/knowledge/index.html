@@ -39,6 +39,8 @@
                         <div class="form-group" style="margin-left: 20px; margin-right: 20px">
                             <label for="name">知识点</label>
                             <input type="text" class="form-control" id="name" placeholder="输入知识点名">
+                            <label for="name">等级</label>
+                            <input type="text" class="form-control" id="point" placeholder="输入等级(１－５)">
                         </div>
                     </form>
                     <button type="button" id="add" style="margin: 20px" class="btn btn-default">添加</button>
@@ -59,7 +61,9 @@
                                 <tr>
                                     <th>编号</th>
                                     <th>知识点</th>
+                                    <th>等级</th>
                                     <th>前置知识点</th>
+                                    <th>标签</th>
                                     <th>操作</th>
                                 </tr>
                                 </thead>
@@ -90,6 +94,7 @@
             dataType: "json",
             data: {
                 'name': $("#name").val(),
+                'point': $("#point").val(),
             },
             success: function (data) {
                 if (data.status == 0) {
@@ -142,9 +147,17 @@
             }, {
                 "mData": "name",
             }, {
+                "mData": "point",
+            },{
                 "mData": "name",
                 "mRender": function (data, type, full) {
                     return "<a href='__PANEL__/knowledge/relation?name=" + data +
+                        "' target='_self'>查看</a>"
+                }
+            }, {
+                "mData": "id",
+                "mRender": function (data, type, full) {
+                    return "<a href='__PANEL__/knowledge/tag?knowledge_id=" + data +
                         "' target='_self'>查看</a>"
                 }
             }, {

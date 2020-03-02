@@ -6,6 +6,7 @@ use app\index\widget\Token;
 use app\oj\model\KnowledgeModel;
 use app\oj\model\KnowledgeRelationModel;
 use app\oj\model\KnowledgeProblemModel;
+use app\oj\model\KnowledgeTagModel;
 use app\oj\model\KnowledgeUserModel;
 use app\oj\validate\KnowledgeValidate;
 use think\composer\ThinkExtend;
@@ -32,9 +33,9 @@ class Knowledge extends Base {
      * @return json
      */
     public function getKnowledgeByKey() {
-        $req = input('get.');
+        $req = input('post.');
         $knowledgeModel = new KnowledgeModel();
-        $knowledge = isset($data['knowledge'])?$req['knowledge']:'';
+        $knowledge = isset($req['knowledge'])?$req['knowledge']:'';
         $resp = $knowledgeModel->getKnowledge($knowledge);
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
@@ -46,9 +47,9 @@ class Knowledge extends Base {
      * @return json
      */
     public function getSpecificKnowledge() {
-        $req = input('get.');
+        $req = input('post.');
         $knowledgeModel = new KnowledgeModel();
-        $knowledge = isset($data['knowledge'])?$req['knowledge']:'';
+        $knowledge = isset($req['knowledge'])?$req['knowledge']:'';
         $resp = $knowledgeModel->getSpecificKnowledge($knowledge);
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
@@ -151,7 +152,7 @@ class Knowledge extends Base {
      * @return json
      */
     public function getPreKnowledge() {
-        $req = input('get.');
+        $req = input('post.');
         $knowledgeRelationModel = new KnowledgeRelationModel();
         $knowledgeValidate = new KnowledgeValidate();
         $result = $knowledgeValidate->scene('get_knowledge')->check($req);
@@ -172,7 +173,7 @@ class Knowledge extends Base {
      * @return json
      */
     public function getAfterKnowledge() {
-        $req = input('get.');
+        $req = input('post.');
         $knowledgeRelationModel = new KnowledgeRelationModel();
         $knowledgeValidate = new KnowledgeValidate();
         $result = $knowledgeValidate->scene('get_knowledge')->check($req);
@@ -239,7 +240,7 @@ class Knowledge extends Base {
      * @return json
      */
     public function getProblemByKnowledge() {
-        $req = input('get.');
+        $req = input('post.');
         $problemKnowledgeModel = new KnowledgeProblemModel();
         $knowledgeValidate = new KnowledgeValidate();
         $result = $knowledgeValidate->scene('get_problem_by_knowledge')->check($req);
@@ -260,7 +261,7 @@ class Knowledge extends Base {
      * @return json
      */
     public function getKnowledgeByProblem() {
-        $req = input('get.');
+        $req = input('post.');
         $problemKnowledgeModel = new KnowledgeProblemModel();
         $knowledgeValidate = new KnowledgeValidate();
         $result = $knowledgeValidate->scene('get_knowledge_by_problem')->check($req);
@@ -374,7 +375,7 @@ class Knowledge extends Base {
      * @return json
      */
     public function getUserAllDoingKnowledge() {
-        $req = input('get.');
+        $req = input('post.');
         $userKnowledgeModel = new KnowledgeUserModel();
         $knowledgeValidate = new KnowledgeValidate();
         $result = $knowledgeValidate->scene('user_all_knowledge')->check($req);
@@ -392,7 +393,7 @@ class Knowledge extends Base {
      * @return json
      */
     public function getUserAllDoneKnowledge() {
-        $req = input('get.');
+        $req = input('post.');
         $userKnowledgeModel = new KnowledgeUserModel();
         $knowledgeValidate = new KnowledgeValidate();
         $result = $knowledgeValidate->scene('user_all_knowledge')->check($req);
@@ -411,7 +412,7 @@ class Knowledge extends Base {
      * @return Json
      */
     public function getUserKnowledgeStatus() {
-        $req = input('get.');
+        $req = input('post.');
         $userKnowledgeModel = new KnowledgeUserModel();
         $knowledgeValidate = new KnowledgeValidate();
         $result = $knowledgeValidate->scene('user_specific_knowledge')->check($req);
@@ -460,4 +461,43 @@ class Knowledge extends Base {
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
+    /**
+     * @usage 获取成就点
+     * @method get
+     * @param int user_id
+     * @return Json
+     */
+    public function getUserKnowledgePoint() {
+        $req = input('post.');
+        $userKnowledgeModel = new KnowledgeUserModel();
+        $knowledgeValidate = new KnowledgeValidate();
+        $result = $knowledgeValidate->scene('user_all_knowledge')->check($req);
+        if ($result != VALIDATE_PASS) {
+            return apiReturn(CODE_ERROR, $knowledgeValidate->getError(), '');
+        }
+        $resp = $userKnowledgeModel->getAllDoneKnowledge($req['user_id']);
+        $score = 0;
+        foreach ($resp['data'] as $item) {
+            $score += $item->score;
+        }
+        return apiReturn($resp['code'], $resp['msg'], ['score' => $score]);
+    }
+
+    /**
+     * @usage 获取标签
+     * @method get
+     * @param int knowledge_id
+     * @return Json
+     */
+    public function getAllTag() {
+        $req = input('post.');
+        $knowledgeTagModel = new KnowledgeTagModel();
+        $knowledgeValidate = new KnowledgeValidate();
+        $result = $knowledgeValidate->scene('knowledge_id')->check($req);
+        if ($result != VALIDATE_PASS) {
+            return apiReturn(CODE_ERROR, $knowledgeValidate->getError(), '');
+        }
+        $resp = $knowledgeTagModel->getKnowledgeTag($req['knowledge_id']);
+        return apiReturn($resp['code'], $resp['msg'], $resp['data'], 200);
+    }
 }

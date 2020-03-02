@@ -6,6 +6,8 @@ namespace app\panel\controller;
 
 use app\oj\validate\UserValidate;
 use app\panel\model\UserModel;
+use PHPExcel;
+use PHPExcel_IOFactory;
 
 class User extends Base
 {
@@ -104,6 +106,47 @@ class User extends Base
         $user = $user_model->searchUserById($req['user_id']);
 
         return apiReturn($user['code'], $user['msg'], $user['data']);
+    }
+
+    public function downloadExcel() {
+        $user_model = new UserModel();
+        $returnData = $user_model->getUserInfo()['data'];
+        try {
+            $fileName = '做题信息'. '('.date("Y-m-d",time()) .'导出）'. ".xls";
+            $excelObj = new \PHPExcel();
+            $letter = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J');
+            $header = array('昵称', '姓名', 'AC', 'WA', 'TLE', 'MLE', 'CE', 'RE', 'OLE', 'PE');
+            for ($i = 0; $i < count($header); $i++) {
+                $excelObj->getActiveSheet()->setCellValue($letter[$i]."1", $header[$i]);
+            }
+            $row = 2;
+            foreach ($returnData as $value) {
+               $excelObj->setActiveSheetIndex(0)
+                    ->setCellValue('A'.$row, $value['nick'])
+                    ->setCellValue('B'.$row, $value['realname'])
+                    ->setCellValue('C'.$row, $value['AC'])
+                    ->setCellValue('D'.$row, $value['WA'])
+                    ->setCellValue('E'.$row, $value['TLE'])
+                    ->setCellValue('F'.$row, $value['MLE'])
+                    ->setCellValue('G'.$row, $value['CE'])
+                    ->setCellValue('H'.$row, $value['RE'])
+                    ->setCellValue('I'.$row, $value['OLE'])
+                    ->setCellValue('J'.$row, $value['PE']);
+                $excelObj->getActiveSheet()->getRowDimension($row)->setRowHeight(15);
+                $row++;
+            }
+
+            $excelObj->getDefaultStyle()->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $excelObj->getDefaultStyle()->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
+
+            header('Content-Type: application/vnd.ms-excel;charset=UTF-8');
+            header("Content-Disposition: attachment;filename={$fileName}");
+            header('Cache-Control: max-age=0');
+            $writer = \PHPExcel_IOFactory::createWriter($excelObj, 'Excel5');
+            $writer->save('php://output');
+        } catch (\PHPExcel_Exception $e) {
+        }
+
     }
 
     /* 页面 */

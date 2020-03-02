@@ -481,6 +481,126 @@ null
 }
 ```
 
+* addContest
+
+  *request*:
+
+  ``` json
+  {
+      "contest_name": "test",
+      "begin_time": "2020/3/2 00:00:00",
+      "end_time": "2020/3/3 00:00:00",
+      "frozen": "0.2",// 封榜时间，0.2代表后20%时间封榜，0代表不封榜
+      "colors":[
+          "#FFFFFF"
+       ],//每道题对应的颜色，可不填
+      "problems": [
+          "1001"
+      ]
+  }
+  ```
+
+  *response:*
+
+  ``` json
+  {
+      "status": 0,//0-success, -1-error
+      "message": "新建比赛成功",
+      "data": ""
+  }
+  ```
+
+* addGroupProblem
+
+  *request:*
+
+  ``` json
+  {
+      "group_id": 2,
+      "problems": [
+          "1002"
+      ]
+  }
+  ```
+  *response:*
+
+  ``` json
+  {
+      "status": 0,//0-success, -1-error
+      "message": "成功",
+      "data": ""
+  }
+  ```
+  
+* getAllContest
+
+    *request:*
+
+  ``` json
+  {
+      "group_id": 2,
+      "page": 0//可不填，默认为0
+  }
+  ```
+  *response:*
+  
+  ``` json
+  {
+      "status": 0,
+      "message": "查询成功",
+      "data": {
+          "data": [
+              {
+                  "contest_id": 1001,
+                  "contest_name": "test",
+                  "begin_time": "2019-10-16 16:12:47",
+                  "end_time": "2019-10-17 16:12:47",
+                  "frozen": 0.2,
+                  "problems": "[\"1001\",\"1002\"]",
+                  "colors": "[\"#FFFFFF\",\"#FF00FF\"]",
+                  "group_id": 2,
+                  "status": 1
+              }
+          ],
+          "count": 1
+      }
+  }
+  ```
+  
+* getAllProblem
+
+    *request:*
+
+  ``` json
+  {
+      "group_id": 2,
+      "page": 0//可不填，默认为0
+  }
+  ```
+  *response:*
+  
+  ``` json
+  {
+    "status": 0,
+      "message": "查询成功",
+      "data": {
+          "data": [
+              {
+                  "problem_id": 1001,
+                  "title": "wyhsb1",
+                  "tag": "[\"1\",\"2\"]"
+              },
+              {
+                  "problem_id": 1002,
+                  "title": "wyhsb11",
+                  "tag": null
+              }
+          ],
+          "count": 2
+      }
+  }
+  ```
+
 ## Index
 
 * notice
@@ -649,14 +769,19 @@ null
 
 ``` json
 {
-    "status": 0,//0-success, -1-error
+    "status": 0,
     "message": "登录成功",
     "data": {
-        "userId": 1,
-        "nick": "123",
-        "desc": null,
-        "acCnt": 0,
-        "waCnt": 0
+        "userId": 2,
+        "nick": "kdl12138",
+        "desc": "1234",
+        "avatar": "\"\"",
+        "all_problems": [
+            {
+                "status": "WA",
+                "cnt": 1
+            }
+        ]
     }
 }
 ```
@@ -1713,7 +1838,7 @@ null
 
 #### getAllKnowledge 获取所有知识点
 
-**request: GET**
+**request: POST**
 ```json
 null
 ```
@@ -1724,16 +1849,19 @@ null
     "message": "查询成功",
     "data": [
         {
-            "id": 10,
-            "name": "force"
-        },
-        {
-            "id": 9,
-            "name": "graph"
-        },
-        {
             "id": 1,
-            "name": "tree"
+            "name": "tree",
+            "point": 1
+        },
+        {
+            "id": 3,
+            "name": "force",
+            "point": 1
+        },
+        {
+            "id": 4,
+            "name": "graph",
+            "point": 1
         }
     ]
 }
@@ -1741,7 +1869,7 @@ null
 
 #### getKnowledgeByKey 模糊查询知识点
 
-**request: GET**
+**request: POST**
 
 | param | type| data  |
 | ---- | ----| ---- |
@@ -1755,20 +1883,22 @@ null
     "message": "查询成功",
     "data": [
         {
-            "id": 10,
-            "name": "force"
+            "id": 1,
+            "name": "tree",
+            "point": 1
         },
         {
-            "id": 1,
-            "name": "tree"
+            "id": 3,
+            "name": "force",
+            "point": 1
         }
     ]
-}
+}   
 ```
 
 #### getSpecificKnowledge 精确查询知识点
 
-**request: GET**
+**request: POST**
 
 | param | type| data  |
 | ---- | ----| ---- |
@@ -1780,15 +1910,16 @@ null
     "status": 0,
     "message": "查询成功",
     "data": {
-        "id": 10,
-        "name": "force"
+        "id": 3,
+        "name": "force",
+        "point": 1
     }
 }
 ```
 
 #### getPreKnowledge 获取前置知识点
 
-**request: GET**
+**request: POST**
 
 |param|type|data|comment|
 |----|----|----|----|
@@ -1807,9 +1938,9 @@ null
             "is_core": 0
         },
         {
-            "id": 9,
+            "id": 4,
             "name": "graph",
-            "is_core": 0
+            "is_core": 1
         }
     ]
 }
@@ -1818,7 +1949,7 @@ null
 
 #### getAfterKnowledge 获取后继知识点
 
-**request: GET**
+**request: POST**
 
 |param|type|data|comment|
 |----|----|----|----|
@@ -1832,7 +1963,7 @@ null
     "message": "查询成功",
     "data": [
         {
-            "id": 10,
+            "id": 3,
             "name": "force",
             "is_core": 0
         }
@@ -1842,7 +1973,7 @@ null
 
 #### getProblemByKnowledge 获取知识点对应问题
 
-**request: GET**
+**request: POST**
 
 |param|type|data|comment|
 |----|----|----|----|
@@ -1857,7 +1988,7 @@ null
     "data": [
         {
             "problem_id": 1001,
-            "is_core": 1
+            "is_core": 0
         }
     ]
 }
@@ -1865,7 +1996,7 @@ null
 
 #### getKnowledgeByProblem 获取问题对应知识点
 
-**request: GET**
+**request: POST**
 
 |param|type|data|comment|
 |----|----|----|----|
@@ -1876,16 +2007,11 @@ null
 ```json
 {
     "status": 0,
-    "message": "查询成功",
+    "message": "查找成功",
     "data": [
         {
-            "id": 10,
+            "id": 3,
             "name": "force",
-            "is_core": 1
-        },
-        {
-            "id": 1,
-            "name": "tree",
             "is_core": 0
         }
     ]
@@ -1894,7 +2020,7 @@ null
 
 #### getUserAllDoingKnowledge 获取用户所有进行中的知识点
 
-**request: GET**
+**request: POST**
 
 |param|type|data|comment|
 |----|----|----|----|
@@ -1913,7 +2039,7 @@ null
 
 #### getUserAllDoneKnowledge 获取所有完成的知识点
 
-**request: GET** 
+**request: POST** 
 
 |param|type|data|comment|
 |----|----|----|----|
@@ -1935,7 +2061,7 @@ null
 
 #### getUserKnowledgeStatus　获取用户知识点的状态
 
-**request: GET**
+**request: POST**
 
 |param|type|data|comment|
 |----|----|----|----|
@@ -1968,6 +2094,25 @@ null
     "status": 0,
     "message": "知识点未开始",
     "data": -1
+}
+```
+
+#### getUserKnowledgePoint　获取用户分数
+
+**request: POST**
+
+|param|type|data|comment|
+|----|----|----|----|
+|user_id|int|1|用户id|
+
+**response:**
+```json
+{
+    "status": 0,
+    "message": "查询成功",
+    "data": {
+        "score": 100
+    }
 }
 ```
 
@@ -2066,5 +2211,33 @@ null
         "problem_id": 1002,
         "is_core": 1
     }
+}
+```
+
+#### getAllTag 获取所有标签
+
+**request: POST**
+
+|param|type|data|comment|
+|----|----|----|----|
+|knowledge_id|int|1|知识点id|
+
+**response:**
+```json
+{
+    "status": 0,
+    "message": "查询成功",
+    "data": [
+        {
+            "id": 1,
+            "name": "贪心",
+            "description": "瞎吉儿搞"
+        },
+        {
+            "id": 2,
+            "name": "数学",
+            "description": "ljw的最爱"
+        }
+    ]
 }
 ```

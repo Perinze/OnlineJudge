@@ -234,4 +234,43 @@ class UserModel extends Model
         }
     }
 
+    /**
+     * @usage 获取用户所有信息
+     * @param void
+     * @return array
+     */
+    public function getUserInfo() {
+        try {
+            $userModel = new UserModel();
+            $submitModel = new SubmitModel();
+            $users = $userModel->field(['user_id'])->select();
+            $result = [];
+            foreach ($users as $user) {
+                $user_id = $user['user_id'];
+                $where = ['user_id' => $user_id];
+                $user_basic_info = $userModel->where($where)->find();
+                $user_submit_info = $submitModel->where($where)->select();
+                $status = ['AC', 'WA', 'TLE', 'MLE', 'CE', 'RE', 'OLE', 'PE'];
+                $returnData = [
+                    'nick'  => $user_basic_info['nick'],
+                    'realname'  => $user_basic_info['realname']
+                ];
+                foreach ($status as $item) {
+                    $returnData[$item] = 0;
+                }
+                foreach ($user_submit_info as $submit) {
+                    foreach ($status as $item) {
+                        if ($submit['status'] == $item) {
+                            $returnData[$item]++;
+                            break;
+                        }
+                    }
+                }
+                $result[$user_id] = $returnData;
+            }
+            return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $result];
+        } catch (DbException $e) {
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+        }
+    }
 }

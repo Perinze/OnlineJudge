@@ -6,7 +6,9 @@ namespace app\oj\controller;
 
 use app\oj\model\ContestModel;
 use app\oj\model\ContestUserModel;
+use app\oj\model\GroupModel;
 use app\oj\model\SubmitModel;
+use app\oj\model\UsergroupModel;
 use app\oj\validate\ContestValidate;
 use think\Controller;
 use think\facade\Session;
@@ -89,6 +91,7 @@ class Contest extends Controller
     {
         $contest_user_model = new ContestUserModel();
         $contest_model = new ContestModel();
+        $user_group_model = new UsergroupModel();
         $contest_validate = new ContestValidate();
         // join
         $req = input('post.');
@@ -108,6 +111,13 @@ class Contest extends Controller
             return apiReturn($resp['code'], $resp['msg'], $resp['data']);
         }
 
+        $group_id = $resp['data']['group_id'];
+        if($group_id !== 0){
+            $resp = $user_group_model->searchRelation($group_id, $user_id);
+            if($resp['code'] !== CODE_SUCCESS){
+                return apiReturn($resp['code'], '你不在该团队内', '');
+            }
+        }
         // judge join info
         $resp = $contest_user_model->searchUser($contest_id, $user_id);
         if($resp['code'] === CODE_ERROR){
@@ -153,4 +163,6 @@ class Contest extends Controller
         $resp = $contest_user_model->searchUserContest($user_id);
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
+
+
 }

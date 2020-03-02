@@ -40,6 +40,19 @@ class KnowledgeModel extends Model {
         }
     }
 
+    public function getKnowledgeByID($id) {
+        try {
+            $result = $this->where(['id' => $id])->find();
+            if ($result) {
+                return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $result];
+            } else {
+                return ['code' => CODE_ERROR, 'msg' => '无此知识点', 'data' => $id];
+            }
+        } catch (DbException $e) {
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+        }
+    }
+
     /**
      * @usage 获取一对知识点
      * @param array $data ['name', 'pre_name']
@@ -72,7 +85,7 @@ class KnowledgeModel extends Model {
 
     /**
      * @usage 添加知识点
-     * @param array $data ['name']
+     * @param array $data ['name', 'point']
      * @return array ['code', 'msg', 'data']
      */
     public function addKnowledge($data) {
@@ -82,7 +95,7 @@ class KnowledgeModel extends Model {
             if ($msg) {
                 return ['code' => CODE_ERROR, 'msg' => '已存在此知识点', 'data' => $msg];
             } else {
-                $insertData = ['name' => $data['name']];
+                $insertData = ['name' => $data['name'], 'point' => $data['point']];
                 $info = $this->insertGetId($data);
                 return ['code' => CODE_SUCCESS, 'msg' => '插入成功', 'data' => $info];
             }
