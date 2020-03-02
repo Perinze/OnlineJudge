@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： 127.0.0.1:3306
--- 生成日期： 2020-03-02 14:00:09
+-- 生成日期： 2020-03-02 14:03:05
 -- 服务器版本： 5.7.26
 -- PHP 版本： 7.2.18
 
@@ -54,6 +54,7 @@ CREATE TABLE IF NOT EXISTS `contest` (
   `frozen` double NOT NULL DEFAULT '0.2',
   `problems` varchar(512) NOT NULL,
   `colors` varchar(512) CHARACTER SET utf8mb4 NOT NULL COMMENT '题目对应颜色',
+  `group_id` int(11) NOT NULL DEFAULT '0' COMMENT '团队id',
   `status` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`contest_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
