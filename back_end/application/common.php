@@ -26,6 +26,10 @@ define('TEACHER', 2);
 define('TRAINING_TEAM_MEMBER', 1);
 define('ORDINARY_MEMBER', 0);
 
+define('CREATOR', 2);
+define('OPERATOR', 1);
+define('MEMBER', 0);
+
 define('BANNED', 0);
 define('USING', 1);
 define('CONTEST', 2);

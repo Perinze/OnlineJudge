@@ -8,8 +8,12 @@
 
 namespace app\oj\controller;
 
+use app\oj\model\ContestModel;
 use app\oj\model\GroupModel;
+use app\oj\model\GroupproblemModel;
+use app\oj\model\ProblemModel;
 use app\oj\model\UsergroupModel;
+use app\oj\validate\ContestValidate;
 use app\oj\validate\GroupValidate;
 use think\Controller;
 use think\facade\Session;
@@ -189,6 +193,140 @@ class Group extends Controller
         }
         $resp = $usergroup_model->addRelation($req['group_id'], $req['user_id'], 0);
 
+        return apiReturn($resp['code'], $resp['msg'], $resp['data']);
+    }
+
+
+    public function addContest()
+    {
+        $contest_model = new ContestModel();
+        $user_group_model = new UsergroupModel();
+        $contest_validate = new ContestValidate();
+
+        $req = input('post.');
+        $result = $contest_validate->scene('addContest')->check($req);
+        if ($result !== true) {
+            return apiReturn(CODE_ERROR, $contest_validate->getError(), '');
+        }
+        // check login
+        $user_id = Session::get('user_id');
+        if (empty($user_id)) {
+            return apiReturn(CODE_ERROR, '未登录', '');
+        }
+
+        $resp = $user_group_model->searchRelation($req['group_id'], $user_id);
+        if($resp['code'] !== CODE_SUCCESS || $resp['data']['identity'] === MEMBER){
+            return apiReturn($resp['code'], '你不是该团队中的管理员', '');
+        }
+        if(isset($req['colors']) && !is_array($req['colors'])){
+            return apiReturn(CODE_ERROR, '数据格式错误', '');
+        }
+        if(!isset($req['problems']) && !is_array($req['problems'])){
+            return apiReturn(CODE_ERROR, '数据格式错误', '');
+        }
+        foreach ($req['problems'] as $item){
+
+        }
+        $resp = $contest_model->newContest(array(
+            'contest_name' => $req['contest_name'],
+            'begin_time' => $req['begin_time'],
+            'end_time' => $req['end_time'],
+            'frozen' => $req['frozen'],
+            'colors' => json_encode(isset($req['colors']) ? $req['colors'] : array()),
+            'problems' => json_encode($req['problems']),
+        ));
+        return apiReturn($resp['code'], $resp['msg'], $resp['data']);
+    }
+
+    public function addGroupProblem()
+    {
+        $problem_model = new ProblemModel();
+        $user_group_model = new UsergroupModel();
+        $group_problem_model = new GroupproblemModel();
+
+        $req = input('post.');
+
+        if(!isset($req['problems']) || !is_array($req['problems'])){
+            return apiReturn(CODE_ERROR, '未填写题目列表或格式错误','');
+        }
+        if(!isset($req['group_id'])){
+            return apiReturn(CODE_ERROR, '未填写团队id','');
+        }
+
+        // check login
+        $user_id = Session::get('user_id');
+        if (empty($user_id)) {
+            return apiReturn(CODE_ERROR, '未登录', '');
+        }
+        $group_id = $req['group_id'];
+        $resp = $user_group_model->searchRelation($group_id, $user_id);
+        if($resp['code'] !== CODE_SUCCESS || $resp['data']['identity'] === MEMBER){
+            return apiReturn(CODE_ERROR, '你不是该团队中的管理员', '');
+        }
+        $flag = true;
+        $msg = '成功';
+        foreach ($req['problems'] as $item){
+            $resp = $problem_model->searchProblemById($item);
+            if($resp['code'] !== CODE_SUCCESS || $resp['data']['status'] !== USING){
+                continue;
+            }
+            $resp = $group_problem_model->addRelation($group_id, $item);
+            if($flag && strpos($resp['data'], 'Duplicate entry') !== false){
+                $msg = '部分题目添加失败';
+            }
+        }
+
+        return apiReturn($resp['code'], $msg, '');
+    }
+
+    public function getAllProblem()
+    {
+        $user_group_model = new UsergroupModel();
+        $group_problem_model = new GroupproblemModel();
+
+        $req = input('post.');
+
+        if(!isset($req['group_id'])){
+            return apiReturn(CODE_ERROR, '未填写团队id','');
+        }
+
+        // check login
+        $user_id = Session::get('user_id');
+        if (empty($user_id)) {
+            return apiReturn(CODE_ERROR, '未登录', '');
+        }
+        $group_id = $req['group_id'];
+        $resp = $user_group_model->searchRelation($group_id, $user_id);
+        if($resp['code'] !== CODE_SUCCESS){
+            return apiReturn(CODE_ERROR, '你不是该团队中的成员', '');
+        }
+
+        $resp = $group_problem_model->getAllProblem($group_id, isset($req['page']) ? $req['page'] : 0);
+        return apiReturn($resp['code'], $resp['msg'], $resp['data']);
+    }
+
+    public function getAllContest()
+    {
+        $user_group_model = new UsergroupModel();
+        $contest_model = new ContestModel();
+        $req = input('post.');
+
+        if(!isset($req['group_id'])){
+            return apiReturn(CODE_ERROR, '未填写团队id','');
+        }
+
+        // check login
+        $user_id = Session::get('user_id');
+        if (empty($user_id)) {
+            return apiReturn(CODE_ERROR, '未登录', '');
+        }
+        $group_id = $req['group_id'];
+        $resp = $user_group_model->searchRelation($group_id, $user_id);
+        if($resp['code'] !== CODE_SUCCESS){
+            return apiReturn(CODE_ERROR, '你不是该团队中的成员', '');
+        }
+
+        $resp = $contest_model->getAllGroupContest($group_id, isset($req['page']) ? $req['page'] : 0);
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 }
