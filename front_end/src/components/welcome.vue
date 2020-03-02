@@ -436,7 +436,12 @@
                             localStorage.setItem("avator", response.data.avator);
                             localStorage.setItem("acCnt", acCnt);
                             localStorage.setItem("waCnt", waCnt);
-                            this.$emit('logged', response.data);
+
+                            let obj = response.data;
+                            delete obj.all_problems;
+                            obj.acCnt = acCnt;
+                            obj.waCnt = waCnt;
+                            this.$emit('logged', obj);
                         }else{
                             // 用户名密码错误
                             // 已经登陆
