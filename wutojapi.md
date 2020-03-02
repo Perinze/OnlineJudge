@@ -769,14 +769,19 @@ null
 
 ``` json
 {
-    "status": 0,//0-success, -1-error
+    "status": 0,
     "message": "登录成功",
     "data": {
-        "userId": 1,
-        "nick": "123",
-        "desc": null,
-        "acCnt": 0,
-        "waCnt": 0
+        "userId": 2,
+        "nick": "kdl12138",
+        "desc": "1234",
+        "avatar": "\"\"",
+        "all_problems": [
+            {
+                "status": "WA",
+                "cnt": 1
+            }
+        ]
     }
 }
 ```
