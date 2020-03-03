@@ -417,15 +417,31 @@
                             // 成功登陆
                             this.loading = false;
 
+                            let acCnt = 0,
+                                waCnt = 0;
+
+                            response.data.all_problems.map(x => x.status).forEach(val => {
+                                if( val!=='ac' ) {
+                                    waCnt++;
+                                }else{
+                                    acCnt++;
+                                }
+                            });
+
                             this.$store.dispatch("login/userLogin", true);
                             localStorage.setItem("Flag", "isLogin");
                             localStorage.setItem("userId", response.data.userId);
                             localStorage.setItem("nick", response.data.nick);
                             localStorage.setItem("desc", response.data.desc);
                             localStorage.setItem("avator", response.data.avator);
-                            localStorage.setItem("acCnt", response.data.acCnt);
-                            localStorage.setItem("waCnt", response.data.waCnt);
-                            this.$emit('logged', response.data);
+                            localStorage.setItem("acCnt", acCnt);
+                            localStorage.setItem("waCnt", waCnt);
+
+                            let obj = response.data;
+                            delete obj.all_problems;
+                            obj.acCnt = acCnt;
+                            obj.waCnt = waCnt;
+                            this.$emit('logged', obj);
                         }else{
                             // 用户名密码错误
                             // 已经登陆

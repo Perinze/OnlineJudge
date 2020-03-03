@@ -55,6 +55,10 @@ export const loadScript = (url) => {
   })
 }
 
+export const formatImgUrl = (url) => {
+  return url.replace("..", "http://dev.acmwhut.com/api");
+}
+
 const loadScriptArr = (urls) => {
   let loaderArr = [];
   for (let i = 0; i < urls.length; i++) {

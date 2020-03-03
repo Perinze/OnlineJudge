@@ -92,7 +92,7 @@
                 let response = await getProblemList();
                 if(response.status == 0) {
                     // success
-                    let data = response.data;
+                    let data = response.data.data;
                     data.forEach( val => {
                         let res = {
                             id: val.problem_id,

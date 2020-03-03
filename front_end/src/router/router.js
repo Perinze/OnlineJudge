@@ -16,12 +16,14 @@ import editAdmin from '../page/editAdmin';
 import addProblem from '../page/addProblem';
 import groupManager from '../page/groupManager';
 import discussion from '../page/discussion';
-import discussionInfo from '../page/discussionInfo';
-import addDiscussion from '../page/addDiscussion';
 import achievement from "../page/achievement";
 import achievementInfo from "../page/achievementInfo";
 import rank from '../page/rank';
 import store from "../store/index";
+import topic from '../page/topic';
+import topicInfo from '../page/topicInfo';
+import discussionInfo from "../page/discussionInfo";
+import addDiscussion from '../page/addDiscussion';
 
 Vue.use(VueRouter);
 
@@ -141,15 +143,26 @@ const routes = [
         }
     },
     {
-        // 讨论区
-        path: '/discussion',
-        component: discussion,
+        // 话题区
+        name: 'topic',
+        path: '/topic',
+        component: topic,
         meta: {
             isLogin: false
         }
     },
     {
-        // 讨论区某条帖子
+        // 话题区某条话题
+        name: 'topicInfo',
+        path: '/topicInfo',
+        component: topicInfo,
+        meta: {
+            isLogin: false
+        }
+    },
+    {
+        // 某条帖子
+        name: 'discussionInfo',
         path: '/discussionInfo',
         component: discussionInfo,
         meta: {
@@ -160,14 +173,6 @@ const routes = [
         // 新增帖子
         path: '/addDiscussion',
         component: addDiscussion,
-        meta: {
-            isLogin: false
-        }
-    },
-    {
-        // 排行榜
-        path: '/rank',
-        component: rank,
         meta: {
             isLogin: false
         }

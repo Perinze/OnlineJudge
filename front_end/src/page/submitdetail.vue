@@ -139,11 +139,16 @@
                     this.timeUsed = data.time;
                     this.memoryUsed = data.memory;
                     this.$refs.codeViewer.code = this.code;
+
+                    if(data.status!=='Judging') {
+                        clearInterval(this.interval);
+                    }
                 }else{
                     this.$message({
                         message: '发生错误: ' + response.message + ', 请联系管理员',
                         type: 'error'
-                    })
+                    });
+                    clearInterval(this.interval);
                 }
                 this.$loading.hide();
             },
@@ -159,7 +164,6 @@
             setIntervaler: function() {
                 this.interval = setInterval( () => {
                     this.renderStatus();
-                    clearInterval(this.interval);
                 }, 5000)
             }
         },

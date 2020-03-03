@@ -481,6 +481,126 @@ null
 }
 ```
 
+* addContest
+
+  *request*:
+
+  ``` json
+  {
+      "contest_name": "test",
+      "begin_time": "2020/3/2 00:00:00",
+      "end_time": "2020/3/3 00:00:00",
+      "frozen": "0.2",// 封榜时间，0.2代表后20%时间封榜，0代表不封榜
+      "colors":[
+          "#FFFFFF"
+       ],//每道题对应的颜色，可不填
+      "problems": [
+          "1001"
+      ]
+  }
+  ```
+
+  *response:*
+
+  ``` json
+  {
+      "status": 0,//0-success, -1-error
+      "message": "新建比赛成功",
+      "data": ""
+  }
+  ```
+
+* addGroupProblem
+
+  *request:*
+
+  ``` json
+  {
+      "group_id": 2,
+      "problems": [
+          "1002"
+      ]
+  }
+  ```
+  *response:*
+
+  ``` json
+  {
+      "status": 0,//0-success, -1-error
+      "message": "成功",
+      "data": ""
+  }
+  ```
+  
+* getAllContest
+
+    *request:*
+
+  ``` json
+  {
+      "group_id": 2,
+      "page": 0//可不填，默认为0
+  }
+  ```
+  *response:*
+  
+  ``` json
+  {
+      "status": 0,
+      "message": "查询成功",
+      "data": {
+          "data": [
+              {
+                  "contest_id": 1001,
+                  "contest_name": "test",
+                  "begin_time": "2019-10-16 16:12:47",
+                  "end_time": "2019-10-17 16:12:47",
+                  "frozen": 0.2,
+                  "problems": "[\"1001\",\"1002\"]",
+                  "colors": "[\"#FFFFFF\",\"#FF00FF\"]",
+                  "group_id": 2,
+                  "status": 1
+              }
+          ],
+          "count": 1
+      }
+  }
+  ```
+  
+* getAllProblem
+
+    *request:*
+
+  ``` json
+  {
+      "group_id": 2,
+      "page": 0//可不填，默认为0
+  }
+  ```
+  *response:*
+  
+  ``` json
+  {
+    "status": 0,
+      "message": "查询成功",
+      "data": {
+          "data": [
+              {
+                  "problem_id": 1001,
+                  "title": "wyhsb1",
+                  "tag": "[\"1\",\"2\"]"
+              },
+              {
+                  "problem_id": 1002,
+                  "title": "wyhsb11",
+                  "tag": null
+              }
+          ],
+          "count": 2
+      }
+  }
+  ```
+
 ## Index
 
 * notice
@@ -649,14 +769,19 @@ null
 
 ``` json
 {
-    "status": 0,//0-success, -1-error
+    "status": 0,
     "message": "登录成功",
     "data": {
-        "userId": 1,
-        "nick": "123",
-        "desc": null,
-        "acCnt": 0,
-        "waCnt": 0
+        "userId": 2,
+        "nick": "kdl12138",
+        "desc": "1234",
+        "avatar": "\"\"",
+        "all_problems": [
+            {
+                "status": "WA",
+                "cnt": 1
+            }
+        ]
     }
 }
 ```
@@ -1851,7 +1976,7 @@ null
 **request: POST**
 
 |param|type|data|comment|
-|----|----|----|----|   
+|----|----|----|----|
 |knowledge|string|"force"|知识点|
 |core_only|int|0|0/１，可为空|
 
