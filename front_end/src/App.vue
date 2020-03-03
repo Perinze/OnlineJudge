@@ -1,36 +1,36 @@
 <template>
     <div id="app">
         <sidenav
-            ref="sidenav"
-            :is-display="sidebarDisplay"
-            @close="closeSideBar"
-            @call="callSideBar"
+                ref="sidenav"
+                :is-display="sidebarDisplay"
+                @close="closeSideBar"
+                @call="callSideBar"
         />
         <div class="layout-content" id="layout-content" :style="contentWidthObject">
             <topnav :topnavOpacity="topnavOpacity" :mineWidth="topnavWidth"/>
             <keep-alive>
                 <router-view
-                    id="combox"
-                    class="combox"
-                    :key="$route.fullPath+localUserId"
-                    @open-problem="callSideDrawer"
+                        id="combox"
+                        class="combox"
+                        :key="$route.fullPath+localUserId"
+                        @open-problem="callSideDrawer"
                 />
             </keep-alive>
         </div>
         <topdrawer
-            :pid="codeComponentData.pid"
-            :cid="codeComponentData.cid"
-            :is-display="topDisplay"
-            @close="topDisplay=false"
-            @close-all="topDisplay=false; sideDisplay=false"
+                :pid="codeComponentData.pid"
+                :cid="codeComponentData.cid"
+                :is-display="topDisplay"
+                @close="topDisplay=false"
+                @close-all="topDisplay=false; sideDisplay=false"
         />
         <sidedrawer
-            :pid="problemComponentData.pid"
-            :cid="problemComponentData.cid"
-            :window-resize="windowResize"
-            :is-display="sideDisplay"
-            @close="sideDisplay=false"
-            @open-submit="callSubmit"
+                :pid="problemComponentData.pid"
+                :cid="problemComponentData.cid"
+                :window-resize="windowResize"
+                :is-display="sideDisplay"
+                @close="sideDisplay=false"
+                @open-submit="callSubmit"
         />
         <!--<div style="z-index: 1001;backdrop-filter: blur(30px);width: 500px;height: 500px;position: absolute;left: 470px;top: 100px;" @click="windowResize = ~windowResize;topDisplay=true;"></div>-->
     </div>
@@ -41,7 +41,6 @@
     import sidenav from "./components/side-nav";
     import topdrawer from "./components/top-drawer";
     import sidedrawer from "./components/side-drawer";
-
     export default {
         components: {
             topnav,
@@ -161,22 +160,19 @@
     $tleColor: #82B1FF;
     $mleColor: #DECB6B;
     $reColor: rgb(131, 118, 169);
-
     #app {
         width: 100%;
         height: 100%;
         padding: 0;
         overflow-x: hidden;
     }
-
     .layout-content {
         position: relative;
         padding-left: 200px;
         height: 100%;
         transition: width 0.5s ease-in,
-                    padding-left 0.5s ease-in-out;
+        padding-left 0.5s ease-in-out;
     }
-
     .combox {
         width: 100%;
         height: 100%;
@@ -184,92 +180,72 @@
         overflow-y: scroll;
         position: relative;
     }
-
     /*
         题目icon BEGIN
     */
-
     .ac-icon::before {
         content: 'A';
         color: $acColor;
     }
-
     .wa-icon::before {
         content: 'W';
         color: $waColor;
     }
-
     .tle-icon::before {
         content: 'T';
         color: $tleColor;
     }
-
     .mle-icon::before {
         content: 'M';
         color: $mleColor;
     }
-
     .other-icon::before {
         content: 'O';
         color: black;
     }
-
     .un-icon::before {
         content: '-';
         color: #8A8A8A;
     }
-
     /*
         题目icon END
     */
-
     /*
         固定色 BEGIN
     */
-
     .ac-color {
         color: $acColor;
     }
-
     .wa-color {
         color: $waColor;
     }
-
     .tle-color {
         color: $tleColor;
     }
-
     .mle-color {
         color: $mleColor;
     }
-
     .re-color {
         color: $reColor;
     }
-
     /*
         固定色END
     */
-
     :focus {
         outline: 0;
     }
-
     /*
         外部字体
     */
-
     @font-face {
         font-family: countdown;
         src: url("../assets/font/countdown.ttf");
     }
-
     @font-face {
         font-family: dinnext;
         /*src: url("../assets/font/DINNext.otf");*/
         src: url("../assets/font/DINNext_min.ttf");
     }
-
     @font-face {
         font-family: DINCondensed;
         /*src: url("../assets/font/DINCondensed.otf");*/

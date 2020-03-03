@@ -10,6 +10,18 @@ import discusslist from '../page/discusslist';
 import discussdetail from '../page/discussdetail';
 import submitdetail from '../page/submitdetail';
 import page404 from '../page/page404';
+import group from '../page/group';
+import addGroup from '../page/addGroup';
+import editAdmin from '../page/editAdmin';
+import addProblem from '../page/addProblem';
+import groupManager from '../page/groupManager';
+import discussion from '../page/discussion';
+import discussionInfo from '../page/discussionInfo';
+import addDiscussion from '../page/addDiscussion';
+import achievement from "../page/achievement";
+import achievementInfo from "../page/achievementInfo";
+import rank from '../page/rank';
+import store from "../store/index";
 
 Vue.use(VueRouter);
 
@@ -89,18 +101,117 @@ const routes = [
         }
     },
     {
+        // 小组首页
+        path: '/group',
+        component: group,
+        meta: {
+            isLogin: false
+        }
+    },
+    {
+        // 新增小组
+        path: '/addGroup',
+        component: addGroup,
+        meta: {
+            isLogin: false
+        }
+    },
+    {
+        // 设置管理员
+        path: '/editAdmin',
+        component: editAdmin,
+        meta: {
+            isLogin: false
+        }
+    },
+    {
+        // 创建题库
+        path: '/addProblem',
+        component: addProblem,
+        meta: {
+            isLogin: false
+        }
+    },
+    {
+        // 小组管理
+        path: '/groupManager',
+        component: groupManager,
+        meta: {
+            isLogin: false
+        }
+    },
+    {
+        // 讨论区
+        path: '/discussion',
+        component: discussion,
+        meta: {
+            isLogin: false
+        }
+    },
+    {
+        // 讨论区某条帖子
+        path: '/discussionInfo',
+        component: discussionInfo,
+        meta: {
+            isLogin: false
+        }
+    },
+    {
+        // 新增帖子
+        path: '/addDiscussion',
+        component: addDiscussion,
+        meta: {
+            isLogin: false
+        }
+    },
+    {
+        // 排行榜
+        path: '/rank',
+        component: rank,
+        meta: {
+            isLogin: false
+        }
+    },
+    {
         // default
         path: '*',
         component: page404,
         meta: {
             isLogin: false
         }
-    }
+    },
+    {
+        //知识树
+        path: '/achievement',
+        component: achievement,
+        meta: {
+            isLogin: false
+        }
+    },
+    {
+        //知识树详情
+        path: '/achievementInfo',
+        component: achievementInfo,
+        meta: {
+            isLogin: false
+        }
+    },
 ];
 
 var router = new VueRouter({
     mode: 'history',
     routes: routes
 });
+
+const pathArr_noTopnav = ["/addGroup", "/editAdmin", "/addProblem", "/groupManager", "/discussionInfo", "/addDiscussion","/achievementInfo"];
+
+router.beforeEach((to, from, next) => {
+    if (pathArr_noTopnav.indexOf(to.path) >= 0) {
+        store.dispatch("ui/changeIsShowTopnav", false);
+    } else {
+        store.dispatch("ui/changeIsShowTopnav", true);
+    }
+    next();
+})
 
 export default router;

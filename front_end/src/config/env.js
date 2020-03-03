@@ -7,6 +7,7 @@
  * baseUrl: 请求域名前缀
  */
 
+
 let baseUrl = 'http://acmwhut.com/api/oj/';
 if(process.env.NODE_ENV === 'test') {
     // 本地测试环境
@@ -15,6 +16,7 @@ if(process.env.NODE_ENV === 'test') {
     // 生产环境(相对路径)
     baseUrl = '/api/oj/';
 }
+
 
 /**
  * 百度统计

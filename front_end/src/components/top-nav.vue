@@ -31,10 +31,9 @@
         z-index: 999;
         background: white;
         transition: background .1s ease 0s,
-                    width 0.5s ease-in;
+        width 0.5s ease-in;
         color: #888888;
     }
-
     .search-bar {
         margin: 0 auto;
         display: flex;
@@ -88,7 +87,6 @@
             }
         }
     }
-
     @media (max-width: 1543px) and (min-width: 1280px) {
         .search-bar {
             max-width: 996px;

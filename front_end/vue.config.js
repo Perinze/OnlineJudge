@@ -41,6 +41,14 @@ module.exports = {
     	if(process.env.NODE_ENV === 'test') {
     		// 开发环境
     		config.plugins = [...config.plugins, ...devPlugin];
+    		config.devServer = {
+    			proxy: {
+    				'/api/*': {
+    					target: 'http://dev.acmwhut.com',
+						changeOrigin: true,
+					}
+				}
+			}
     	}else{
     		// 生产环境
 			config.plugins = [...config.plugins, ...proPlugin];

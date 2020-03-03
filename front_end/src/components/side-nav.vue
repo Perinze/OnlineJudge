@@ -63,7 +63,7 @@
             </div>
         </div>
         <div>
-            <div class="button-blank"></div>
+<!--            <div class="button-blank"></div>-->
             <menu-item
                     v-for="(item,index) in items"
                     :title="item.title"
@@ -146,6 +146,18 @@
                         keyName: 'grouplist',
                         imgSrc: require('../../assets/icon/group.svg'),
                         routeName: "group"
+                    },
+                    {
+                        title: '成就 Achievement',
+                        keyName: 'achievement',
+                        imgSrc: require('../../assets/icon/achievement.svg'),
+                        routeName: "achievement"
+                    },
+                    {
+                        title: '讨论 Discussion',
+                        keyName: 'discussion',
+                        imgSrc: require('../../assets/icon/discussion.svg'),
+                        routeName: "discussion"
                     },
                 ],
                 userinfo: {
@@ -248,6 +260,8 @@
                     case '/contest': return 2;
                     case '/rank': return 3;
                     case '/group': return 4;
+                    case '/achievement': return 5;
+                    case '/discussion': return 6;
                 }
                 return null;
             },
@@ -308,7 +322,7 @@
     .logo {
         align-items: center;
         text-align: center;
-        height: 60px;
+        height: 48px;
     }
 
     .logout-btn {
@@ -320,7 +334,7 @@
 
     .menu-userbar {
         text-align: center;
-        height: 220px;
+        height: 200px;
         border-bottom: 1px solid rgba(0,0,0,0.05);
         .user-alias-border {
             position: relative;
@@ -380,7 +394,7 @@
         flex-direction: row;
         justify-content: left;
         align-items: center;
-        height: 60px;
+        height: 50px;
         border-left: 7px solid transparent;
         cursor: pointer;
         &:hover {
@@ -400,7 +414,7 @@
             flex-direction: row;
             justify-content: left;
             align-items: center;
-            height: 60px;
+            height: 56px;
             background: #f5f5f5;
             border-left: 7px #5c8db7 solid;
             box-shadow:inset -10px 0 15px -16px rgba(0,0,0,0.3);
@@ -424,7 +438,7 @@
         width: 100%;
         display: block;
         position: absolute;
-        bottom: 3.4%;
+        bottom: 2%;
         > span {
             display: block;
         }
