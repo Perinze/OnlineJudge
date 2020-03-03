@@ -8,6 +8,7 @@
  */
 
 let baseUrl = 'http://acmwhut.com/api/oj/';
+let domain = "http://dev.acmwhut.com";
 if(process.env.NODE_ENV === 'test') {
     // 本地测试环境
     baseUrl = 'http://dev.acmwhut.com/api/oj/';
@@ -26,4 +27,5 @@ let baidu_site_id = '14001473';
 export {
     baseUrl,
     baidu_site_id,
+    domain
 }

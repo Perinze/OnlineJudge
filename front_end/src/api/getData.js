@@ -211,7 +211,35 @@ export const getStatus = data => fetch('/Submit/getSubmitStatus', 'post', data);
 export const submitFeedback = data => fetch('/feedback/add_feedback', 'post', data);
 
 
+/**
+ * 创建小组
+ */
 
+export const addGroup = (data) => fetch('/Group/add_group', 'post', data);
+
+/**
+ * 获取用户所属小组
+ */
+
+export const getUserGroups = () => fetch('/Group/user_get_all_group');
+
+/**
+ * 获取所有讨论
+ */
+
+export const getAllTopic = (data) => fetch('/discuss/getAllTopic', 'post', data);
+
+/**
+ * 上传图片
+ */
+
+export const uploadImage = (data) => fetch('/upload/upload_image', 'post', data);
+
+/**
+ * 查找用户
+ */
+
+ export const searchUser = (data) => fetch('/User/searchUser', 'post', data);
 
 // Test
 

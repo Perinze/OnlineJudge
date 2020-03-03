@@ -10,6 +10,15 @@ import discusslist from '../page/discusslist';
 import discussdetail from '../page/discussdetail';
 import submitdetail from '../page/submitdetail';
 import page404 from '../page/page404';
+import group from '../page/group';
+import addGroup from '../page/addGroup';
+import editAdmin from '../page/editAdmin';
+import addProblem from '../page/addProblem';
+import groupManager from '../page/groupManager';
+import topic from '../page/topic';
+import topicInfo from '../page/topicInfo';
+import discussionInfo from "../page/discussionInfo";
+import addDiscussion from '../page/addDiscussion';
 
 Vue.use(VueRouter);
 
@@ -86,6 +95,81 @@ const routes = [
         }),
         meta: {
             isLogin: true
+        }
+    },
+    {
+        // 小组首页
+        path: '/group',
+        component: group,
+        meta: {
+            isLogin: false
+        }
+    },
+    {
+        // 新增小组
+        path: '/addGroup',
+        component: addGroup,
+        meta: {
+            isLogin: false
+        }
+    },
+    {
+        // 设置管理员
+        path: '/editAdmin',
+        component: editAdmin,
+        meta: {
+            isLogin: false
+        }
+    },
+    {
+        // 创建题库
+        path: '/addProblem',
+        component: addProblem,
+        meta: {
+            isLogin: false
+        }
+    },
+    {
+        // 小组管理
+        path: '/groupManager',
+        component: groupManager,
+        meta: {
+            isLogin: false
+        }
+    },
+    {
+        // 话题区
+        name: 'topic',
+        path: '/topic',
+        component: topic,
+        meta: {
+            isLogin: false
+        }
+    },
+    {
+        // 话题区某条话题
+        name: 'topicInfo',
+        path: '/topicInfo',
+        component: topicInfo,
+        meta: {
+            isLogin: false
+        }
+    },
+    {
+        // 某条帖子
+        name: 'discussionInfo',
+        path: '/discussionInfo',
+        component: discussionInfo,
+        meta: {
+            isLogin: false
+        }
+    },
+    {
+        // 新增帖子
+        path: '/addDiscussion',
+        component: addDiscussion,
+        meta: {
+            isLogin: false
         }
     },
     {
