@@ -92,6 +92,7 @@
                 黄 融（2018 级）：评测核心及其对接任务
                 郑文伟（2017 级）：WUTOJ 的设计工作
                 周景尧（2017 级）：OnlineJudge 前端页面
+                郑成锋（2016 级）：OnlineJudge 前端页面
                 冷 瑜（2016 级）：Python 爬虫部分
                 刘福鑫（2017 级）：主页
 
@@ -240,9 +241,9 @@
                 }
             },
             callUsercard() {
-                // if(localStorage.getItem('Flag')==='isLogin')
+                if(localStorage.getItem('Flag')==='isLogin')
                     this.displayUsercard=true;
-                // else return;
+                else return;
             }
         },
         computed: {
@@ -414,7 +415,7 @@
             flex-direction: row;
             justify-content: left;
             align-items: center;
-            height: 56px;
+            height: 50px;
             background: #f5f5f5;
             border-left: 7px #5c8db7 solid;
             box-shadow:inset -10px 0 15px -16px rgba(0,0,0,0.3);
