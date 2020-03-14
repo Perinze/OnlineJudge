@@ -256,17 +256,6 @@ export const testRequest = () => fetch('https://analytics.twitter.com/tpm/p?_=15
 
 export const testError = () => fetch('/Base/index');
 
-/**
- * 创建小组
- */
-
-export const addGroup = (data) => fetch('/Group/add_group', 'post', data);
-
-/**
- * 获取用户所属小组
- */
-
-export const getUserGroups = () => fetch('/Group/user_get_all_group');
 
 /**
  * 获取所有讨论
@@ -274,7 +263,7 @@ export const getUserGroups = () => fetch('/Group/user_get_all_group');
 
 export const getAllDiscussion = (data) => fetch('/discuss/getAllDiscuss', 'post', data);
 
- //knowledgeTree
+// knowledgeTree
 
 /**
  * 获取知识树星级排名，待下一版添加
