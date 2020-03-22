@@ -39,6 +39,6 @@ return [
         '__JS__'     => '/back_end/public/static/js',
         '__IMG__'    => '/back_end/public/static/images',
         '__DT__'     => '/back_end/public/static/datatable',
-        '__PANEL__'  => '/back_end/public/index.php/panel',
+        '__PANEL__'  => '/back_end/panel',
     ]
 ];
