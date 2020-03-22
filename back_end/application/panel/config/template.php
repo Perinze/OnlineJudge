@@ -34,11 +34,11 @@ return [
     'taglib_end'   => '}',
     //模板参数替换
     'tpl_replace_string' => [
-        '__CSS__'    => '/OnlineJudge/back_end/public/static/css',
-        '__FONT__'   => '/OnlineJudge/back_end/public/static/fonts',
-        '__JS__'     => '/OnlineJudge/back_end/public/static/js',
-        '__IMG__'    => '/OnlineJudge/back_end/public/static/images',
-        '__DT__'     => '/OnlineJudge/back_end/public/static/datatable',
-        '__PANEL__'  => '/OnlineJudge/back_end/public/index.php/panel',
+        '__CSS__'    => '/back_end/public/static/css',
+        '__FONT__'   => '/back_end/public/static/fonts',
+        '__JS__'     => '/back_end/public/static/js',
+        '__IMG__'    => '/back_end/public/static/images',
+        '__DT__'     => '/back_end/public/static/datatable',
+        '__PANEL__'  => '/back_end/public/index.php/panel',
     ]
 ];
