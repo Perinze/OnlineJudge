@@ -74,6 +74,20 @@
                                         <div id="output_format"></div>
                                         <p class="help-block">请输入题目的输出格式。</p>
                                     </div>
+                                    <div class="form-group column">
+                                        <label>样例输入</label>
+                                        <div>
+                                            <textarea name="sample_input" id="sample_input" cols="30" rows="10"></textarea>
+                                        </div>
+                                        <p class="help-block">请输入题目的样例输入。</p>
+                                    </div>
+                                    <div class="form-group column">
+                                        <label>样例输出</label>
+                                        <div>
+                                            <textarea name="sample_output" id="sample_output" cols="30" rows="10"></textarea>
+                                        </div>
+                                        <p class="help-block">请输入题目的样例输出。</p>
+                                    </div>
                                     <div class="form-group">
                                         <label>提示</label>
                                         <div id="hint"></div>
@@ -159,6 +173,7 @@
         initialValue: [],
         exts: ['scrollSync']
     });
+
     function btn()
     {
         $.ajax({
@@ -174,6 +189,8 @@
                 output_format: output_format.getMarkdown(),
                 hint: hint.getMarkdown(),
                 source:   $("#source").val(),
+                sample_input: $("#sample_input").val(),
+                sample_output: $("#sample_output").val()
             },
             success: function (data) {
                 if (data.status == 0) {

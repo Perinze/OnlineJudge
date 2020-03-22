@@ -30,6 +30,8 @@ class problem extends Base
             'input_format' => isset($req['input_format']) ? $req['input_format'] : '',
             'output_format' => isset($req['output_format']) ? $req['output_format'] : '',
             'hint' => isset($req['hint']) ? $req['hint'] : '',
+            'sample_input' => isset($req['sample_input']) ? $req['sample_input'] : '',
+            'sample_output' => isset($req['sample_output']) ? $req['sample_output'] : '',
             'public' => isset($req['public']) ? $req['public'] : 1,
             'source' => isset($req['source']) ? $req['source'] : '',
             'tag' => isset($req['tag']) ? $req['tag'] : '',

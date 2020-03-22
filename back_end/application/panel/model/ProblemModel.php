@@ -1,6 +1,7 @@
 <?php
 namespace app\panel\model;
 
+use app\oj\model\SampleModel;
 use think\Exception;
 use think\exception\DbException;
 use think\Model;
@@ -65,8 +66,23 @@ class ProblemModel extends Model{
     public function addProblem($data)
     {
         try {
-            $res = $this->insert($data);
-            if ($res !== false) {
+            $sampleModel = new SampleModel();
+            $insertData = [
+                'title' => $data['title'],
+                'background' => $data['background'],
+                'describe' => $data['describe'],
+                'input_format' => $data['input_format'],
+                'output_format' => $data['output_format'],
+                'hint' => $data['hint'] ,
+                'source' =>  $data['source'],
+            ];
+            $res1 = $this->insertGetId($insertData);
+            if ($data['sample_input'] != '' && $data['sample_output'] != '') {
+                $res2 = $sampleModel->addSample($res1, $data['sample_input'], $data['sample_output']);
+            } else {
+                $res2 = ['code' => CODE_SUCCESS];
+            }
+            if ($res1 !== false && $res2['code'] == CODE_SUCCESS) {
                 return ['code' => CODE_SUCCESS, 'msg' => '添加成功', 'data' => ''];
             }
             return ['code' => CODE_ERROR, 'msg' => '添加失败', 'data' => ''];
