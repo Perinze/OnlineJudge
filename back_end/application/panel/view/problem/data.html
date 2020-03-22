@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>控制台 - 题目内容 - 添加题目</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="__JS__/jquery-1.11.0.js"></script>
+    <!-- 样式文件 -->
+    <link rel="stylesheet" href="__UM__/themes/default/css/umeditor.css">
+    <link href="__CSS__/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="../../res/bacheditor/build/build.min.css" rel="stylesheet"> -->
+    <link href="__CSS__/sb-admin-2.css" rel="stylesheet">
+    <link href="__FONT__/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="__CSS__/plugins/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Styles -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/tui-editor/latest/tui-editor.css">
+    <link rel="stylesheet" href="https://uicdn.toast.com/tui-editor/latest/tui-editor-contents.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+    <link type="text/css" rel="stylesheet" href="__CSS__/fileinput.min.css" />
+</head>
+
+<body>
+
+<div id="wrapper">
+    <!--顶栏&菜单栏-->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        {include file='layout/toolbar'} {include file='layout/sidebar'}
+    </nav>
+
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">添加题目</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading"> 基本设置 </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <form action="">
+                                <!--http://ziqiangshe.applinzi.com/tp5/public/index.php/panel/blog/editblog-->
+                                <div class="col-lg-12">
+                                    <div>
+                                        <form id="form" action="__PANEL__/problem/upload_data_file" method="post" enctype="multipart/form-data">
+                                            <div class="form-group">
+                                                <label for="time">时间限制</label>
+                                                <input name="time" id="time" value="" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="memory">内存限制</label>
+                                                <input name="memory" id="memory" value="" class="form-control">
+                                            </div>
+                                            <div class="row form-group">
+                                                <label class="col-md-4">数据上传:</label>
+                                                <div class="col-sm-12">
+                                                    <input id="input-id" name="file[]" multiple type="file" data-show-caption="true">
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Scripts -->
+<script src="https://cdn.bootcss.com/markdown-it/10.0.0/markdown-it.js"></script>
+<script src="https://cdn.bootcss.com/to-markdown/3.1.1/to-markdown.js"></script>
+<script src="__JS__/tui-code-snippet.min.js"></script>
+<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/squire-rte/1.9.0/squire-raw.js"></script>
+<script src="__JS__/tui-editor-Editor-full.js"></script>
+<script src="__JS__/bootstrap.min.js"></script>
+<script src="__JS__/plugins/metisMenu/metisMenu.min.js"></script>
+<script src="__JS__/sb-admin-2.js"></script>
+<script type="text/javascript" src="__JS__/fileinput.js"></script>
+<script type="text/javascript" src="__JS__/locales/zh.js"></script>
+<script>
+
+    function getQueryString(name)
+    {
+        const reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        const r = window.location.search.substr(1).match(reg);
+        if(r!=null)return unescape(r[2]);
+        else {
+            const urls = window.location.href.split('/');
+            let i = 0, iLoop = urls.length;
+            for (; i<iLoop; i++) {
+                if (urls[i] === name) {
+                    return urls[i+1].split('.')[0];
+                }
+            }
+        }
+        return null;
+    }
+
+    $(function () {
+        initFileInput("input-id");
+    });
+
+    function initFileInput(ctrlName) {
+        var control = $('#' + ctrlName);
+        control.fileinput({
+            language: 'zh', //设置语言
+            uploadUrl: "__PANEL__/problem/upload_data_file", //上传的地址
+            allowedFileExtensions: ['in', 'out'],//接收的文件后缀
+            //uploadExtraData:{"id": 1, "fileName":'123.mp3'},
+            uploadAsync: true, //默认异步上传
+            showUpload: true, //是否显示上传按钮
+            showRemove : true, //显示移除按钮
+            showPreview : true, //是否显示预览
+            showCaption: false,//是否显示标题
+            browseClass: "btn btn-primary", //按钮样式
+            //dropZoneEnabled: true,//是否显示拖拽区域
+            //minImageWidth: 50, //图片的最小宽度
+            //minImageHeight: 50,//图片的最小高度
+            //maxImageWidth: 1000,//图片的最大宽度
+            //maxImageHeight: 1000,//图片的最大高度
+            //maxFileSize: 0,//单位为kb，如果为0表示不限制文件大小
+            //minFileCount: 0,
+            //maxFileCount: 10, //表示允许同时上传的最大文件个数
+            enctype: 'multipart/form-data',
+            validateInitialCount:true,
+            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+            uploadExtraData: function(){
+                let data = {
+                    'problem_id': getQueryString('id')
+                };
+                if ($('#time').val() != "") data['time_limit'] = $('#time').val();
+                if ($('#memory').val() != "") data['time_limit'] = $('#memory').val();
+                return data;
+            }
+        }).on('filepreupload', function(event, data, previewId, index) {     //上传中
+            var form = data.form, files = data.files, extra = data.extra,
+                response = data.response, reader = data.reader;
+            console.log('文件正在上传');
+        }).on("fileuploaded", function (event, data, previewId, index) {    //一个文件上传成功
+            console.log('文件上传成功！'+data.id);
+
+        }).on('fileerror', function(event, data, msg) {  //一个文件上传失败
+            console.log('文件上传失败！'+data.id);
+        })
+    }
+
+</script>
+</body>
+</html>
