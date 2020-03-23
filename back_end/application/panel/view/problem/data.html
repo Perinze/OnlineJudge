@@ -122,7 +122,7 @@
             uploadUrl: "__PANEL__/problem/upload_data_file", //上传的地址
             allowedFileExtensions: ['in', 'out'],//接收的文件后缀
             //uploadExtraData:{"id": 1, "fileName":'123.mp3'},
-            uploadAsync: true, //默认异步上传
+            uploadAsync: false, //默认异步上传
             showUpload: true, //是否显示上传按钮
             showRemove : true, //显示移除按钮
             showPreview : true, //是否显示预览
@@ -144,8 +144,10 @@
                 let data = {
                     'problem_id': getQueryString('id')
                 };
-                if ($('#time').val() != "") data['time_limit'] = $('#time').val();
-                if ($('#memory').val() != "") data['time_limit'] = $('#memory').val();
+                const time = $('#time').val();
+                const memory = $('#memory').val();
+                if (time) data['time'] = time;
+                if (memory) data['memory'] = memory;
                 return data;
             }
         }).on('filepreupload', function(event, data, previewId, index) {     //上传中
