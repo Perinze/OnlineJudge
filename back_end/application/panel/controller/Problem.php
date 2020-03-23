@@ -6,7 +6,7 @@ use app\oj\validate\ProblemValidate;
 
 class problem extends Base
 {
-    private $data_path = '../../../../../root/FinalRank/FinalRank/data/';
+    private $data_path = '../finalrank/data/';
     /* 接口 */
     /**
      * 新建题目
@@ -158,15 +158,15 @@ class problem extends Base
         if(!isset($req['sqj'])){
             $re_data = array(
                 'type' => 'Normal',
-                'time_limit' => isset($req['time']) ? $req['time'] : 1000000000,
-                'memory_limit' => isset($req['memory']) ? $req['memory'] : 33554432,
+                'time_limit' => isset($req['time']) ? $req['time']*1000000000 : 1000000000,
+                'memory_limit' => isset($req['memory']) ? $req['memory']*1024*1024 : 33554432,
                 'test_cases' => array()
             );
         } else {
             $re_data = array(
                 'type' => 'Special',
-                'time_limit' => isset($req['time']) ? $req['time'] : 1000000000,
-                'memory_limit' => isset($req['memory']) ? $req['memory'] : 33554432,
+                'time_limit' => isset($req['time']) ? $req['time']*1000000000 : 1000000000,
+                'memory_limit' => isset($req['memory']) ? $req['memory']*1024*1024 : 33554432,
                 'spj' => array(
                     'language' => $req['language'],
                     'code' => $req['code']
