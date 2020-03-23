@@ -37,7 +37,7 @@ class Role extends Base {
         $group_name = input('get.group_name');
         $role_group_model = new RoleGroupModel();
         $role_group_model->deleteRoleGroup(['group_name' =>$group_name]);
-        $this->redirect("panel/role/index");
+        $this->redirect("/back_end/panel/role/index");
     }
     /*
      * 更新权限组
@@ -61,7 +61,7 @@ class Role extends Base {
         $auth = input('get.group_name');
         $authority_model = new RoleGroupModel();
         $msg = $authority_model->switchRoleGroupStatus($auth);
-        $this->redirect("panel/role/index");
+        $this->redirect("/back_end/panel/role/index");
     }
 
     /*
@@ -86,14 +86,14 @@ class Role extends Base {
         $auth = input('get.auth');
         $authority_model = new AuthorityModel();
         $msg = $authority_model->deleteAuthority($auth);
-        $this->redirect("panel/role/auth");
+        $this->redirect("/back_end/panel/role/auth");
     }
 
     public function switchAuthorityStatus() {
         $auth = input('get.auth');
         $authority_model = new AuthorityModel();
         $msg = $authority_model->switchAuthority($auth);
-        $this->redirect("panel/role/auth");
+        $this->redirect("/back_end/panel/role/auth");
     }
 
     public function edit() {

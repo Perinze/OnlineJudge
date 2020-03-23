@@ -40,7 +40,7 @@ class Knowledge extends Base
         $knowledge_model = new KnowledgeModel();
         $name = input('get.name');
         $knowledge_model->deleteKnowledge(['name' => $name]);
-        $this->redirect('/panel/knowledge/index');
+        $this->redirect('/back_end/panel/knowledge/index');
     }
 
     /*
@@ -74,7 +74,7 @@ class Knowledge extends Base
         $name = input('get.name');
         $pre_name = input('get.pre');
         $knowledge_relation_model->deleteRelation(['name' => $name, 'pre_name' => $pre_name]);
-        $this->redirect('panel/knowledge/relation', ['name' => $name]);
+        $this->redirect('/back_end/panel/knowledge/relation', ['name' => $name]);
     }
 
     /*
@@ -85,7 +85,7 @@ class Knowledge extends Base
         $name = input('get.name');
         $pre_name = input('get.pre');
         $knowledge_relation_model->switchCore(['name' => $name, 'pre_name' => $pre_name]);
-        $this->redirect('panel/knowledge/relation', ['name' => $name]);
+        $this->redirect('/back_end/panel/knowledge/relation', ['name' => $name]);
     }
 
     /*
@@ -148,7 +148,7 @@ class Knowledge extends Base
             'knowledge' => $knowledge
         ];
         $problem_knowledge_model->switchCore($data);
-        $this->redirect('panel/knowledge/problem', ['problem_id' => $problem_id]);
+        $this->redirect('/back_end/panel/knowledge/problem', ['problem_id' => $problem_id]);
     }
 
     /*
@@ -163,7 +163,7 @@ class Knowledge extends Base
             'knowledge' => $knowledge
         ];
         $problem_knowledge_model->deleteRelation($data);
-        $this->redirect('panel/knowledge/problem', ['problem_id' => $problem_id]);
+        $this->redirect('/back_end/panel/knowledge/problem', ['problem_id' => $problem_id]);
     }
 
     /*
@@ -198,7 +198,7 @@ class Knowledge extends Base
         $knowledge_id = input('get.knowledge_id');
         $tag_id = input('get.tag_id');
         $knowledge_tag_model->deleteKnowledgeTag($knowledge_id, $tag_id);
-        $this->redirect('panel/knowledge/tag', ['knowledge_id' => $knowledge_id]);
+        $this->redirect('/back_end/panel/knowledge/tag', ['knowledge_id' => $knowledge_id]);
     }
     /*
      * 获取知识点标签
