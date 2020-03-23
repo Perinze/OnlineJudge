@@ -52,7 +52,7 @@ class problem extends Base
             return apiReturn(CODE_ERROR, '没有用户id', '');
         }
         $resp = $problem_model->deleProblem($req['id']);
-        $this->redirect('panel/problem/index');
+        $this->redirect('/back_end/panel/problem/index');
     }
 
     /**

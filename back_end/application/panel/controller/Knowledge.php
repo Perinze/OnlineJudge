@@ -40,7 +40,7 @@ class Knowledge extends Base
         $knowledge_model = new KnowledgeModel();
         $name = input('get.name');
         $knowledge_model->deleteKnowledge(['name' => $name]);
-        $this->redirect('panel/knowledge/index');
+        $this->redirect('/panel/knowledge/index');
     }
 
     /*
