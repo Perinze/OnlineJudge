@@ -155,7 +155,7 @@ class problem extends Base
             }
         }
 
-        if(!isset($req['sqj'])){
+        if(!isset($req['spj'])){
             $re_data = array(
                 'type' => 'Normal',
                 'time_limit' => isset($req['time']) ? $req['time']*1000000000 : 1000000000,

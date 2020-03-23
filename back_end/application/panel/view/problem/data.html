@@ -56,6 +56,16 @@
                                                 <label for="memory">内存限制</label>
                                                 <input name="memory" id="memory" value="" class="form-control">
                                             </div>
+                                            <div class="form-group">
+                                                <label for="type">题目类型</label>
+                                                <select name="type" id="type">
+                                                    <option value=0>Normal</option>
+                                                    <option value=1>SpecialJudge</option>
+                                                </select>
+                                            </div>
+                                            <div id="SpecialJudge">
+
+                                            </div>
                                             <div class="row form-group">
                                                 <label class="col-md-4">数据上传:</label>
                                                 <div class="col-sm-12">
@@ -103,6 +113,27 @@
         initFileInput("input-id");
     });
 
+    $("#type").change(function () {
+        if ($("#type").val() == 1) {
+            const html = "<div class=\"form-group\">\n" +
+                "                                                <label for=\"language\">SpecialJudge脚本语言</label>\n" +
+                "                                                <select name=\"language\" id=\"language\">\n" +
+                "                                                    <option value=\"c\">C</option>\n" +
+                "                                                    <option value=\"c++\">C++</option>\n" +
+                "                                                    <option value=\"java\">Java</option>\n" +
+                "                                                    <option value=\"python\">Python</option>\n" +
+                "                                                </select>\n" +
+                "                                            </div>\n" +
+                "                                            <div class=\"form-group\">\n" +
+                "                                                <label for=\"code\">SpecialJudge脚本</label>\n" +
+                "                                                <textarea name=\"code\" id=\"code\" value=\"\" rows=\"15\" class=\"form-control\"></textarea>\n" +
+                "                                            </div>";
+            $("#SpecialJudge").html(html);
+        } else {
+            $("#SpecialJudge").html("");
+        }
+    });
+
     function initFileInput(ctrlName) {
         var control = $('#' + ctrlName);
         control.fileinput({
@@ -136,6 +167,11 @@
                 const memory = $('#memory').val();
                 if (time) data['time'] = time;
                 if (memory) data['memory'] = memory;
+                if ($("#type").val() == 1) {
+                    data['spj'] = 1;
+                    data['language'] = $("#language").val();
+                    data['code'] = $("#code").val()
+                }
                 return data;
             }
         }).on('filepreupload', function(event, data, previewId, index) {     //上传中
