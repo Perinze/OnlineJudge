@@ -78,7 +78,25 @@ class SampleModel extends Model
             if ($res) {
                 return ['code' => CODE_SUCCESS, 'msg' => '编辑成功', 'data' => ''];
             } else {
-                return ['code' => CODE_ERROR, 'msg' => '编辑失败', 'data' => ''];
+                return ['code' => CODE_ERROR, 'msg' => '编辑失败', 'data' => $res];
+            }
+        } catch (Exception $e) {
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+        }
+    }
+
+    public function editSampleByProblemID($id, $input, $output)
+    {
+        try {
+            $res = $this->where('problem_id', $id)
+                ->update([
+                    'input' => $input,
+                    'output' => $output
+                ]);
+            if ($res !== false) {
+                return ['code' => CODE_SUCCESS, 'msg' => '编辑成功', 'data' => ''];
+            } else {
+                return ['code' => CODE_ERROR, 'msg' => '编辑失败', 'data' => $input];
             }
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];

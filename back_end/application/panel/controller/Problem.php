@@ -45,7 +45,14 @@ class problem extends Base
      */
     public function deleProblem()
     {
+        $problem_model = new ProblemModel();
 
+        $req = input('get.');
+        if (!isset($req['id'])) {
+            return apiReturn(CODE_ERROR, '没有用户id', '');
+        }
+        $resp = $problem_model->deleProblem($req['id']);
+        $this->redirect('panel/problem/index');
     }
 
     /**
@@ -70,6 +77,8 @@ class problem extends Base
             'input_format' => isset($req['input_format']) ? $req['input_format'] : '',
             'output_format' => isset($req['output_format']) ? $req['output_format'] : '',
             'hint' => isset($req['hint']) ? $req['hint'] : '',
+            'sample_input' => isset($req['sample_input']) ? $req['sample_input'] : '',
+            'sample_output' => isset($req['sample_output']) ? $req['sample_output'] : '',
             'public' => isset($req['public']) ? $req['public'] : 1,
             'source' => isset($req['source']) ? $req['source'] : '',
             'tag' => isset($req['tag']) ? $req['tag'] : '',

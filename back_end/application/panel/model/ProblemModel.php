@@ -12,7 +12,14 @@ class ProblemModel extends Model{
     public function searchProblemById($problem_id)
     {
         try {
+            $sampleModel = new SampleModel();
             $content = $this->where('problem_id', $problem_id)->find();
+            $sample = $sampleModel->searchSampleByProblemID($problem_id);
+            if (count($sample['data'])) {
+                $content['sample_input'] = $sample['data'][0]['input'];
+                $content['sample_output'] =$sample['data'][0]['output'];
+            }
+
             if ($content) {
                 return ['code' => CODE_SUCCESS, 'msg' => '查找成功', 'data' => $content];
             }
@@ -49,11 +56,28 @@ class ProblemModel extends Model{
     public function editProblem($problem_id, $data)
     {
         try {
-            $res = $this->where('problem_id', $problem_id)->update($data);
-            if ($res !== false) {
+            $sampleModel = new SampleModel();
+            $insertData = [
+                'title' => $data['title'],
+                'background' => $data['background'],
+                'describe' => $data['describe'],
+                'input_format' => $data['input_format'],
+                'output_format' => $data['output_format'],
+                'hint' => $data['hint'] ,
+                'source' =>  $data['source'],
+                'public' => $data['public'],
+                'tag' => $data['tag']
+            ];
+            $res1 = $this->where('problem_id', $problem_id)->update($insertData);
+            if ($data['sample_input'] != '' && $data['sample_output'] != '') {
+                $res2 = $sampleModel->editSampleByProblemID($problem_id, $data['sample_input'], $data['sample_output']);
+            } else {
+                $res2 = ['code' => CODE_SUCCESS];
+            }
+            if ($res1 !== false && $res2['code'] == CODE_SUCCESS) {
                 return ['code' => CODE_SUCCESS, 'msg' => '编辑成功', 'data' => ''];
             }
-            return ['code' => CODE_ERROR, 'msg' => '编辑失败', 'data' => ''];
+            return ['code' => CODE_ERROR, 'msg' => '编辑失败', 'data' => $res2];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];
         }
@@ -75,6 +99,8 @@ class ProblemModel extends Model{
                 'output_format' => $data['output_format'],
                 'hint' => $data['hint'] ,
                 'source' =>  $data['source'],
+                'public' => $data['public'],
+                'tag' => $data['tag']
             ];
             $res1 = $this->insertGetId($insertData);
             if ($data['sample_input'] != '' && $data['sample_output'] != '') {

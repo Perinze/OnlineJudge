@@ -19,10 +19,10 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <!-- Styles -->
-    <link rel="stylesheet" href="https://uicdn.toast.com/tui-editor/latest/tui-editor.css">
-    <link rel="stylesheet" href="https://uicdn.toast.com/tui-editor/latest/tui-editor-contents.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+    <link rel="stylesheet" href="__CSS__/plugins/tui-editor.css">
+    <link rel="stylesheet" href="__CSS__/plugins/tui-editor-contents.css">
+    <link rel="stylesheet" href="__CSS__/plugins/codemirror.css">
+    <link rel="stylesheet" href="__CSS__/plugins/github.min.css">
 </head>
 
 <body>
@@ -100,11 +100,12 @@
                                     </div>
                                     <div class="form-group">
                                         <label>题目标签</label>
-                                        <select class="form-control" name="tagid" id="tagid">
-                                            <option value="1">数学</option>
-                                            <option value="2">贪心</option>
-                                            <option value="3">暴力</option>
-                                        </select>
+                                        <div class="form-group" id="tags">
+
+                                        </div>
+                                        <div>
+                                            <button type="button" class="btn btn-default" onclick="add(1)">添加标签</button>
+                                        </div>
                                     </div>
                                     <div>
 
@@ -122,12 +123,12 @@
     </div>
 </div>
 <!-- Scripts -->
-<script src="https://cdn.bootcss.com/markdown-it/10.0.0/markdown-it.js"></script>
-<script src="https://cdn.bootcss.com/to-markdown/3.1.1/to-markdown.js"></script>
+<script src="__JS__/plugins/markdown-it.js"></script>
+<script src="__JS__/plugins/to-markdown.js"></script>
 <script src="__JS__/tui-code-snippet.min.js"></script>
-<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
-<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
-<script src="https://cdn.bootcss.com/squire-rte/1.9.0/squire-raw.js"></script>
+<script src="__JS__/plugins/codemirror.min.js"></script>
+<script src="__JS__/plugins/highlight.min.js"></script>
+<script src="__JS__/plugins/squire-raw.js"></script>
 <script src="__JS__/tui-editor-Editor-full.js"></script>
 <script src="__JS__/bootstrap.min.js"></script>
 <script src="__JS__/plugins/metisMenu/metisMenu.min.js"></script>
@@ -173,24 +174,31 @@
         initialValue: [],
         exts: ['scrollSync']
     });
+    var count = 0;
 
     function btn()
     {
+        let tag_array = [];
+        for (let i=0; i<count; i++) {
+            const val = "tagid" + i;
+            tag_array.push($("#"+val).val());
+        }
+        console.log(tag_array);
         $.ajax({
             url: "__PANEL__/problem/addProblem",
             type: "post",
             dataType: "json",
             data: {
-                problem_id:      $("#contest_id").val(),
                 title:   $("#title").val(),
                 background:     background.getMarkdown(),
                 describe: describe.getMarkdown(),
                 input_format: input_format.getMarkdown(),
                 output_format: output_format.getMarkdown(),
                 hint: hint.getMarkdown(),
-                source:   $("#source").val(),
                 sample_input: $("#sample_input").val(),
-                sample_output: $("#sample_output").val()
+                sample_output: $("#sample_output").val(),
+                source:   $("#source").val(),
+                tag: JSON.stringify(tag_array),
             },
             success: function (data) {
                 if (data.status == 0) {
@@ -201,6 +209,37 @@
                 }
             },
         });
+    }
+
+    function dele(data){
+        $("#tagid"+data).remove();
+        $("#button"+data).remove();
+        count-=1;
+    }
+    function add(datas) {
+        var html = "";
+        $.ajax({
+            url: "__PANEL__/tag/getAllTags",
+            type: "post",
+            dataType: "json",
+            data: {},
+            success: function (data) {
+                if (data.status == 0) {
+                    html = "<select class=\"form-control\" name=\"tagid\" id=\"tagid"+ count + "\">\n";
+                    data.data.forEach(function (data) {
+                        html += "<option value="+ data.id+">" + data.name + "</option>\n";
+                    });
+                    html += "</select>";
+                    html += "<button id=button"+ count.toString() +" type=\"button\" class=\"btn btn-default\" onclick=\"dele("+ count.toString() +")\">删除标签</button>";
+                    $("#tags").append(html);
+                    $("#tagid" + count.toString()).val(datas);
+                    count += 1;
+                } else if (data.status == -1) {
+                    alert(data.message);
+                }
+            },
+        });
+
     }
 </script>
 </body>
