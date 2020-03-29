@@ -20,6 +20,11 @@ class ComposerStaticInit32078fa26483b605f230e378f56dec80
         array (
             'app\\' => 4,
         ),
+        'Y' => 
+        array (
+            'Yosymfony\\Toml\\' => 15,
+            'Yosymfony\\ParserUtils\\' => 22,
+        ),
         'P' => 
         array (
             'PHPMailer\\PHPMailer\\' => 20,
@@ -38,6 +43,14 @@ class ComposerStaticInit32078fa26483b605f230e378f56dec80
         'app\\' => 
         array (
             0 => __DIR__ . '/../..' . '/application',
+        ),
+        'Yosymfony\\Toml\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yosymfony/toml/src',
+        ),
+        'Yosymfony\\ParserUtils\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yosymfony/parser-utils/src',
         ),
         'PHPMailer\\PHPMailer\\' => 
         array (

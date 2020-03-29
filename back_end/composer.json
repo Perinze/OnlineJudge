@@ -22,7 +22,8 @@
         "topthink/think-captcha": "2.0.x-dev",
         "topthink/think-installer": "2.0.x-dev",
         "ext-json": "*",
-        "phpoffice/phpexcel": "^1.8"
+        "phpoffice/phpexcel": "^1.8",
+        "yosymfony/toml": "^1.0"
     },
     "autoload": {
         "psr-4": {

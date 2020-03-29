@@ -3,6 +3,7 @@ namespace app\panel\controller;
 use app\oj\model\CommonModel;
 use app\panel\model\ProblemModel;
 use app\oj\validate\ProblemValidate;
+use Yosymfony\Toml\TomlBuilder;
 
 class problem extends Base
 {
@@ -154,38 +155,80 @@ class problem extends Base
                 }
             }
         }
-
+        $dir = iconv('UTF-8', 'GBK', $req['problem_id']);
+        $dir = $this->data_path . $dir;
+        if (!file_exists($dir)) {
+            if(!mkdir($dir, 0644, true) || !is_dir($dir)){
+                return apiReturn(CODE_ERROR, '创建目录失败', '');
+            }
+        }
+        $problem_path = $dir.'problem';
+        if (!file_exists($problem_path)) {
+            if(!mkdir($problem_path, 0644, true) || !is_dir($problem_path)){
+                return apiReturn(CODE_ERROR, '创建目录失败', '');
+            }
+        }
+        $toml = new TomlBuilder();
+        $secs = isset($req['secs']) ? $req['secs'] : 1;
+        $nanos = isset($req['nanos']) ? $req['nanos'] * 100000000 : 0;
         if(!isset($req['spj'])){
-            $re_data = array(
-                'type' => 'Normal',
-                'time_limit' => isset($req['time']) ? $req['time']*1000000000 : 1000000000,
-                'memory_limit' => isset($req['memory']) ? $req['memory']*1024*1024 : 33554432,
-                'test_cases' => array()
-            );
+            // extern_problem文件夹创建
+            $spj_toml = new TomlBuilder();
+            $spj_path = $problem_path.'extern_program';
+            if (!file_exists($spj_path)) {
+                if(!mkdir($spj_path, 0644, true) || !is_dir($spj_path)){
+                    return apiReturn(CODE_ERROR, '创建目录失败', '');
+                }
+            }
+            // spj文件config
+            $spj_name = 'spj'.substr($req['language'],0, strpos($req['language'], '.'));
+            file_put_contents($spj_path.'/config.toml', $spj_toml->addValue('source', $spj_name)
+                ->addValue('language', $req['language'])
+                ->addTable('timeout')
+                ->addValue('secs', 5)
+                ->addValue('nanos', 0)
+                ->getTomlString());
+            // 输出spj代码
+            file_put_contents($spj_name, $req['code']);
+            // 题目config
+            $toml->addValue('problem_type', 'SpecialJudge');
+            $toml->addTable('limit')
+                ->addValue('memory', isset($req['memory']) ? $req['memory'] * 1024 * 1024 : 33554432)
+                ->addTable('real_time')
+                ->addValue('secs', $secs)
+                ->addValue('nanos', $nanos)
+                ->addTable('cpu_time')
+                ->addValue('secs', $secs)
+                ->addValue('nanos', $nanos);
+            $toml->addTable('source')
+                ->addValue('source', $spj_name)
+                ->addValue('language', $req['language']);
+            file_put_contents($problem_path, $toml->getTomlString());
         } else {
-            $re_data = array(
-                'type' => 'Special',
-                'time_limit' => isset($req['time']) ? $req['time']*1000000000 : 1000000000,
-                'memory_limit' => isset($req['memory']) ? $req['memory']*1024*1024 : 33554432,
-                'spj' => array(
-                    'language' => $req['language'],
-                    'code' => $req['code']
-                ),
-                'test_cases' => array()
-            );
+            //题目config
+            $toml->addValue('problem_type', 'Normal');
+            $toml->addTable('limit')
+                ->addValue('memory', isset($req['memory']) ? $req['memory'] * 1024 * 1024 : 33554432)
+                ->addTable('real_time')
+                ->addValue('secs', $secs)
+                ->addValue('nanos', $nanos)
+                ->addTable('cpu_time')
+                ->addValue('secs', $secs)
+                ->addValue('nanos', $nanos);
+            file_put_contents($problem_path, $toml->getTomlString());
         }
+        $i = 0;
         foreach ($data as $item){
-            $re_data['test_cases'][] = array(
-                'input' => $item['in'],
-                'answer' => $item['out'],
-            );
+            $data_path = $problem_path.(string)$i;
+            if (!file_exists($data_path)) {
+                if(!mkdir($data_path, 0644, true) || !is_dir($data_path)){
+                    return apiReturn(CODE_ERROR, '创建目录失败', '');
+                }
+            }
+            file_put_contents($data_path.'answer', str_replace('\r\n', '\n', $item['out']));
+            file_put_contents($data_path.'input', str_replace('\r\n', '\n', $item['in']));
+            $i++;
         }
-
-        // 数据文件输出
-        $json_data = json_encode($re_data);
-        $json_data = str_replace('\r\n', '\n', $json_data);
-        file_put_contents($this->data_path . $req['problem_id'] . '.json', $json_data);
-
     }
 
     /* 页面 */
