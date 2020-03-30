@@ -158,13 +158,13 @@ class problem extends Base
         $dir = iconv('UTF-8', 'GBK', $req['problem_id']);
         $dir = $this->data_path . $dir;
         if (!file_exists($dir)) {
-            if(!mkdir($dir, 0644, true) || !is_dir($dir)){
+            if(!mkdir($dir, 0755, true) || !is_dir($dir)){
                 return apiReturn(CODE_ERROR, '创建目录失败', '');
             }
         }
         $problem_path = $dir.'/problem';
         if (!file_exists($problem_path)) {
-            if(!mkdir($problem_path, 0644, true) || !is_dir($problem_path)){
+            if(!mkdir($problem_path, 0755, true) || !is_dir($problem_path)){
                 return apiReturn(CODE_ERROR, '创建目录失败', '');
             }
         }
@@ -176,7 +176,7 @@ class problem extends Base
             $spj_toml = new TomlBuilder();
             $spj_path = $problem_path.'/extern_program';
             if (!file_exists($spj_path)) {
-                if(!mkdir($spj_path, 0644, true) || !is_dir($spj_path)){
+                if(!mkdir($spj_path, 0755, true) || !is_dir($spj_path)){
                     return apiReturn(CODE_ERROR, '创建目录失败', '');
                 }
             }
@@ -221,7 +221,7 @@ class problem extends Base
         foreach ($data as $item){
             $data_path = $problem_path.'/'.(string)$i;
             if (!file_exists($data_path)) {
-                if(!mkdir($data_path, 0644, true) || !is_dir($data_path)){
+                if(!mkdir($data_path, 0755, true) || !is_dir($data_path)){
                     return apiReturn(CODE_ERROR, '创建目录失败', '');
                 }
             }
