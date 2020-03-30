@@ -49,8 +49,11 @@
                                     <div>
                                         <form id="form" action="__PANEL__/problem/upload_data_file" method="post" enctype="multipart/form-data">
                                             <div class="form-group">
-                                                <label for="time">时间限制</label>
-                                                <input name="time" id="time" value="" class="form-control">
+                                                <label>时间限制:</label>
+                                                <input name="time" id="secs" value="" class="form-control">
+                                                .
+                                                <input name="time" id="nanos" value="" class="form-control">
+                                                s
                                             </div>
                                             <div class="form-group">
                                                 <label for="memory">内存限制</label>
@@ -118,8 +121,8 @@
             const html = "<div class=\"form-group\">\n" +
                 "                                                <label for=\"language\">SpecialJudge脚本语言</label>\n" +
                 "                                                <select name=\"language\" id=\"language\">\n" +
-                "                                                    <option value=\"c\">C</option>\n" +
-                "                                                    <option value=\"c++\">C++</option>\n" +
+                "                                                    <option value=\"c.gcc\">C</option>\n" +
+                "                                                    <option value=\"cpp.g++\">C++</option>\n" +
                 "                                                    <option value=\"java\">Java</option>\n" +
                 "                                                    <option value=\"python\">Python</option>\n" +
                 "                                                </select>\n" +
@@ -163,9 +166,11 @@
                 let data = {
                     'problem_id': getQueryString('id')
                 };
-                const time = $('#time').val();
+                const secs = $('#secs').val();
+                const nanos = $('#nanos').val();
                 const memory = $('#memory').val();
-                if (time) data['time'] = time;
+                if (secs) data['secs'] = secs;
+                if (nanos) data['nanos'] = nanos;
                 if (memory) data['memory'] = memory;
                 if ($("#type").val() == 1) {
                     data['spj'] = 1;
