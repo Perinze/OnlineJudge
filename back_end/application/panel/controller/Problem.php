@@ -162,7 +162,7 @@ class problem extends Base
                 return apiReturn(CODE_ERROR, '创建目录失败', '');
             }
         }
-        $problem_path = $dir.'problem';
+        $problem_path = $dir.'/problem';
         if (!file_exists($problem_path)) {
             if(!mkdir($problem_path, 0644, true) || !is_dir($problem_path)){
                 return apiReturn(CODE_ERROR, '创建目录失败', '');
@@ -174,7 +174,7 @@ class problem extends Base
         if(isset($req['spj'])){
             // extern_problem文件夹创建
             $spj_toml = new TomlBuilder();
-            $spj_path = $problem_path.'extern_program';
+            $spj_path = $problem_path.'/extern_program';
             if (!file_exists($spj_path)) {
                 if(!mkdir($spj_path, 0644, true) || !is_dir($spj_path)){
                     return apiReturn(CODE_ERROR, '创建目录失败', '');
@@ -189,7 +189,7 @@ class problem extends Base
                 ->addValue('nanos', 0)
                 ->getTomlString());
             // 输出spj代码
-            file_put_contents($spj_name, $req['code']);
+            file_put_contents($spj_path.'/'.$spj_name, $req['code']);
             // 题目config
             $toml->addValue('problem_type', 'SpecialJudge');
             $toml->addTable('limit')
@@ -219,14 +219,14 @@ class problem extends Base
         }
         $i = 0;
         foreach ($data as $item){
-            $data_path = $problem_path.(string)$i;
+            $data_path = $problem_path.'/'.(string)$i;
             if (!file_exists($data_path)) {
                 if(!mkdir($data_path, 0644, true) || !is_dir($data_path)){
                     return apiReturn(CODE_ERROR, '创建目录失败', '');
                 }
             }
-            file_put_contents($data_path.'answer', str_replace('\r\n', '\n', $item['out']));
-            file_put_contents($data_path.'input', str_replace('\r\n', '\n', $item['in']));
+            file_put_contents($data_path.'/answer', str_replace('\r\n', '\n', $item['out']));
+            file_put_contents($data_path.'/input', str_replace('\r\n', '\n', $item['in']));
             $i++;
         }
     }
