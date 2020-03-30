@@ -203,7 +203,7 @@ class problem extends Base
             $toml->addTable('source')
                 ->addValue('source', $spj_name)
                 ->addValue('language', $req['language']);
-            file_put_contents($problem_path, $toml->getTomlString());
+            file_put_contents($problem_path.'/config.toml', $toml->getTomlString());
         } else {
             //题目config
             $toml->addValue('problem_type', 'Normal');
@@ -215,7 +215,7 @@ class problem extends Base
                 ->addTable('cpu_time')
                 ->addValue('secs', $secs)
                 ->addValue('nanos', $nanos);
-            file_put_contents($problem_path, $toml->getTomlString());
+            file_put_contents($problem_path.'/config.toml', $toml->getTomlString());
         }
         $i = 0;
         foreach ($data as $item){
