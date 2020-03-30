@@ -65,11 +65,13 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="type">题目类型</label>
-                                                <select name="type" id="type">
-                                                    <option value=0>Normal</option>
-                                                    <option value=1>SpecialJudge</option>
-                                                </select>
+                                                <div class="form-inline">
+                                                    <label for="type">题目类型:</label>
+                                                    <select name="type" class="form-control" id="type">
+                                                        <option value=0>Normal</option>
+                                                        <option value=1>SpecialJudge</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                             <div id="SpecialJudge">
 
@@ -124,16 +126,18 @@
     $("#type").change(function () {
         if ($("#type").val() == 1) {
             const html = "<div class=\"form-group\">\n" +
-                "                                                <label for=\"language\">SpecialJudge脚本语言</label>\n" +
-                "                                                <select name=\"language\" id=\"language\">\n" +
+                "                               <div class=\"form-inline\">\n" +
+                "                                                <label for=\"language\">SpecialJudge脚本语言:</label>\n" +
+                "                                                <select name=\"language\" class=\"form-control\" id=\"language\">\n" +
                 "                                                    <option value=\"c.gcc\">C</option>\n" +
                 "                                                    <option value=\"cpp.g++\">C++</option>\n" +
                 "                                                    <option value=\"java\">Java</option>\n" +
                 "                                                    <option value=\"python\">Python</option>\n" +
                 "                                                </select>\n" +
                 "                                            </div>\n" +
+                "                                            </div>\n" +
                 "                                            <div class=\"form-group\">\n" +
-                "                                                <label for=\"code\">SpecialJudge脚本</label>\n" +
+                "                                                <label for=\"code\">SpecialJudge脚本:</label>\n" +
                 "                                                <textarea name=\"code\" id=\"code\" value=\"\" rows=\"15\" class=\"form-control\"></textarea>\n" +
                 "                                            </div>";
             $("#SpecialJudge").html(html);
