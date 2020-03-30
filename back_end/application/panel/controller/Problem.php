@@ -171,7 +171,7 @@ class problem extends Base
         $toml = new TomlBuilder();
         $secs = isset($req['secs']) ? $req['secs'] : 1;
         $nanos = isset($req['nanos']) ? $req['nanos'] * 100000000 : 0;
-        if(!isset($req['spj'])){
+        if(isset($req['spj'])){
             // extern_problem文件夹创建
             $spj_toml = new TomlBuilder();
             $spj_path = $problem_path.'extern_program';
