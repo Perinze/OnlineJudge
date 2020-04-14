@@ -65,7 +65,7 @@ class GroupModel extends Model
                     $resp = $usergroup_model->addRelation($res, $item['user_id'], (int)($item['identity'] === 1));
                 }
                 if ($resp['code'] !== CODE_SUCCESS) {
-                    return ['code' => CODE_ERROR, 'msg' => '创建分组失败', 'data' => ''];
+                    return ['code' => CODE_ERROR, 'msg' => '创建分组失败', 'data' => $resp['data']];
                 }
                 return ['code' => CODE_SUCCESS, 'msg' => '创建分组成功', 'data' => $res];
             }
