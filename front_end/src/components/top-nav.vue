@@ -1,5 +1,5 @@
 <template>
-    <div class="top-nav" :style="styleObject">
+    <div class="top-nav" :style="styleObject" v-if="this.$store.state.ui.isShowTopnav">
         <div class="search-bar">
             <img src="../../assets/icon/search.svg" width="16px" height="16px">
             <input type="text" class="search-input" placeholder="Search problem, contest or user">

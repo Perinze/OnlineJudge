@@ -12,7 +12,8 @@ let baseUrl = 'http://acmwhut.com/api/oj/';
 let domain = "http://dev.acmwhut.com";
 if(process.env.NODE_ENV === 'test') {
     // 本地测试环境
-    baseUrl = 'http://dev.acmwhut.com/api/oj/';
+    // baseUrl = 'http://dev.acmwhut.com/api/oj/';
+    baseUrl = '/api/oj/';
 }else{
     // 生产环境(相对路径)
     baseUrl = '/api/oj/';

@@ -120,6 +120,7 @@ const routes = [
     },
     {
         // 设置管理员
+        name: 'editAdmin',
         path: '/editAdmin',
         component: editAdmin,
         meta: {
@@ -136,6 +137,7 @@ const routes = [
     },
     {
         // 小组管理
+        name: 'groupManager',
         path: '/groupManager',
         component: groupManager,
         meta: {

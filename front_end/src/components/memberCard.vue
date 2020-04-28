@@ -7,7 +7,7 @@
                 v-if="isEdit === 'true'"
                 @click="toggleSelected"
         />
-        <img :src="member && member.avatar ? `http://dev.acmwhut.com/api${member.avatar.slice(2)}` : ''" class="member-avatar">
+        <img :src="member && member.avatar || ''" class="member-avatar">
         <p class="member-nick">{{member && member.nick ? member.nick : ""}}</p>
         <p class="member-email">{{member && member.mail ? member.mail : ""}}</p>
     </div>
@@ -29,6 +29,7 @@
         methods: {
             toggleSelected: function() {
                 this.isSelected = !this.isSelected;
+                this.$emit("selectUser", this.member.user_id);
             },
             remove: function() {
                 this.$emit('removeCard', this.member.user_id);

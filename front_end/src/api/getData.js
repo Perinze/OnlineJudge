@@ -224,6 +224,12 @@ export const addGroup = (data) => fetch('/Group/add_group', 'post', data);
 export const getUserGroups = () => fetch('/Group/user_get_all_group');
 
 /**
+ * 获取某个小组
+ */
+
+export const getTheGroup = (data) => fetch('/Group/get_the_group', 'post', data);
+
+/**
  * 获取所有讨论
  */
 

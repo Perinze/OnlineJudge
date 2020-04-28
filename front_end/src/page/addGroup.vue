@@ -11,16 +11,16 @@
             </div>
             <div class="infos">
                 <div class="info-item">
-                    <span class="info-item-label">姓名 :</span>
-                    <input type="text" class="info-item-input" />
+                    <span class="info-item-label">群名 :</span>
+                    <input type="text" v-model="groupName" class="info-item-input" />
                 </div>
                 <div class="info-item">
                     <span class="info-item-label">群简介 :</span>
-                    <input type="text" class="info-item-input" />
+                    <input type="text" v-model="groupDesc" class="info-item-input" />
                 </div>
                 <div class="info-item">
                     <span class="info-item-label">加群码 :</span>
-                    <input type="text" class="info-item-input" />
+                    <input type="text" v-model="groupCode" class="info-item-input" />
                 </div>
             </div>
         </div>
@@ -48,10 +48,10 @@
                 <input v-model="memberNick" type="text" class="member-input" placeholder="输入成员昵称查找" ref="memberInput" />
             </div>
             <div class="member-block">
-                <member-card isEdit="false" v-for="item in members" :key="item.user_id" :member="item" @removeCard="handleRemoveCard"></member-card>
+                <member-card class="member-card" isEdit="false" v-for="item in members" :key="item.user_id" :member="item" @removeCard="handleRemoveCard"></member-card>
             </div>
         </div>
-        <button class="btn-nextTip">下一步</button>
+        <button class="btn-nextTip" @click="next">下一步</button>
     </div>
 </template>
 
@@ -67,20 +67,21 @@
             return {
                 avatar: "",
                 memberNick: "",
-                members: []
+                members: [],
+                groupName: "",
+                groupDesc: "",
+                groupCode: ""
             }
         },
         mounted() {
             document.onkeydown = (e) => {
                 if (e.keyCode == 13 && this.$refs.memberInput == document.activeElement) {
-                    window.console.log(this.memberNick);
                     this.search(this.memberNick);
                 }
             }
         },
         methods: {
             chooseAvatar: function(e) {
-                window.console.log(e);
                 let formData = new FormData(),
                     params = {};
                 formData.append("image", e.target.files[0]);
@@ -98,6 +99,17 @@
                 });
             },
             search: function(nick) {
+                const members = this.members,
+                    memberNick = this.memberNick;
+                for (let i = 0; i < members.length; i++) {
+                    if (memberNick === members[i].nick) {
+                        this.$message({
+                            message: "不可重复添加!",
+                            type: "warning"
+                        });
+                        return;
+                    }
+                }
                 searchUser({
                     nick: nick
                 })
@@ -105,6 +117,7 @@
                         window.console.log(res);
                         if (res.status === 0) {
                             this.members = [...this.members, {...res.data}];
+                            this.memberNick = "";
                         }
                     })
             },
@@ -115,6 +128,15 @@
                         break;
                     }
                 }
+            },
+            next: function() {
+                this.$router.push({name: 'editAdmin', params: {
+                    groupName: this.groupName,
+                    groupDesc: this.groupDesc,
+                    groupCode: this.groupCode,
+                    avatarUrl: this.avatar,
+                    members: this.members
+                }});
             }
         }
     };
@@ -208,13 +230,19 @@
         font-size: 13px;
         font-weight: 400;
         color: rgba(185, 185, 185, 1);
+        border: none;
     }
     .member-block {
-        flex-grow: 1;
         background: rgba(251, 251, 251, 1);
         box-shadow: 0px 8px 25px 6px rgba(4, 0, 0, 0.06);
         border-radius: 10px;
-        padding: 28px 25px;
+        padding: 18px 15px;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .member-card {
+        margin: 10px;
+        flex-shrink: 0;
     }
     .btn-nextTip {
         margin-top: 37px;

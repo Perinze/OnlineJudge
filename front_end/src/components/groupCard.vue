@@ -7,9 +7,10 @@
                 <button class="submenu-item btn-edit" @click="edit">修改小组信息</button>
             </div>
         </div>
-        <div class="group-avatar"></div>
-        <p class="group-name" v-if="isAdd === 'false'">{{group.name}}</p>
-        <p class="group-member-num" v-if="isAdd === 'false'">{{`${group.members}人`}}</p>
+        <img class="group-avatar" :src="group.avatar" v-if="group" />
+        <div class="group-avatar" v-if="!group"></div>
+        <p class="group-name" v-if="isAdd === 'false'">{{group.group_name}}</p>
+        <p class="group-member-num" v-if="isAdd === 'false'">{{`${group.count}人`}}</p>
         <button class="btn-add" v-if="isAdd === 'true'" @click="toAdd">创建小组</button>
     </div>
 </template>
@@ -28,7 +29,11 @@
                 this.isSubmenuActive = !this.isSubmenuActive;
             },
             dismiss: function() {},
-            edit: function() {},
+            edit: function() {
+                this.$router.push({name: "groupManager", params: {
+                    group_id: this.group.group_id
+                }});
+            },
             toAdd: function() {
                 this.$router.push("/addGroup");
             }
@@ -84,6 +89,8 @@
         width: 100px;
         height: 26px;
         border-radius: 6px;
+        cursor: pointer;
+        border: none;
     }
     .btn-dismiss {
         background: rgba(170, 170, 170, 1);

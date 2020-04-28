@@ -153,6 +153,7 @@
 
 <script>
 import pagination from "../components/pagination";
+import { getTheGroup } from "../api/getData";
 
 export default {
   name: "groupManager",
@@ -224,6 +225,10 @@ export default {
     document
       .getElementsByClassName("combox")[0]
       .addEventListener("scroll", this.debounce(this.updateAnchorActive, 500));
+    console.log(this.$route.params);
+    getTheGroup({group_id: this.$route.params.group_id}).then(res => {
+      console.log(res);
+    })
   },
   methods: {
     debounce: function(fn, delay) {
@@ -295,6 +300,9 @@ export default {
 <style lang="scss" scoped>
 .container {
   padding: 39px 97px;
+}
+button, input {
+  border: none;
 }
 .header {
   display: flex;
