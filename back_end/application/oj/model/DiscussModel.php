@@ -82,9 +82,10 @@ class DiscussModel extends Model
     {
         try{
             $page_limit = config('wutoj_config.page_limit');
+            $field = ['discuss.id as id','problem_id','discuss.user_id as user_id', 'users.nick as nick', 'title', 'avatar', 'content', 'time', 'discuss.status as status'];
             if($contest_id !== 0){
                 $info['data'] = $this
-                    ->field(['discuss.id as id','problem_id','discuss.user_id as user_id', 'users.nick as nick', 'title', 'content', 'time', 'discuss.status as status'])
+                    ->field($field)
                     ->where('contest_id', $contest_id)
                     ->join('users','discuss.user_id = users.user_id')
                     ->limit($page * $page_limit, $page_limit)
@@ -95,7 +96,7 @@ class DiscussModel extends Model
                     ->count();
             } else {
                 $info['data'] = $this
-                    ->field(['discuss.id as id','problem_id','discuss.user_id as user_id', 'users.nick as nick', 'title', 'content', 'time', 'discuss.status as status'])
+                    ->field($field)
                     ->where('problem_id', $problem_id)
                     ->where('contest_id', 0)
                     ->join('users','discuss.user_id = users.user_id')
@@ -116,7 +117,11 @@ class DiscussModel extends Model
     public function get_the_discuss($discuss_id)
     {
         try{
-            $info = $this->field(['discuss.id as id','problem_id','contest_id','discuss.user_id as user_id', 'users.nick as nick', 'title', 'content', 'time', 'discuss.status as status'])->join('users','discuss.user_id = users.user_id')->where('id', $discuss_id)->find();
+            $info = $this
+                ->field(['discuss.id as id','problem_id','contest_id','discuss.user_id as user_id', 'users.nick as nick', 'avatar', 'title', 'content', 'time', 'discuss.status as status'])
+                ->join('users','discuss.user_id = users.user_id')
+                ->where('id', $discuss_id)
+                ->find();
             return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $info];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];
@@ -129,7 +134,7 @@ class DiscussModel extends Model
             $where = '(`contest_id` = '.$contest_id.' AND `discuss`.`user_id` = '.(string)$user_id.')'.'OR (`contest_id` = '.$contest_id.' AND `discuss`.`status` = 8)';
             $page_limit = config('wutoj_config.page_limit');
             $info['data'] = $this
-                ->field(['discuss.id as id','problem_id','contest_id','discuss.user_id as user_id', 'users.nick as nick', 'title', 'content', 'time', 'discuss.status as status'])
+                ->field(['discuss.id as id','problem_id','contest_id','discuss.user_id as user_id', 'users.nick as nick', 'avatar', 'title', 'content', 'time', 'discuss.status as status'])
                 ->where($where)
                 ->join('users','discuss.user_id = users.user_id')
                 ->limit($page * $page_limit, $page_limit)
