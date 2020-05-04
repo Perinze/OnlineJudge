@@ -364,12 +364,20 @@ null
             {
                 "user_id": 1,
                 "identity": "创建者",
-                "nick": "123"
+                "nick": "123",
+                "school": "1",
+                "major": "1",
+                "class": "1",
+                "realname": "test"
             },
             {
                 "user_id": 2,
                 "identity": "正常",
-                "nick": "kdl12138"
+                "nick": "kdl12138",
+                "school": "1",
+                "major": "1",
+                "class": "1",
+                "realname": "test"
             }
         ],
         "group": {
@@ -496,7 +504,8 @@ null
        ],//每道题对应的颜色，可不填
       "problems": [
           "1001"
-      ]
+      ],
+      "group_id": 1
   }
   ```
 

@@ -53,7 +53,7 @@ class UsergroupModel extends Model
     {
         try {
             $info = $this->alias(['user_group' => 'ug'])
-                ->field(['ug.user_id as user_id', 'ug.identity as identity', 'nick'])
+                ->field(['ug.user_id as user_id', 'ug.identity as identity', 'nick', 'school', 'major', 'class', 'realname'])
                 ->where('group_id', $group_id)
                 ->rightJoin('users', 'ug.user_id = users.user_id')
                 ->withAttr('identity', function($value) {
