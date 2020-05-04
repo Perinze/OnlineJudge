@@ -29,7 +29,7 @@ class ReplyModel extends Model
         try{
             $page_limit = config('wutoj_config.page_limit');
             $info['data'] = $this
-                ->field(['reply.id as id','reply.user_id as user_id', 'nick','discuss_id', 'content', 'time'])
+                ->field(['reply.id as id','reply.user_id as user_id', 'nick', 'avatar', 'discuss_id', 'content', 'time'])
                 ->where('discuss_id', $discuss_id)
                 ->limit($page * $page_limit, $page_limit)
                 ->join('users','reply.user_id = users.user_id')
