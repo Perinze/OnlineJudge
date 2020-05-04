@@ -23,6 +23,25 @@ class KnowledgeModel extends Model {
     }
 
     /**
+     * @usage 获取成就点
+     * @param int user_id
+     * @return mixed int|array
+     */
+    public function getUserKnowledgePoint($user_id) {
+        try {
+            $userKnowledgeModel = new KnowledgeUserModel();
+            $resp = $userKnowledgeModel->getAllDoneKnowledge($user_id);
+            $score = 0;
+            foreach ($resp['data'] as $item) {
+                $score += $item->score;
+            }
+            return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $score];
+        } catch (DbException $e) {
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
+        }
+    }
+
+    /**
      * @usage 获取知识点
      * @param string $name
      * @return array ['code', 'msg', 'data']

@@ -11,10 +11,12 @@ namespace app\oj\controller;
 use app\oj\model\ContestModel;
 use app\oj\model\GroupModel;
 use app\oj\model\GroupproblemModel;
+use app\oj\model\KnowledgeModel;
 use app\oj\model\ProblemModel;
 use app\oj\model\UsergroupModel;
 use app\oj\validate\ContestValidate;
 use app\oj\validate\GroupValidate;
+use app\panel\model\KnowledgeUserModel;
 use think\Controller;
 use think\facade\Session;
 
@@ -57,6 +59,7 @@ class Group extends Controller
         $group_validate = new GroupValidate();
         $usergroup_model = new UsergroupModel();
         $group_model = new GroupModel();
+        $knowledge_model = new KnowledgeModel();
 
         $req = input('post.');
         $result = $group_validate->scene('get_the_group')->check($req);
@@ -65,9 +68,14 @@ class Group extends Controller
         }
         $resp = $usergroup_model->find_user($req['group_id']);// find all users who joined this group
         $resp1 = $group_model->get_the_group($req['group_id']);// get this group's info
+        $user_data = $resp['data'];
+        $group_data = $resp1['data'];
+        for ($i = 0; $i < sizeof($user_data); $i++) {
+            $user_data[$i]['point'] = $knowledge_model->getUserKnowledgePoint($user_data[$i]['user_id'])['data'];
+        }
         return apiReturn($resp['code'], $resp['msg'], array(
-            'user' => $resp['data'],
-            'group' => $resp1['data']
+            'user' => $user_data,
+            'group' => $group_data
         ));
     }
 
