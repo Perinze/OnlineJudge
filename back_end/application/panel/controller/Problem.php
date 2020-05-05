@@ -7,7 +7,7 @@ use Yosymfony\Toml\TomlBuilder;
 
 class problem extends Base
 {
-    private $data_path = '../finalrank/data/';
+    private $data_path = '/home/oj_data/';
     /* 接口 */
     /**
      * 新建题目
