@@ -194,10 +194,10 @@ class problem extends Base
             $toml->addValue('problem_type', 'SpecialJudge');
             $toml->addTable('limit')
                 ->addValue('memory', isset($req['memory']) ? $req['memory'] * 1024 * 1024 : 33554432)
-                ->addTable('real_time')
+                ->addTable('limit.real_time')
                 ->addValue('secs', $secs)
                 ->addValue('nanos', $nanos)
-                ->addTable('cpu_time')
+                ->addTable('limit.cpu_time')
                 ->addValue('secs', $secs)
                 ->addValue('nanos', $nanos);
             $toml->addTable('source')
@@ -209,10 +209,10 @@ class problem extends Base
             $toml->addValue('problem_type', 'Normal');
             $toml->addTable('limit')
                 ->addValue('memory', isset($req['memory']) ? $req['memory'] * 1024 * 1024 : 33554432)
-                ->addTable('real_time')
+                ->addTable('limit.real_time')
                 ->addValue('secs', $secs)
                 ->addValue('nanos', $nanos)
-                ->addTable('cpu_time')
+                ->addTable('limit.cpu_time')
                 ->addValue('secs', $secs)
                 ->addValue('nanos', $nanos);
             file_put_contents($problem_path.'/config.toml', $toml->getTomlString());
