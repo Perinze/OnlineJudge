@@ -70,8 +70,10 @@ class Group extends Controller
         $resp1 = $group_model->get_the_group($req['group_id']);// get this group's info
         $user_data = $resp['data'];
         $group_data = $resp1['data'];
-        for ($i = 0; $i < sizeof($user_data); $i++) {
-            $user_data[$i]['point'] = $knowledge_model->getUserKnowledgePoint($user_data[$i]['user_id'])['data'];
+        if ($resp['code'] == CODE_SUCCESS) {
+            for ($i = 0; $i < sizeof($user_data); $i++) {
+                $user_data[$i]['point'] = $knowledge_model->getUserKnowledgePoint($user_data[$i]['user_id'])['data'];
+            }
         }
         return apiReturn($resp['code'], $resp['msg'], array(
             'user' => $user_data,
