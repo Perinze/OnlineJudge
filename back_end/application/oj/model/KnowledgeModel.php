@@ -32,8 +32,10 @@ class KnowledgeModel extends Model {
             $userKnowledgeModel = new KnowledgeUserModel();
             $resp = $userKnowledgeModel->getAllDoneKnowledge($user_id);
             $score = 0;
-            foreach ($resp['data'] as $item) {
-                $score += $item->score;
+            if ($resp['data'] != []) {
+                foreach ($resp['data'] as $item) {
+                    $score += $item->score;
+                }
             }
             return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $score];
         } catch (DbException $e) {
