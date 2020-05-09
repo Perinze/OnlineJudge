@@ -160,6 +160,14 @@
     $tleColor: #82B1FF;
     $mleColor: #DECB6B;
     $reColor: rgb(131, 118, 169);
+    button {
+        border: none;
+        outline: none;
+        cursor: pointer;
+    }
+    input {
+        border: none;
+    }
     #app {
         width: 100%;
         height: 100%;

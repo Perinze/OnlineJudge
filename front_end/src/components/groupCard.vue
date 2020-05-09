@@ -30,9 +30,7 @@
             },
             dismiss: function() {},
             edit: function() {
-                this.$router.push({name: "groupManager", params: {
-                    group_id: this.group.group_id
-                }});
+                this.$router.push(`/groupManager?group_id=${this.group.group_id}`);
             },
             toAdd: function() {
                 this.$router.push("/addGroup");

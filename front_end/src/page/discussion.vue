@@ -10,47 +10,55 @@
             @click="toggleType(index)"
           >{{item.label}}</button>
         </div>
-        <button class="btn-add-discussion">发帖</button>
+        <button class="btn-add-discussion" @click="toPublish">发帖</button>
       </div>
-      <div class="discussion-item" v-for="item in discussions">
-        <h4 class="discussion-item-title">{{item.title}}</h4>
-        <p class="discussion-item-content">{{item.content}}</p>
+      <div class="problem-discussion" v-if="btnTypes[0].isActive == true">
+        <div class="discussion-item" v-for="item in problemDis.list" :key="item.title" @click="toProblemDis(item.id)">
+          <h4 class="discussion-item-title">{{item.title}}</h4>
+          <p class="discussion-item-content">{{item.background}}</p>
+        </div>
+        <pagination :total="problemDis.count" :pageSize="PAGESIZE" :pageCount="PAGECOUNT" :fetchData="handleFetchProblemDis"></pagination>
       </div>
-      <pagination :total="70" :pageSize="10" :pageCount="7"></pagination>
+      <div class="contest-discussion" v-if="btnTypes[1].isActive == true">
+        <div class="discussion-item" v-for="item in contestDis.list" :key="item.title" @click="toContestDis(item.id)">
+          <h4 class="discussion-item-title">{{item.contest_name}}</h4>
+        </div>
+        <pagination :total="contestDis.count" :pageSize="PAGESIZE" :pageCount="PAGECOUNT" :fetchData="handleFetchContestDis"></pagination>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import pagination from "../components/pagination";
-import { getAllDiscussion, getUserGroups } from "../api/getData";
+import { getAllTopic, getUserGroups } from "../api/getData";
+import { PAGESIZE, PAGECOUNT } from "../config/index";
 
 export default {
   name: "discussion",
   components: { pagination },
   data() {
     return {
+      PAGESIZE,
+      PAGECOUNT,
       btnTypes: [
         { label: "题目讨论区", isActive: true },
         { label: "比赛讨论区", isActive: false }
       ],
-      discussions: [
-        {
-          title:
-            "comment 1comment 1comment 1comment 1comment 1comment 1comment 1comment 1comment 1comment 1comment 1comment 1comment 1",
-          content:
-            "hello world.超出两行显示省略号1. css写法只对webkit内核的浏览器好用, 对safari浏览器有兼容2. css超出两行显示省略号(个人写法)1. css写法只对webkit内核的浏览...超出两行显示省略号1. css写法只对webkit内核的浏览器好用, 对safari浏览器有兼容2. css超出两行显示省略号(个人写法)1. css写法只对webkit内核的浏览...超出两行显示省略号1. css写法只对webkit内核的浏览器好用, 对safari浏览器有兼容2. css超出两行显示省略号(个人写法)1. css写法只对webkit内核的浏览"
-        },
-        { title: "comment 2", content: "This is a comment." }
-      ]
+      problemDis: {
+        list: [],
+        count: 0,
+        page: 0
+      },
+      contestDis: {
+        list: [],
+        count: 0,
+        page: 0
+      }
     };
   },
   mounted() {
-    let ret = getAllDiscussion({ contest_id: 1004 });
-    ret
-      .then(res => res.json())
-      .then(resJson => console.log(resJson))
-      .catch(err => console.log(err));
+    this.fetchProblemsDis(this.problemDis.page);
   },
   methods: {
     toggleType: function(index) {
@@ -61,6 +69,70 @@ export default {
           this.btnTypes[i].isActive = false;
         }
       }
+      if (index == 0) {
+        this.fetchProblemsDis(this.problemDis.page);
+      } else {
+        this.fetchContestsDis(this.contestDis.page);
+      }
+    },
+    fetchProblemsDis: function(page) {
+      let ret = getAllTopic({ page: page });
+      ret
+        .then(res => {
+          if (res.status == 0) {
+            const tempProblemDis = {
+              list: res.data.data,
+              count: res.data.count,
+              page: page
+            }
+            this.problemDis = tempProblemDis;
+          } else {
+            this.$message({
+              message: res.message,
+              type: 'error'
+            })
+          }
+        })
+        .catch(err => console.log(err));
+    },
+    fetchContestsDis: function(page) {
+      let ret = getAllTopic({ contest: 1, page: page });
+      ret
+        .then(res => {
+          if (res.status == 0) {
+            const tempContestDis = {
+              list: res.data.data,
+              count: res.data.count,
+              page: page
+            }
+            this.contestDis = tempContestDis;
+          } else {
+            this.$message({
+              message: res.message,
+              type: 'error'
+            })
+          }
+        })
+        .catch(err => console.log(err));
+    },
+    handleFetchProblemDis: function(index) {
+      this.fetchProblemsDis(index - 1);
+    },
+    handleFetchContestDis: function(index) {
+      this.fetchContestsDis(index - 1);
+    },
+    toPublish: function() {
+      for (let i = 0; i < this.btnTypes.length; i++) {
+        if (this.btnTypes[i].isActive) {
+          this.$router.push({name: "addDiscussion", params: {type: i}});
+        }
+      }
+    },
+    toProblemDis: function(id) {
+      this.$router.push(`/discussionInfo?id=${id}`);
+    },
+    toContestDis: function(id) {
+      this.$router.push(`/discussionInfo?id=${id}`);
     }
   }
 };

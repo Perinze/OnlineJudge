@@ -1,8 +1,8 @@
 <template>
     <div class="container">
-        <h1 class="title">{{this.$route.params.title || '无标题'}}</h1>
+        <h1 class="title">{{this.discuss.title || '无标题'}}</h1>
         <div class="info">
-            <div class="info-content" v-html="this.$route.params.content || '<p>无内容</p>'"></div>
+            <div class="info-content" v-html="this.discuss.content || '<p>无内容</p>'"></div>
             <!-- <div class="imgs">
               <div class="img-item"></div>
               <div class="img-item"></div>
@@ -14,7 +14,7 @@
         <div class="reply-list">
             <div class="reply-list-item" v-for="item in replys" :key="item.id">
                 <div class="reply-list-item-header">
-                    <div class="avatar"></div>
+                    <img class="avatar" :src="item.avatar" alt="">
                     <span class="name">{{item.nick}}</span>
                 </div>
                 <p class="content">{{item.content}}</p>
@@ -46,17 +46,18 @@
                     // { id: 15, avatar: "", content: "This is a comment." }
                 ],
                 count: 0,
+                discuss: {},
                 content: ""
             };
         },
         mounted() {
             window.console.log(this.$route);
-            this.fetchReply();
+            this.fetchDiscussion();
         },
         methods: {
-            fetchReply: function(index = 0) {
+            fetchDiscussion: function(index = 0) {
                 let params = {
-                    discuss_id: this.$route.params.id,
+                    discuss_id: this.$route.query.id,
                     page: index
                 };
                 getDiscussDetail(params).then(res => {
@@ -64,20 +65,20 @@
                     if (res.status === -1) return;
                     this.replys = res.data.reply.data;
                     this.count = res.data.reply.count;
+                    this.discuss = res.data.discuss;
                 });
-            },
-            toAddDiscussion: function() {
-                this.$router.push("/addDiscussion");
             },
             addReply: function() {
                 addReply({
-                    id: this.$route.params.id,
+                    id: this.$route.query.id,
                     content: this.content
                 }).then(res => {
                     window.console.log(res);
                     if (res.status === 0) {
                         this.$message({ message: "评论成功!", type: "success" });
                         this.content = "";
+                    } else {
+                        this.$message({ message: res.message, type: "error" });
                     }
                 });
             }

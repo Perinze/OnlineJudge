@@ -1,19 +1,47 @@
 <template>
   <div class="container">
-    <input type="text" class="title-input" placeholder="在此输入标题..." />
+    <input type="text" class="title-input" placeholder="在此输入标题..." v-model="title" />
     <div id="editor"></div>
-    <div class="table">
+    <div class="contest-table" v-if="this.$route.params.type == 1">
       <el-table
-              :data="tableProblems"
+              :data="contests"
               style="width: 100%;"
               :header-cell-style="{fontSize: 20 + 'px', fontWeight: 'bold', color: 'rgba(124,127,132,1)'}"
               :cell-style="{fontSize: 15 + 'px', fontWeight: 'bold', color: 'rgba(124,127,132,1)'}"
       >
-        <el-table-column label="题号" prop="problem_id"></el-table-column>
+        <el-table-column label="比赛ID" prop="contest_id"></el-table-column>
+        <el-table-column label="比赛名" prop="contest_name"></el-table-column>
+        <el-table-column align="right" width="240">
+          <template slot="header" slot-scope="scope">
+            <button class="btn-remove-choose" @click="removeContestChoose">移出已选</button>
+          </template>
+          <template slot-scope="scope">
+            <div
+                    :class="['radio', scope.row.isChoose ? 'radio-choose' : '']"
+                    @click="chooseContest(scope.$index)"
+            >
+              <img
+                      src="../../assets/media/choose.png"
+                      class="choose-icon"
+                      v-show="scope.row.isChoose"
+              />
+            </div>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+    <div class="problem-table">
+      <el-table
+              :data="problems"
+              style="width: 100%;"
+              :header-cell-style="{fontSize: 20 + 'px', fontWeight: 'bold', color: 'rgba(124,127,132,1)'}"
+              :cell-style="{fontSize: 15 + 'px', fontWeight: 'bold', color: 'rgba(124,127,132,1)'}"
+      >
+        <el-table-column label="题目ID" prop="problem_id"></el-table-column>
         <el-table-column label="题目" prop="title"></el-table-column>
         <el-table-column align="right" width="240">
           <template slot="header" slot-scope="scope">
-            <button class="btn-remove-choose" @click="removeChoose">移出已选</button>
+            <button class="btn-remove-choose" @click="removeProblemChoose">移出已选</button>
           </template>
           <template slot-scope="scope">
             <div
@@ -29,7 +57,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <pagination :total="count" :pageSize="10" :pageCount="6" :fetchData="fetchProblems"></pagination>
+      <pagination :total="problemsCount" :pageSize="PAGESIZE" :pageCount="PAGECOUNT" :fetchData="fetchProblems" v-if="this.$route.params.type == 0"></pagination>
     </div>
     <button class="btn-compelete" @click="publish">发布</button>
   </div>
@@ -37,16 +65,24 @@
 
 <script>
   import { loadScript, loadCss } from "../utils";
-  import { getProblemList, addDiscuss } from "../api/getData";
+  import { getProblemList, addDiscuss, getContestList, getContest } from "../api/getData";
   import pagination from "../components/pagination";
+  import { PAGESIZE, PAGECOUNT } from "../config/index";
+
   export default {
     name: "addDiscussion",
     components: { pagination },
     data() {
       return {
-        problems: {},
-        tableProblems: [],
-        count: 0
+        PAGESIZE,
+        PAGECOUNT,
+        title: "",
+        problems: [],
+        problemsCount: 0,
+        problem_id: 0,
+        contests: [],
+        contest_id: 0,
+        editor: null
       };
     },
     mounted() {
@@ -58,7 +94,7 @@
                 return loadCss("./editormd.min.css");
               })
               .then(res => {
-                let editor = editormd("editor", {
+                this.editor = editormd("editor", {
                   width: "100%",
                   path: "./lib/",
                   placeholder: "在此输入内容...",
@@ -67,55 +103,133 @@
                   saveHTMLToTextarea: true
                 });
               });
-      // getProblemList().then(res => {
-      //   this.problems["0"] = res.data.data;
-      //   this.tableProblems = res.data.data;
-      // });
-      // fetch("./data.json")
-      //   .then(res => {
-      //     return res.json();
-      //   })
-      //   .then(resJson => {
-      //     window.console.log(resJson);
-      //     this.count = resJson.count;
-      //     this.problems = resJson.data;
-      //     this.tableProblems = resJson.data;
-      //   });
-      this.fetchProblems(1);
+      if (this.$route.params.type == 0) {
+        this.fetchProblems(1);
+      } else {
+        this.fetchContests();
+      }
     },
     methods: {
       chooseProblem: function(index) {
-        this.problems[index].isChoose = !this.problems[index].isChoose;
+        const tempProblems = this.problems;
+        for (let i = 0; i < tempProblems.length; i++) {
+          if (i == index) {
+            tempProblems[i].isChoose = true;
+            this.problem_id = tempProblems[i].problem_id;
+          } else {
+            tempProblems[i].isChoose = false;
+          }
+        }
+        this.problems = tempProblems;
       },
-      removeChoose: function() {
+      removeProblemChoose: function() {
         for (let i = 0; i < this.problems.length; i++) {
           if (this.problems[i].isChoose) {
             this.problems[i].isChoose = false;
           }
         }
+        this.problem_id = 0;
       },
       fetchProblems: function(index) {
-        window.console.log(index);
-        if (this.problems[index]) return;
-        fetch("./data.json")
-                .then(res => {
-                  return res.json();
+        if (this.$route.params.type == 0) {
+          getProblemList(index - 1).then(res => {
+            if (res.status == 0) {
+              const tempProblems = res.data.data;
+              tempProblems.map(item => {
+                item.isChoose = false;
+                return item;
+              });
+              this.problems = tempProblems;
+              this.problemsCount = res.data.count;
+            } else {
+              this.$message({
+                message: res.message,
+                type: 'error'
+              })
+            }
+          })
+        }
+      },
+      chooseContest: function(index) {
+        const tempContests = this.contests;
+        for (let i = 0; i < tempContests.length; i++) {
+          if (i == index) {
+            tempContests[i].isChoose = true;
+            this.contest_id = tempContests[i].contest_id;
+            getContest({contest_id: tempContests[i].contest_id}).then(res => {
+              if (res.status == 0) {
+                const tempProblems = [];
+                res.data.problems.map(item => {
+                  tempProblems.push({
+                    problem_id: item,
+                    isChoose: false
+                  })
                 })
-                .then(resJson => {
-                  this.count = resJson.count;
-                  this.problems[index] = resJson.data;
-                  this.tableProblems = resJson.data;
-                  window.console.log(this.problems);
-                });
+                this.problems = tempProblems;
+                this.problem_id = 0;
+              } else {
+                this.$message({
+                  message: res.message,
+                  type: 'error'
+                })
+              }
+            })
+          } else {
+            tempContests[i].isChoose = false;
+          }
+        }
+        this.contests = tempContests;
+      },
+      removeContestChoose: function() {
+        for (let i = 0; i < this.contests.length; i++) {
+          if (this.contests[i].isChoose) {
+            this.contests[i].isChoose = false;
+          }
+        }
+        this.contest_id = 0;
+      },
+      fetchContests: function() {
+        getContestList().then(res => {
+          if (res.status == 0) {
+            const tempContests = res.data;
+            tempContests.map(item => {
+              item.isChoose = false;
+              return item;
+            })
+            this.contests = tempContests;
+          } else {
+            this.$message({
+              message: res.message,
+              type: 'error'
+            })
+          }
+        })
       },
       publish: function() {
-        addDiscuss({
-          problem_id: 1020,
-          content: "<p>This is a discussion about problem 1000</p>",
-          title: "A discussion"
-        }).then(res => {
-          window.console.log(res);
-        });
+        if (this.$route.params.type == 0) {
+          addDiscuss({
+            problem_id: this.problem_id,
+            content: this.editor.getHTML(),
+            title: this.title
+          }).then(res => {
+            this.$message({
+              message: res.message,
+              type: res.status == 0 ? 'success' : 'error'
+            })
+          });
+        } else {
+          addDiscuss({
+            problem_id: this.problem_id,
+            contest_id: this.contest_id,
+            content: this.editor.getHTML(),
+            title: this.title
+          }).then(res => {
+            this.$message({
+              message: res.message,
+              type: res.status == 0 ? 'success' : 'error'
+            })
+          });
+        }
       }
     }
   };
@@ -132,7 +246,8 @@
     background: #f0f0f7;
     margin-bottom: 20px;
   }
-  .table {
+  .problem-table,
+  .contest-table {
     width: 100%;
     padding: 10px 20px;
     background: #fff;

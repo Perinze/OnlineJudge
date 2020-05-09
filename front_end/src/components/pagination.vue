@@ -53,7 +53,6 @@
                 let pageCount = this.pageCount - 0,
                     pageNum = JSON.parse(JSON.stringify(this.pageNum)),
                     index = this.index;
-                window.console.log(pageNum + " " + pageCount);
                 if (pageNum.length === 2) return [];
                 if (pageNum.length <= pageCount)
                     return pageNum.slice(1, pageNum.length - 1);
@@ -63,7 +62,6 @@
                         pageNum.length - pageCount + 1,
                         pageNum.length - 1
                     );
-                window.console.log("weq");
                 return pageCount % 2 === 0
                     ? pageNum.slice(
                         index - (pageCount - 2) / 2,

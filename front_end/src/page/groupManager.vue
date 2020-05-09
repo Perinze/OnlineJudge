@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="header">
-      <h1 class="title group-name">拖延与压榨</h1>
+      <h1 class="title group-name">{{group.group_name}}</h1>
       <div class="anchor-links">
         <div
           :href="item.href"
@@ -34,7 +34,7 @@
               fill="#B7B8BC"
             />
           </svg>
-          <input type="text" class="nick-input" placeholder="输入成员昵称查找" />
+          <input v-model="memberNick" type="text" class="nick-input" placeholder="输入成员昵称查找" ref="memberInput" />
         </div>
       </div>
       <el-table
@@ -46,22 +46,33 @@
         <el-table-column type="expand">
           <template slot-scope="props">
             <div class="table-expand-item">
-              <label class="table-expand-item-label">个人描述:</label>
-              <span class="table-expand-item-text">{{props.row.desc}}</span>
+              <label class="table-expand-item-label">学校:</label>
+              <span class="table-expand-item-text">{{props.row.school}}</span>
+            </div>
+            <div class="table-expand-item">
+              <label class="table-expand-item-label">专业:</label>
+              <span class="table-expand-item-text">{{props.row.major}}</span>
+            </div>
+            <div class="table-expand-item">
+              <label class="table-expand-item-label">班级:</label>
+              <span class="table-expand-item-text">{{props.row.class}}</span>
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="昵称" prop="nick"></el-table-column>
-        <el-table-column label="AC数" prop="acCnt"></el-table-column>
-        <el-table-column label="WA数" prop="waCnt"></el-table-column>
-        <el-table-column align="right" width="240">
+        <el-table-column label="昵称" prop="nick">
+          <template slot-scope="prop">
+            <div :class="prop.row.identity == '管理员' ? 'nickname badge' : 'nickname'">{{prop.row.nick}}</div>
+          </template>
+        </el-table-column>
+        <el-table-column label="真实姓名" prop="realname"></el-table-column>
+        <!-- <el-table-column align="right" width="240">
           <template slot-scope="scope">
             <div class="operations">
               <button class="btn-setAdmin">{{scope.row.isAdmin ? '取消管理员身份' : '设置为管理员'}}</button>
               <button class="btn-clear">踢出</button>
             </div>
           </template>
-        </el-table-column>
+        </el-table-column> -->
       </el-table>
     </div>
     <h1 class="title">题库管理</h1>
@@ -72,16 +83,13 @@
         :header-cell-style="{fontSize: 20 + 'px', fontWeight: 'bold', color: 'rgba(124,127,132,1)'}"
         :cell-style="{fontSize: 15 + 'px', fontWeight: 'bold', color: 'rgba(124,127,132,1)'}"
       >
-        <el-table-column label="题号" prop="problemId"></el-table-column>
-        <el-table-column label="题目" prop="problemCon"></el-table-column>
+        <el-table-column label="题号" prop="problem_id"></el-table-column>
+        <el-table-column label="题目" prop="title"></el-table-column>
         <el-table-column align="right" width="240">
           <template slot="header" slot-scope="scope">
-            <div class="operations">
-              <button class="btn-add-problem">新增</button>
-              <button class="btn-remove-choose" @click="removeChoose">移出已选</button>
-            </div>
+            <button class="btn-add-problem" @click="addProblem">新增</button>
           </template>
-          <template slot-scope="scope">
+          <!-- <template slot-scope="scope">
             <div
               :class="['radio', scope.row.isChoose ? 'radio-choose' : '']"
               @click="chooseProblem(scope.$index)"
@@ -92,31 +100,65 @@
                 v-show="scope.row.isChoose"
               />
             </div>
-          </template>
+          </template> -->
         </el-table-column>
       </el-table>
-      <pagination :total="70" :pageSize="10" :pageCount="7"></pagination>
+      <pagination :total="problemsCount" :pageSize="PAGESIZE" :pageCount="PAGECOUNT" :fetchData="fetchGroupProblemFromProPage"></pagination>
     </div>
-    <button class="btn-compelete">完成</button>
+    <div class="problem-list" v-show="isShowProblems">
+      <div class="problem-table">
+        <el-table
+          :data="allProblems"
+          style="width: 600px; flex: none;"
+          :header-cell-style="{fontSize: 18 + 'px', fontWeight: 'bold', color: 'rgba(124,127,132,1)'}"
+          :cell-style="{fontSize: 13 + 'px', fontWeight: 'bold', color: 'rgba(124,127,132,1)'}"
+        >
+          <el-table-column label="题目ID" prop="problem_id"></el-table-column>
+          <el-table-column label="题目" prop="title"></el-table-column>
+          <el-table-column align="right" width="240">
+            <template slot="header" slot-scope="scope">
+              <div class="operations">
+                <button class="btn-remove-choose" style="margin-right: 15px;" @click="removeAllProChoose">移出已选</button>
+                <button class="btn-remove-choose" @click="closeProblemList">关闭</button>
+              </div> 
+            </template>
+            <template slot-scope="scope">
+              <div
+                :class="['radio', scope.row.isChoose ? 'radio-choose' : '']"
+                @click="chooseListProblem(scope.$index)"
+              >
+                <img
+                  src="../../assets/media/choose.png"
+                  class="choose-icon"
+                  v-show="scope.row.isChoose"
+                />
+              </div>
+            </template>
+          </el-table-column>
+        </el-table>
+        <pagination :total="allProblemsCount" :pageSize="PAGESIZE" :pageCount="PAGECOUNT" :fetchData="fetchAllProblems"></pagination>
+        <button class="btn-compelete" @click="completeChoose">完成</button>
+      </div>
+    </div>
     <h1 class="title">比赛发起</h1>
     <h2 class="subtitle">题目选择</h2>
     <div class="table">
       <el-table
-        :data="contests"
+        :data="contestProblem"
         style="width: 100%;"
         :header-cell-style="{fontSize: 20 + 'px', fontWeight: 'bold', color: 'rgba(124,127,132,1)'}"
         :cell-style="{fontSize: 15 + 'px', fontWeight: 'bold', color: 'rgba(124,127,132,1)'}"
       >
-        <el-table-column label="题号" prop="problemId"></el-table-column>
-        <el-table-column label="题目" prop="problemCon"></el-table-column>
+        <el-table-column label="题号" prop="problem_id"></el-table-column>
+        <el-table-column label="题目" prop="title"></el-table-column>
         <el-table-column align="right" width="240">
-          <!-- <template slot="header" slot-scope="scope">
-            <button class="btn-remove-choose" @click="removeChoose">移出已选</button>
-          </template>-->
+          <template slot="header" slot-scope="scope">
+            <button class="btn-remove-choose" @click="removeContestChoose">移出已选</button>
+          </template>
           <template slot-scope="scope">
             <div
               :class="['radio', scope.row.isChoose ? 'radio-choose' : '']"
-              @click="chooseContest(scope.$index)"
+              @click="chooseContestProblem(scope.$index)"
             >
               <img
                 src="../../assets/media/choose.png"
@@ -127,115 +169,110 @@
           </template>
         </el-table-column>
       </el-table>
-      <pagination :total="70" :pageSize="10" :pageCount="7"></pagination>
+      <pagination :total="contestProblemCount" :pageSize="PAGESIZE" :pageCount="PAGECOUNT" :fetchData="fetchGroupProblemFromConPage"></pagination>
       <div class="contest-time">
         <div class="contest-time-block">
-          <h3 class="time-title">报名时间开始</h3>
-          <el-date-picker v-model="enrollStart" type="datetime" placeholder="选择日期时间"></el-date-picker>
-        </div>
-        <div class="contest-time-block">
-          <h3 class="time-title">报名时间结束</h3>
-          <el-date-picker v-model="enrollEnd" type="datetime" placeholder="选择日期时间"></el-date-picker>
-        </div>
-        <div class="contest-time-block">
           <h3 class="time-title">比赛时间开始</h3>
-          <el-date-picker v-model="contestStart" type="datetime" placeholder="选择日期时间"></el-date-picker>
+          <el-date-picker v-model="contestStart" type="datetime" placeholder="选择日期时间" value-format="yyyy-MM-dd hh:mm:ss"></el-date-picker>
         </div>
         <div class="contest-time-block">
           <h3 class="time-title">比赛时间结束</h3>
-          <el-date-picker v-model="contestEnd" type="datetime" placeholder="选择日期时间"></el-date-picker>
+          <el-date-picker v-model="contestEnd" type="datetime" placeholder="选择日期时间" value-format="yyyy-MM-dd hh:mm:ss"></el-date-picker>
+        </div>
+        <div class="contest-time-block">
+          <h3 class="time-title">比赛名</h3>
+          <input type="text" v-model="contestName" class="contest-name" placeholder="请输入比赛名" />
         </div>
       </div>
     </div>
-    <button class="btn-compelete">完成</button>
+    <button class="btn-compelete" @click="launchContest">完成</button>
   </div>
 </template>
 
 <script>
 import pagination from "../components/pagination";
-import { getTheGroup } from "../api/getData";
+import { getProblem, getTheGroup, getProblemList, getAllProblem, addGroupProblem, addContest, searchUser } from "../api/getData";
+import { PAGESIZE, PAGECOUNT } from "../config/index";
 
 export default {
   name: "groupManager",
   components: { pagination },
   data() {
     return {
+      PAGESIZE,
+      PAGECOUNT,
+      memberNick: "",
+      group: {
+        group_name: ""
+      },
       anchors: [
         { href: "#members", label: "小组成员", isActive: true },
         { href: "#problems", label: "题库管理", isActive: false },
         { href: "#contests", label: "比赛发起", isActive: false }
       ],
       members: [
-        {
-          id: 1,
-          isAdmin: false,
-          nick: "codeplay",
-          acCnt: 12,
-          waCnt: 100,
-          desc: "hello world"
-        },
-        {
-          id: 2,
-          isAdmin: true,
-          nick: "maydusa",
-          acCnt: 14,
-          waCnt: 90,
-          desc: "hello world"
-        },
-        {
-          id: 3,
-          isAdmin: false,
-          nick: "kobe",
-          acCnt: 122,
-          waCnt: 0,
-          desc: "hello world"
-        }
+        // {
+        //   id: 1,
+        //   isAdmin: false,
+        //   nick: "codeplay",
+        //   acCnt: 12,
+        //   waCnt: 100,
+        //   desc: "hello world"
+        // },
+        // {
+        //   id: 2,
+        //   isAdmin: true,
+        //   nick: "maydusa",
+        //   acCnt: 14,
+        //   waCnt: 90,
+        //   desc: "hello world"
+        // },
+        // {
+        //   id: 3,
+        //   isAdmin: false,
+        //   nick: "kobe",
+        //   acCnt: 122,
+        //   waCnt: 0,
+        //   desc: "hello world"
+        // }
       ],
-      problems: [
-        {
-          problemId: 2,
-          problemCon: "This is a problem.",
-          isChoose: false
-        },
-        {
-          problemId: 5,
-          problemCon: "This is a problem.",
-          isChoose: false
-        }
-      ],
-      contests: [
-        {
-          problemId: 4,
-          problemCon: "This is a problem.",
-          isChoose: false
-        },
-        {
-          problemId: 10,
-          problemCon: "This is a problem.",
-          isChoose: false
-        }
-      ],
-      enrollStart: "",
-      enrollEnd: "",
+      isShowProblems: false,
+      problems: [],
+      problemsCount: 0,
+      allProblems: [],
+      allProblemsCount: 0,
+      allProblemsChoose: [],
+      contestProblem: [],
+      contestProblemCount: 0,
       contestStart: "",
-      contestEnd: ""
+      contestEnd: "",
+      contestName: ""
     };
   },
   mounted() {
+    document.onkeydown = (e) => {
+      if (e.keyCode == 13 && this.$refs.memberInput == document.activeElement) {
+        this.search(this.memberNick);
+      }
+    }
     document
       .getElementsByClassName("combox")[0]
       .addEventListener("scroll", this.debounce(this.updateAnchorActive, 500));
-    console.log(this.$route.params);
-    getTheGroup({group_id: this.$route.params.group_id}).then(res => {
-      console.log(res);
-    })
+    getTheGroup({group_id: this.$route.query.group_id}).then(res => {
+      this.group = res.data.group;
+      this.members = res.data.user;
+    });
+    // 题库列表获取题目数据
+    this.fetchGroupProblemFromPro(this.$route.query.group_id, 1);
+    // 比赛列表获取题目数据
+    this.fetchGroupProblemFromCon(this.$route.query.group_id, 1);
   },
   methods: {
     debounce: function(fn, delay) {
       let timer = null;
       return function() {
         let _this = this;
-        clearTimeout(timer); // 每次调用debounce函数都会将前一次的timer清空，确保只执行一次
+        clearTimeout(timer);
         let args = arguments;
         timer = setTimeout(() => {
           fn.apply(_this, args);
@@ -280,18 +317,182 @@ export default {
         }
       }
     },
+    search: function() {
+      searchUser({nick: this.memberNick})
+        .then(res => {
+          console.log(res);
+          if (res.status == 0) {
+            this.members = [res.data];
+          } else {
+            this.$message({
+              message: res.message,
+              type: 'error'
+            })
+          }
+        })
+    },
     chooseProblem: function(index) {
       this.problems[index].isChoose = !this.problems[index].isChoose;
     },
-    chooseContest: function(index) {
-      this.contests[index].isChoose = !this.contests[index].isChoose;
+    chooseContestProblem: function(index) {
+      this.contestProblem[index].isChoose = !this.contestProblem[index].isChoose;
     },
-    removeChoose: function() {
+    removeContestChoose: function() {
       for (let i = 0; i < this.problems.length; i++) {
-        if (this.problems[i].isChoose) {
-          this.problems[i].isChoose = false;
+        if (this.contestProblem[i].isChoose) {
+          this.contestProblem[i].isChoose = false;
         }
       }
+    },
+    fetchGroupProblemFromPro: function(group_id, page) {
+      getAllProblem({group_id, page: page - 1})
+        .then(res => {
+          if (res.status == 0) {
+            const tempProblems = res.data.data;
+            tempProblems.map(item => {
+              item.isChoose = false;
+              return item;
+            })
+            this.problems = tempProblems;
+            this.problemsCount = res.data.count;
+          } else {
+            this.$message({
+              message: res.message,
+              type: 'error'
+            })
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        })
+    },
+    fetchGroupProblemFromProPage: function(index) {
+      this.fetchGroupProblemFromPro(this.$route.query.group_id, index - 1);
+    },
+    fetchGroupProblemFromCon: function(group_id, page) {
+      getAllProblem({group_id, page: page - 1})
+        .then(res => {
+          if (res.status == 0) {
+            const tempProblems = res.data.data;
+            tempProblems.map(item => {
+              item.isChoose = false;
+              return item;
+            })
+            this.contestProblem = tempProblems;
+            this.contestProblemCount = res.data.count;
+          } else {
+            this.$message({
+              message: res.message,
+              type: 'error'
+            })
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        })
+    },
+    fetchGroupProblemFromConPage: function(index) {
+      this.fetchGroupProblemFromCon(this.$route.query.group_id, index - 1);
+    },
+    fetchAllProblems: function(index) {
+      getProblemList({page: index - 1})
+        .then(res => {
+          if (res.status == 0) {
+            const tempProblems = res.data.data;
+            tempProblems.map(item => {
+              item.isChoose = false;
+              return item;
+            })
+            this.allProblemsCount = res.data.count;
+            this.allProblems = tempProblems;
+          } else {
+            this.$message({
+              message: res.message,
+              type: 'error'
+            })
+          }
+        })
+    },
+    addProblem: function() {
+      if (!this.isShowProblems) {
+        this.fetchAllProblems(1);
+      }
+      this.isShowProblems = true;
+    },
+    closeProblemList: function() {
+      this.isShowProblems = false;
+    },
+    chooseListProblem: function(index) {
+      if (!this.allProblems[index].isChoose) {
+        this.allProblems[index].isChoose = true;
+        this.allProblemsChoose.push(this.allProblems[index]);
+      } else {
+        this.allProblems[index].isChoose = false;
+        for (let i = 0; i < this.allProblemsChoose.length; i++) {
+          if (this.allProblemsChoose[i] == this.allProblems[index]) {
+            this.allProblemsChoose.splice(i, 1);
+          }
+        }
+      }
+    },
+    removeAllProChoose: function() {
+      const tempProblems = this.allProblems;
+      for (let i = 0; i < this.allProblems.length; i++) {
+        this.allProblems[i].isChoose = false;
+      }
+      this.allProblemsChoose = [];
+    },
+    completeChoose: function() {
+      if (this.allProblemsChoose.length == 0) {
+        this.isShowProblems = false;
+        return;
+      }
+      const problems = [];
+      for (let i = 0; i < this.allProblemsChoose.length; i++) {
+        problems.push(this.allProblemsChoose[i].problem_id);
+      }
+      addGroupProblem({group_id: this.$route.query.group_id, problems})
+        .then(res => {
+          if (res.status == 0) {
+            for (let i = 0; i < this.allProblemsChoose.length; i++) {
+              this.allProblemsChoose[i].isChoose = false;
+              problems.push(this.allProblemsChoose[i].problem_id);
+            }
+            this.problems = [...this.problems, ...this.allProblemsChoose];
+            this.problemsCount = this.allProblemsChoose.length + this.problems.length;
+            this.isShowProblems = false;
+          } else {
+            this.$message({
+              message: res.message,
+              type: 'error'
+            })
+          }
+        })
+    },
+    launchContest: function() {
+      const problems = [];
+      for (let i = 0; i < this.contestProblem.length; i++) {
+        if (this.contestProblem[i].isChoose) {
+          problems.push(this.contestProblem[i].problem_id);
+        }
+      }
+      addContest({
+        group_id: this.$route.query.group_id,
+        contest_name: this.contestName,
+        begin_time: this.contestStart,
+        end_time: this.contestEnd,
+        frozen: 0.2,
+        problems: problems
+      })
+        .then(res => {
+          this.$message({
+            message: res.message,
+            type: res.status == 0 ? 'success' : 'error'
+          })
+        })
+        .catch(err => {
+          console.log(err);
+        })
     }
   }
 };
@@ -483,5 +684,48 @@ button, input {
   font-weight: 400;
   color: rgba(125, 125, 125, 1);
   margin-right: 10px;
+}
+.badge::after {
+  position: absolute;
+  width: 50px;
+  height: 20px;
+  content: "管理员";
+  font-size: 12px;
+  line-height: 20px;
+  background-color: #FFB95F;
+  text-align: center;
+  color: #fff;
+  border-radius: 6px;
+}
+
+.problem-table {
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 20px;
+}
+.problem-list {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+.btn-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: rgba(125, 125, 125, 1);
+}
+.contest-name {
+  padding: 5px 10px;
+  border-radius: 4px;
+  border: 1px solid #DCDFE6;
+  color: #606266;
 }
 </style>

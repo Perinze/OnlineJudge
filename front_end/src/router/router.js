@@ -163,6 +163,14 @@ const routes = [
         }
     },
     {
+        name: 'discussion',
+        path: '/discussion',
+        component: discussion,
+        meta: {
+            isLogin: false
+        }
+    },
+    {
         // 某条帖子
         name: 'discussionInfo',
         path: '/discussionInfo',
@@ -173,6 +181,7 @@ const routes = [
     },
     {
         // 新增帖子
+        name: 'addDiscussion',
         path: '/addDiscussion',
         component: addDiscussion,
         meta: {

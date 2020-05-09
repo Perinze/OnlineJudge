@@ -289,3 +289,20 @@ export const getAllKnowledge = () => fetch('/knowledge/getAllKnowledge');
 
 export const getAllTag = data => fetch('/knowledge/getAllTag', 'post', data);
 
+/**
+ * 获取小组题目
+ */
+
+export const getAllProblem = data => fetch('/Group/getAllProblem', 'post', data);
+
+/**
+ * 添加小组题目
+ */
+
+ export const addGroupProblem = data => fetch('/Group/addGroupProblem', 'post', data);
+
+ /**
+  * 添加比赛
+  */
+
+export const addContest = data => fetch('/group/addContest', 'post', data);

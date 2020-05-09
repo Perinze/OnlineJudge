@@ -118,6 +118,11 @@
                         if (res.status === 0) {
                             this.members = [...this.members, {...res.data}];
                             this.memberNick = "";
+                        } else {
+                            this.$message({
+                                message: res.message,
+                                type: 'error'
+                            })
                         }
                     })
             },
