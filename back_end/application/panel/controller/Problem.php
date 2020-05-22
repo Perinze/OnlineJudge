@@ -126,7 +126,7 @@ class problem extends Base
         $data = [];
         foreach($files['file'] as $file) {
             //halt($file);
-            $info = $file->move($this->data_path);
+            $info = $file->move($this->data_path, '');
             if ($info != VALIDATE_PASS) {
                 return apiReturn(CODE_ERROR, $file->getError(), '');
             } else {
