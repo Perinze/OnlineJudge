@@ -126,11 +126,11 @@ class problem extends Base
         $data = [];
         foreach($files['file'] as $file) {
             //halt($file);
-            $info = $file->move($this->data_path, '');
+            $info = $file->move($this->data_path.'tmp/', '');
             if ($info != VALIDATE_PASS) {
                 return apiReturn(CODE_ERROR, $file->getError(), '');
             } else {
-                $file_path = $this->data_path . (str_replace('\\', '/', $info->getSaveName()));
+                $file_path = $this->data_path.'tmp/' . (str_replace('\\', '/', $info->getSaveName()));
                 $str = file_get_contents($file_path);
                 //$str = str_replace("\r\n", '\n', $str);
                 $filename = substr($file->getInfo()['name'], 0, strpos($file->getInfo()['name'], '.'));
