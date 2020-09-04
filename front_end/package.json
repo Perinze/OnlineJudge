@@ -13,7 +13,7 @@
     "element-ui": "^2.7.0",
     "jQuery": "^1.7.4",
     "marked": "^0.7.0",
-    "node-sass": "^4.12.0",
+    "node-sass": "^4.13.1",
     "sass-loader": "^8.0.0",
     "vue": "^2.6.6",
     "vue-codemirror": "^4.0.6",
