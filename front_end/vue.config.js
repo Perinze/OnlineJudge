@@ -2,6 +2,7 @@ const webpack = require("webpack");
 const CompressionPlugin = require("compression-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const StatsPlugin = require("stats-webpack-plugin");
+
 module.exports = {
   productionSourceMap: false,
 
@@ -42,12 +43,14 @@ module.exports = {
       config.plugins = [...config.plugins, ...devPlugin];
 
       config.devServer = {};
+
       config.devServer.proxy =
         process.env.NODE_ENV === "test"
           ? {
               "/api/oj": {
                 target: "http://acmwhut.com/",
                 changeOrigin: true,
+                secure: false,
               },
             }
           : {

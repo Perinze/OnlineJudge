@@ -40,7 +40,7 @@ app.use(async (ctx, next) => {
       fetchData.body = JSON.stringify(data);
     }
 
-    ret = await fetch(originBaseUrl + url, fetchData).then((res) => {
+    ret = await fetch(originBaseUrl + ctx.url, fetchData).then((res) => {
       return res.json();
     });
     console.log(`[${new Date()}] not response for ${url}`);
