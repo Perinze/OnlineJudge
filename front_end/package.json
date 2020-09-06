@@ -6,7 +6,9 @@
     "serve": "vue-cli-service serve --mode test",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "log": "webpack --profile --json > stats.json"
+    "log": "webpack --profile --json > stats.json",
+    "dev": "vue-cli-service serve --mode mock",
+    "mock": "node ./mock_server/server.js"
   },
   "dependencies": {
     "codemirror": "^5.44.0",
@@ -31,6 +33,9 @@
     "compression-webpack-plugin": "^3.0.0",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
+    "koa": "^2.13.0",
+    "koa-body": "^4.2.0",
+    "node-fetch": "^2.6.0",
     "stats-webpack-plugin": "^0.7.0",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "vue-template-compiler": "^2.5.21",
