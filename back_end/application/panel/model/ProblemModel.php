@@ -43,6 +43,7 @@ class ProblemModel extends Model{
                     $status = [-1=>'删除', 0=>'禁用', 1=>'正常', 2=>'比赛'];
                     return $status[$value];
                 })
+                ->order('problem_id', 'desc')
                 ->select();
             if(empty($info)){
                 return ['code' => CODE_ERROR,'msg' => '返回值异常','data' => $this->getError()];
