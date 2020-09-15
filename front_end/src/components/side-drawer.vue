@@ -65,6 +65,9 @@ export default {
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.18);
   overflow-y: scroll;
   transition: margin-right 0.5s ease-in-out;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .close-btn {

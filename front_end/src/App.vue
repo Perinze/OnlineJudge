@@ -193,8 +193,8 @@ $reColor: rgb(131, 118, 169);
   }
 }
 /*
-        题目icon BEGIN
-    */
+  题目icon BEGIN
+*/
 .ac-icon::before {
   content: "A";
   color: $acColor;
