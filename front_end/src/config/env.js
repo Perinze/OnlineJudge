@@ -6,15 +6,9 @@
  * baseUrl: 请求域名前缀
  */
 
-let baseUrl = "http://acmwhut.com/api/oj/";
+// let baseUrl = "http://acmwhut.com/api/oj/";
+let baseUrl = "/api/oj/";
 let domain = "http://dev.acmwhut.com";
-if (process.env.NODE_ENV === "test") {
-  // 本地测试环境
-  baseUrl = "http://dev.acmwhut.com/api/oj/";
-} else {
-  // 生产环境(相对路径)
-  baseUrl = "/api/oj/";
-}
 
 /**
  * 百度统计
