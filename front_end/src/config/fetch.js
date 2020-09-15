@@ -1,10 +1,6 @@
 import { baseUrl } from "./env";
 
-<<<<<<< HEAD
-export default async function(
-=======
 export default async function ifetch(
->>>>>>> mock_server_dev
   url = "",
   method = "GET",
   data = {},

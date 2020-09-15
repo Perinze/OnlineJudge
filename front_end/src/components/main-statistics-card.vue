@@ -88,7 +88,7 @@ export default {
   background: white;
   border-radius: 10px;
   overflow: hidden;
-  /*flex: 1 1 auto;*/
+  // flex: 1 1 auto;
   width: 370px;
   height: 133px;
   display: flex;
@@ -131,6 +131,7 @@ export default {
   line-height: 36px;
   color: rgba(77, 79, 92, 1);
   opacity: 1;
+  text-align: left;
 }
 
 .statistics-card .statistics-card-info .card-precent-content {

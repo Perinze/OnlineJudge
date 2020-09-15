@@ -28,62 +28,7 @@ export default {
   name: "problemlist",
   data() {
     return {
-      items: [
-        // {
-        //     id: 1000,
-        //     status: 'ac',
-        //     title: '超级玛丽游戏',
-        //     statistics: {
-        //         ac: 28,
-        //         all: 188
-        //     }
-        // },
-        // {
-        //     id: 1001,
-        //     status: 'wa',
-        //     title: 'A+B Problem',
-        //     statistics: {
-        //         ac: 28,
-        //         all: 188
-        //     }
-        // },
-        // {
-        //     id: 1002,
-        //     status: 'tle',
-        //     title: '过河卒',
-        //     statistics: {
-        //         ac: 28,
-        //         all: 188
-        //     }
-        // },
-        // {
-        //     id: 1003,
-        //     status: 'mle',
-        //     title: '铺地毯',
-        //     statistics: {
-        //         ac: 28,
-        //         all: 188
-        //     }
-        // },
-        // {
-        //     id: 1004,
-        //     status: 'other',
-        //     title: '方格取数',
-        //     statistics: {
-        //         ac: 28,
-        //         all: 188
-        //     }
-        // },
-        // {
-        //     id: 1005,
-        //     status: 'un',
-        //     title: '矩阵取数游戏',
-        //     statistics: {
-        //         ac: 28,
-        //         all: 188
-        //     }
-        // }
-      ],
+      items: [],
     };
   },
   async beforeMount() {
@@ -92,17 +37,20 @@ export default {
   methods: {
     goto: function(pid) {
       // let res = '/problem?p='+pid;
-      // this.$router.push(res);
-      this.$emit("open-problem", {
-        pid: pid,
-      });
+      if (window.isWap) {
+        this.$router.push(`/problem?p=${pid}`);
+      } else {
+        this.$emit("open-problem", {
+          pid: pid,
+        });
+      }
     },
     renderProblemList: async function() {
       this.$loading.open();
       let response = await getProblemList();
       if (response.status == 0) {
         // success
-        let data = response.data.data;
+        let data = response.data;
         data.forEach((val) => {
           let res = {
             id: val.problem_id,

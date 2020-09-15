@@ -81,53 +81,26 @@ router.afterEach((route) => {
   window.scroll(0, 0);
 });
 
-// 防开发者模式 BEGIN
+// 判断isWap
 
-// window.onkeydown = window.onkeyup = window.onkeypress = function(event) {
-// TODO 防止f12 但在MAC系统下会阻止输入大括号
-// if (event.keyCode === 123) {
-// console.log('here');
-// event.preventDefault();
-// window.event.returnValue = false;
-// }
-// };
+window.onload = () => {
+  judgeWap();
+}
 
-window.oncontextmenu = function() {
-  // event.preventDefault();
-  // return false;
-};
+window.onresize = () => {
+  judgeWap();
+}
 
-let threshold = 160;
-window.setInterval(function() {
-  if (
-    window.outerWidth - window.innerWidth > threshold ||
-    window.outerHeight - window.innerHeight > threshold
-    //|| (window.console && window.console.log)
-  ) {
-    // alert("Please Close Develop Mode! ");
-    // window.location.reload();
-  }
-}, 5e3);
-
-// 目前无法防止提前打开浮动窗口模式的开发者窗口
-
-// 防开发者模式 END
-
-window.onload = function() {
+function judgeWap() {
   let bodyWidth = document.body.clientWidth;
   let bodyHeight = document.body.clientHeight;
 
-  let exploreName = getExploreName();
-  let allowUA = ["Firefox", "Chrome", "Safari"];
-
   if (bodyHeight > bodyWidth || !IsPC()) {
-    alert("本系统不支持移动端");
-  } else if (bodyWidth < 1280 || bodyHeight < 660) {
-    // alert("由于您的网页分辨率过低，该系统暂不支持您的设备");
-  } else if (allowUA.indexOf(exploreName) === -1) {
-    alert("本网站暂不支持您的浏览器");
+    window.isWap = true;
+  } else {
+    window.isWap = false;
   }
-};
+}
 
 function IsPC() {
   let userAgentInfo = navigator.userAgent;

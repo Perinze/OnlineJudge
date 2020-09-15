@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 
 import mainpage from "../page/mainpage";
 import problemlist from "../page/problemlist";
+import problemDetail from "../page/problemDetail";
 import contestlist from "../page/contestlist";
 import contestrank from "../page/contest-rank";
 import contestpage from "../page/contestpage";
@@ -48,6 +49,13 @@ const routes = [
     meta: {
       isLogin: false,
     },
+  },
+  {
+    path: "/problem",
+    component: problemDetail,
+    meta: {
+      isLogin: false,
+    }
   },
   {
     // 比赛列表

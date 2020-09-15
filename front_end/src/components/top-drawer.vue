@@ -1,5 +1,5 @@
 <template>
-  <div id="top-drawer" :style="styleObject">
+  <div id="top-drawer" :style="styleObject" ref="topDrawer">
     <div class="function-group">
       <div>
         <label for="code-lang">编译语言: </label>
@@ -38,7 +38,6 @@
 
 <script>
 import codeEditor from "./myCodemirror";
-
 import { getProblem, submitCode, checkLogin } from "../api/getData";
 
 export default {
@@ -146,7 +145,7 @@ export default {
       if (this.isDisplay) {
         res["margin-top"] = 0;
       } else {
-        res["margin-top"] = "-95%";
+        res["margin-top"] = "-300%";
       }
       return res;
     },
@@ -178,7 +177,7 @@ export default {
 #top-drawer {
   position: fixed;
   width: calc((100% - 200px) / 2 - 50px);
-  height: 95%;
+  // height: 95%;
   top: 0;
   left: 220px;
   background: rgba(255, 255, 255, 0.65);
@@ -249,5 +248,12 @@ export default {
   cursor: pointer;
   padding-bottom: 2px;
   /*backdrop-filter: blur(3px);*/
+}
+@media (max-width: 650px) {
+  #top-drawer {
+    width: 90%;
+    left: calc(100% / 2 - 90% / 2);
+    // height: 90%;
+  }
 }
 </style>

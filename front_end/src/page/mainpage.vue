@@ -22,41 +22,36 @@
           </el-carousel-item>
         </el-carousel>
       </div>
-      <div class="main-statistics" align="left">
-        <span class="block-title">Statistics</span>
+      <div class="main-statistics">
+        <div class="block-title">Statistics</div>
         <div class="main-statistics-content">
-          <div style="width: 55px;flex: 1 1 auto;"></div>
+          <!-- <div style="width: 55px;flex: 1 1 auto;"></div> -->
           <statistics-card
             title="提交量"
             :num="histogramData.sumData.submit | stdNum"
             :predata="histogramSubmit"
-          >
-          </statistics-card>
-          <div style="width: 59px;"></div>
+          />
+          <!-- <div style="width: 59px;"></div> -->
           <statistics-card
             title="通过量"
             :num="histogramData.sumData.ac | stdNum"
             :predata="histogramAC"
-          >
-          </statistics-card>
-          <div style="width: 59px;"></div>
-          <statistics-card title="访问量" num="1,432,567"> </statistics-card>
-          <div
-            class="statistics-card-block"
-            style="width: 51px;flex: 1 1 auto;"
-          ></div>
+          />
+          <!-- <div style="width: 59px;"></div> -->
+          <statistics-card
+            title="访问量"
+            num="1,432,567"
+          />
+          <!-- <div class="statistics-card-block" style="width: 51px;flex: 1 1 auto;"></div> -->
         </div>
       </div>
-      <div class="main-contest-list" align="left">
+      <div class="main-contest-list">
         <div class="block-title">Contest</div>
         <div class="main-contest-list-content">
           <contest-card
             v-for="index in contestData.length"
             :key="index"
-            v-if="
-              new Date(contestData[index - 1].end_time).getTime() >=
-                new Date().getTime()
-            "
+            v-if="new Date(contestData[index - 1].end_time).getTime() >= Date.now()"
             :contest-nick="contestData[index - 1].title"
             contest-type="ACM"
             :contest-num="contestData[index - 1].contestantNum | stdNum"
@@ -312,11 +307,20 @@ export default {
   max-width: 1330px;
 }
 
+.main-statistics-content > * {
+  margin-left: 59px;
+  &:first-child {
+    margin-left: 43px;
+  }
+}
+
 .block-title {
   position: relative;
   font-size: 18px;
   font-weight: 700;
   left: 4%;
+  width: 100%;
+  text-align: left;
 }
 
 .main-statistics .main-statistics-content {
@@ -358,6 +362,32 @@ export default {
 
   .statistics-card-block {
     width: 23px !important;
+  }
+}
+
+@media (max-width: 650px) {
+  .main-carousel {
+    width: 100%;
+  }
+
+  .main-statistics-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    > * {
+      // margin-left: 0;
+      // margin-top: 15px;
+      margin: 15px 15px 0 15px;
+      
+      &:first-child {
+        margin: 0 15px 0 15px;
+      }
+    }
+  }
+
+  .main-contest-list-content {
+    min-height: 150px;
   }
 }
 </style>

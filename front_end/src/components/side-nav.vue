@@ -155,18 +155,18 @@ export default {
           imgSrc: require("../../assets/icon/rank.svg"),
           routeName: "rank",
         },
-        {
-          title: "小组 Groups",
-          keyName: "grouplist",
-          imgSrc: require("../../assets/icon/group.svg"),
-          routeName: "group",
-        },
-        {
-          title: "成就 Achievement",
-          keyName: "achievement",
-          imgSrc: require("../../assets/icon/achievement.svg"),
-          routeName: "achievement",
-        },
+        // {
+        //   title: "小组 Groups",
+        //   keyName: "grouplist",
+        //   imgSrc: require("../../assets/icon/group.svg"),
+        //   routeName: "group",
+        // },
+        // {
+        //   title: "成就 Achievement",
+        //   keyName: "achievement",
+        //   imgSrc: require("../../assets/icon/achievement.svg"),
+        //   routeName: "achievement",
+        // },
         {
           title: "讨论 Discussion",
           keyName: "discussion",
