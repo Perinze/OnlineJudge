@@ -4,24 +4,38 @@
       <div class="discussion-block-header">
         <div class="operations">
           <button
-            :class="['btn-type', item.isActive ? 'btn-type-active': '']"
+            :class="['btn-type', item.isActive ? 'btn-type-active' : '']"
             v-for="(item, index) in btnTypes"
             :key="item.label"
             @click="toggleType(index)"
-          >{{item.label}}</button>
+          >
+            {{ item.label }}
+          </button>
         </div>
       </div>
       <div
         class="discussion-item"
         v-for="item in discussions"
-        @click="toDiscussionInfo(item.problem_id || item.contest_id, item.title || item.contest_name)"
+        @click="
+          toDiscussionInfo(
+            item.problem_id || item.contest_id,
+            item.title || item.contest_name
+          )
+        "
       >
-        <h4 class="discussion-item-title">{{ item.title || item.contest_name}}</h4>
-        <p
-          class="discussion-item-content"
-        >{{ item.background || `${item.begin_time} —— ${item.end_time}`}}</p>
+        <h4 class="discussion-item-title">
+          {{ item.title || item.contest_name }}
+        </h4>
+        <p class="discussion-item-content">
+          {{ item.background || `${item.begin_time} —— ${item.end_time}` }}
+        </p>
       </div>
-      <pagination :total="count" :pageSize="20" :pageCount="7" :fetchData="fetchTopic"></pagination>
+      <pagination
+        :total="count"
+        :pageSize="20"
+        :pageCount="7"
+        :fetchData="fetchTopic"
+      ></pagination>
     </div>
   </div>
 </template>
@@ -37,7 +51,7 @@ export default {
     return {
       btnTypes: [
         { type: "problem", label: "题目讨论区", isActive: true },
-        { type: "contest", label: "比赛讨论区", isActive: false }
+        { type: "contest", label: "比赛讨论区", isActive: false },
       ],
       discussions: [
         // {
@@ -48,7 +62,7 @@ export default {
         // },
         // { title: "comment 2", content: "This is a comment." }
       ],
-      count: 0
+      count: 0,
     };
   },
   mounted() {
@@ -66,7 +80,7 @@ export default {
           break;
         }
       }
-      getAllTopic(params).then(res => {
+      getAllTopic(params).then((res) => {
         window.console.log(res);
         this.discussions = res.data.data;
         this.count = res.data.count;
@@ -93,10 +107,10 @@ export default {
       this.$router.push({
         name: "topicInfo",
         query: { type, id },
-        params: { title }
+        params: { title },
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

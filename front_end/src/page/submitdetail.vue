@@ -1,283 +1,308 @@
 <template>
-    <div class="submit-detail">
-        <div class="content">
-            <div class="content-head">
-                <div>{{pid}} {{title}}</div>
-                <div class="status-icon" :style="styleClass">{{getErrorName(status.toLowerCase())}}</div>
-            </div>
-            <div class="content-statistic">
-                <div>
-                    <span>Language: </span>{{lang}}
-                </div>
-                <div>
-                    <span>Time: </span>{{timeUsed | timeUsedFormat}}
-                </div>
-                <div>
-                    <span>Memory: </span>{{memoryUsed | memoryUsedFormat}}
-                </div>
-                <div>
-                    <span>Submit Time: </span>{{submitTime}}
-                </div>
-                <div>
-                    <span id="back-contest-btn" @click="$router.push('/contest/'+cid)" v-if="cid !== undefined">返回比赛</span>
-                </div>
-            </div>
-            <div class="content-code">
-                <label for="codeDisplay" hidden>Source Code:</label>
-                <mycodemirror id="codeDisplay" :lang="cmlang" :readOnly="true" :precode="code" ref="codeViewer"/>
-            </div>
+  <div class="submit-detail">
+    <div class="content">
+      <div class="content-head">
+        <div>{{ pid }} {{ title }}</div>
+        <div class="status-icon" :style="styleClass">
+          {{ getErrorName(status.toLowerCase()) }}
         </div>
+      </div>
+      <div class="content-statistic">
+        <div><span>Language: </span>{{ lang }}</div>
+        <div><span>Time: </span>{{ timeUsed | timeUsedFormat }}</div>
+        <div><span>Memory: </span>{{ memoryUsed | memoryUsedFormat }}</div>
+        <div><span>Submit Time: </span>{{ submitTime }}</div>
+        <div>
+          <span
+            id="back-contest-btn"
+            @click="$router.push('/contest/' + cid)"
+            v-if="cid !== undefined"
+            >返回比赛</span
+          >
+        </div>
+      </div>
+      <div class="content-code">
+        <label for="codeDisplay" hidden>Source Code:</label>
+        <mycodemirror
+          id="codeDisplay"
+          :lang="cmlang"
+          :readOnly="true"
+          :precode="code"
+          ref="codeViewer"
+        />
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
-    import { getWholeErrorName } from "../api/common";
-    import { getProblem, getStatus } from "../api/getData";
-    import Mycodemirror from "../components/myCodemirror";
+import { getWholeErrorName } from "../api/common";
+import { getProblem, getStatus } from "../api/getData";
+import Mycodemirror from "../components/myCodemirror";
 
-    export default {
-        components: { Mycodemirror },
-        name: "submitdetail",
-        props: [ 'pid', 'sid', 'cid' ],
-        data() {
-            return {
-                title: '',
-                status: '',
-                lang: '',
-                code: '',
-                memoryUsed: 0,
-                timeUsed: 0,
-                submitTime: '',
-                interval: null,
-                styleClass: {
-                    // color: 'white',
-                    // background: 'rgb(86,196,26)',
-                    // border: 'none'
-                }
-            }
-        },
-        computed: {
-            cmlang() {
-                switch(this.lang.toLowerCase()) {
-                    case 'c': return 'text/x-csrc';
-                    case 'c++': return 'text/x-c++src';
-                    case 'java': return 'text/x-java';
-                    case 'python': return 'python';
-                    default: return 'text/x-csrc';
-                }
-            }
-        },
-        filters: {
-            timeUsedFormat: function(val) {
-                let res = parseInt(val); // ns
-                res/=1000000; // ms
-                return parseInt(res)+" ms";
-            },
-            memoryUsedFormat: function(val) {
-                let res = parseInt(val); // byte
-                res/=1024.0*1024.0;
-                if(res<=0.01) {
-                    res*=1024;
-                    res = res.toFixed(2);
-                    return res + " Kb";
-                }
-                res = res.toFixed(2);
-                return res + " Mb";
-            }
-        },
-        created() {
-            this.renderProblemInfo();
-        },
-        mounted() {
-            this.$nextTick(() => {
-                this.renderStatus();
-                this.setIntervaler();
-            });
-        },
-        destroyed() {
-            clearInterval(this.interval);
-        },
-        methods: {
-            getErrorName(status) {
-                return getWholeErrorName(status);
-            },
-            renderProblemInfo: async function() {
-                let requestData = await {
-                    problem_id: this.pid
-                };
-                if(this.cid != undefined) {
-                    requestData.contest_id = this.cid;
-                }
-                let response = await getProblem(requestData);
-                if(response.status==0){
-                    this.title = response.data.title;
-                }else{
-                    this.$message({
-                        message: '发生错误: ' + response.message + ', 请联系管理员',
-                        type: 'error'
-                    })
-                }
-            },
-            renderStatus: async function() {
-                this.$loading.open();
-                let response = await getStatus({
-                   status_id: this.sid,
-                });
-                if(response.status==0) {
-                    let data = response.data;
-                    if(data.problem_id != this.pid) {
-                        this.$message({
-                            message: '不存在该提交',
-                            type: 'error'
-                        });
-                        this.$router.go(-1);
-                    }
-                    this.lang = this.langToValue(data.language);
-                    this.status = data.status;
-                    this.code = data.source_code;
-                    this.submitTime = data.submit_time;
-                    this.timeUsed = data.time;
-                    this.memoryUsed = data.memory;
-                    this.$refs.codeViewer.code = this.code;
-
-                    if(data.status!=='Judging') {
-                        clearInterval(this.interval);
-                    }
-                }else{
-                    this.$message({
-                        message: '发生错误: ' + response.message + ', 请联系管理员',
-                        type: 'error'
-                    });
-                    clearInterval(this.interval);
-                }
-                this.$loading.hide();
-            },
-            langToValue(val) {
-                switch(val) {
-                    case 'cpp.g++': return 'C++11';
-                    case 'c.gcc': return 'C';
-                    case 'python.cpython': return 'Python';
-                    case 'java.java': return 'Java';
-                    default: return 'unknown Language';
-                }
-            },
-            setIntervaler: function() {
-                this.interval = setInterval( () => {
-                    this.renderStatus();
-                }, 5000)
-            }
-        },
-        watch: {
-            status: function(val) {
-                if(val.toLowerCase()!='judging') {
-                    clearInterval(this.interval);
-                }
-                switch(val.toLowerCase()) {
-                    case 'ac': this.styleClass = {
-                        color: 'white',
-                        background: '#52C41A',
-                        border: 'none'
-                    };break;
-                    case 'wa': this.styleClass = {
-                        color: 'white',
-                        background: '#E74C3C',
-                        border: 'none'
-                    };break;
-                    case 'tle': this.styleClass = {
-                        color: 'white',
-                        background: '#3498DB',
-                        border: 'none'
-                    };break;
-                    case 'mle':
-                    case 'ce': this.styleClass = {
-                        color: 'white',
-                        background: '#FADB14',
-                        border: 'none'
-                    };break;
-                    case 'se':
-                    case 're': this.styleClass = {
-                        color: 'white',
-                        background: 'black',
-                        border: 'none'
-                    };break;
-                }
-            }
+export default {
+  components: { Mycodemirror },
+  name: "submitdetail",
+  props: ["pid", "sid", "cid"],
+  data() {
+    return {
+      title: "",
+      status: "",
+      lang: "",
+      code: "",
+      memoryUsed: 0,
+      timeUsed: 0,
+      submitTime: "",
+      interval: null,
+      styleClass: {
+        // color: 'white',
+        // background: 'rgb(86,196,26)',
+        // border: 'none'
+      },
+    };
+  },
+  computed: {
+    cmlang() {
+      switch (this.lang.toLowerCase()) {
+        case "c":
+          return "text/x-csrc";
+        case "c++":
+          return "text/x-c++src";
+        case "java":
+          return "text/x-java";
+        case "python":
+          return "python";
+        default:
+          return "text/x-csrc";
+      }
+    },
+  },
+  filters: {
+    timeUsedFormat: function(val) {
+      let res = parseInt(val); // ns
+      res /= 1000000; // ms
+      return parseInt(res) + " ms";
+    },
+    memoryUsedFormat: function(val) {
+      let res = parseInt(val); // byte
+      res /= 1024.0 * 1024.0;
+      if (res <= 0.01) {
+        res *= 1024;
+        res = res.toFixed(2);
+        return res + " Kb";
+      }
+      res = res.toFixed(2);
+      return res + " Mb";
+    },
+  },
+  created() {
+    this.renderProblemInfo();
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.renderStatus();
+      this.setIntervaler();
+    });
+  },
+  destroyed() {
+    clearInterval(this.interval);
+  },
+  methods: {
+    getErrorName(status) {
+      return getWholeErrorName(status);
+    },
+    renderProblemInfo: async function() {
+      let requestData = await {
+        problem_id: this.pid,
+      };
+      if (this.cid != undefined) {
+        requestData.contest_id = this.cid;
+      }
+      let response = await getProblem(requestData);
+      if (response.status == 0) {
+        this.title = response.data.title;
+      } else {
+        this.$message({
+          message: "发生错误: " + response.message + ", 请联系管理员",
+          type: "error",
+        });
+      }
+    },
+    renderStatus: async function() {
+      this.$loading.open();
+      let response = await getStatus({
+        status_id: this.sid,
+      });
+      if (response.status == 0) {
+        let data = response.data;
+        if (data.problem_id != this.pid) {
+          this.$message({
+            message: "不存在该提交",
+            type: "error",
+          });
+          this.$router.go(-1);
         }
-    }
+        this.lang = this.langToValue(data.language);
+        this.status = data.status;
+        this.code = data.source_code;
+        this.submitTime = data.submit_time;
+        this.timeUsed = data.time;
+        this.memoryUsed = data.memory;
+        this.$refs.codeViewer.code = this.code;
+
+        if (data.status !== "Judging") {
+          clearInterval(this.interval);
+        }
+      } else {
+        this.$message({
+          message: "发生错误: " + response.message + ", 请联系管理员",
+          type: "error",
+        });
+        clearInterval(this.interval);
+      }
+      this.$loading.hide();
+    },
+    langToValue(val) {
+      switch (val) {
+        case "cpp.g++":
+          return "C++11";
+        case "c.gcc":
+          return "C";
+        case "python.cpython":
+          return "Python";
+        case "java.java":
+          return "Java";
+        default:
+          return "unknown Language";
+      }
+    },
+    setIntervaler: function() {
+      this.interval = setInterval(() => {
+        this.renderStatus();
+      }, 5000);
+    },
+  },
+  watch: {
+    status: function(val) {
+      if (val.toLowerCase() != "judging") {
+        clearInterval(this.interval);
+      }
+      switch (val.toLowerCase()) {
+        case "ac":
+          this.styleClass = {
+            color: "white",
+            background: "#52C41A",
+            border: "none",
+          };
+          break;
+        case "wa":
+          this.styleClass = {
+            color: "white",
+            background: "#E74C3C",
+            border: "none",
+          };
+          break;
+        case "tle":
+          this.styleClass = {
+            color: "white",
+            background: "#3498DB",
+            border: "none",
+          };
+          break;
+        case "mle":
+        case "ce":
+          this.styleClass = {
+            color: "white",
+            background: "#FADB14",
+            border: "none",
+          };
+          break;
+        case "se":
+        case "re":
+          this.styleClass = {
+            color: "white",
+            background: "black",
+            border: "none",
+          };
+          break;
+      }
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-    .submit-detail {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        overflow-x: hidden;
-        overflow-y: scroll;
-        padding-left: 27px;
-    }
+.submit-detail {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  padding-left: 27px;
+}
 
-    .content {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 88px;
-        margin-bottom: 70px;
-        > div {
-            width: 80%;
-        }
-        &-head {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-            font: {
-                weight: bold;
-                size: 20px;
-            }
-        }
-        &-statistic {
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-start;
-            align-items: center;
-            margin-top: 10px;
-            > div {
-                margin-right: 45px;
-                > span {
-                    font-weight: bold;
-                }
-            }
-        }
-        &-code {
-            overflow: hidden;
-            border-radius: 10px;
-            margin-top: 10px;
-            > label {
-                font-weight: bold;
-            }
-        }
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 88px;
+  margin-bottom: 70px;
+  > div {
+    width: 80%;
+  }
+  &-head {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font: {
+      weight: bold;
+      size: 20px;
     }
+  }
+  &-statistic {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 10px;
+    > div {
+      margin-right: 45px;
+      > span {
+        font-weight: bold;
+      }
+    }
+  }
+  &-code {
+    overflow: hidden;
+    border-radius: 10px;
+    margin-top: 10px;
+    > label {
+      font-weight: bold;
+    }
+  }
+}
 
-    .status-icon {
-        padding: 2px 15px;
-        text-align: center;
-        font: {
-            size: 17px;
-            weight: normal;
-        }
-        border: {
-            width: 1px;
-            style: solid;
-            color: gray;
-            radius: .5em;
-        }
-    }
+.status-icon {
+  padding: 2px 15px;
+  text-align: center;
+  font: {
+    size: 17px;
+    weight: normal;
+  }
+  border: {
+    width: 1px;
+    style: solid;
+    color: gray;
+    radius: 0.5em;
+  }
+}
 
-    #back-contest-btn {
-        float: right;
-        color: red;
-        &:hover {
-            text-decoration: underline;
-        }
-    }
+#back-contest-btn {
+  float: right;
+  color: red;
+  &:hover {
+    text-decoration: underline;
+  }
+}
 </style>

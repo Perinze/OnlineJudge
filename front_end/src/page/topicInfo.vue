@@ -1,23 +1,38 @@
 <template>
   <div class="container">
-    <h1 class="title">{{title}}</h1>
+    <h1 class="title">{{ title }}</h1>
     <div class="table">
       <el-table
         :data="discussions"
         style="width: 100%;"
-        :header-cell-style="{fontSize: 16 + 'px', fontWeight: 'bold', color: 'rgba(124,127,132,1)'}"
-        :cell-style="{fontSize: 14 + 'px', fontWeight: 'bold', color: 'rgba(124,127,132,1)'}"
+        :header-cell-style="{
+          fontSize: 16 + 'px',
+          fontWeight: 'bold',
+          color: 'rgba(124,127,132,1)',
+        }"
+        :cell-style="{
+          fontSize: 14 + 'px',
+          fontWeight: 'bold',
+          color: 'rgba(124,127,132,1)',
+        }"
         @row-click="toDiscussionInfo"
       >
         <el-table-column label="昵称" prop="nick"></el-table-column>
         <el-table-column label="标题" prop="title"></el-table-column>
         <el-table-column align="right">
           <template slot="header" slot-scope="scope">
-            <button class="btn-add-discussion" @click="toAddDiscussion">发帖</button>
+            <button class="btn-add-discussion" @click="toAddDiscussion">
+              发帖
+            </button>
           </template>
         </el-table-column>
       </el-table>
-      <pagination :total="count" :pageSize="20" :pageCount="7" :fetchData="fetchDiscussion"></pagination>
+      <pagination
+        :total="count"
+        :pageSize="20"
+        :pageCount="7"
+        :fetchData="fetchDiscussion"
+      ></pagination>
     </div>
     <!-- <div class="info">
       <div
@@ -55,9 +70,9 @@ export default {
       discussions: [
         { id: 12, avatar: "", content: "This is a comment." },
         { id: 14, avatar: "", content: "This is a comment." },
-        { id: 15, avatar: "", content: "This is a comment." }
+        { id: 15, avatar: "", content: "This is a comment." },
       ],
-      count: 0
+      count: 0,
     };
   },
   computed: {
@@ -66,7 +81,7 @@ export default {
       return `关于${this.$route.query.type === "problem" ? "题目" : "比赛"}: ${
         this.$route.params.title
       } 的讨论`;
-    }
+    },
   },
   mounted() {
     window.console.log(this.$route);
@@ -78,13 +93,13 @@ export default {
         this.$route.query.type === "problem"
           ? {
               problem_id: this.$route.query.id,
-              page: index
+              page: index,
             }
           : {
               contest_id: this.$route.query.id,
-              page: index
+              page: index,
             };
-      getDiscussList(params).then(res => {
+      getDiscussList(params).then((res) => {
         window.console.log(res);
         this.discussions = res.data.data;
         this.count = res.count;
@@ -98,10 +113,10 @@ export default {
       this.$router.push({
         name: "discussionInfo",
         query: { id: row.id },
-        params: row
+        params: row,
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

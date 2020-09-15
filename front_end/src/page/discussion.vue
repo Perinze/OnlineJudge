@@ -4,17 +4,19 @@
       <div class="discussion-block-header">
         <div class="operations">
           <button
-            :class="['btn-type', item.isActive ? 'btn-type-active': '']"
+            :class="['btn-type', item.isActive ? 'btn-type-active' : '']"
             v-for="(item, index) in btnTypes"
             :key="item.label"
             @click="toggleType(index)"
-          >{{item.label}}</button>
+          >
+            {{ item.label }}
+          </button>
         </div>
         <button class="btn-add-discussion">发帖</button>
       </div>
       <div class="discussion-item" v-for="item in discussions">
-        <h4 class="discussion-item-title">{{item.title}}</h4>
-        <p class="discussion-item-content">{{item.content}}</p>
+        <h4 class="discussion-item-title">{{ item.title }}</h4>
+        <p class="discussion-item-content">{{ item.content }}</p>
       </div>
       <pagination :total="70" :pageSize="10" :pageCount="7"></pagination>
     </div>
@@ -32,25 +34,25 @@ export default {
     return {
       btnTypes: [
         { label: "题目讨论区", isActive: true },
-        { label: "比赛讨论区", isActive: false }
+        { label: "比赛讨论区", isActive: false },
       ],
       discussions: [
         {
           title:
             "comment 1comment 1comment 1comment 1comment 1comment 1comment 1comment 1comment 1comment 1comment 1comment 1comment 1",
           content:
-            "hello world.超出两行显示省略号1. css写法只对webkit内核的浏览器好用, 对safari浏览器有兼容2. css超出两行显示省略号(个人写法)1. css写法只对webkit内核的浏览...超出两行显示省略号1. css写法只对webkit内核的浏览器好用, 对safari浏览器有兼容2. css超出两行显示省略号(个人写法)1. css写法只对webkit内核的浏览...超出两行显示省略号1. css写法只对webkit内核的浏览器好用, 对safari浏览器有兼容2. css超出两行显示省略号(个人写法)1. css写法只对webkit内核的浏览"
+            "hello world.超出两行显示省略号1. css写法只对webkit内核的浏览器好用, 对safari浏览器有兼容2. css超出两行显示省略号(个人写法)1. css写法只对webkit内核的浏览...超出两行显示省略号1. css写法只对webkit内核的浏览器好用, 对safari浏览器有兼容2. css超出两行显示省略号(个人写法)1. css写法只对webkit内核的浏览...超出两行显示省略号1. css写法只对webkit内核的浏览器好用, 对safari浏览器有兼容2. css超出两行显示省略号(个人写法)1. css写法只对webkit内核的浏览",
         },
-        { title: "comment 2", content: "This is a comment." }
-      ]
+        { title: "comment 2", content: "This is a comment." },
+      ],
     };
   },
   mounted() {
     let ret = getAllDiscussion({ contest_id: 1004 });
     ret
-      .then(res => res.json())
-      .then(resJson => console.log(resJson))
-      .catch(err => console.log(err));
+      .then((res) => res.json())
+      .then((resJson) => console.log(resJson))
+      .catch((err) => console.log(err));
   },
   methods: {
     toggleType: function(index) {
@@ -61,8 +63,8 @@ export default {
           this.btnTypes[i].isActive = false;
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

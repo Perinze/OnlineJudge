@@ -6,10 +6,15 @@
         <div
           :href="item.href"
           v-for="(item, index) in anchors"
-          :class="['anchor-links-item', item.isActive ? 'anchor-links-item-active' : '']"
+          :class="[
+            'anchor-links-item',
+            item.isActive ? 'anchor-links-item-active' : '',
+          ]"
           @click="toggleAnchor(index)"
           :key="item.label"
-        >{{item.label}}</div>
+        >
+          {{ item.label }}
+        </div>
       </div>
     </div>
     <div class="table">
@@ -34,20 +39,32 @@
               fill="#B7B8BC"
             />
           </svg>
-          <input type="text" class="nick-input" placeholder="输入成员昵称查找" />
+          <input
+            type="text"
+            class="nick-input"
+            placeholder="输入成员昵称查找"
+          />
         </div>
       </div>
       <el-table
         :data="members"
         style="width: 100%;"
-        :header-cell-style="{fontSize: 15 + 'px', fontWeight: 'bold', color: 'rgba(124,127,132,1)'}"
-        :cell-style="{fontSize: 15 + 'px', fontWeight: 'bold', color: 'rgba(124,127,132,1)'}"
+        :header-cell-style="{
+          fontSize: 15 + 'px',
+          fontWeight: 'bold',
+          color: 'rgba(124,127,132,1)',
+        }"
+        :cell-style="{
+          fontSize: 15 + 'px',
+          fontWeight: 'bold',
+          color: 'rgba(124,127,132,1)',
+        }"
       >
         <el-table-column type="expand">
           <template slot-scope="props">
             <div class="table-expand-item">
               <label class="table-expand-item-label">个人描述:</label>
-              <span class="table-expand-item-text">{{props.row.desc}}</span>
+              <span class="table-expand-item-text">{{ props.row.desc }}</span>
             </div>
           </template>
         </el-table-column>
@@ -57,7 +74,9 @@
         <el-table-column align="right" width="240">
           <template slot-scope="scope">
             <div class="operations">
-              <button class="btn-setAdmin">{{scope.row.isAdmin ? '取消管理员身份' : '设置为管理员'}}</button>
+              <button class="btn-setAdmin">
+                {{ scope.row.isAdmin ? "取消管理员身份" : "设置为管理员" }}
+              </button>
               <button class="btn-clear">踢出</button>
             </div>
           </template>
@@ -69,8 +88,16 @@
       <el-table
         :data="problems"
         style="width: 100%;"
-        :header-cell-style="{fontSize: 20 + 'px', fontWeight: 'bold', color: 'rgba(124,127,132,1)'}"
-        :cell-style="{fontSize: 15 + 'px', fontWeight: 'bold', color: 'rgba(124,127,132,1)'}"
+        :header-cell-style="{
+          fontSize: 20 + 'px',
+          fontWeight: 'bold',
+          color: 'rgba(124,127,132,1)',
+        }"
+        :cell-style="{
+          fontSize: 15 + 'px',
+          fontWeight: 'bold',
+          color: 'rgba(124,127,132,1)',
+        }"
       >
         <el-table-column label="题号" prop="problemId"></el-table-column>
         <el-table-column label="题目" prop="problemCon"></el-table-column>
@@ -78,7 +105,9 @@
           <template slot="header" slot-scope="scope">
             <div class="operations">
               <button class="btn-add-problem">新增</button>
-              <button class="btn-remove-choose" @click="removeChoose">移出已选</button>
+              <button class="btn-remove-choose" @click="removeChoose">
+                移出已选
+              </button>
             </div>
           </template>
           <template slot-scope="scope">
@@ -104,8 +133,16 @@
       <el-table
         :data="contests"
         style="width: 100%;"
-        :header-cell-style="{fontSize: 20 + 'px', fontWeight: 'bold', color: 'rgba(124,127,132,1)'}"
-        :cell-style="{fontSize: 15 + 'px', fontWeight: 'bold', color: 'rgba(124,127,132,1)'}"
+        :header-cell-style="{
+          fontSize: 20 + 'px',
+          fontWeight: 'bold',
+          color: 'rgba(124,127,132,1)',
+        }"
+        :cell-style="{
+          fontSize: 15 + 'px',
+          fontWeight: 'bold',
+          color: 'rgba(124,127,132,1)',
+        }"
       >
         <el-table-column label="题号" prop="problemId"></el-table-column>
         <el-table-column label="题目" prop="problemCon"></el-table-column>
@@ -131,19 +168,35 @@
       <div class="contest-time">
         <div class="contest-time-block">
           <h3 class="time-title">报名时间开始</h3>
-          <el-date-picker v-model="enrollStart" type="datetime" placeholder="选择日期时间"></el-date-picker>
+          <el-date-picker
+            v-model="enrollStart"
+            type="datetime"
+            placeholder="选择日期时间"
+          ></el-date-picker>
         </div>
         <div class="contest-time-block">
           <h3 class="time-title">报名时间结束</h3>
-          <el-date-picker v-model="enrollEnd" type="datetime" placeholder="选择日期时间"></el-date-picker>
+          <el-date-picker
+            v-model="enrollEnd"
+            type="datetime"
+            placeholder="选择日期时间"
+          ></el-date-picker>
         </div>
         <div class="contest-time-block">
           <h3 class="time-title">比赛时间开始</h3>
-          <el-date-picker v-model="contestStart" type="datetime" placeholder="选择日期时间"></el-date-picker>
+          <el-date-picker
+            v-model="contestStart"
+            type="datetime"
+            placeholder="选择日期时间"
+          ></el-date-picker>
         </div>
         <div class="contest-time-block">
           <h3 class="time-title">比赛时间结束</h3>
-          <el-date-picker v-model="contestEnd" type="datetime" placeholder="选择日期时间"></el-date-picker>
+          <el-date-picker
+            v-model="contestEnd"
+            type="datetime"
+            placeholder="选择日期时间"
+          ></el-date-picker>
         </div>
       </div>
     </div>
@@ -162,7 +215,7 @@ export default {
       anchors: [
         { href: "#members", label: "小组成员", isActive: true },
         { href: "#problems", label: "题库管理", isActive: false },
-        { href: "#contests", label: "比赛发起", isActive: false }
+        { href: "#contests", label: "比赛发起", isActive: false },
       ],
       members: [
         {
@@ -171,7 +224,7 @@ export default {
           nick: "codeplay",
           acCnt: 12,
           waCnt: 100,
-          desc: "hello world"
+          desc: "hello world",
         },
         {
           id: 2,
@@ -179,7 +232,7 @@ export default {
           nick: "maydusa",
           acCnt: 14,
           waCnt: 90,
-          desc: "hello world"
+          desc: "hello world",
         },
         {
           id: 3,
@@ -187,37 +240,37 @@ export default {
           nick: "kobe",
           acCnt: 122,
           waCnt: 0,
-          desc: "hello world"
-        }
+          desc: "hello world",
+        },
       ],
       problems: [
         {
           problemId: 2,
           problemCon: "This is a problem.",
-          isChoose: false
+          isChoose: false,
         },
         {
           problemId: 5,
           problemCon: "This is a problem.",
-          isChoose: false
-        }
+          isChoose: false,
+        },
       ],
       contests: [
         {
           problemId: 4,
           problemCon: "This is a problem.",
-          isChoose: false
+          isChoose: false,
         },
         {
           problemId: 10,
           problemCon: "This is a problem.",
-          isChoose: false
-        }
+          isChoose: false,
+        },
       ],
       enrollStart: "",
       enrollEnd: "",
       contestStart: "",
-      contestEnd: ""
+      contestEnd: "",
     };
   },
   mounted() {
@@ -256,7 +309,7 @@ export default {
         offsetTopArr = [
           titles[0].offsetTop - 39,
           titles[1].offsetTop - 39,
-          titles[2].offsetTop - 39
+          titles[2].offsetTop - 39,
         ],
         scrollTop = document.getElementsByClassName("combox")[0].scrollTop,
         index;
@@ -287,8 +340,8 @@ export default {
           this.problems[i].isChoose = false;
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

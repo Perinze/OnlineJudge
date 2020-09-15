@@ -14,7 +14,7 @@ import memberCard from "../components/memberCard";
 export default {
   name: "editAdmin",
   components: { memberCard },
-  mounted() {}
+  mounted() {},
 };
 </script>
 

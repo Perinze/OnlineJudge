@@ -28,8 +28,16 @@
       <el-table
         :data="tableData"
         style="width: 100%;"
-        :header-cell-style="{fontSize:20 + 'px', fontWeight: 'bold', color: 'rgba(124,127,132,1)'}"
-        :cell-style="{fontSize: 15 + 'px', fontWeight: 'bold', color: 'rgba(124,127,132,1)'}"
+        :header-cell-style="{
+          fontSize: 20 + 'px',
+          fontWeight: 'bold',
+          color: 'rgba(124,127,132,1)',
+        }"
+        :cell-style="{
+          fontSize: 15 + 'px',
+          fontWeight: 'bold',
+          color: 'rgba(124,127,132,1)',
+        }"
       >
         <el-table-column label="题号" prop="problemId"></el-table-column>
         <el-table-column label="题目" prop="problemCon"></el-table-column>
@@ -68,24 +76,24 @@ export default {
         {
           problemId: "2016-05-02",
           problemCon: "王小虎",
-          isChoose: false
+          isChoose: false,
         },
         {
           problemId: "2016-05-04",
           problemCon: "王小虎",
-          isChoose: false
+          isChoose: false,
         },
         {
           problemId: "2016-05-01",
           problemCon: "王小虎",
-          isChoose: false
+          isChoose: false,
         },
         {
           problemId: "2016-05-03",
           problemCon: "王小虎",
-          isChoose: false
-        }
-      ]
+          isChoose: false,
+        },
+      ],
     };
   },
   methods: {
@@ -96,8 +104,8 @@ export default {
       for (let i = 0; i < this.tableData.length; i++) {
         this.tableData[i].isChoose = true;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -39,8 +39,16 @@
       <el-table
         :data="ranks"
         style="width: 100%;"
-        :header-cell-style="{fontSize: 18 + 'px', fontWeight: 'bold', color: 'rgba(125,125,125,1)'}"
-        :cell-style="{fontSize: 15 + 'px', fontWeight: '400', color: 'rgba(125,125,125,1)'}"
+        :header-cell-style="{
+          fontSize: 18 + 'px',
+          fontWeight: 'bold',
+          color: 'rgba(125,125,125,1)',
+        }"
+        :cell-style="{
+          fontSize: 15 + 'px',
+          fontWeight: '400',
+          color: 'rgba(125,125,125,1)',
+        }"
       >
         <el-table-column label="排名" prop="position"></el-table-column>
         <el-table-column label="ID" prop="id"></el-table-column>
@@ -63,10 +71,10 @@ export default {
       ranks: [
         { id: 1, position: 2, waCnt: 20, acCnt: 30 },
         { id: 1, position: 2, waCnt: 20, acCnt: 30 },
-        { id: 1, position: 2, waCnt: 20, acCnt: 30 }
-      ]
+        { id: 1, position: 2, waCnt: 20, acCnt: 30 },
+      ],
     };
-  }
+  },
 };
 </script>
 
