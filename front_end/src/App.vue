@@ -188,6 +188,9 @@ $reColor: rgb(131, 118, 169);
   overflow-x: hidden;
   overflow-y: scroll;
   position: relative;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 /*
         题目icon BEGIN

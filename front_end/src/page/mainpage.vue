@@ -8,7 +8,7 @@
       <div class="main-carousel">
         <el-carousel
           :interval="7500"
-          type="card"
+          :type="isWap ? '' : 'card'"
           height="250px"
           trigger="click"
         >
@@ -74,6 +74,7 @@ import {
   getContestList,
   getPvData,
 } from "../api/getData";
+import { judgeWap } from "../utils";
 
 export default {
   name: "mainpage",
@@ -199,6 +200,9 @@ export default {
     },
   },
   computed: {
+    isWap() {
+      return judgeWap();
+    },
     histogramAC() {
       let ans = [];
       this.histogramData.dailyData.forEach((val) => {
