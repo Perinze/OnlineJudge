@@ -88,7 +88,7 @@
       <div class="function-btn-group">
         <button
           class="submit-btn"
-          @click="cid === undefined ? gotoSubmit(pid) : gotoSubmit(pid, cid)"
+          @click="(cid || $route.query.cid) === undefined ? gotoSubmit(pid) : gotoSubmit(pid, cid || $route.query.cid)"
         >
           Submit
         </button>
@@ -104,11 +104,11 @@ import marked from "marked";
 
 export default {
   name: "problem-detail",
-  props: ["pid", "cid"],
+  props: ['pid', 'cid'],
   data() {
     return {
       problem_info: {
-        id: this.pid,
+        id: this.pid || this.$route.query.pid,
         title: "",
         background: "",
         describe: "",
@@ -121,26 +121,33 @@ export default {
           // },
         ],
         hint: "",
-      },
+      }
     };
   },
   created() {
-    if (this.pid !== null) this.renderProblemDetail();
+    if (this.pid || this.$route.query.pid) this.renderProblemDetail();
   },
   methods: {
     gotoSubmit(pid, cid = null) {
-      this.$emit("open-submit", {
-        pid: pid,
-        cid: cid,
-      });
+      if (window.isWap) {
+        this.$parent.callSubmit({
+          pid: pid,
+          cid: cid,
+        });
+      } else {
+        this.$emit("open-submit", {
+          pid: pid,
+          cid: cid,
+        });
+      }
     },
     renderProblemDetail: async function() {
       this.$loading.open();
       let requestData = {
-        problem_id: parseInt(this.pid),
+        problem_id: parseInt(this.pid || this.$route.query.pid),
       };
       if (this.cid != undefined) {
-        requestData.contest_id = this.cid;
+        requestData.contest_id = this.cid || this.$route.query.cid;
       }
       let response = await getProblem(requestData);
       if (response.status == 0) {
@@ -228,6 +235,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.problem-detail-container {
+  padding-top: 30px;
+}
+
 .temp-problem-detail {
   position: relative;
   padding: 30px 20px 20px 20px;
@@ -333,5 +344,10 @@ export default {
   display: flex;
   justify-content: flex-end;
   padding: 0 20px 10px 20px;
+}
+
+@media (max-width: 650px) {
+  .problem-detail-container {
+  }
 }
 </style>

@@ -38,7 +38,7 @@ export default {
     goto: function(pid) {
       // let res = '/problem?p='+pid;
       if (window.isWap) {
-        this.$router.push(`/problem?p=${pid}`);
+        this.$router.push(`/problem?pid=${pid}`);
       } else {
         this.$emit("open-problem", {
           pid: pid,

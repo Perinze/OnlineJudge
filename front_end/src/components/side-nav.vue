@@ -15,7 +15,15 @@
       />
     </transition>
     <transition name="open-btn">
-      <div id="open-btn" v-show="!isDisplay">
+      <div id="wap-open-btn" v-if="isWap">
+        <img
+          src="../../assets/icon/menu.svg"
+          width="30"
+          height="30"
+          @click="toggleMenu"
+        />
+      </div>
+      <div id="open-btn" v-show="!isDisplay" v-else>
         <img
           src="../../assets/icon/next.svg"
           width="18"
@@ -123,6 +131,7 @@ import { logoutWork } from "../api/common";
 import { logout, checkLogin } from "../api/getData";
 import { mapGetters } from "vuex";
 import store from "../store";
+import { judgeWap } from "../utils";
 
 export default {
   components: { MenuItem, welcome, userCard },
@@ -258,13 +267,20 @@ export default {
         this.displayUsercard = true;
       else return;
     },
+    toggleMenu() {
+      if (this.isDisplay) {
+        this.$emit('close');
+      } else {
+        this.$emit('call');
+      }
+    }
   },
   computed: {
-    activePath: function() {
+    activePath: function () {
       let res = this.$route.path + "/";
       return res.slice(0, res.indexOf("/", 1));
     },
-    activeIndex: function() {
+    activeIndex: function () {
       let path = this.activePath;
       switch (path) {
         case "/main":
@@ -288,7 +304,7 @@ export default {
       }
       return null;
     },
-    acPercent: function() {
+    acPercent: function () {
       let ac = parseInt(this.userData.acCnt);
       let total = ac + parseInt(this.userData.waCnt);
       if (total === 0) {
@@ -301,14 +317,14 @@ export default {
       userData: "userInfo",
       isLogin: "isLogin",
     }),
-    avatorComputed: function() {
+    avatorComputed: function () {
       if (this.isLogin) {
         return this.imgs.testAvator;
       } else {
         return this.imgs.defaultAvator;
       }
     },
-    styleObject: function() {
+    styleObject: function () {
       let val = this.isDisplay;
       let ret = {
         "margin-left": 0,
@@ -318,6 +334,9 @@ export default {
       }
       return ret;
     },
+    isWap: function () {
+      return judgeWap();
+    }
   },
 };
 </script>
@@ -487,8 +506,8 @@ export default {
 }
 
 /*
-        Animation
-    */
+  Animation
+*/
 
 // open-btn
 
@@ -502,6 +521,20 @@ export default {
     opacity: 0;
     right: 20px;
   }
+}
+
+#wap-open-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  background-color: #EEEEEE;
+  box-shadow: #777777 0 0 5px;
+  border-radius: 50px;
 }
 
 @keyframes notice {

@@ -16,6 +16,7 @@ import store from "./store";
 import loadingPlugin from "./plugins/loading";
 import codemirror from "vue-codemirror-lite";
 import echarts from "echarts";
+import { judgeWap } from "./utils";
 
 Vue.config.productionTip = false;
 
@@ -84,66 +85,9 @@ router.afterEach((route) => {
 // 判断isWap
 
 window.onload = () => {
-  judgeWap();
+  window.isWap = judgeWap();
 }
 
 window.onresize = () => {
-  judgeWap();
-}
-
-function judgeWap() {
-  let bodyWidth = document.body.clientWidth;
-  let bodyHeight = document.body.clientHeight;
-
-  if (bodyHeight > bodyWidth || !IsPC()) {
-    window.isWap = true;
-  } else {
-    window.isWap = false;
-  }
-}
-
-function IsPC() {
-  let userAgentInfo = navigator.userAgent;
-  let Agents = new Array(
-    "Android",
-    "iPhone",
-    "SymbianOS",
-    "Windows Phone",
-    "iPad",
-    "iPod"
-  );
-  let flag = true;
-  for (let v = 0; v < Agents.length; v++) {
-    if (userAgentInfo.indexOf(Agents[v]) > 0) {
-      flag = false;
-      break;
-    }
-  }
-  return flag;
-}
-
-function getExploreName() {
-  let explorer = window.navigator.userAgent;
-  let ua = window.navigator.userAgent;
-  let isSafari = ua.indexOf("Safari") != -1 && ua.indexOf("Version") != -1;
-  //判断是否为IE浏览器
-  if (explorer.indexOf("MSIE") >= 0) {
-    return "IE";
-  }
-  //判断是否为Firefox浏览器
-  else if (explorer.indexOf("Firefox") >= 0) {
-    return "Firefox";
-  }
-  //判断是否为Chrome浏览器
-  else if (explorer.indexOf("Chrome") >= 0) {
-    return "Chrome";
-  }
-  //判断是否为Opera浏览器
-  else if (explorer.indexOf("Opera") >= 0) {
-    return "Opera";
-  }
-  //判断是否为Safari浏览器
-  else if (isSafari) {
-    return "Safari";
-  } else return "Unknown";
+  window.isWap = judgeWap();
 }
