@@ -2,14 +2,14 @@
   <div class="mainpage">
     <!--overflow-y:scroll；-->
     <!--背景图-->
-    <div class="content-background"></div>
+    <div class="content-background" v-if="!isWap"></div>
     <!--页面内容-->
     <div class="mainpage-content" align="center">
       <div class="main-carousel">
         <el-carousel
           :interval="7500"
           :type="isWap ? '' : 'card'"
-          height="250px"
+          :height="isWap ? '150px' : '250px'"
           trigger="click"
         >
           <el-carousel-item v-for="index in carouselItem.length" :key="index">
@@ -82,9 +82,11 @@ export default {
   data() {
     return {
       carouselItem: [
-        // {
-        //     url: ''
-        // }
+        {
+            url: '',
+            alt: '网络连接失败',
+            title: '网络连接失败'
+        }
       ],
       histogramData: {
         sumData: {
@@ -117,6 +119,7 @@ export default {
       if (response.status == 0) {
         // success
         let data = response.data;
+        this.carouselItem = [];
         data.forEach((val) => {
           if (val.status == 1) {
             let res = {
@@ -372,6 +375,8 @@ export default {
 @media (max-width: 650px) {
   .main-carousel {
     width: 100%;
+    height: 150px;
+    padding: 0 16px;
   }
 
   .main-statistics-content {

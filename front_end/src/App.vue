@@ -1,5 +1,12 @@
 <template>
   <div id="app">
+    <transition name="whole-page-mask">
+      <div
+        class="whole-page-mask"
+        v-if="wholePageMaskOpen"
+        @click="closeSideBar"
+      ></div>
+    </transition>
     <sidenav
       ref="sidenav"
       :is-display="sidebarDisplay"
@@ -7,7 +14,11 @@
       @call="callSideBar"
     />
     <div class="layout-content" id="layout-content" :style="contentWidthObject">
-      <topnav :topnavOpacity="topnavOpacity" :mineWidth="topnavWidth" />
+      <topnav
+        :topnavOpacity="topnavOpacity"
+        :mineWidth="topnavWidth"
+        @call-side-bar="callSideBar"
+      />
       <keep-alive>
         <router-view
           id="combox"
@@ -44,6 +55,8 @@ import topnav from "./components/top-nav";
 import sidenav from "./components/side-nav";
 import topdrawer from "./components/top-drawer";
 import sidedrawer from "./components/side-drawer";
+import { judgeWap } from "./utils";
+
 export default {
   components: {
     topnav,
@@ -60,6 +73,7 @@ export default {
       sidebarDisplay: true, // 侧边导航栏
       sideDisplay: false, // 侧边drawer
       windowResize: true, // computed cache trick
+      wholePageMaskOpen: false,
       problemComponentData: {
         pid: null,
         cid: null,
@@ -75,22 +89,30 @@ export default {
   },
   mounted() {
     this.initCombox();
-    this.$refs.sidenav.$on("changeContent", () => {
+    // 每当更换页面，要初始化一下顶部搜索栏的透明值
+    this.$refs.sidenav.$on("change-content", () => {
       this.topnavOpacity = 0;
     });
+    // window.onresize = () => {
+    //   this.windowResize = ~this.windowResize;
+    // };
+    // setTimeout(() => {
+    //   this.windowResize = ~this.windowResize;
+    // }, 50);
+    // 检测宽度，小于某值后自动关闭侧边栏
+    this.judgeAndClose();
     window.onresize = () => {
-      this.windowResize = ~this.windowResize;
-    };
-    setTimeout(() => {
-      this.windowResize = ~this.windowResize;
-    }, 50);
-    // TODO 检测宽度，小于某值后自动关闭侧边栏
-    let clientWidth = this.$el.clientWidth;
-    if (clientWidth < 200 + 560) {
-      this.closeSideBar();
+      this.judgeAndClose();
     }
   },
   methods: {
+    // 检测宽度，若达到阈值就close sideBar
+    judgeAndClose: function () {
+      let clientWidth = this.$el.clientWidth;
+      if (clientWidth < 200 + 560) {
+        this.closeSideBar();
+      }
+    },
     getCombox: function() {
       this.combox = document.getElementById("combox");
     },
@@ -106,6 +128,7 @@ export default {
         ); // true 事件捕获
       }, 500);
     },
+    // 打开侧边抽屉
     callSideDrawer: function(val) {
       this.problemComponentData.pid = val.pid;
       if (val.cid !== undefined) {
@@ -115,6 +138,7 @@ export default {
       }
       this.sideDisplay = true;
     },
+    // 打开顶部提交抽屉
     callSubmit: function(val) {
       this.codeComponentData.pid = val.pid;
       this.codeComponentData.cid = val.cid;
@@ -126,12 +150,18 @@ export default {
         .setAttribute("style", `height: ${this.codeComponentData.height}px;`);
     },
     // 打开侧边栏
-    callSideBar: function(val) {
+    callSideBar() {
       this.sidebarDisplay = true;
+      if (this.isWap) {
+        this.wholePageMaskOpen = true;
+      }
     },
     // 收起侧边栏
     closeSideBar() {
       this.sidebarDisplay = false;
+      if (this.isWap) {
+        this.wholePageMaskOpen = false;
+      }
     },
   },
   computed: {
@@ -146,6 +176,12 @@ export default {
       let trick = this.windowResize; // computed cache trick
       let phantom =
         this.$root.$el.clientWidth - (this.$root.$el.clientWidth - 200) / 2;
+      if (this.isWap) {
+        return {
+          width: "100%",
+          "padding-left": 0,
+        };
+      }
       return {
         width: this.sideDisplay ? `${phantom}px` : "100%",
         "padding-left": this.sidebarDisplay ? "200px" : 0,
@@ -153,12 +189,21 @@ export default {
     },
     topnavWidth: function() {
       let res = this.contentWidthObject.width;
+      if (this.isWap) {
+        return res;
+      }
       return this.sidebarDisplay ? `calc(${res} - 200px)` : res;
     },
+    isWap() {
+      return judgeWap();
+    }
   },
   watch: {
     nowPath: function() {
       this.initCombox();
+      if (this.isWap) {
+        this.closeSideBar();
+      }
     },
   },
 };
@@ -220,11 +265,11 @@ $reColor: rgb(131, 118, 169);
   color: #8a8a8a;
 }
 /*
-        题目icon END
-    */
+  题目icon END
+*/
 /*
-        固定色 BEGIN
-    */
+  固定色 BEGIN
+*/
 .ac-color {
   color: $acColor;
 }
@@ -241,14 +286,37 @@ $reColor: rgb(131, 118, 169);
   color: $reColor;
 }
 /*
-        固定色END
-    */
+  固定色END
+*/
 :focus {
   outline: 0;
 }
 /*
-        外部字体
-    */
+  Animation
+*/
+
+.whole-page-mask {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: #474773;
+  opacity: 0.6;
+  z-index: 1000;
+
+  &-enter-active,
+  &-leave-active {
+    transition: all 0.5s ease-in-out;
+  }
+  &-enter,
+  &-leave-to {
+    opacity: 0;
+  }
+}
+/*
+  外部字体
+*/
 @font-face {
   font-family: countdown;
   src: url("../assets/font/countdown.ttf");

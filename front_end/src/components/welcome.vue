@@ -1,16 +1,16 @@
 <template>
   <div class="welcome" @click.right="rejectContext($event)">
     <div id="function-mask" @click="close"></div>
-    <div class="welcome-main" ref="card">
+    <div class="welcome-main" v-if="!isWap">
       <div class="welcome-view">
         <div class="welcome-view-content">
           <span class="welcome-title">欢迎</span>
-          <span class="welcome-subtitle"
-            >感谢您选择WUTOJ，我们将为您提供最优质在线题库、赛事资讯、小组管理等服务。</span
-          >
-          <span class="welcome-intro"
-            >WUTOJ是由武汉理工大学学生独立开发运营的在线评测系统。我们致力于为您提供最优质OJ服务，同时也欢迎您提供宝贵建议。</span
-          >
+          <span class="welcome-subtitle">
+            感谢您选择WUTOJ，我们将为您提供最优质在线题库、赛事资讯、小组管理等服务。
+          </span>
+          <span class="welcome-intro">
+            WUTOJ是由武汉理工大学学生独立开发运营的在线评测系统。我们致力于为您提供最优质OJ服务，同时也欢迎您提供宝贵建议。
+          </span>
           <span class="welcome-logo">ACM@WUT</span>
         </div>
       </div>
@@ -511,11 +511,50 @@
         </transition>
       </div>
     </div>
+    <div class="wap-welcome-main" v-else>
+      <transition name="fadeinteract" mode="out-in">
+        <div class="wap-welcome-view" v-if="activeInteract === 'default'" key="default">
+          <div class="wap-welcome-intro">
+            <div class="wap-welcome-title">欢迎</div>
+            <div class="wap-welcome-desc">感谢您选择WUTOJ，我们将为您提供最优质在线题库、赛事资讯、小组管理等服务。</div>
+            <div class="wap-welcome-desc">WUTOJ是由武汉理工大学学生独立开发运营的在线评测系统。我们致力于为您提供最优质OJ服务，同时也欢迎您提供宝贵建议。</div>
+            <div class="wap-welcome-subtitle">ACM@WUT</div>
+          </div>
+          <div class="wap-welcome-function">
+            <button
+              class="wap-register-button"
+              @click="activeInteract = 'login'"
+              :disabled="!functionAvailable.login"
+            >
+              注册
+            </button>
+            <button
+              class="wap-login-button"
+              @click="activeInteract = 'register'"
+              :disabled="!functionAvailable.register"
+            >
+              登陆
+            </button>
+          </div>
+          <div class="wap-welcome-footer">
+            <a href="javascript:;"
+              class=""
+              title="暂不可用"
+              :disabled="!functionAvailable.tourist"
+            >以游客模式访问</a>
+          </div>
+        </div>
+        <div class="wap-welcome-interact" v-else key="interact">
+          <img class="wap-back-btn" src="../../assets/icon/backward.svg" @click="activeInteract = 'default'" />
+        </div>
+      </transition>
+    </div>
   </div>
 </template>
 
 <script>
 import { login, register, getCaptcha, forgetPassword } from "../api/getData";
+import { judgeWap } from "../utils";
 
 export default {
   name: "welcome",
@@ -842,6 +881,9 @@ export default {
     eyeOrHide: function() {
       return !this.seePass ? this.icons.eyeHide : this.icons.eye;
     },
+    isWap() {
+      return judgeWap();
+    }
   },
 };
 </script>
@@ -888,6 +930,8 @@ export default {
 
 .welcome {
   position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   background: rgba(34, 33, 53, 0.85);
@@ -1294,6 +1338,115 @@ export default {
 @media screen and (max-height: 729px) and (min-height: 668px) {
   .welcome-main {
     margin-top: 63px;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .welcome {
+    background: rgba(3,3,3,0.31);
+    font-family: PingFang SC;
+  }
+
+  .wap-welcome-main {
+    position: relative;
+    width: 335px;
+    height: 483px;
+    padding: 30px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    overflow: hidden;
+    z-index: 1005;
+    margin: 72px auto 0 auto;
+  }
+
+  .wap-welcome-intro {
+    color: #000000;
+
+    & > .wap-welcome-title {
+      font-size: 30px;
+      font-weight: 600;
+      line-height: 24px;
+      letter-spacing: 5px;
+    }
+
+    & > .wap-welcome-desc {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 28px;
+    }
+
+    & > .wap-welcome-subtitle {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 28px;
+    }
+
+    & > * {
+      margin-top: 20px;
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+  }
+
+  .wap-welcome-function {
+    display: flex;
+    flex-direction: column;
+    margin: 35px 0 20px 0;
+
+    & > button {
+      width: 100%;
+      height: 40px;
+      border: none;
+      border-radius: 40px;
+      margin-top: 20px;
+      font-size: 16px;
+      cursor: pointer;
+
+      &:first-child {
+        margin-top: 0;
+      }
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .wap-register-button {
+      color: #FFFFFF;
+      background-color: #474773;
+    }
+
+    .wap-login-button {
+      color: #474773;
+      border: 1px solid #474773;
+      background-color: #FFFFFF;
+    }
+  }
+
+  .wap-welcome-footer {
+    width: 100%;
+    text-align: center;
+
+    > a {
+      font-weight: 500;
+      color: #A8A8A8;
+      line-height: 13px;
+      font-size: 14px;
+      text-decoration: none;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .wap-back-btn {
+    position: absolute;
+    width: 23px;
+    height: 23px;
+    margin: -23px 0 0 -23px;
   }
 }
 </style>

@@ -15,15 +15,7 @@
       />
     </transition>
     <transition name="open-btn">
-      <div id="wap-open-btn" v-if="isWap">
-        <img
-          src="../../assets/icon/menu.svg"
-          width="30"
-          height="30"
-          @click="toggleMenu"
-        />
-      </div>
-      <div id="open-btn" v-show="!isDisplay" v-else>
+      <div id="open-btn" v-show="!isDisplay && !isWap">
         <img
           src="../../assets/icon/next.svg"
           width="18"
@@ -38,7 +30,7 @@
       </div>
     </div>
     <div class="menu-userbar" align="center">
-      <div class="user-alias-border">
+      <div class="user-alias-border" :class="{'has-login': isLogin}">
         <div class="user-alias">
           <img
             id="user-alias-img"
@@ -50,12 +42,12 @@
           />
         </div>
       </div>
-      <div class="user-info" align="center" v-if="isLogin">
+      <div class="user-info" :class="{'has-login': isLogin}" align="center" v-if="isLogin">
         <span id="user-nick">{{ userData.nick }}</span>
         <br />
         <span id="user-desc">{{ userData.desc }}</span>
       </div>
-      <div class="user-data" v-if="isLogin">
+      <div class="user-data" :class="{'has-login': isLogin}" v-if="isLogin">
         <div style="width: 12px"></div>
         <div class="data-item">
           <strong class="data-font">提交量</strong>
@@ -76,10 +68,10 @@
         </div>
         <div style="width: 5px"></div>
       </div>
-      <div class="function-btn-group" v-show="!isLogin">
+      <div class="function-btn-group" v-if="!isLogin">
         <span id="unlog-guide">您还没登陆</span>
         <br />
-        <button @click="displayWelcome = true">注册/登录</button>
+        <button @click="callWelcome">注册/登录</button>
       </div>
     </div>
     <div>
@@ -92,7 +84,7 @@
         :class="[activeIndex === index ? 'menu-item-active' : 'menu-item']"
         :is-active="activeIndex === index"
         @click.native="
-          if (activeIndex !== index) $emit('changeContent');
+          if (activeIndex !== index) $emit('change-content');
           if ('/' + item.routeName !== activePath)
             $router.push('/' + item.routeName);
         "
@@ -262,17 +254,26 @@ export default {
         }
       }
     },
+    // 打开userCard
     callUsercard() {
       if (localStorage.getItem("Flag") === "isLogin")
         this.displayUsercard = true;
       else return;
     },
+    // 开关sideBar
     toggleMenu() {
       if (this.isDisplay) {
         this.$emit('close');
       } else {
         this.$emit('call');
       }
+    },
+    // 打开welcome卡
+    callWelcome() {
+      if (this.isWap) {
+        this.$emit('close');
+      }
+      this.displayWelcome = true;
     }
   },
   computed: {
@@ -325,19 +326,18 @@ export default {
       }
     },
     styleObject: function () {
-      let val = this.isDisplay;
       let ret = {
         "margin-left": 0,
       };
-      if (!val) {
-        ret["margin-left"] = "-200px";
+      if (!this.isDisplay) {
+        ret["margin-left"] = "-100%";
       }
       return ret;
     },
     isWap: function () {
       return judgeWap();
     }
-  },
+  }
 };
 </script>
 
@@ -523,20 +523,6 @@ export default {
   }
 }
 
-#wap-open-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  width: 50px;
-  height: 50px;
-  background-color: #EEEEEE;
-  box-shadow: #777777 0 0 5px;
-  border-radius: 50px;
-}
-
 @keyframes notice {
   from {
     margin-right: -3px;
@@ -590,4 +576,85 @@ export default {
     max-height: 34px;
   }
 }
+
+/* 移动端适配 */
+
+@media screen and (max-width: 650px) {
+  #side-bar {
+    width: 250px;
+    border-radius: 0 10px 10px 0;
+    & > * {
+      z-index: 1;
+    }
+
+    & > .function-mask {
+      z-index: -1;
+    }
+  }
+
+  .logo {
+    display: none;
+  }
+
+  .menu-userbar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10px 30px;
+
+    .user-alias-border {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 0.5px solid rgba(79,79,79,.4);
+      margin: 0;
+      top: unset;
+      left: unset;
+
+      .user-alias {
+        top: unset;
+        left: unset;
+        width: 50px;
+        height: 50px;
+        & > img {
+          width: 50px;
+          height: 50px;
+        }
+      }
+    }
+
+    .function-btn-group {
+      position: relative;
+      left: 0;
+      width: 100%;
+      height: initial;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: initial;
+      padding: 0 5px 0 10px;
+
+      & > button {
+        margin: 0;
+        width: 100%;
+      }
+    }
+
+    .user-info {
+      top: unset;
+    }
+
+    .user-data {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      width: 100%;
+      top: unset;
+    }
+  }
+}
+
 </style>

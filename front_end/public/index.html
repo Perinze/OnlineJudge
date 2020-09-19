@@ -41,7 +41,7 @@
       src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"
     ></script>
   </head>
-  <body style="background: #f0f0f7;">
+  <body>
     <noscript>
       <strong
         >We're sorry but WUT OnlineJudge doesn't work properly without
@@ -72,7 +72,7 @@
       font-variant: tabular-nums;
       line-height: 1.5;
       color: rgba(0, 0, 0, 0.65);
-      background-color: #fff;
+      background-color: #f0f0f7;;
     }
 
     img {
@@ -145,6 +145,12 @@
 
     table {
       border-collapse: collapse;
+    }
+
+    @media screen and (max-width: 650px) {
+      body {
+        background-color: #FFFFFF;
+      }
     }
   </style>
 </html>

@@ -30,19 +30,10 @@ export default {
   },
   computed: {
     marginRightStyleObject() {
-      let res = {
-        "margin-right": 0,
-      };
-      let trick = this.windowResize;
       if (this.isDisplay) {
-        // open
-        res["margin-right"] = 0;
-      } else {
-        // hide
-        let phantom = (this.$root.$el.clientWidth - 200) / 2;
-        res["margin-right"] = `-${phantom}px`;
+        return { "margin-right": 0 };
       }
-      return res;
+      return { "margin-right": "-100%" };
     },
   },
 };
