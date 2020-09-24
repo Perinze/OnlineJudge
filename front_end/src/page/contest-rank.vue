@@ -761,7 +761,7 @@ export default {
       });
       if (response.status == 0) {
         let cnt = 1;
-        response.data.forEach((val) => {
+        response.data.array.forEach((val) => {
           this.resRank.push({
             id: val.user_id,
             rank: val.nick.indexOf("*") === 0 ? "" : cnt, // 打星
@@ -953,6 +953,17 @@ $cuColor: rgb(186, 110, 64);
       font-size: 9px;
       line-height: 17px;
       margin-top: 3px;
+    }
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .contest-rank {
+    width: 100%;
+    padding: 0 10px;
+
+    & > * {
+      width: 100%;
     }
   }
 }

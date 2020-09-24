@@ -627,6 +627,7 @@ export default {
 
     .function-btn-group {
       position: relative;
+      top: 0;
       left: 0;
       width: 100%;
       height: initial;

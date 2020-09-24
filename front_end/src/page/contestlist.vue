@@ -175,14 +175,14 @@ export default {
   data() {
     return {
       items: [
-        // {
-        //     id: '1000',
-        //     title: '2019年武汉理工大学第二届新生赛',
-        //     begin_time: '2019.11.16 test',
-        //     end_time: '2019.11.16 test',
-        //     hasJoin: false,
-        //     status: 1
-        // },
+        {
+            id: '1000',
+            title: '2019年武汉理工大学第二届新生赛',
+            begin_time: '2019.11.16',
+            end_time: '2019.11.16',
+            hasJoin: false,
+            status: 1
+        },
       ],
     };
   },
@@ -190,7 +190,7 @@ export default {
     renderList: async function() {
       this.$loading.open();
       let response = await getContestList();
-      if (response.status == 0) {
+      if (response.status === 0) {
         let data = response.data;
         data.forEach((val) => {
           let res = {
@@ -405,5 +405,75 @@ export default {
   border: 2px solid rgba(45, 183, 183, 1);
   color: rgba(45, 183, 183, 1);
   cursor: unset;
+}
+
+@media screen and (max-width: 650px) {
+  .contestlist {
+    padding-left: 10px;
+    padding-right: 10px;
+
+    & > * {
+      font-family: PingFang SC;
+      width: 100%;
+      max-width: inherit;
+      min-width: unset;
+    }
+  }
+
+  .contest-card {
+    width: 100%;
+    height: 140px;
+    border-radius: 15px;
+    max-width: inherit;
+    min-width: unset;
+
+    .contest-content {
+      width: 100%;
+      height: 100%;
+
+      .content-words {
+        position: relative;
+        top: unset;
+        left: unset;
+        padding: 10px 20px;
+
+        & > * {
+          top: unset;
+          left: unset;
+        }
+        
+        .contest-title {
+          font-size: 18px;
+          white-space: pre-wrap;
+        }
+
+        .contest-sub-title {
+          font-size: 14px;
+          top: 3px;
+        }
+      }
+    }
+
+    .function-btn-group > button {
+      border-radius: 13px;
+      border-width: 1.5px;
+      width: 100px;
+      height: 35px;
+      font-weight: 400;
+    }
+  }
+
+  .separator {
+    justify-content: flex-start;
+    width: 100%;
+    &:after, &:before {
+      content: '';
+    }
+    & > i {
+      margin: 0 0 0 3px;
+      font-size: 16px;
+      font-style: normal;
+    }
+  }
 }
 </style>

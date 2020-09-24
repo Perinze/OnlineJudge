@@ -103,6 +103,7 @@ export default {
   padding: 0 5px;
   min-width: 500px;
   max-width: 990px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
   &:first-child {
     margin-top: 88px;
   }
@@ -146,5 +147,13 @@ export default {
 .problem-statistics {
   text-align: center;
   width: 120px;
+}
+
+@media screen and (max-width: 650px) {
+  .problem-element {
+    margin: inherit auto;
+    width: calc(100% - 20px);
+    min-width: unset;
+  }
 }
 </style>

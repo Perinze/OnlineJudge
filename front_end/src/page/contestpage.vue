@@ -25,13 +25,14 @@
             <th
               class="status-rank style-border-left"
               @click="$router.push('/rank/' + contest_info.id)"
-              style="width: 128px;"
+              :style="{width: isWap?'70px':'128px'}"
             >
               排名 Rank
             </th>
-            <th style="width: 128px;">罚时 Penalty</th>
+            <th :style="{width: isWap?'70px':'128px'}">罚时 Penalty</th>
             <th
               v-for="index in contest_info.problems.length"
+              :key="'preblem-head'+index"
               class="problem-head"
               @click="
                 $emit('open-problem', {
@@ -54,6 +55,7 @@
           </td>
           <td
             v-for="index in contest_info.problems.length"
+            :key="'problem-status'+index"
             class="problem-status"
           >
             <div
@@ -88,6 +90,7 @@
         <ul class="submit-log-ul style-border-left">
           <li
             v-for="index in submit_log.length"
+            :key="'submit-log'+index"
             v-bind:title="'RunID: ' + submit_log[index - 1].runid"
             class="submit-log-list-element submit-log-li"
             @click="
@@ -176,6 +179,7 @@
           <li>
             <div
               class="discuss-card"
+              :key="'discuss-card'+index"
               v-for="index in discusses.length"
               @click="
                 $router.push(
@@ -204,7 +208,7 @@
                 <span
                   style="color: orange;"
                   v-if="discusses[index - 1].status === 8"
-                  >{{ "<管理员公示>&nbsp;" }}</span
+                  >{{ "\<" + "管理员公示\>&nbsp;" }}</span
                 >
                 {{ discusses[index - 1].author }}
               </div>
@@ -228,6 +232,7 @@ import {
   getUserDiscuss,
   getContestRank,
 } from "../api/getData";
+import { judgeWap } from "../utils";
 
 export default {
   components: { StatusIcon },
@@ -340,6 +345,9 @@ export default {
     };
   },
   computed: {
+    isWap() {
+      return judgeWap();
+    },
     contestBeginTime: function() {
       let res = new Date(this.contest_info.begin_time).getTime();
       return res;
@@ -572,6 +580,7 @@ export default {
       let response = await getContestRank({
         contest_id: this.$route.params.id,
       });
+      if (response.status !== 0) return;
       let data = response.data;
       let user_id = localStorage.getItem("userId");
       let rank = data.map((x) => x.user_id).indexOf(parseInt(user_id)) + 1;
@@ -903,5 +912,30 @@ table {
 
 .discuss-author {
   font-size: 13px;
+}
+
+@media screen and (max-width: 650px) {
+  .problem-status-form {
+    & th {
+      font-size: 12px;
+    }
+  }
+
+  .top, .bottom {
+    width: 100%;
+    padding: 0 10px;
+  }
+
+  .bottom {
+    display: flex;
+    flex-direction: column-reverse;
+
+    & > div {
+      width: 100%;
+      border-bottom: 0.5px solid rgba(0,0,0,0.1);
+      padding-bottom: 30px;
+      margin-bottom: 30px;
+    }
+  }
 }
 </style>

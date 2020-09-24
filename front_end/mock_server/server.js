@@ -6,6 +6,10 @@ const app = new Koa();
 
 const originBaseUrl = "http://acmwhut.com/api/oj";
 
+const getTime = () => {
+  return (new Date()).toLocaleTimeString().slice(0,7);
+}
+
 app.use(
   koaBody({
     multipart: true,
@@ -23,14 +27,21 @@ app.use(async (ctx, next) => {
   let modulePath = path.join(__dirname, "/data", url);
   let ret = {};
 
+  console.log(`[${getTime()}] request ${modulePath}`);
+
   try {
     const genFunc = require(modulePath);
     ret =
       typeof genFunc === "function"
         ? await genFunc(method, data || {})
         : genFunc;
-    console.log(`[${new Date()}] response for ${url}`);
+    console.log(`[${getTime()}] response for ${url}`);
   } catch (e) {
+    if (e.message.indexOf('Cannot find') === -1) {
+      console.log(e);
+      return;
+    }
+    console.log(`[${getTime()}] response ${url} without mock_server`);
     // file not found
     let fetchData = {
       method,
@@ -43,7 +54,7 @@ app.use(async (ctx, next) => {
     ret = await fetch(originBaseUrl + ctx.url, fetchData).then((res) => {
       return res.json();
     });
-    console.log(`[${new Date()}] not response for ${url}`);
+    console.log(`[${getTime()}] not response for ${url}`);
   }
 
   ctx.body = ret;

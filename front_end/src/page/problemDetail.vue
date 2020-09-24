@@ -348,6 +348,7 @@ export default {
 
 @media (max-width: 650px) {
   .problem-detail-container {
+    top: 20px;
   }
 }
 </style>

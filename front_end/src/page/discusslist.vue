@@ -1,9 +1,9 @@
 <template>
   <div class="discuss-list">
     <div class="question-bar">
-      <span @click="$router.push('/contest/' + contest_id)" class="back-btn"
-        >回到比赛</span
-      >
+      <span @click="$router.push('/contest/' + contest_id)" class="back-btn">
+        回到比赛
+      </span>
       <div>
         <input
           type="text"
@@ -13,12 +13,12 @@
         <textarea
           placeholder="在此键入提问内容(至少15个字符)..."
           v-model="question.content"
-        ></textarea>
+        />
         <select v-model="question.problem_id">
           <option
             v-for="index in problems.length"
             :value="problems[index - 1]"
-            :key="problem[index - 1]"
+            :key="problems[index - 1]"
             >{{ String.fromCharCode(64 + index) }}</option
           >
         </select>
@@ -96,7 +96,7 @@ export default {
       });
       // console.log(response);
       if (response.status == 0) {
-        response.data.forEach((val) => {
+        response.data.data.forEach((val) => {
           this.items.push(val);
         });
       } else {
@@ -307,5 +307,39 @@ export default {
 
 .time {
   text-align: right;
+}
+
+@media screen and (max-width: 650px) {
+  .discuss-list {
+    padding-left: 0;
+  }
+
+  .question-bar, .list {
+    width: 100%;
+    padding: 0 20px;
+  }
+
+  .question-bar {
+    & > div {
+      width: 100%;
+      min-width: unset;
+      max-width: inherit;
+
+      select {
+        right: 110px;
+      }
+
+      .submit-ques-btn {
+        right: 25px;
+      }
+    }    
+  }
+
+  .element-card {
+    width: 100%;
+    min-width: unset;
+    max-width: inherit;
+    padding: 15px 20px;
+  }
 }
 </style>

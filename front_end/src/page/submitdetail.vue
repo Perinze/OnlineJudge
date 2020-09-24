@@ -305,4 +305,21 @@ export default {
     text-decoration: underline;
   }
 }
+
+@media screen and (max-width: 650px) {
+  .submit-detail {
+    padding: 0 10px;
+    width: 100%;
+
+    > .content {
+      width: 100%;
+      max-width: inherit;
+      min-width: unset;
+
+      > * {
+        width: 100%;
+      }
+    }
+  }
+}
 </style>

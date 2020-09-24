@@ -88,8 +88,8 @@ export default {
         discuss_id: this.$route.params.did,
       });
       if (response.status == 0) {
-        this.themeInfo = response.data[0];
-        response.data[1].forEach((val) => {
+        this.themeInfo = response.data.discuss;
+        response.data.reply.data.forEach((val) => {
           this.replyItems.push(val);
         });
       } else {
@@ -246,6 +246,18 @@ li {
     cursor: pointer;
     &:hover {
       text-decoration: underline;
+    }
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .discuss-detail {
+    padding-left: 10px;
+    padding-right: 10px;
+
+    > * {
+      width: 100%;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
   }
 }

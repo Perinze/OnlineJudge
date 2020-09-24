@@ -14,7 +14,7 @@
         </select>
       </div>
       <div class="btn-group">
-        <button class="test-btn">编译测试</button>
+        <button class="test-btn" disabled>编译测试</button>
         <button class="submit-btn" @click="doSubmit">提交代码</button>
       </div>
     </div>
