@@ -42,13 +42,13 @@ module.exports = {
       // 开发环境
       config.plugins = [...config.plugins, ...devPlugin];
 
-      config.devServer = {};
+      config.devServer = { https: true };
 
       config.devServer.proxy =
         process.env.NODE_ENV === "test"
           ? {
               "/api/oj": {
-                target: "http://acmwhut.com/",
+                target: "https://acmwhut.com/",
                 changeOrigin: true,
                 secure: false,
               },

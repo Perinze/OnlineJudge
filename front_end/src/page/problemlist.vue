@@ -46,40 +46,48 @@ export default {
       }
     },
     renderProblemList: async function() {
-      this.$loading.open();
-      let response = await getProblemList();
-      if (response.status == 0) {
-        // success
-        let data = response.data;
-        data.forEach((val) => {
-          let res = {
-            id: val.problem_id,
-            status: "un",
-            title: val.title,
-            statistics: {
-              ac: parseInt(val.ac),
-              all:
-                parseInt(val.ac) +
-                parseInt(val.wa) +
-                parseInt(val.tle) +
-                parseInt(val.mle) +
-                parseInt(val.re) +
-                +parseInt(val.ce) +
-                parseInt(val.se),
-            },
-          };
-          this.items.push(res);
-        });
-      } else {
-        // error
-        if (response.status === 504) {
-          this.$message({
-            message: "请求超时",
-            type: "error",
+      try {
+        this.$loading.open();
+        let response = await getProblemList();
+        if (response.status == 0) {
+          // success
+          let data = response.data;
+          data.forEach((val) => {
+            let res = {
+              id: val.problem_id,
+              status: "un",
+              title: val.title,
+              statistics: {
+                ac: parseInt(val.ac),
+                all:
+                  parseInt(val.ac) +
+                  parseInt(val.wa) +
+                  parseInt(val.tle) +
+                  parseInt(val.mle) +
+                  parseInt(val.re) +
+                  +parseInt(val.ce) +
+                  parseInt(val.se),
+              },
+            };
+            this.items.push(res);
           });
+        } else {
+          // error
+          if (response.status === 504) {
+            this.$message({
+              message: "请求超时",
+              type: "error",
+            });
+          }
         }
+      } catch (e) {
+        this.$message({
+          message: "系统错误，请联系管理员",
+          type: "error",
+        });
+      } finally {
+        this.$loading.hide();
       }
-      this.$loading.hide();
     },
   },
 };

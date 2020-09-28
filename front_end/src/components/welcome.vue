@@ -523,14 +523,14 @@
           <div class="wap-welcome-function">
             <button
               class="wap-register-button"
-              @click="activeInteract = 'login'"
+              @click="activeInteract = 'register'"
               :disabled="!functionAvailable.login"
             >
               注册
             </button>
             <button
               class="wap-login-button"
-              @click="activeInteract = 'register'"
+              @click="activeInteract = 'login'"
               :disabled="!functionAvailable.register"
             >
               登陆
@@ -546,6 +546,57 @@
         </div>
         <div class="wap-welcome-interact" v-else key="interact">
           <img class="wap-back-btn" src="../../assets/icon/backward.svg" @click="activeInteract = 'default'" />
+          <div class="wap-interact-title">{{ activeInteract === 'login' ? '登陆' : '注册'}}</div>
+          <div v-if="activeInteract === 'login'">
+            <div class="wap-interact-row">
+              <label>Account</label>
+              <input type="text" placeholder="登录名" v-model="login.nick"/>
+            </div>
+            <div class="wap-interact-row">
+              <label>Password</label>
+              <input type="password" placeholder="密码" v-model="login.password"/>
+            </div>
+            <button class="wap-function-btn">登陆</button>
+          </div>
+          <div v-else-if="activeInteract === 'register'">
+            <div class="wap-interact-row">
+              <label>Account</label>
+              <input type="text" placeholder="昵称，登录名"/>
+            </div>
+            <div class="wap-interact-row">
+              <label>Password</label>
+              <input type="password" placeholder="密码"/>
+            </div>
+            <div class="wap-interact-row">
+              <label>Check</label>
+              <input type="password" placeholder="确认密码"/>
+            </div>
+            <div class="wap-interact-row">
+              <label>Realname</label>
+              <input type="text" placeholder="真实姓名"/>
+            </div>
+            <!-- <div class="wap-interact-row">
+              <label>School</label>
+              <input type="text" placeholder="学校全称"/>
+            </div>
+            <div class="wap-interact-row">
+              <label>Major</label>
+              <input type="text" placeholder="专业全称"/>
+            </div> -->
+            <div class="wap-interact-row">
+              <label>Class</label>
+              <input type="text" placeholder="班级简称"/>
+            </div>
+            <!-- <div class="wap-interact-row">
+              <label>Phone</label>
+              <input type="text" placeholder="手机号码"/>
+            </div> -->
+            <div class="wap-interact-row">
+              <label>E-mail</label>
+              <input type="text" placeholder="电子邮件地址，用于密码找回"/>
+            </div>
+            <button class="wap-function-btn">注册</button>
+          </div>
         </div>
       </transition>
     </div>
@@ -1447,6 +1498,64 @@ export default {
     width: 23px;
     height: 23px;
     margin: -23px 0 0 -23px;
+  }
+
+  .wap-welcome-interact {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: #000;
+    height: 100%;
+
+    > div {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .wap-interact-title {
+      font-size: 40px;
+    }
+
+    .wap-interact-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: 100%;
+      height: 40px;
+      margin-bottom: 10px;
+      border: 1px solid #474773;
+      border-radius: 40px;
+      overflow: hidden;
+
+      & > label {
+        width: 10%;
+        min-width: 70px;
+        text-align: center;
+        color: #474773;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      & > input {
+        width: 90%;
+        border: none;
+        padding-left: 3px;
+      }
+    }
+
+    .wap-function-btn {
+      height: 40px;
+      border-radius: 40px;
+      border: none;
+      background-color: #474773;
+      color: #FFF;
+      margin-top: 18px;
+      font-size: 16px;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
 }
 </style>
