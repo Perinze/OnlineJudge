@@ -757,6 +757,12 @@ export default {
                     this.$emit("logged", response.data);
                   } else {
                     this.errorMsg.content = response.message;
+                    if (this.isWap) {
+                      this.$message({
+                        message: response.message,
+                        type: "error",
+                      });
+                    }
                   }
                 } else {
                   this.errorMsg.content = response.message;
