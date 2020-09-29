@@ -550,13 +550,13 @@
           <div v-if="activeInteract === 'login'">
             <div class="wap-interact-row">
               <label>Account</label>
-              <input type="text" placeholder="登录名" v-model="login.nick"/>
+              <input type="text" placeholder="登录名" v-model="loginInfo.nick"/>
             </div>
             <div class="wap-interact-row">
               <label>Password</label>
-              <input type="password" placeholder="密码" v-model="login.password"/>
+              <input type="password" placeholder="密码" v-model="loginInfo.password"/>
             </div>
-            <button class="wap-function-btn">登陆</button>
+            <button class="wap-function-btn" @click="do_login">登陆</button>
           </div>
           <div v-else-if="activeInteract === 'register'">
             <div class="wap-interact-row">
@@ -661,6 +661,9 @@ export default {
     do_login: async function() {
       if (this.loading) return;
       if (!this.functionAvailable.login) return;
+      if (this.isWap) {
+        this.$loading.open();
+      }
       this.errorMsg.type = "";
       this.errorMsg.content = "";
       let checkInfoPromise = new Promise((resolve, reject) => {
@@ -674,6 +677,16 @@ export default {
         resolve();
       });
       checkInfoPromise.catch((errorMessage) => {
+        if (this.isWap) {
+          this.$message({
+            message: errorMessage.slice(
+              errorMessage.indexOf(":") + 1
+            ),
+            type: "error",
+          });
+          this.$loading.hide();
+          return;
+        }
         this.errorMsg.type = errorMessage.slice(0, errorMessage.indexOf(":"));
         this.errorMsg.content = errorMessage.slice(
           errorMessage.indexOf(":") + 1
@@ -691,6 +704,7 @@ export default {
             if (response.status == 0) {
               // 成功登陆
               this.loading = false;
+              this.$loading.hide();
 
               let acCnt = 0,
                 waCnt = 0;
@@ -749,7 +763,9 @@ export default {
                 }
               }
               this.loading = false;
+              this.$loading.hide();
             }
+
           }, 2000);
         });
     },

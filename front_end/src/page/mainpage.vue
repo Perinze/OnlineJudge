@@ -262,6 +262,12 @@ export default {
   }
 }
 
+@media screen and (max-width: 650px) {
+  .el-carousel {
+    overflow: hidden !important;
+  }
+}
+
 .carousel-img {
   width: 100%;
   height: 250px;
@@ -379,18 +385,22 @@ export default {
     padding: 0 16px;
   }
 
-  .main-statistics-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  .main-statistics {
+    .main-statistics-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 15px;
 
-    > * {
-      // margin-left: 0;
-      // margin-top: 15px;
-      margin: 15px 15px 0 15px;
-      
-      &:first-child {
-        margin: 0 15px 0 15px;
+      > * {
+        // margin-left: 0;
+        // margin-top: 15px;
+        margin: 15px 15px 0 15px;
+        width: 100%;
+        
+        &:first-child {
+          margin: 0 15px 0 15px;
+        }
       }
     }
   }

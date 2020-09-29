@@ -65,7 +65,7 @@ export default {
                   parseInt(val.tle) +
                   parseInt(val.mle) +
                   parseInt(val.re) +
-                  +parseInt(val.ce) +
+                  parseInt(val.ce) +
                   parseInt(val.se),
               },
             };

@@ -48,7 +48,7 @@ module.exports = {
         process.env.NODE_ENV === "test"
           ? {
               "/api/oj": {
-                target: "https://acmwhut.com/",
+                target: "https://dev.acmwhut.com/",
                 changeOrigin: true,
                 secure: false,
               },

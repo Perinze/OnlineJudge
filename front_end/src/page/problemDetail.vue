@@ -88,7 +88,7 @@
       <div class="function-btn-group">
         <button
           class="submit-btn"
-          @click="(cid || $route.query.cid) === undefined ? gotoSubmit(pid) : gotoSubmit(pid, cid || $route.query.cid)"
+          @click="(cid || $route.query.cid) === undefined ? gotoSubmit(pid || $route.query.pid) : gotoSubmit(pid || $route.query.pid, cid || $route.query.cid)"
         >
           Submit
         </button>

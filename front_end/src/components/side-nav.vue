@@ -410,7 +410,7 @@ export default {
   }
   .user-data {
     position: relative;
-    top: 50px;
+    top: 35px;
     display: flex;
     .data-item {
       flex: 1 1 auto;
