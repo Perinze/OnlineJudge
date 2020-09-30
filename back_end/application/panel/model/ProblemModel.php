@@ -58,11 +58,8 @@ class ProblemModel extends Model{
         try {
 
             $res = $this->where('problem_id', $problem_id)->update($data);
-            if ($res) {
-                return ['code' => CODE_SUCCESS, 'msg' => '编辑成功', 'data' => $res];
-            } else {
-                return ['code' => CODE_ERROR, 'msg' => '编辑失败', 'data' => $res];
-            }
+            return ['code' => CODE_SUCCESS, 'msg' => '编辑成功', 'data' => $res];
+
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];
         }

@@ -82,10 +82,8 @@ class ContestModel extends Model
     {
         try {
             $res = $this->where('contest_id', $contest_id)->update($data);
-            if ($res) {
-                return ['code' => CODE_SUCCESS, 'msg' => '编辑比赛成功', 'data' => ''];
-            }
-            return ['code' => CODE_ERROR, 'msg' => '编辑比赛失败', 'data' => ''];
+            return ['code' => CODE_SUCCESS, 'msg' => '编辑比赛成功', 'data' => ''];
+
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];
         }
