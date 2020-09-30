@@ -27,13 +27,12 @@ class Contest extends Base
             return apiReturn(CODE_ERROR, $contest_validate->getError(), '');
         }
         foreach ($req['problems'] as $item){
-            $resp = $problem_model->editProblem($item, ['status' => CONTEST]);
+            $resp = $problem_model->changeProblemStatus($item, ['status' => CONTEST]);
             if($resp['code'] !== CODE_SUCCESS){
                 return apiReturn($resp['code'], $resp['msg'], $resp['data']);
             }
         }
         $resp = $contest_model->newContest(array(
-            'title'     => $req['contest_name'],
             'contest_name' => $req['contest_name'],
             'begin_time' => $req['begin_time'],
             'end_time' => $req['end_time'],
