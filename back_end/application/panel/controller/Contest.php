@@ -33,7 +33,8 @@ class Contest extends Base
             }
         }
         $resp = $contest_model->newContest(array(
-            'title' => $req['contest_name'],
+            'title'     => $req['contest_name'],
+            'contest_name' => $req['contest_name'],
             'begin_time' => $req['begin_time'],
             'end_time' => $req['end_time'],
             'frozen' => $req['frozen'],
