@@ -561,19 +561,19 @@
           <div v-else-if="activeInteract === 'register'">
             <div class="wap-interact-row">
               <label>Account</label>
-              <input type="text" placeholder="昵称，登录名"/>
+              <input type="text" placeholder="昵称，登录名" v-model="registerInfo.nick"/>
             </div>
             <div class="wap-interact-row">
               <label>Password</label>
-              <input type="password" placeholder="密码"/>
+              <input type="password" placeholder="密码" v-model="registerInfo.password"/>
             </div>
             <div class="wap-interact-row">
               <label>Check</label>
-              <input type="password" placeholder="确认密码"/>
+              <input type="password" placeholder="确认密码" v-model="registerInfo.password_check"/>
             </div>
             <div class="wap-interact-row">
               <label>Realname</label>
-              <input type="text" placeholder="真实姓名"/>
+              <input type="text" placeholder="真实姓名" v-model="registerInfo.realname"/>
             </div>
             <!-- <div class="wap-interact-row">
               <label>School</label>
@@ -585,7 +585,7 @@
             </div> -->
             <div class="wap-interact-row">
               <label>Class</label>
-              <input type="text" placeholder="班级简称"/>
+              <input type="text" placeholder="班级简称" v-model="registerInfo.class"/>
             </div>
             <!-- <div class="wap-interact-row">
               <label>Phone</label>
@@ -593,9 +593,13 @@
             </div> -->
             <div class="wap-interact-row">
               <label>E-mail</label>
-              <input type="text" placeholder="电子邮件地址，用于密码找回"/>
+              <input type="text" placeholder="电子邮件地址，用于密码找回" v-model="registerInfo.mail"/>
             </div>
-            <button class="wap-function-btn">注册</button>
+            <button
+              class="wap-function-btn"
+              @click="do_register"
+              :disabled="!functionAvailable.register"
+            >注册</button>
           </div>
         </div>
       </transition>
@@ -794,16 +798,16 @@ export default {
         if (data.realname.length < 1) {
           reject("realname:必须输入真实姓名");
         }
-        if (data.school.length < 1) {
+        if (!this.isWap && data.school.length < 1) {
           reject("school:必须输入学校全称");
         }
-        if (data.major.length < 1) {
+        if (!this.isWap && data.major.length < 1) {
           reject("major:必须输入专业全称");
         }
         if (data.class.length < 1) {
           reject("major:必须输入班级简称");
         }
-        if (data.contact.length < 1) {
+        if (!this.isWap && data.contact.length < 1) {
           reject("contac:请输入手机号码");
           let pattern = /^(1.[0-9]{9})$/;
           if (pattern.test(data.contac)) {
@@ -824,6 +828,14 @@ export default {
         this.errorMsg.content = errorMessage.slice(
           errorMessage.indexOf(":") + 1
         );
+        if (this.isWap) {
+          this.$message({
+            type: "error",
+            message: errorMessage.slice(
+              errorMessage.indexOf(":") + 1
+            )
+          });
+        }
       });
       checkInfoPromise
         .then(async (successMessage) => {
@@ -846,8 +858,20 @@ export default {
               this.errorMsg.type = "mail";
               if (response.status === 504) {
                 this.errorMsg.content = "请求超时";
+                if (this.isWap) {
+                  this.$message({
+                    type: "error",
+                    message: "请求超时"
+                  });
+                }
               } else {
                 this.errorMsg.content = response.message;
+                if (this.isWap) {
+                  this.$message({
+                    type: "error",
+                    message: response.message
+                  });
+                }
               }
               this.loading = false;
             }

@@ -48,7 +48,6 @@
         <tr style="height: 42px;">
           <td class="style-border-left">
             {{ userData.rank }}
-            <!-- TODO ljwsb -->
           </td>
           <td>
             {{ userData.penalty | penaltyFilter }}
