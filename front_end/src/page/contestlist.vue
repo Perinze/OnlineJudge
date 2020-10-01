@@ -25,7 +25,7 @@
           class="join"
           :class="[
             items[index - 1].status === 1 &&
-            new Date(items[index - 1].begin_time).getTime() >
+            new Date(items[index - 1].end_time).getTime() >
               new Date().getTime()
               ? 'can-join'
               : 'cant-join',
@@ -35,7 +35,7 @@
         >
           {{
             items[index - 1].status === 1 &&
-            new Date(items[index - 1].begin_time).getTime() >
+            new Date(items[index - 1].end_time).getTime() >
               new Date().getTime()
               ? "点我报名"
               : "不可报名"
@@ -45,7 +45,7 @@
           class="join"
           :class="[
             items[index - 1].status === 1 &&
-            new Date(items[index - 1].begin_time).getTime() >
+            new Date(items[index - 1].end_time).getTime() >
               new Date().getTime()
               ? 'has-join'
               : 'cant-join',
@@ -79,7 +79,7 @@
           class="join"
           :class="[
             items[index - 1].status === 1 &&
-            new Date(items[index - 1].begin_time).getTime() >
+            new Date(items[index - 1].end_time).getTime() >
               new Date().getTime()
               ? 'can-join'
               : 'cant-join',
@@ -89,7 +89,7 @@
         >
           {{
             items[index - 1].status === 1 &&
-            new Date(items[index - 1].begin_time).getTime() >
+            new Date(items[index - 1].end_time).getTime() >
               new Date().getTime()
               ? "点我报名"
               : "不可报名"
@@ -99,7 +99,7 @@
           class="join"
           :class="[
             items[index - 1].status === 1 &&
-            new Date(items[index - 1].begin_time).getTime() >
+            new Date(items[index - 1].end_time).getTime() >
               new Date().getTime()
               ? 'has-join'
               : 'cant-join',
@@ -133,7 +133,7 @@
           class="join"
           :class="[
             items[index - 1].status === 1 &&
-            new Date(items[index - 1].begin_time).getTime() >
+            new Date(items[index - 1].end_time).getTime() >
               new Date().getTime()
               ? 'can-join'
               : 'cant-join',
@@ -143,7 +143,7 @@
         >
           {{
             items[index - 1].status === 1 &&
-            new Date(items[index - 1].begin_time).getTime() >
+            new Date(items[index - 1].end_time).getTime() >
               new Date().getTime()
               ? "点我报名"
               : "不可报名"
@@ -153,7 +153,7 @@
           class="join"
           :class="[
             items[index - 1].status === 1 &&
-            new Date(items[index - 1].begin_time).getTime() >
+            new Date(items[index - 1].end_time).getTime() >
               new Date().getTime()
               ? 'has-join'
               : 'cant-join',
@@ -175,14 +175,14 @@ export default {
   data() {
     return {
       items: [
-        {
-            id: '1000',
-            title: '2019年武汉理工大学第二届新生赛',
-            begin_time: '2019.11.16',
-            end_time: '2019.11.16',
-            hasJoin: false,
-            status: 1
-        },
+        // {
+        //     id: '1000',
+        //     title: '2019年武汉理工大学第二届新生赛',
+        //     begin_time: '2019.11.16',
+        //     end_time: '2019.11.16',
+        //     hasJoin: false,
+        //     status: 1
+        // },
       ],
     };
   },
@@ -230,11 +230,8 @@ export default {
     },
     doJoinContest: async function(index) {
       if (
-        !(
-          this.items[index].status === 1 &&
-          new Date(this.items[index].begin_time).getTime() >
-            new Date().getTime()
-        )
+        !(this.items[index].status === 1 &&
+          new Date(this.items[index].end_time).getTime() > Date.now())
       ) {
         return;
       }
