@@ -46,9 +46,10 @@ export default {
 
 .contest-card-info {
   position: relative;
-  width: 130px;
+  padding: 0 13px;
+  text-align: left;
+  width: 100%;
   height: 49px;
-  left: 16px;
   top: 74px;
   font: {
     size: 14px;
@@ -78,5 +79,19 @@ export default {
   }
   line-height: 20px;
   color: rgba(255, 255, 255, 1);
+}
+
+@media screen and (max-width: 650px) {
+  .contest-card {
+    width: 100%;
+    margin: 0;
+
+    .contest-card-info {
+      left: 0;
+      width: 100%;
+      padding: 0 13px;
+      text-align: left;
+    }
+  }
 }
 </style>
