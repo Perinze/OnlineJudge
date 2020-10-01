@@ -43,6 +43,7 @@ class ContestValidate extends Validate
         'searchContest' => ['contest_name'],
         'searchContest1' => ['contest_id'],
         'deleContest' => ['contest_id'],
+        'newContest' => ['contest_name', 'begin_time', 'end_time', 'frozen', 'problems'],
         'addContest' => ['group_id', 'contest_name', 'begin_time', 'end_time', 'frozen', 'problems'],
         'editContest' => ['contest_id', 'contest_name', 'begin_time', 'end_time', 'frozen', 'problems'],
     ];
