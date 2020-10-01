@@ -220,7 +220,7 @@ class problem extends Base
         }
         $i = 0;
         foreach ($data as $item){
-            $data_path = $problem_path.'/'.(string)$i . config('wutoj_config.environment');
+            $data_path = $problem_path.'/'.(string)$i;
             if (!file_exists($data_path)) {
                 if(!mkdir($data_path, 0755, true) || !is_dir($data_path)){
                     return apiReturn(CODE_ERROR, '创建目录失败', '');
