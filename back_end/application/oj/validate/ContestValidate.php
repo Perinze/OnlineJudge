@@ -15,6 +15,7 @@ class ContestValidate extends Validate
     // TODO 添加
     protected $rule = [
         'contest_id' => 'require|number',
+        'group_id' => 'require|number',
         'contest_name' => 'require',
         'begin_time' => 'require|date',
         'end_time' => 'require|date',
@@ -24,6 +25,7 @@ class ContestValidate extends Validate
 
     protected $message = [
         'contest_id.require' => '缺少比赛ID',
+        'group_id.require' => '缺少团队ID',
         'contest_name.require' => '缺少比赛名称',
         'begin_time.require' => '缺少开始时间',
         'end_time.require' => '缺少结束时间',
@@ -34,7 +36,7 @@ class ContestValidate extends Validate
         'end_time.date' => '时间格式错误',
         'frozen.float' => '封榜时间比错误',
         'frozen.<:1' => '封榜时间比错误',
-        'problem.array' => '题目传值错误',
+        'problems.array' => '题目传值错误',
     ];
 
     protected $scene = [
@@ -42,6 +44,7 @@ class ContestValidate extends Validate
         'searchContest1' => ['contest_id'],
         'deleContest' => ['contest_id'],
         'newContest' => ['contest_name', 'begin_time', 'end_time', 'frozen', 'problems'],
+        'addContest' => ['group_id', 'contest_name', 'begin_time', 'end_time', 'frozen', 'problems'],
         'editContest' => ['contest_id', 'contest_name', 'begin_time', 'end_time', 'frozen', 'problems'],
     ];
 }

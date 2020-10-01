@@ -20,6 +20,11 @@ class ComposerStaticInit32078fa26483b605f230e378f56dec80
         array (
             'app\\' => 4,
         ),
+        'Y' => 
+        array (
+            'Yosymfony\\Toml\\' => 15,
+            'Yosymfony\\ParserUtils\\' => 22,
+        ),
         'P' => 
         array (
             'PHPMailer\\PHPMailer\\' => 20,
@@ -39,9 +44,27 @@ class ComposerStaticInit32078fa26483b605f230e378f56dec80
         array (
             0 => __DIR__ . '/../..' . '/application',
         ),
+        'Yosymfony\\Toml\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yosymfony/toml/src',
+        ),
+        'Yosymfony\\ParserUtils\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yosymfony/parser-utils/src',
+        ),
         'PHPMailer\\PHPMailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
+        ),
+    );
+
+    public static $prefixesPsr0 = array (
+        'P' => 
+        array (
+            'PHPExcel' => 
+            array (
+                0 => __DIR__ . '/..' . '/phpoffice/phpexcel/Classes',
+            ),
         ),
     );
 
@@ -50,6 +73,7 @@ class ComposerStaticInit32078fa26483b605f230e378f56dec80
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit32078fa26483b605f230e378f56dec80::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit32078fa26483b605f230e378f56dec80::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit32078fa26483b605f230e378f56dec80::$prefixesPsr0;
 
         }, null, ClassLoader::class);
     }

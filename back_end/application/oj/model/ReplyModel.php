@@ -17,19 +17,25 @@ class ReplyModel extends Model
             $info = $this->strict(false)->insert($data);
             if($info === false){
                 return ['code' => CODE_ERROR, 'msg' => '添加失败', 'data' => ''];
-            } else {
-                return ['code' => CODE_SUCCESS, 'msg' => '添加成功', 'data' => ''];
             }
+            return ['code' => CODE_SUCCESS, 'msg' => '添加成功', 'data' => ''];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];
         }
     }
 
-    public function get_the_discuss($discuss_id)
+    public function get_the_discuss($discuss_id, $page)
     {
         try{
-            $info = $this->field(['reply.id as id','reply.user_id as user_id', 'nick','discuss_id', 'content', 'time'])->where('discuss_id', $discuss_id)
-                ->join('users','reply.user_id = users.user_id')->select()->toArray();
+            $page_limit = config('wutoj_config.page_limit');
+            $info['data'] = $this
+                ->field(['reply.id as id','reply.user_id as user_id', 'nick', 'avatar', 'discuss_id', 'content', 'time'])
+                ->where('discuss_id', $discuss_id)
+                ->limit($page * $page_limit, $page_limit)
+                ->join('users','reply.user_id = users.user_id')
+                ->select()
+                ->toArray();
+            $info['count'] = $this->where('discuss_id', $discuss_id)->count();
             return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $info];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];

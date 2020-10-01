@@ -6,7 +6,7 @@ namespace app\oj\controller;
 
 use app\oj\model\ContestModel;
 use app\oj\model\GroupModel;
-use app\oj\model\RankCacheModel;
+use app\oj\model\OJCacheModel;
 use app\oj\model\SubmitModel;
 use app\oj\model\UserModel;
 use think\Controller;
@@ -15,6 +15,11 @@ use think\Controller;
 class Rank extends Controller
 {
     // TODO 更新逻辑可以有多个排序规则
+
+    /**
+     * 用户排名
+     * TODO 完善排行榜
+     */
     public function user_rank()
     {
         $user_model = new UserModel();
@@ -22,6 +27,10 @@ class Rank extends Controller
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
+    /**
+     * 团队排名
+     * TODO 完善排行榜
+     */
     public function group_rank()
     {
         $group_model = new GroupModel();
@@ -29,40 +38,55 @@ class Rank extends Controller
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 
+    /**
+     * 比赛排名
+     */
     public function contest_rank()
     {
         $submit_model = new SubmitModel();
         $contest_model = new ContestModel();
-        $rankCache_model = new RankCacheModel();
+        $rankCache_model = new OJCacheModel();
+
         $req = input('post.');
         if (!isset($req['contest_id'])) {
             return apiReturn(CODE_ERROR, '缺少contest字段', '');
         }
+
+        $contest_id = $req['contest_id'];
         // 如果有缓存，则直接返回缓存数据，减少服务器负担
-        $cache = $rankCache_model->get_rank_cache($req['contest_id']);
+        $cache = $rankCache_model->get_rank_cache($contest_id);
         if ($cache['code'] === CODE_SUCCESS) {
             return apiReturn($cache['code'], $cache['msg'], $cache['data']);
         }
-        $info = $contest_model->searchContest($req['contest_id']);
+
+        $info = $contest_model->searchContest($contest_id);
         if ($info['code'] !== CODE_SUCCESS) {
             return apiReturn($info['code'], $info['msg'], $info['data']);
         }
-        if (time() < $info['data']['begin_time']) {
+
+        $begin_time = $info['data']['begin_time'];
+        $end_time = $info['data']['end_time'];
+        if (time() < $begin_time) {
             return apiReturn(CODE_ERROR, '比赛还没开放', '');
         }
+
+        // search limit
+        $where[] = ['submit_time', '>= time', strtotime($begin_time)];
+        $where[] = ['contest_id', '=', $contest_id];
         if ($info['data']['end_time'] < time()) {
-            $where[] = ['submit_time', '<= time', strtotime($info['data']['end_time'])];
+            $where[] = ['submit_time', '<= time', strtotime($end_time)];
         } else {
-            $where = ['submit_time', '<= time', strtotime($info['data']['begin_time'])
-                + (strtotime($info['data']['end_time']) - strtotime($info['data']['begin_time'])) * $info['data']['frozen']];
+            $where[] = ['submit_time', '<= time', strtotime($begin_time)
+                + (strtotime($end_time) - strtotime($begin_time)) * (1 - $info['data']['frozen'])];// 封榜逻辑
         }
         $resp = $submit_model->get_all_submit($where);
-        //halt($resp);
+
         // TODO 处理榜单
         $problems = json_decode($info['data']['problems'], true);
-        $data = $this->handle_rank($resp['data'], $info['data']['begin_time'], $problems);
+        $data = $this->handle_rank($resp['data'], $begin_time, $problems);
         // 缓存表单数据，失败没有影响
-        $cache = $rankCache_model->set_rank_cache($data, $req['contest_id']);
+        $cache = $rankCache_model->set_rank_cache($data, $contest_id);
+
         return apiReturn($resp['code'], $resp['msg'], $data);
     }
 

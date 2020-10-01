@@ -35,19 +35,27 @@ class SubmitModel extends Model
         }
     }
 
-    public function get_the_submit($where)
+    // TODO 重构
+    public function get_the_submit($where, $page)
     {
         try {
-            $language = ['c.gcc', 'cpp.g++', 'py.cpython', 'java.java'];
-            $info = $this->field(['submit.id as runid','submit.user_id as user_id','users.nick as nick', 'problem_id', 'language', 'submit.status as status', 'time', 'memory', 'submit_time'])
-                ->where($where)->order('submit_time')->join('users','submit.user_id = users.user_id')->buildSql();
-            $info = Db::query($info);
-            foreach ($info as &$item){
+            $page_limit = config('wutoj_cache.page_limit');
+            $language = config('wutoj_config.language');
+            $sql = $this
+                ->field(['submit.id as runid','submit.user_id as user_id','users.nick as nick', 'problem_id', 'language', 'submit.status as status', 'time', 'memory', 'submit_time'])
+                ->where($where)
+                ->order('submit_time')
+                ->limit($page * $page_limit, $page_limit)
+                ->join('users','submit.user_id = users.user_id')
+                ->buildSql();
+            $info['submit_info'] = Db::query($sql);
+            foreach ($info['submit_info'] as &$item){
                 $item['language'] = $language[$item['language']];
             }
+            $info['count'] = $this->where($where)->count();
             return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $info];
         } catch (Exception $e) {
-            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getTrace()];
+            return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
         }
     }
 

@@ -9,5 +9,7 @@ return array(
     'think\\composer\\' => array($vendorDir . '/topthink/think-installer/src'),
     'think\\captcha\\' => array($vendorDir . '/topthink/think-captcha/src'),
     'app\\' => array($baseDir . '/application'),
+    'Yosymfony\\Toml\\' => array($vendorDir . '/yosymfony/toml/src'),
+    'Yosymfony\\ParserUtils\\' => array($vendorDir . '/yosymfony/parser-utils/src'),
     'PHPMailer\\PHPMailer\\' => array($vendorDir . '/phpmailer/phpmailer/src'),
 );

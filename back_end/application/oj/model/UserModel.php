@@ -8,6 +8,7 @@
 
 namespace app\oj\model;
 
+use think\Db;
 use think\Exception;
 use think\Model;
 
@@ -33,16 +34,14 @@ class UserModel extends Model
         }
     }
 
-    public function deleUser($user_id)
-    {
-        $this->where('user_id', $user_id)->delete();
-        return ['code' => CODE_SUCCESS, 'msg' => '删除成功', 'data' => ''];
-    }
-
-    public function editUser($user_id, $data)
+    public function editUser($user_id = 0, $data, $nick = 0)
     {
         try {
-            $info = $this->where('user_id', $user_id)->update($data);
+            if($user_id !== 0){
+                $info = $this->where('user_id', $user_id)->update($data);
+            } else {
+                $info = $this->where('nick', $nick)->update($data);
+            }
             if ($info !== 0) {
                 return ['code' => CODE_SUCCESS, 'msg' => '更新成功', 'data' => $info];
             }
@@ -55,7 +54,9 @@ class UserModel extends Model
     public function searchUserById($user_id)
     {
         try {
-            $content = $this->where('user_id', $user_id)->find();
+            $content = $this
+                ->field(['user_id', 'nick', 'avatar', 'realname', 'school', 'major', 'class', 'contact', 'mail', 'desc'])
+                ->where('user_id', $user_id)->find();
             return ['code' => CODE_SUCCESS, 'msg' => '查找成功', 'data' => $content];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库异常', 'data' => $e->getMessage()];
@@ -65,7 +66,9 @@ class UserModel extends Model
     public function searchUserByNick($nick)
     {
         try {
-            $content = $this->where('nick', $nick)->find();
+            $content = $this
+                ->field(['user_id', 'nick', 'avatar', 'realname', 'school', 'major', 'class', 'contact', 'mail', 'desc'])
+                ->where('nick', $nick)->find();
             if (empty($content)) {
                 return ['code' => CODE_ERROR, 'msg' => '用户名不存在', 'data' => $content];
             }
@@ -79,23 +82,30 @@ class UserModel extends Model
     {
         // uncheck
         try {
-            $res = $this->where([['nick', '=', $req['nick']], ['password', '=', $req['password']]])->find();
+            $res = $this->where([['nick', '=', $req['nick']], ['password', '=', $req['password']]])
+                ->find();
             if ($res) {
+                $res['all_problems'] = Db::table('submit')
+                    ->field(['status', 'count(*) as cnt'])
+                    ->where('user_id', $res['user_id'])
+                    ->group('status')
+                    ->select();
                 return ['code' => CODE_SUCCESS, 'msg' => '登陆成功', 'data' => $res];
-            } else {
-                return ['code' => CODE_ERROR, 'msg' => '用户名或密码错误', 'data' => ''];
             }
+            return ['code' => CODE_ERROR, 'msg' => '用户名或密码错误', 'data' => ''];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];
         }
     }
 
-    public function user_rank()
+    public function user_rank($offset)
     {
         try {
-            $info = $this->where('state', 0)->select()->toArray();
+            $info = $this->field(['user_id', 'nick', 'school', 'desc', 'ac_num', 'wa_num'])
+                ->where('state', 0)->order('ac_num')->limit($offset, config())->select()->toArray();
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];
         }
     }
+
 }

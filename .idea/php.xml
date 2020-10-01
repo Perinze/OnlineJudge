@@ -6,6 +6,7 @@
       <path value="$PROJECT_DIR$/back_end/vendor/composer" />
       <path value="$PROJECT_DIR$/back_end/vendor/topthink/think-installer" />
       <path value="$PROJECT_DIR$/back_end/vendor/topthink/think-captcha" />
+      <path value="$PROJECT_DIR$/back_end/vendor/phpoffice/phpexcel" />
     </include_path>
   </component>
 </project>

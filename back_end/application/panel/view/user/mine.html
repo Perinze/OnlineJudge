@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>控制台 - 用户管理 - 个人信息</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="__CSS__/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="../../res/bacheditor/build/build.min.css" rel="stylesheet"> -->
+    <link href="__CSS__/sb-admin-2.css" rel="stylesheet">
+    <link href="__FONT__/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="__CSS__/plugins/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="__CSS__/mine.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div id="wrapper">
+    <!--顶栏&菜单栏-->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        {include file='layout/toolbar'}
+        {include file='layout/sidebar'}
+    </nav>
+
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">个人信息</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading"> 个人信息</div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12 col-lg-offset-2">
+                                <form action="#">
+                                    <div class="col-lg-6">
+                                        <input type="hidden" name="id" id="hidden1" value="{$id}">
+                                        <div class="form-group">
+                                            <div class="name_wrapper">
+                                                <div class="circle"></div>
+                                                <label>姓名：</label>
+                                                {if isset($rel)}{$rel.realname}{/if}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="power_wrapper">
+                                                <div class="circle"></div>
+                                                <label>权限：</label>
+                                                {if isset($rel)}{$rel.role}{/if}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="grade_wrapper">
+                                                <div class="circle"></div>
+                                                <label>届数：</label>
+                                                {if isset($rel)}{$rel.session}{/if}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="position_wrapper">
+                                                <div class="circle"></div>
+                                                <label>职务：</label>
+                                                {if isset($rel)}{$rel.position}{/if}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="sex_wrapper">
+                                                <div class="circle"></div>
+                                                <label>性别：</label>
+                                                {if isset($rel)}{$rel.sex}{/if}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>生日：</label>
+                                            <input class="form-control" name="birthday" id="birthday"
+                                                   value="{if isset($rel)}{$rel.birthday}{/if}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>班级：</label>
+                                            <input class="form-control" name="class" id="class"
+                                                   value="{if isset($rel)}{$rel.class}{/if}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>QQ：</label>
+                                            <input class="form-control" name="qq" id="qq"
+                                                   value="{if isset($rel)}{$rel.qq}{/if}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>电话：</label>
+                                            <input class="form-control" name="tel" id="tel"
+                                                   value="{if isset($rel)}{$rel.tel}{/if}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>邮箱：</label>
+                                            <input class="form-control" name="email" id="email"
+                                                   value="{if isset($rel)}{$rel.email}{/if}">
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="introduce_wrapper">
+                                                <div class="circle"></div>
+                                                <label>个人介绍：</label>
+                                                <textarea name="introduce" id="introduce" class="form-control" rows="8"
+                                                          autofocus="autofocus">{if isset($rel)}{$rel.introduce}{/if}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="introduce_wrapper">
+                                                <div class="circle"></div>
+                                                <label>我的寄语：</label>
+                                                <textarea name="message" id="message" class="form-control" rows="8"
+                                                          autofocus="autofocus">{if isset($rel)}{$rel.message}{/if}</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <button type="button" class="btn btn-default">保存</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="__JS__/jquery-1.11.0.js"></script>
+<script src="__JS__/bootstrap.min.js"></script>
+<script src="__JS__/plugins/metisMenu/metisMenu.min.js"></script>
+<script src="__JS__/sb-admin-2.js"></script>
+<script>
+    $("button").click(function () {
+        $.ajax({
+            url: "__API__/user/update_mine",
+            type: "post",
+            dataType: "json",
+            data: {
+                class:     $("#class").val(),
+                qq:        $("#qq").val(),
+                tel:       $("#tel").val(),
+                email:     $("#email").val(),
+                introduce: $("#introduce").val(),
+                message:   $("#message").val()
+            },
+            success: function (data) {
+                if (data.status == 0) {
+                    window.location.href = "__PANEL__/user/mine";
+                    alert(data.message);
+                    return true;
+                }
+                else if (data.status == -1) {
+                    alert(data.message);
+                    return false;
+                }
+            },
+        });
+    });
+</script>
+</body>
+</html>

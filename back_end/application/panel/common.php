@@ -1,41 +1,37 @@
 <?php
 
-function change_user_info(array $rel) {
-    if (isset($rel['data']['sex'])) {
-        if ($rel['data']['sex'] == 1) {
-            $rel['data']['sex'] = '男';
-        } else {
-            $rel['data']['sex'] = '女';
+function aoDataFormat($aoData, $column)
+{
+    $aoData = json_decode($aoData, false);
+    $data['offset'] = 0;
+    $data['limit'] = 10;
+    $data['where'] = [];
+    foreach ($aoData as $key => $val) {
+        if ($val->name === 'iDisplayStart') {
+            $data['offset'] = $val->value;
         }
-
-        if ($rel['data']['role'] == SUPER_ADMIN) {
-            $rel['data']['role'] = SUPER_ADMIN_NAME;
-        } elseif ($rel['data']['role'] == GENERAL_ADMIN) {
-            $rel['data']['role'] = GENERAL_ADMIN_NAME;
-        } elseif ($rel['data']['role'] == CIVILIAN) {
-            $rel['data']['role'] = CIVILIAN_NAME;
+        if ($val->name === 'iDisplayLength'){
+            $data['limit']= $val->value;
         }
-
-        // 义工服务队 队员
-        $rel['data']['position'] = $rel['data']['department'].$rel['data']['position'];
-    } else {
-        foreach ($rel['data'] as $key => $val) {
-            if ($rel['data'][$key]['sex'] == 1) {
-                $rel['data'][$key]['sex'] = '男';
-            } else {
-                $rel['data'][$key]['sex'] = '女';
-            }
-            
-            if ($rel['data'][$key]['role'] == SUPER_ADMIN) {
-                $rel['data'][$key]['role'] = SUPER_ADMIN_NAME;
-            } elseif ($rel['data'][$key]['role'] == GENERAL_ADMIN) {
-                $rel['data'][$key]['role'] = GENERAL_ADMIN_NAME;
-            } elseif ($rel['data'][$key]['role'] == CIVILIAN) {
-                $rel['data'][$key]['role'] = CIVILIAN_NAME;
-            }
-
-            $rel['data'][$key]['position'] = $rel['data'][$key]['department'].$rel['data'][$key]['position'];
+        if ($val->name === 'sSearch' && $val->value !== '') {
+            $data['where'][$column] = ['like', '%' . $val->value . '%'];
         }
     }
-    return $rel;
+    return $data;
+}
+
+function datatable_response($code, $where, $data, $model)
+{
+    $response = array(
+        'recordsTotal' => 0,
+        'recordsFiltered' => 0,
+        'data' => ''
+    );
+    if($code === CODE_SUCCESS){
+        $count = $model->where($where)->count();
+        $response['recordsTotal'] = $count;
+        $response['recordsFiltered'] = $count;
+        $response['data'] = $data;
+    }
+    return json_encode($response);
 }

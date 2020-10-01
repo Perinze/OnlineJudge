@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>控制台 - 题目内容 - 添加题目</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="__JS__/jquery-1.11.0.js"></script>
+    <!-- 样式文件 -->
+    <link rel="stylesheet" href="__UM__/themes/default/css/umeditor.css">
+    <link href="__CSS__/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="../../res/bacheditor/build/build.min.css" rel="stylesheet"> -->
+    <link href="__CSS__/sb-admin-2.css" rel="stylesheet">
+    <link href="__FONT__/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="__CSS__/plugins/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Styles -->
+    <link rel="stylesheet" href="__CSS__/plugins/tui-editor.css">
+    <link rel="stylesheet" href="__CSS__/plugins/tui-editor-contents.css">
+    <link rel="stylesheet" href="__CSS__/plugins/codemirror.css">
+    <link rel="stylesheet" href="__CSS__/plugins/github.min.css">
+</head>
+
+<body>
+
+<div id="wrapper">
+    <!--顶栏&菜单栏-->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        {include file='layout/toolbar'} {include file='layout/sidebar'}
+    </nav>
+
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">添加题目</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading"> 基本设置 </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <form action="">
+                                <!--http://ziqiangshe.applinzi.com/tp5/public/index.php/panel/blog/editblog-->
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>标题</label>
+                                        <input name="title" id="title" value="" class="form-control">
+                                        <p class="help-block">请输入题目的标题。</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>题目背景</label>
+                                        <div id="background"></div>
+                                        <p class="help-block">请输入文章的标题。</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>题目描述</label>
+                                        <div id="describe"></div>
+                                        <p class="help-block">请输入题目的描述。</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>输入格式</label>
+                                        <div id="input_format"></div>
+                                        <p class="help-block">请输入题目的输入格式。</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>输出格式</label>
+                                        <div id="output_format"></div>
+                                        <p class="help-block">请输入题目的输出格式。</p>
+                                    </div>
+                                    <div class="form-group column">
+                                        <label>样例输入</label>
+                                        <div>
+                                            <textarea name="sample_input" id="sample_input" cols="30" rows="10"></textarea>
+                                        </div>
+                                        <p class="help-block">请输入题目的样例输入。</p>
+                                    </div>
+                                    <div class="form-group column">
+                                        <label>样例输出</label>
+                                        <div>
+                                            <textarea name="sample_output" id="sample_output" cols="30" rows="10"></textarea>
+                                        </div>
+                                        <p class="help-block">请输入题目的样例输出。</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>提示</label>
+                                        <div id="hint"></div>
+                                        <p class="help-block">请输入题目的提示。</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>题目来源</label>
+                                        <input name="source" id="source" value="" class="form-control">
+                                        <p class="help-block">请输入题目的来源。</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>题目标签</label>
+                                        <div class="form-group" id="tags">
+
+                                        </div>
+                                        <div>
+                                            <button type="button" class="btn btn-default" onclick="add(1)">添加标签</button>
+                                        </div>
+                                    </div>
+                                    <div>
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <button type="button" class="btn btn-default" onclick="btn()">提交</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Scripts -->
+<script src="__JS__/plugins/markdown-it.js"></script>
+<script src="__JS__/plugins/to-markdown.js"></script>
+<script src="__JS__/tui-code-snippet.min.js"></script>
+<script src="__JS__/plugins/codemirror.min.js"></script>
+<script src="__JS__/plugins/highlight.min.js"></script>
+<script src="__JS__/plugins/squire-raw.js"></script>
+<script src="__JS__/tui-editor-Editor-full.js"></script>
+<script src="__JS__/bootstrap.min.js"></script>
+<script src="__JS__/plugins/metisMenu/metisMenu.min.js"></script>
+<script src="__JS__/sb-admin-2.js"></script>
+<script>
+    var background = new tui.Editor({
+        el: document.querySelector('#background'),
+        previewStyle: 'vertical',
+        height: '200px',
+        initialEditType: 'markdown',
+        initialValue: [],
+        exts: ['scrollSync']
+    });
+    var describe = new tui.Editor({
+        el: document.querySelector('#describe'),
+        previewStyle: 'vertical',
+        height: '200px',
+        initialEditType: 'markdown',
+        initialValue: [],
+        exts: ['scrollSync']
+    });
+    var hint = new tui.Editor({
+        el: document.querySelector('#hint'),
+        previewStyle: 'vertical',
+        height: '200px',
+        initialEditType: 'markdown',
+        initialValue: [],
+        exts: ['scrollSync']
+    });
+    var input_format = new tui.Editor({
+        el: document.querySelector('#input_format'),
+        previewStyle: 'vertical',
+        height: '200px',
+        initialEditType: 'markdown',
+        initialValue: [],
+        exts: ['scrollSync']
+    });
+    var output_format = new tui.Editor({
+        el: document.querySelector('#output_format'),
+        previewStyle: 'vertical',
+        height: '200px',
+        initialEditType: 'markdown',
+        initialValue: [],
+        exts: ['scrollSync']
+    });
+    var count = 0;
+
+    function btn()
+    {
+        let tag_array = [];
+        for (let i=0; i<count; i++) {
+            const val = "tagid" + i;
+            tag_array.push($("#"+val).val());
+        }
+        console.log(tag_array);
+        $.ajax({
+            url: "__PANEL__/problem/addProblem",
+            type: "post",
+            dataType: "json",
+            data: {
+                title:   $("#title").val(),
+                background:     background.getMarkdown(),
+                describe: describe.getMarkdown(),
+                input_format: input_format.getMarkdown(),
+                output_format: output_format.getMarkdown(),
+                hint: hint.getMarkdown(),
+                sample_input: $("#sample_input").val(),
+                sample_output: $("#sample_output").val(),
+                source:   $("#source").val(),
+                tag: JSON.stringify(tag_array),
+            },
+            success: function (data) {
+                if (data.status == 0) {
+                    alert(data.message);
+                    window.location.href = "__PANEL__/problem/index";
+                } else if (data.status == -1) {
+                    alert(data.message);
+                }
+            },
+        });
+    }
+
+    function dele(data){
+        $("#tagid"+data).remove();
+        $("#button"+data).remove();
+        count-=1;
+    }
+    function add(datas) {
+        var html = "";
+        $.ajax({
+            url: "__PANEL__/tag/getAllTags",
+            type: "post",
+            dataType: "json",
+            data: {},
+            success: function (data) {
+                if (data.status == 0) {
+                    html = "<select class=\"form-control\" name=\"tagid\" id=\"tagid"+ count + "\">\n";
+                    data.data.forEach(function (data) {
+                        html += "<option value="+ data.id+">" + data.name + "</option>\n";
+                    });
+                    html += "</select>";
+                    html += "<button id=button"+ count.toString() +" type=\"button\" class=\"btn btn-default\" onclick=\"dele("+ count.toString() +")\">删除标签</button>";
+                    $("#tags").append(html);
+                    $("#tagid" + count.toString()).val(datas);
+                    count += 1;
+                } else if (data.status == -1) {
+                    alert(data.message);
+                }
+            },
+        });
+
+    }
+</script>
+</body>
+</html>

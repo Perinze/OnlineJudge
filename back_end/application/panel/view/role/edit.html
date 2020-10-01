@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>控制台 - 权限管理</title>
+    <link href="__CSS__/bootstrap.min.css" rel="stylesheet">
+    <link href="__CSS__/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <link href="__CSS__/sb-admin-2.css" rel="stylesheet">
+    <link href="__CSS__/plugins/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="__FONT__/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<div id="wrapper">
+    <!--顶栏&菜单栏-->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        {include file='layout/toolbar'} {include file='layout/sidebar'}
+    </nav>
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">权限管理</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading"> 权限组管理 </div>
+                    <div class="panel-body">
+                        <div style="margin-left: 30px; margin-bottom: 20px">
+                            <!--选择权限组-->
+                            <div>
+                                <label style="margin-top: 20px" id="label_group"> 权限组{$name}</label>
+                            </div>
+
+                            <!--权限表-->
+                            <label style="margin-top: 20px">选择权限</label>
+                            <div>
+                                {foreach $auth as $key=>$value}
+                                    {if !empty($value.name)}
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" name="auth" id="inlineCheckbox1" value={$value.name} {$value.checked}>{$value.name}
+                                        </label>
+                                    {/if}
+                                {/foreach}
+                            </div>
+
+                            <!--按钮-->
+                            <div class="btn-toolbar" role="toolbar"></div>
+                            <div class="btn-group" style="margin-top: 20px">
+                                <button type="button" id="confirm_button" class="btn btn-default">修改</button>
+                                <button type="button" id="return_button" onclick="window.location.href='__PANEL__/role/index'" class="btn btn-default">返回</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="__JS__/jquery-1.11.0.js"></script>
+<script src="__JS__/bootstrap.min.js"></script>
+<script src="__JS__/plugins/metisMenu/metisMenu.min.js"></script>
+<script src="__JS__/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="__JS__/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script src="__JS__/sb-admin-2.js"></script>
+<script>
+    /**
+     * @return {string|null}
+     */
+    function getQueryString(name)
+    {
+        const reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        const r = window.location.search.substr(1).match(reg);
+        if(r!=null)return unescape(r[2]);
+        return null;
+    }
+
+    function getCheckBox() {
+        var checkID = [];//定义一个空数组
+        $("input[name='auth']:checked").each(function(i) {
+            checkID[i] =$(this).val();
+        });
+        return checkID;
+    }
+
+    $("#confirm_button").click(function (name) {
+        $.ajax({
+            url: "__PANEL__/role/updateRoleGroup",
+            type: "post",
+            dataType: "json",
+            data: {
+                'group_name': getQueryString('group_name'),
+                'authorities' : getCheckBox(),
+            },
+            success: function (data) {
+                if (data.status == 0) {
+                    window.location.href = "__PANEL__/role/index";
+                    alert(data.message);
+                } else {
+                    alert(data.message);
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>
+

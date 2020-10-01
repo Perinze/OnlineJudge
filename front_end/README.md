@@ -1,29 +1,21 @@
-# front_end
+# Online Judge Front-end
 
-## Project setup
-```
-npm install
-```
+武汉理工 OJ 前端项目
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## Usage
 
-### Compiles and minifies for production
-```
-npm run build
+```bash
+$ npm install # 安装依赖
+$ npm run serve # 启动本地开发(无MockData)
 ```
 
-### Run your tests
-```
-npm run test
+## MockServer
+
+在后端尚未开发完时可以使用 MockServer 来 Mock data。
+
+```bash
+$ npm run mock # 启动Mock服务器
+$ npm run dev # 启动Mock本地开发
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+把数据放在`/front_end/mock_server/data/`下即可

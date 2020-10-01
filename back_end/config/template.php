@@ -33,10 +33,11 @@ return [
     // 标签库标签结束标记
     'taglib_end'   => '}',
 
-    'tpl_replace_string'  =>  [
-        '__CSS__'=>'../../../public/static/assets/css',
-        '__JS__' => '../../../public/static/assets/js',
-        '__IMG__' => '../../../public/static/assets/img',
-        '__UPLOAD__' =>'../../../public/uploads/image',
+    'tpl_replace_string' => [
+        '__CSS__'    => '/OnlineJudge/back_end/public/static/css',
+        '__FONT__'   => '/OnlineJudge/back_end/public/static/fonts',
+        '__JS__'     => '/OnlineJudge/back_end/public/static/js',
+        '__IMG__'    => '/OnlineJudge/back_end/public/static/images',
+        '__DT__'     => '/OnlineJudge/back_end/public/static/datatable',
     ]
 ];
