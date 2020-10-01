@@ -155,7 +155,8 @@ class problem extends Base
                 }
             }
         }
-        $dir = iconv('UTF-8', 'GBK', $req['problem_id']);
+        // dir path is /path/to/data/$(id)$(environment)
+        $dir = iconv('UTF-8', 'GBK', $req['problem_id']) . config('wutoj_config.environment');
         $dir = $this->data_path . $dir;
         if (!file_exists($dir)) {
             if(!mkdir($dir, 0755, true) || !is_dir($dir)){
@@ -219,7 +220,7 @@ class problem extends Base
         }
         $i = 0;
         foreach ($data as $item){
-            $data_path = $problem_path.'/'.(string)$i . config('wutoj_config.environment');
+            $data_path = $problem_path.'/'.(string)$i;
             if (!file_exists($data_path)) {
                 if(!mkdir($data_path, 0755, true) || !is_dir($data_path)){
                     return apiReturn(CODE_ERROR, '创建目录失败', '');
