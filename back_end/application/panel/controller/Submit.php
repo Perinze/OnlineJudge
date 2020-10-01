@@ -54,6 +54,7 @@ class Submit extends Base
             post($submit_url[mt_rand(0, $length - 1)], json_encode(array(
                 'id' => (string)$info['data'],
                 'pid' => (string)$req['problem_id'],
+                'env' => (string)config('wutoj_config.environment'),
                 'source' => [
                     'language' => $req['language'],
                     'code' => $req['source_code'],

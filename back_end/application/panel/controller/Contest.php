@@ -27,7 +27,7 @@ class Contest extends Base
             return apiReturn(CODE_ERROR, $contest_validate->getError(), '');
         }
         foreach ($req['problems'] as $item){
-            $resp = $problem_model->editProblem($item, ['status' => CONTEST]);
+            $resp = $problem_model->changeProblemStatus($item, ['status' => CONTEST]);
             if($resp['code'] !== CODE_SUCCESS){
                 return apiReturn($resp['code'], $resp['msg'], $resp['data']);
             }
@@ -74,7 +74,7 @@ class Contest extends Base
 
         // update
         $req = input('post.');
-        $result = $contest_validate->scene('updateContest')->check($req);
+        $result = $contest_validate->scene('editContest')->check($req);
         if ($result !== true) {
             return apiReturn(CODE_ERROR, $contest_validate->getError(), '');
         }
@@ -85,13 +85,13 @@ class Contest extends Base
         $old_problem = json_decode($resp['data']['problems'], false);
         $status = $resp['data']['status'];
         foreach ($old_problem as $item){
-            $resp = $problem_model->editProblem($item, ['status' => USING]);
+            $resp = $problem_model->changeProblemStatus($item, ['status' => USING]);
             if($resp['code'] !== CODE_SUCCESS){
                 return apiReturn($resp['code'], $resp['msg'], $resp['data']);
             }
         }
         foreach ($req['problems'] as $item){
-            $resp = $problem_model->editProblem($item, ['status' => CONTEST]);
+            $resp = $problem_model->changeProblemStatus($item, ['status' => CONTEST]);
             if($resp['code'] !== CODE_SUCCESS){
                 return apiReturn($resp['code'], $resp['msg'], $resp['data']);
             }

@@ -808,4 +808,30 @@ export default {
 .user-card {
   transform-origin: calc((100% - 820px) / 2 + 90px);
 }
+
+@media screen and (max-width: 650px) {
+  .user-card {
+    .content {
+      width: 100%;
+      margin-left: -10px;
+
+      .main {
+        width: calc(100% - 90px);
+
+        .content-main {
+          .input-group {
+            .left-info {
+              display: none;
+            }
+          }
+
+          .charts {
+            width: 100%;
+            padding: 0;
+          }
+        }
+      }
+    }
+  }
+}
 </style>

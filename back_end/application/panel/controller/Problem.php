@@ -155,7 +155,8 @@ class problem extends Base
                 }
             }
         }
-        $dir = iconv('UTF-8', 'GBK', $req['problem_id']);
+        // dir path is /path/to/data/$(id)$(environment)
+        $dir = iconv('UTF-8', 'GBK', $req['problem_id']) . config('wutoj_config.environment');
         $dir = $this->data_path . $dir;
         if (!file_exists($dir)) {
             if(!mkdir($dir, 0755, true) || !is_dir($dir)){

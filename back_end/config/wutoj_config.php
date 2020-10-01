@@ -5,9 +5,10 @@ return [
     'host' => 'localhost',
     'port' => '6379',
     'user_rank_cache' => 'user_rank_cache',
+    'environment' => 'master',
     /* 提交 */
     'submit_url' => [
-        'http://10.143.216.128:8819/submit'
+        'http://10.143.216.128:8820/submit'
     ],
     /* 交题时间间隔 */
     'interval_time' => 5,
