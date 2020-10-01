@@ -575,22 +575,22 @@
               <label>Realname</label>
               <input type="text" placeholder="真实姓名" v-model="registerInfo.realname"/>
             </div>
-            <!-- <div class="wap-interact-row">
+            <div class="wap-interact-row">
               <label>School</label>
-              <input type="text" placeholder="学校全称"/>
+              <input type="text" placeholder="学校全称" v-model="registerInfo.school"/>
             </div>
             <div class="wap-interact-row">
               <label>Major</label>
-              <input type="text" placeholder="专业全称"/>
-            </div> -->
+              <input type="text" placeholder="专业全称" v-model="registerInfo.major"/>
+            </div>
             <div class="wap-interact-row">
               <label>Class</label>
               <input type="text" placeholder="班级简称" v-model="registerInfo.class"/>
             </div>
-            <!-- <div class="wap-interact-row">
+            <div class="wap-interact-row">
               <label>Phone</label>
-              <input type="text" placeholder="手机号码"/>
-            </div> -->
+              <input type="text" placeholder="手机号码" v-model="registerInfo.contact"/>
+            </div>
             <div class="wap-interact-row">
               <label>E-mail</label>
               <input type="text" placeholder="电子邮件地址，用于密码找回" v-model="registerInfo.mail"/>
@@ -798,16 +798,16 @@ export default {
         if (data.realname.length < 1) {
           reject("realname:必须输入真实姓名");
         }
-        if (!this.isWap && data.school.length < 1) {
+        if (data.school.length < 1) {
           reject("school:必须输入学校全称");
         }
-        if (!this.isWap && data.major.length < 1) {
+        if (data.major.length < 1) {
           reject("major:必须输入专业全称");
         }
         if (data.class.length < 1) {
           reject("major:必须输入班级简称");
         }
-        if (!this.isWap && data.contact.length < 1) {
+        if (data.contact.length < 1) {
           reject("contac:请输入手机号码");
           let pattern = /^(1.[0-9]{9})$/;
           if (pattern.test(data.contac)) {
@@ -1552,6 +1552,7 @@ export default {
     justify-content: space-between;
     color: #000;
     height: 100%;
+    overflow: auto;
 
     > div {
       display: flex;
