@@ -11,7 +11,7 @@ return [
         'http://10.143.216.128:8820/submit'
     ],
     /* 交题时间间隔 */
-    'interval_time' => 0,
+    'interval_time' => 1,
     /* 支持语言 */
     'language' => [
         'c.gcc',
