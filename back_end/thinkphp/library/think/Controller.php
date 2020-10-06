@@ -67,34 +67,7 @@ class Controller
         // 控制器初始化
         $this->initialize();
 
-        // 控制器中间件
-        if ($this->middleware) {
-            foreach ($this->middleware as $key => $val) {
-                if (!is_int($key)) {
-                    $only = $except = null;
-
-                    if (isset($val['only'])) {
-                        $only = array_map(function ($item) {
-                            return strtolower($item);
-                        }, $val['only']);
-                    } elseif (isset($val['except'])) {
-                        $except = array_map(function ($item) {
-                            return strtolower($item);
-                        }, $val['except']);
-                    }
-
-                    if (isset($only) && !in_array($this->request->action(), $only)) {
-                        continue;
-                    } elseif (isset($except) && in_array($this->request->action(), $except)) {
-                        continue;
-                    } else {
-                        $val = $key;
-                    }
-                }
-
-                $this->app['middleware']->controller($val);
-            }
-        }
+        $this->registerMiddleware();
 
         // 前置操作方法 即将废弃
         foreach ((array) $this->beforeActionList as $method => $options) {
@@ -107,6 +80,36 @@ class Controller
     // 初始化
     protected function initialize()
     {}
+
+    // 注册控制器中间件
+    public function registerMiddleware()
+    {
+        foreach ($this->middleware as $key => $val) {
+            if (!is_int($key)) {
+                $only = $except = null;
+
+                if (isset($val['only'])) {
+                    $only = array_map(function ($item) {
+                        return strtolower($item);
+                    }, $val['only']);
+                } elseif (isset($val['except'])) {
+                    $except = array_map(function ($item) {
+                        return strtolower($item);
+                    }, $val['except']);
+                }
+
+                if (isset($only) && !in_array($this->request->action(), $only)) {
+                    continue;
+                } elseif (isset($except) && in_array($this->request->action(), $except)) {
+                    continue;
+                } else {
+                    $val = $key;
+                }
+            }
+
+            $this->app['middleware']->controller($val);
+        }
+    }
 
     /**
      * 前置操作
@@ -155,7 +158,7 @@ class Controller
      */
     protected function fetch($template = '', $vars = [], $config = [])
     {
-        return $this->view->fetch($template, $vars, $config);
+        return Response::create($template, 'view')->assign($vars)->config($config);
     }
 
     /**
@@ -168,7 +171,7 @@ class Controller
      */
     protected function display($content = '', $vars = [], $config = [])
     {
-        return $this->view->display($content, $vars, $config);
+        return Response::create($content, 'view')->assign($vars)->config($config)->isContent(true);
     }
 
     /**

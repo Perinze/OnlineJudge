@@ -11,6 +11,7 @@
 
 namespace think\model\relation;
 
+use Closure;
 use think\db\Query;
 use think\Exception;
 use think\Loader;
@@ -53,7 +54,7 @@ class MorphMany extends Relation
      */
     public function getRelation($subRelation = '', $closure = null)
     {
-        if ($closure) {
+        if ($closure instanceof Closure) {
             $closure($this->query);
         }
 
@@ -186,27 +187,31 @@ class MorphMany extends Relation
      * @param  \Closure $closure 闭包
      * @param  string   $aggregate 聚合查询方法
      * @param  string   $field 字段
+     * @param  string   $name 统计字段别名
      * @return integer
      */
-    public function relationCount($result, $closure, $aggregate = 'count', $field = '*')
+    public function relationCount($result, $closure, $aggregate = 'count', $field = '*', &$name = '')
     {
-        $pk    = $result->getPk();
-        $count = 0;
+        $pk = $result->getPk();
 
-        if (isset($result->$pk)) {
-            if ($closure) {
-                $closure($this->query);
-            }
-
-            $count = $this->query
-                ->where([
-                    [$this->morphKey, '=', $result->$pk],
-                    [$this->morphType, '=', $this->type],
-                ])
-                ->$aggregate($field);
+        if (!isset($result->$pk)) {
+            return 0;
         }
 
-        return $count;
+        if ($closure instanceof Closure) {
+            $return = $closure($this->query);
+
+            if ($return && is_string($return)) {
+                $name = $return;
+            }
+        }
+
+        return $this->query
+            ->where([
+                [$this->morphKey, '=', $result->$pk],
+                [$this->morphType, '=', $this->type],
+            ])
+            ->$aggregate($field);
     }
 
     /**
@@ -215,12 +220,17 @@ class MorphMany extends Relation
      * @param  \Closure $closure 闭包
      * @param  string   $aggregate 聚合查询方法
      * @param  string   $field 字段
+     * @param  string   $aggregateAlias 聚合字段别名
      * @return string
      */
-    public function getRelationCountQuery($closure, $aggregate = 'count', $field = '*')
+    public function getRelationCountQuery($closure, $aggregate = 'count', $field = '*', &$aggregateAlias = '')
     {
-        if ($closure) {
-            $closure($this->query);
+        if ($closure instanceof Closure) {
+            $return = $closure($this->query);
+
+            if ($return && is_string($return)) {
+                $aggregateAlias = $return;
+            }
         }
 
         return $this->query
@@ -244,7 +254,7 @@ class MorphMany extends Relation
         // 预载入关联查询 支持嵌套预载入
         $this->query->removeOption('where');
 
-        if ($closure) {
+        if ($closure instanceof Closure) {
             $closure($this->query);
         }
 
@@ -263,10 +273,22 @@ class MorphMany extends Relation
     /**
      * 保存（新增）当前关联数据对象
      * @access public
-     * @param  mixed $data 数据 可以使用数组 关联模型对象 和 关联对象的主键
+     * @param  mixed $data 数据
      * @return Model|false
      */
     public function save($data)
+    {
+        $model = $this->make();
+
+        return $model->save($data) ? $model : false;
+    }
+
+    /**
+     * 创建关联对象实例
+     * @param array $data
+     * @return Model
+     */
+    public function make($data = [])
     {
         if ($data instanceof Model) {
             $data = $data->getData();
@@ -275,12 +297,10 @@ class MorphMany extends Relation
         // 保存关联表数据
         $pk = $this->parent->getPk();
 
-        $model = new $this->model;
-
         $data[$this->morphKey]  = $this->parent->$pk;
         $data[$this->morphType] = $this->type;
 
-        return $model->save($data) ? $model : false;
+        return new $this->model($data);
     }
 
     /**
