@@ -56,7 +56,7 @@ class UserValidate extends Validate
 
     protected $scene = [
         'addUser' => ['nick', 'password', 'realname', 'school', 'major', 'class', 'contact', 'mail', 'status'],
-        'editUser' => ['user_id', 'nick', 'realname', 'school', 'major', 'class', 'contact', 'mail', 'status'],
+        'editUser' => [ 'nick', 'realname', 'school', 'major', 'class', 'contact', 'mail', 'status'],
         'searchUser_id' => ['user_id'],
         'searchUser_nick' => ['nick'],
         'deleteUser' => ['user_id'],
