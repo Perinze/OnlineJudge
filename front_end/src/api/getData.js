@@ -90,14 +90,13 @@ export const getPvData = (data, header) =>
  * 获取题目列表
  */
 
-export const getProblemList = () => fetch("/Problem/displayAllProblem");
+export const getProblemList = (data) => fetch("/Problem/displayAllProblem", "post", data);
 
 /**
  * 获取题目信息
  */
 
-export const getProblem = (data) =>
-  fetch("/Problem/displayProblem", "post", data);
+export const getProblem = (data) => fetch("/Problem/displayProblem", "post", data);
 
 /**
  * Submit Code
