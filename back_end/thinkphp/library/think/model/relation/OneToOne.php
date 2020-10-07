@@ -11,6 +11,7 @@
 
 namespace think\model\relation;
 
+use Closure;
 use think\db\Query;
 use think\Exception;
 use think\Loader;
@@ -87,7 +88,7 @@ abstract class OneToOne extends Relation
             $joinOn = $name . '.' . $this->localKey . '=' . $joinAlias . '.' . $this->foreignKey;
         }
 
-        if ($closure) {
+        if ($closure instanceof Closure) {
             // 执行闭包查询
             $closure($query);
             // 使用withField指定获取关联的字段，如
@@ -237,20 +238,6 @@ abstract class OneToOne extends Relation
     }
 
     /**
-     * 关联统计
-     * @access public
-     * @param  Model    $result  数据对象
-     * @param  \Closure $closure 闭包
-     * @param  string   $aggregate 聚合查询方法
-     * @param  string   $field 字段
-     * @return integer
-     */
-    public function relationCount($result, $closure, $aggregate = 'count', $field = '*')
-    {
-        throw new Exception('relation not support: ' . $aggregate);
-    }
-
-    /**
      * 一对一 关联模型预查询拼装
      * @access public
      * @param  string $model    模型名称
@@ -325,7 +312,7 @@ abstract class OneToOne extends Relation
     protected function eagerlyWhere($where, $key, $relation, $subRelation = '', $closure = null)
     {
         // 预载入关联查询 支持嵌套预载入
-        if ($closure) {
+        if ($closure instanceof Closure) {
             $closure($this->query);
 
             if ($field = $this->query->getOptions('with_field')) {

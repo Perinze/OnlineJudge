@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7b52a3d065d059f22a297f5296595ed7",
+    "content-hash": "2ed4f11f0cb237624fac278accdd3b4c",
     "packages": [
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.1.4",
+            "version": "v6.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "c5e61d0729507049cec9673aa1a679f9adefd683"
+                "reference": "2c2370ba3df7034f9eb7b8f387c97b52b2ba5ad0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/c5e61d0729507049cec9673aa1a679f9adefd683",
-                "reference": "c5e61d0729507049cec9673aa1a679f9adefd683",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/2c2370ba3df7034f9eb7b8f387c97b52b2ba5ad0",
+                "reference": "2c2370ba3df7034f9eb7b8f387c97b52b2ba5ad0",
                 "shasum": ""
             },
             "require": {
@@ -66,7 +66,7 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2019-12-10T11:17:38+00:00"
+            "time": "2020-07-14T18:50:27+00:00"
         },
         {
             "name": "phpoffice/phpexcel",
@@ -133,16 +133,16 @@
         },
         {
             "name": "topthink/framework",
-            "version": "v5.1.27",
+            "version": "v5.1.39",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/framework.git",
-                "reference": "f607b8fd51cc25e4da7e2f4ef0d5e64f390d36bd"
+                "reference": "5762858f3d58faafb3a39427f8788884b2927007"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/framework/zipball/f607b8fd51cc25e4da7e2f4ef0d5e64f390d36bd",
-                "reference": "f607b8fd51cc25e4da7e2f4ef0d5e64f390d36bd",
+                "url": "https://api.github.com/repos/top-think/framework/zipball/5762858f3d58faafb3a39427f8788884b2927007",
+                "reference": "5762858f3d58faafb3a39427f8788884b2927007",
                 "shasum": ""
             },
             "require": {
@@ -180,7 +180,7 @@
                 "orm",
                 "thinkphp"
             ],
-            "time": "2018-10-22T02:10:08+00:00"
+            "time": "2019-11-17T23:22:02+00:00"
         },
         {
             "name": "topthink/think-captcha",
