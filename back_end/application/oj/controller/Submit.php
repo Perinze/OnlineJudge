@@ -130,11 +130,11 @@ class Submit extends Base
             return apiReturn(CODE_ERROR, '未登录', '');
         }
         $contest_id = 0;
-        $interval_time = config('wutoj_config.interval_time');// 交题时间限制
+/*        $interval_time = config('wutoj_config.interval_time');// 交题时间限制
         $ok = $oj_cache_model->get_submit_cache($user_id);
         if($ok['code'] === CODE_SUCCESS){
             return apiReturn(CODE_ERROR, '请'.$interval_time.'S后再交题');
-        }
+        }*/
 
         // check user authority
         if ($problem['data']['status'] === CONTEST) {

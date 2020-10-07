@@ -17,7 +17,7 @@
     ],
     "require": {
         "php": ">=5.6.0",
-        "topthink/framework": "5.1.27",
+        "topthink/framework": "5.1.39",
         "phpmailer/phpmailer": "~6.1",
         "topthink/think-captcha": "2.0.x-dev",
         "topthink/think-installer": "2.0.x-dev",

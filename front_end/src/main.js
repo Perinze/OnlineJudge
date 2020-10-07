@@ -9,6 +9,7 @@ import {
   Form,
   FormItem,
   DatePicker,
+  Pagination
 } from "element-ui";
 import App from "./App";
 import router from "./router/router";
@@ -37,6 +38,7 @@ Vue.use(TableColumn);
 Vue.use(Form);
 Vue.use(FormItem);
 Vue.use(DatePicker);
+Vue.use(Pagination);
 Vue.use(codemirror);
 Vue.use(loadingPlugin, {
   progressColor: "#4288ce",

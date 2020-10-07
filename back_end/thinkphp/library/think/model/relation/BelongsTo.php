@@ -11,6 +11,7 @@
 
 namespace think\model\relation;
 
+use Closure;
 use think\Loader;
 use think\Model;
 
@@ -49,7 +50,7 @@ class BelongsTo extends OneToOne
      */
     public function getRelation($subRelation = '', $closure = null)
     {
-        if ($closure) {
+        if ($closure instanceof Closure) {
             $closure($this->query);
         }
 
@@ -74,17 +75,53 @@ class BelongsTo extends OneToOne
      * @param  \Closure $closure 闭包
      * @param  string   $aggregate 聚合查询方法
      * @param  string   $field 字段
+     * @param  string   $aggregateAlias 聚合字段别名
      * @return string
      */
-    public function getRelationCountQuery($closure, $aggregate = 'count', $field = '*')
+    public function getRelationCountQuery($closure, $aggregate = 'count', $field = '*', &$aggregateAlias = '')
     {
-        if ($closure) {
-            $closure($this->query);
+        if ($closure instanceof Closure) {
+            $return = $closure($this->query);
+
+            if ($return && is_string($return)) {
+                $aggregateAlias = $return;
+            }
         }
 
         return $this->query
             ->whereExp($this->localKey, '=' . $this->parent->getTable() . '.' . $this->foreignKey)
             ->fetchSql()
+            ->$aggregate($field);
+    }
+
+    /**
+     * 关联统计
+     * @access public
+     * @param  Model    $result  数据对象
+     * @param  \Closure $closure 闭包
+     * @param  string   $aggregate 聚合查询方法
+     * @param  string   $field 字段
+     * @param  string   $name 统计字段别名
+     * @return integer
+     */
+    public function relationCount($result, $closure, $aggregate = 'count', $field = '*', &$name = '')
+    {
+        $foreignKey = $this->foreignKey;
+
+        if (!isset($result->$foreignKey)) {
+            return 0;
+        }
+
+        if ($closure instanceof Closure) {
+            $return = $closure($this->query);
+
+            if ($return && is_string($return)) {
+                $name = $return;
+            }
+        }
+
+        return $this->query
+            ->where($this->localKey, '=', $result->$foreignKey)
             ->$aggregate($field);
     }
 
@@ -99,7 +136,23 @@ class BelongsTo extends OneToOne
      */
     public function has($operator = '>=', $count = 1, $id = '*', $joinType = 'INNER')
     {
-        return $this->parent;
+        $table      = $this->query->getTable();
+        $model      = basename(str_replace('\\', '/', get_class($this->parent)));
+        $relation   = basename(str_replace('\\', '/', $this->model));
+        $localKey   = $this->localKey;
+        $foreignKey = $this->foreignKey;
+        $softDelete = $this->query->getOptions('soft_delete');
+
+        return $this->parent->db()
+            ->alias($model)
+            ->whereExists(function ($query) use ($table, $model, $relation, $localKey, $foreignKey) {
+                $query->table([$table => $relation])
+                    ->field($relation . '.' . $localKey)
+                    ->whereExp($model . '.' . $foreignKey, '=' . $relation . '.' . $localKey)
+                    ->when($softDelete, function ($query) use ($softDelete, $relation) {
+                        $query->where($relation . strstr($softDelete[0], '.'), '=' == $softDelete[1][0] ? $softDelete[1][1] : null);
+                    });
+            });
     }
 
     /**
@@ -119,12 +172,16 @@ class BelongsTo extends OneToOne
             $this->getQueryWhere($where, $relation);
         }
 
-        $fields = $this->getRelationQueryFields($fields, $model);
+        $fields     = $this->getRelationQueryFields($fields, $model);
+        $softDelete = $this->query->getOptions('soft_delete');
 
         return $this->parent->db()
             ->alias($model)
             ->field($fields)
             ->join([$table => $relation], $model . '.' . $this->foreignKey . '=' . $relation . '.' . $this->localKey, $this->joinType)
+            ->when($softDelete, function ($query) use ($softDelete, $relation) {
+                $query->where($relation . strstr($softDelete[0], '.'), '=' == $softDelete[1][0] ? $softDelete[1][1] : null);
+            })
             ->where($where);
     }
 
@@ -228,10 +285,7 @@ class BelongsTo extends OneToOne
      */
     public function associate($model)
     {
-        $foreignKey = $this->foreignKey;
-        $pk         = $model->getPk();
-
-        $this->parent->setAttr($foreignKey, $model->$pk);
+        $this->parent->setAttr($this->foreignKey, $model->getKey());
         $this->parent->save();
 
         return $this->parent->setRelation($this->relation, $model);
@@ -244,9 +298,7 @@ class BelongsTo extends OneToOne
      */
     public function dissociate()
     {
-        $foreignKey = $this->foreignKey;
-
-        $this->parent->setAttr($foreignKey, null);
+        $this->parent->setAttr($this->foreignKey, null);
         $this->parent->save();
 
         return $this->parent->setRelation($this->relation, null);
