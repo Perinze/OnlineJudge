@@ -102,7 +102,7 @@
                   solveInfoMap(index - 1).indexOf(
                     String.fromCharCode(problemIndex + 64)
                   )
-                ].success_time
+                ].success_time | penaltyFilter
               }}</span>
             </div>
           </div>
@@ -745,7 +745,7 @@ export default {
         this.contest_info = {
           title: response.data.contest_name,
           problems: response.data.problems,
-          prize: response.data.prize,
+          prize: response.data.prize || [0, 0, 0],
         };
       } else {
         this.$message({
@@ -761,7 +761,7 @@ export default {
       });
       if (response.status == 0) {
         let cnt = 1;
-        response.data.array.forEach((val) => {
+        response.data.forEach((val) => {
           this.resRank.push({
             id: val.user_id,
             rank: val.nick.indexOf("*") === 0 ? "" : cnt, // 打星

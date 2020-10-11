@@ -11,6 +11,7 @@
 
 namespace think\model\relation;
 
+use Closure;
 use think\db\Query;
 use think\Loader;
 use think\Model;
@@ -50,7 +51,7 @@ class HasOne extends OneToOne
     {
         $localKey = $this->localKey;
 
-        if ($closure) {
+        if ($closure instanceof Closure) {
             $closure($this->query);
         }
 
@@ -74,17 +75,52 @@ class HasOne extends OneToOne
      * @param  \Closure $closure 闭包
      * @param  string   $aggregate 聚合查询方法
      * @param  string   $field 字段
+     * @param  string   $aggregateAlias 聚合字段别名
      * @return string
      */
-    public function getRelationCountQuery($closure, $aggregate = 'count', $field = '*')
+    public function getRelationCountQuery($closure, $aggregate = 'count', $field = '*', &$aggregateAlias = '')
     {
-        if ($closure) {
-            $closure($this->query);
+        if ($closure instanceof Closure) {
+            $return = $closure($this->query);
+
+            if ($return && is_string($return)) {
+                $aggregateAlias = $return;
+            }
         }
 
         return $this->query
-            ->whereExp($this->foreignKey, '=' . $this->parent->getTable() . '.' . $this->parent->getPk())
+            ->whereExp($this->foreignKey, '=' . $this->parent->getTable() . '.' . $this->localKey)
             ->fetchSql()
+            ->$aggregate($field);
+    }
+
+    /**
+     * 关联统计
+     * @access public
+     * @param  Model    $result  数据对象
+     * @param  \Closure $closure 闭包
+     * @param  string   $aggregate 聚合查询方法
+     * @param  string   $field 字段
+     * @param  string   $name 统计字段别名
+     * @return integer
+     */
+    public function relationCount($result, $closure, $aggregate = 'count', $field = '*', &$name = '')
+    {
+        $localKey = $this->localKey;
+
+        if (!isset($result->$localKey)) {
+            return 0;
+        }
+
+        if ($closure instanceof Closure) {
+            $return = $closure($this->query);
+            if ($return && is_string($return)) {
+                $name = $return;
+            }
+        }
+
+        return $this->query
+            ->where($this->foreignKey, '=', $result->$localKey)
             ->$aggregate($field);
     }
 
@@ -104,13 +140,17 @@ class HasOne extends OneToOne
         $relation   = basename(str_replace('\\', '/', $this->model));
         $localKey   = $this->localKey;
         $foreignKey = $this->foreignKey;
+        $softDelete = $this->query->getOptions('soft_delete');
 
         return $this->parent->db()
             ->alias($model)
             ->whereExists(function ($query) use ($table, $model, $relation, $localKey, $foreignKey) {
                 $query->table([$table => $relation])
                     ->field($relation . '.' . $foreignKey)
-                    ->whereExp($model . '.' . $localKey, '=' . $relation . '.' . $foreignKey);
+                    ->whereExp($model . '.' . $localKey, '=' . $relation . '.' . $foreignKey)
+                    ->when($softDelete, function ($query) use ($softDelete, $relation) {
+                        $query->where($relation . strstr($softDelete[0], '.'), '=' == $softDelete[1][0] ? $softDelete[1][1] : null);
+                    });
             });
     }
 
@@ -131,12 +171,16 @@ class HasOne extends OneToOne
             $this->getQueryWhere($where, $relation);
         }
 
-        $fields = $this->getRelationQueryFields($fields, $model);
+        $fields     = $this->getRelationQueryFields($fields, $model);
+        $softDelete = $this->query->getOptions('soft_delete');
 
         return $this->parent->db()
             ->alias($model)
             ->field($fields)
             ->join([$table => $relation], $model . '.' . $this->localKey . '=' . $relation . '.' . $this->foreignKey, $this->joinType)
+            ->when($softDelete, function ($query) use ($softDelete, $relation) {
+                $query->where($relation . strstr($softDelete[0], '.'), '=' == $softDelete[1][0] ? $softDelete[1][1] : null);
+            })
             ->where($where);
     }
 

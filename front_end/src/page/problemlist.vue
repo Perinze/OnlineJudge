@@ -18,6 +18,15 @@
         items[index - 1].statistics.ac + "/" + items[index - 1].statistics.all
       }}</span>
     </div>
+    <div class="problem-pager">
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :page-size="20"
+        :total="counts"
+        @current-change="changePage"
+      />
+    </div>
   </div>
 </template>
 
@@ -29,10 +38,11 @@ export default {
   data() {
     return {
       items: [],
+      counts: 0,
     };
   },
   async beforeMount() {
-    await this.renderProblemList();
+    await this.renderProblemList(1);
   },
   methods: {
     goto: function(pid) {
@@ -45,13 +55,15 @@ export default {
         });
       }
     },
-    renderProblemList: async function() {
+    renderProblemList: async function(page = 0) {
       try {
         this.$loading.open();
-        let response = await getProblemList();
+        let response = await getProblemList({ page: page-1 });
         if (response.status == 0) {
           // success
+          this.counts = response.data.count;
           let data = response.data.data;
+          this.items = [];
           data.forEach((val) => {
             let res = {
               id: val.problem_id,
@@ -89,6 +101,9 @@ export default {
         this.$loading.hide();
       }
     },
+    changePage(page) {
+      this.renderProblemList(page);
+    }
   },
 };
 </script>
@@ -101,16 +116,11 @@ export default {
 .problem-element {
   position: relative;
   background: white;
-  width: 75%;
   height: 45px;
-  margin: 0 auto 10px auto;
   border-radius: 0.5em;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 5px;
-  min-width: 500px;
-  max-width: 990px;
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
   &:first-child {
     margin-top: 88px;
@@ -122,6 +132,20 @@ export default {
     display: flex;
     align-items: center;
   }
+}
+
+.problem-element, .problem-pager {
+  width: 75%;
+  margin: 0 auto 10px auto;
+  min-width: 500px;
+  max-width: 990px;
+  padding: 0 5px;
+}
+
+.problem-pager {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
 }
 
 .icon {
@@ -158,7 +182,7 @@ export default {
 }
 
 @media screen and (max-width: 650px) {
-  .problem-element {
+  .problem-element, .problem-pager {
     margin: inherit auto;
     width: calc(100% - 20px);
     min-width: unset;

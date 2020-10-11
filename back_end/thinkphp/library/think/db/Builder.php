@@ -174,9 +174,9 @@ abstract class Builder
             return $data->getValue();
         }
 
-        $query->bind($data, isset($bind[$key]) ? $bind[$key] : PDO::PARAM_STR);
+        $name = $query->bind($data, isset($bind[$key]) ? $bind[$key] : PDO::PARAM_STR);
 
-        return '?';
+        return ':' . $name;
     }
 
     /**
@@ -313,9 +313,10 @@ abstract class Builder
                     // 使用闭包查询
                     $newQuery = $query->newQuery()->setConnection($this->connection);
                     $value($newQuery);
-                    $whereClause = $this->buildWhere($query, $newQuery->getOptions('where'));
+                    $whereClause = $this->buildWhere($newQuery, $newQuery->getOptions('where'));
 
                     if (!empty($whereClause)) {
+                        $query->bind($newQuery->getBind(false));
                         $str[] = ' ' . $logic . ' ( ' . $whereClause . ' )';
                     }
                 } elseif (is_array($field)) {
@@ -407,12 +408,15 @@ abstract class Builder
             $jsonType = $query->getJsonFieldType($field);
             $bindType = $this->connection->getFieldBindType($jsonType);
         } else {
-            $bindType = isset($binds[$field]) ? $binds[$field] : PDO::PARAM_STR;
+            $bindType = isset($binds[$field]) && 'LIKE' != $exp ? $binds[$field] : PDO::PARAM_STR;
         }
 
         if (is_scalar($value) && !in_array($exp, ['EXP', 'NOT NULL', 'NULL', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN']) && strpos($exp, 'TIME') === false) {
-            $query->bind($value, $bindType);
-            $value = '?';
+            if (0 === strpos($value, ':') && $query->isBind(substr($value, 1))) {
+            } else {
+                $name  = $query->bind($value, $bindType);
+                $value = ':' . $name;
+            }
         }
 
         // 解析查询表达式
@@ -447,13 +451,11 @@ abstract class Builder
         // 模糊匹配
         if (is_array($value)) {
             foreach ($value as $item) {
-                $bind[]  = [$item, $bindType];
-                $array[] = $key . ' ' . $exp . ' ?';
+                $name    = $query->bind($item, PDO::PARAM_STR);
+                $array[] = $key . ' ' . $exp . ' :' . $name;
             }
 
-            $query->bind($bind);
-
-            $whereStr = '(' . implode($array, ' ' . strtoupper($logic) . ' ') . ')';
+            $whereStr = '(' . implode(' ' . strtoupper($logic) . ' ', $array) . ')';
         } else {
             $whereStr = $key . ' ' . $exp . ' ' . $value;
         }
@@ -534,12 +536,10 @@ abstract class Builder
         // BETWEEN 查询
         $data = is_array($value) ? $value : explode(',', $value);
 
-        $bind[] = [$data[0], $bindType];
-        $bind[] = [$data[1], $bindType];
+        $min = $query->bind($data[0], $bindType);
+        $max = $query->bind($data[1], $bindType);
 
-        $query->bind($bind);
-
-        return $key . ' ' . $exp . ' ? AND ? ';
+        return $key . ' ' . $exp . ' :' . $min . ' AND :' . $max . ' ';
     }
 
     /**
@@ -605,6 +605,10 @@ abstract class Builder
             $value = $this->parseClosure($query, $value);
         }
 
+        if ('=' == $exp && is_null($value)) {
+            return $key . ' IS NULL';
+        }
+
         return $key . ' ' . $exp . ' ' . $value;
     }
 
@@ -648,21 +652,23 @@ abstract class Builder
         // IN 查询
         if ($value instanceof \Closure) {
             $value = $this->parseClosure($query, $value, false);
+        } elseif ($value instanceof Expression) {
+            $value = $value->getValue();
         } else {
             $value = array_unique(is_array($value) ? $value : explode(',', $value));
-
-            $bind  = [];
             $array = [];
 
             foreach ($value as $k => $v) {
-                $bind[]  = [$v, $bindType];
-                $array[] = '?';
+                $name    = $query->bind($v, $bindType);
+                $array[] = ':' . $name;
             }
 
-            $zone = implode(',', $array);
-            $query->bind($bind);
-
-            $value = empty($zone) ? "''" : $zone;
+            if (count($array) == 1) {
+                return $key . ('IN' == $exp ? ' = ' : ' <> ') . $array[0];
+            } else {
+                $zone  = implode(',', $array);
+                $value = empty($zone) ? "''" : $zone;
+            }
         }
 
         return $key . ' ' . $exp . ' (' . $value . ')';
@@ -728,9 +734,9 @@ abstract class Builder
             }
         }
 
-        $query->bind($value, $bindType);
+        $name = $query->bind($value, $bindType);
 
-        return '?';
+        return ':' . $name;
     }
 
     /**

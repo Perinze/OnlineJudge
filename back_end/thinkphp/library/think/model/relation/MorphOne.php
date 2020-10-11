@@ -11,6 +11,7 @@
 
 namespace think\model\relation;
 
+use Closure;
 use think\db\Query;
 use think\Exception;
 use think\Loader;
@@ -53,7 +54,7 @@ class MorphOne extends Relation
      */
     public function getRelation($subRelation = '', $closure = null)
     {
-        if ($closure) {
+        if ($closure instanceof Closure) {
             $closure($this->query);
         }
 
@@ -186,7 +187,7 @@ class MorphOne extends Relation
     protected function eagerlyMorphToOne($where, $relation, $subRelation = '', $closure = null)
     {
         // 预载入关联查询 支持嵌套预载入
-        if ($closure) {
+        if ($closure instanceof Closure) {
             $closure($this->query);
         }
 
@@ -206,22 +207,33 @@ class MorphOne extends Relation
     /**
      * 保存（新增）当前关联数据对象
      * @access public
-     * @param  mixed $data 数据 可以使用数组 关联模型对象 和 关联对象的主键
+     * @param mixed $data 数据
      * @return Model|false
      */
     public function save($data)
     {
+        $model = $this->make();
+        return $model->save($data) ? $model : false;
+    }
+
+    /**
+     * 创建关联对象实例
+     * @param array $data
+     * @return Model
+     */
+    public function make($data = [])
+    {
         if ($data instanceof Model) {
             $data = $data->getData();
         }
+
         // 保存关联表数据
         $pk = $this->parent->getPk();
 
-        $model = new $this->model;
-
         $data[$this->morphKey]  = $this->parent->$pk;
         $data[$this->morphType] = $this->type;
-        return $model->save($data) ? $model : false;
+
+        return new $this->model($data);
     }
 
     /**

@@ -361,7 +361,7 @@ abstract class Connection
 
         list($tableName) = explode(' ', $tableName);
 
-        if (!strpos($tableName, '.')) {
+        if (false === strpos($tableName, '.')) {
             $schema = $this->getConfig('database') . '.' . $tableName;
         } else {
             $schema = $tableName;
@@ -1246,21 +1246,13 @@ abstract class Connection
      * @access public
      * @param  Query     $query 查询对象
      * @param  string    $field   字段名
-     * @param  bool      $default   默认值
+     * @param  mixed     $default   默认值
+     * @param  bool      $one   是否返回一个值
      * @return mixed
      */
-    public function value(Query $query, $field, $default = null)
+    public function value(Query $query, $field, $default = null, $one = true)
     {
         $options = $query->getOptions();
-
-        if (empty($options['fetch_sql']) && !empty($options['cache'])) {
-            $cache  = $options['cache'];
-            $result = $this->getCacheData($query, $cache, null, $key);
-
-            if (false !== $result) {
-                return $result;
-            }
-        }
 
         if (isset($options['field'])) {
             $query->removeOption('field');
@@ -1271,7 +1263,19 @@ abstract class Connection
         }
 
         $query->setOption('field', $field);
-        $query->setOption('limit', 1);
+
+        if (empty($options['fetch_sql']) && !empty($options['cache'])) {
+            $cache  = $options['cache'];
+            $result = $this->getCacheData($query, $cache, null, $key);
+
+            if (false !== $result) {
+                return $result;
+            }
+        }
+
+        if ($one) {
+            $query->setOption('limit', 1);
+        }
 
         // 生成查询SQL
         $sql = $this->builder->select($query);
@@ -1309,14 +1313,18 @@ abstract class Connection
      * @access public
      * @param  Query     $query     查询对象
      * @param  string    $aggregate 聚合方法
-     * @param  string    $field     字段名
+     * @param  mixed     $field     字段名
      * @return mixed
      */
     public function aggregate(Query $query, $aggregate, $field)
     {
-        $field = $aggregate . '(' . $this->builder->parseKey($query, $field, true) . ') AS tp_' . strtolower($aggregate);
+        if (is_string($field) && 0 === stripos($field, 'DISTINCT ')) {
+            list($distinct, $field) = explode(' ', $field);
+        }
 
-        return $this->value($query, $field, 0);
+        $field = $aggregate . '(' . (!empty($distinct) ? 'DISTINCT ' : '') . $this->builder->parseKey($query, $field, true) . ') AS tp_' . strtolower($aggregate);
+
+        return $this->value($query, $field, 0, false);
     }
 
     /**
@@ -1330,16 +1338,6 @@ abstract class Connection
     public function column(Query $query, $field, $key = '')
     {
         $options = $query->getOptions();
-
-        if (empty($options['fetch_sql']) && !empty($options['cache'])) {
-            // 判断查询缓存
-            $cache  = $options['cache'];
-            $result = $this->getCacheData($query, $cache, null, $guid);
-
-            if (false !== $result) {
-                return $result;
-            }
-        }
 
         if (isset($options['field'])) {
             $query->removeOption('field');
@@ -1357,6 +1355,16 @@ abstract class Connection
         }
 
         $query->setOption('field', $field);
+
+        if (empty($options['fetch_sql']) && !empty($options['cache'])) {
+            // 判断查询缓存
+            $cache  = $options['cache'];
+            $result = $this->getCacheData($query, $cache, null, $guid);
+
+            if (false !== $result) {
+                return $result;
+            }
+        }
 
         // 生成查询SQL
         $sql = $this->builder->select($query);
@@ -1459,19 +1467,16 @@ abstract class Connection
             $value = is_array($val) ? $val[0] : $val;
             $type  = is_array($val) ? $val[1] : PDO::PARAM_STR;
 
-            if (PDO::PARAM_INT == $type || self::PARAM_FLOAT == $type) {
-                $value = (float) $value;
-            } elseif (PDO::PARAM_STR == $type) {
+            if ((self::PARAM_FLOAT == $type || PDO::PARAM_STR == $type) && is_string($value)) {
                 $value = '\'' . addslashes($value) . '\'';
+            } elseif (PDO::PARAM_INT == $type && '' === $value) {
+                $value = 0;
             }
 
             // 判断占位符
             $sql = is_numeric($key) ?
             substr_replace($sql, $value, strpos($sql, '?'), 1) :
-            str_replace(
-                [':' . $key . ')', ':' . $key . ',', ':' . $key . ' ', ':' . $key . PHP_EOL],
-                [$value . ')', $value . ',', $value . ' ', $value . PHP_EOL],
-                $sql . ' ');
+            substr_replace($sql, $value, strpos($sql, ':' . $key), strlen(':' . $key));
         }
 
         return rtrim($sql);
@@ -1490,13 +1495,13 @@ abstract class Connection
     {
         foreach ($bind as $key => $val) {
             // 占位符
-            $param = is_numeric($key) ? $key + 1 : ':' . $key;
+            $param = is_int($key) ? $key + 1 : ':' . $key;
 
             if (is_array($val)) {
                 if (PDO::PARAM_INT == $val[1] && '' === $val[0]) {
                     $val[0] = 0;
                 } elseif (self::PARAM_FLOAT == $val[1]) {
-                    $val[0] = (float) $val[0];
+                    $val[0] = is_string($val[0]) ? (float) $val[0] : $val[0];
                     $val[1] = PDO::PARAM_STR;
                 }
 
@@ -1526,7 +1531,7 @@ abstract class Connection
     protected function bindParam($bind)
     {
         foreach ($bind as $key => $val) {
-            $param = is_numeric($key) ? $key + 1 : ':' . $key;
+            $param = is_int($key) ? $key + 1 : ':' . $key;
 
             if (is_array($val)) {
                 array_unshift($val, $param);

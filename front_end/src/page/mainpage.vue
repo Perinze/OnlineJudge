@@ -405,8 +405,15 @@ export default {
     }
   }
 
-  .main-contest-list-content {
-    min-height: 150px;
+  .main-contest-list {
+    .main-contest-list-content {
+      display: flex;
+      flex-direction: column;
+      min-height: 150px;
+      margin: 0;
+      padding: 0 12px;
+    }
   }
+
 }
 </style>
