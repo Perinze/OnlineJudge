@@ -88,7 +88,7 @@
       <div class="function-btn-group">
         <button
           class="submit-btn"
-          @click="(cid || $route.query.cid) === undefined ? gotoSubmit(pid || $route.query.pid) : gotoSubmit(pid || $route.query.pid, cid || $route.query.cid)"
+          @click="gotoSubmit(pid || $route.query.pid, cid || $route.query.cid)"
         >
           Submit
         </button>
@@ -146,7 +146,7 @@ export default {
       let requestData = {
         problem_id: parseInt(this.pid || this.$route.query.pid),
       };
-      if (this.cid != undefined) {
+      if ((this.cid || this.$route.query.cid) != undefined) {
         requestData.contest_id = this.cid || this.$route.query.cid;
       }
       let response = await getProblem(requestData);
