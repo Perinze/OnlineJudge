@@ -34,12 +34,7 @@
               v-for="index in contest_info.problems.length"
               :key="'preblem-head'+index"
               class="problem-head"
-              @click="
-                $emit('open-problem', {
-                  pid: contest_info.problems[index - 1],
-                  cid: contest_info.id,
-                })
-              "
+              @click="callProblem(contest_info.problems[index - 1], contest_info.id)"
             >
               {{ String.fromCharCode(64 + index) }}
             </th>
@@ -250,7 +245,7 @@ export default {
       },
       userData: {
         penalty: 0,
-        rank: null,
+        rank: 0,
       },
       submit_log: [
         // {
@@ -400,20 +395,32 @@ export default {
     },
   },
   async created() {
+    // 渲染比赛信息
+    this.getContestInfoCache(); // 从LS拿缓存
     await this.renderContestInfo();
+    // 检查登陆状态
     await this.checkJoin();
-    this.countDownToBegin();
+
+    this.countDownToBegin(); // 开始倒计时
     if (
       new Date(this.contest_info.begin_time).getTime() <= new Date().getTime()
     ) {
       // 比赛开始
-      this.countDownToEnd();
-      this.renderStatusList();
-      this.renderDiscussList();
-      this.getMyRank();
+      this.countDownToEnd(); // 结束倒计时
+      this.renderStatusList(); // 渲染题目状态列表
+      this.getDiscussListCache(); // 从LS缓存渲染讨论版
+      this.renderDiscussList(); // 渲染讨论板列表
+      this.getMyRank(); // 获取排名
     }
   },
   methods: {
+    callProblem(pid, cid) {
+      if (this.isWap) {
+        this.$router.push(`/problem?pid=${pid}&cid=${cid}`);
+      } else {
+        this.$emit('open-problem', { pid, cid });
+      }
+    },
     timeFormat(param) {
       return param < 10 ? "0" + param : param;
     },
@@ -451,24 +458,24 @@ export default {
     countDownToEnd() {
       this.intervalEnd = setInterval(() => {
         // 获取当前时间，同时得到活动结束时间数组
-        let newTime = new Date().getTime();
+        let nowTime = Date.now();
         // 对结束时间进行处理渲染到页面
         let beginTime = new Date(this.contest_info.begin_time).getTime();
         let endTime = new Date(this.contest_info.end_time).getTime();
-        let obj = (obj = {
+        let obj = {
           hou: "05",
           min: "00",
           sec: "00",
-        });
+        };
         // 活动开始后才倒计时
-        if (beginTime < newTime) {
+        if (beginTime < nowTime) {
           // 如果活动未结束，对时间进行处理
-          if (endTime - newTime > 0) {
-            let time = (endTime - newTime) / 1000;
+          if (endTime - nowTime > 0) {
+            let time = (endTime - nowTime) / 1000;
             // 获取天、时、分、秒
-            let hou = parseInt((time % (60 * 60 * 24)) / 3600);
-            let min = parseInt(((time % (60 * 60 * 24)) % 3600) / 60);
-            let sec = parseInt(((time % (60 * 60 * 24)) % 3600) % 60);
+            let hou = parseInt(time / 3600);
+            let min = parseInt((time - hou * 3600) / 60);
+            let sec = parseInt(time % 60);
             obj = {
               hou: this.timeFormat(hou),
               min: this.timeFormat(min),
@@ -494,14 +501,9 @@ export default {
       let response = await getContest({
         contest_id: this.$route.params.id,
       });
-      if (response.status == 0) {
-        let data = response.data;
-        this.contest_info.title = data.contest_name;
-        this.contest_info.begin_time = data.begin_time;
-        this.contest_info.end_time = data.end_time;
-        this.contest_info.frozen = parseFloat(data.frozen);
-        this.contest_info.problems = data.problems.map((x) => parseInt(x));
-        this.contest_info.colors = data.colors;
+      if (response.status === 0) {
+        this.contest_info = Object.assign(this.contest_info, response.data);
+        localStorage.setItem(`contestInfo-${this.$route.params.id}`, JSON.stringify(this.contest_info));
       } else {
         this.$message({
           message: response.message,
@@ -561,17 +563,18 @@ export default {
         contest_id: this.$route.params.id,
       });
       if (response.status == 0) {
-        this.discusses = [];
-        response.data.forEach((val) => {
-          this.discusses.push({
-            id: val.id,
-            problem: val.problem_id,
-            title: val.title,
-            author: val.nick,
-            time: val.time,
-            status: parseInt(val.status),
-          });
-        });
+        this.discusses = response.data.data;
+        localStorage.setItem(`contestDiscussList-${this.$route.params.id}`, response.data.data);
+        // response.data.data.forEach((val) => {
+        //   this.discusses.push({
+        //     id: val.id,
+        //     problem: val.problem_id,
+        //     title: val.title,
+        //     author: val.nick,
+        //     time: val.time,
+        //     status: parseInt(val.status),
+        //   });
+        // });
       } else {
       }
     },
@@ -589,25 +592,37 @@ export default {
       let response = await checkUserContest({
         contest_id: this.$route.params.id,
       });
-      if (response.status == 0) {
-        // 已参加比赛
-        // pass
-      } else {
-        if (
-          new Date(this.contest_info.end_time).getTime() <= new Date().getTime()
-        ) {
-          // 比赛结束
-          // pass
-        } else {
-          // 无权查看比赛
-          this.$message({
-            message: "您尚未参加本场比赛",
-            type: "error",
-          });
-          this.$router.go(-1);
-        }
+      if (
+        response.status !== 0 &&
+        new Date(this.contest_info.end_time).getTime() > Date.now()
+      ) {
+        // 未参加比赛 且 比赛未结束
+        // 无权查看比赛
+        this.$message({
+          message: "您尚未参加本场比赛",
+          type: "error",
+        });
+        this.$router.go(-1);
       }
     },
+    getContestInfoCache() {
+      const str = localStorage.getItem(`contestInfo-${this.$route.params.id}`);
+      try {
+        const data = JSON.parse(str);
+        this.contest_info = Object.assign(this.contest_info, data || {});
+      } catch (e) {
+        localStorage.removeItem(`contestInfo-${this.$route.params.id}`);
+      }
+    },
+    getDiscussListCache() {
+      const str = localStorage.getItem(`contestDiscussList-${this.$route.params.id}`);
+      try {
+        const data = JSON.parse(str);
+        this.discusses = data || [];
+      } catch (e) {
+        localStorage.removeItem(`contestDiscussList-${this.$route.params.id}`);
+      }
+    }
   },
   beforeDestroy() {
     clearInterval(this.intervalBegin);
