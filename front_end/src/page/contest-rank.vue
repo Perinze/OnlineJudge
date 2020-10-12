@@ -7,108 +7,110 @@
         @click="$router.push('/contest/' + $route.params.id)"
         >返回比赛</label
       >
-      <span v-if="isLogin">您的排名: {{ myRank }}</span>
+      <span v-if="isLogin">您的排名: {{ myRank || "无" }}</span>
     </div>
-    <table
-      id="rank-form"
-      class="rank-form"
-      rules="rows"
-      frame="none"
-      cellspacing="0"
-    >
-      <thead>
-        <tr>
-          <td>Rank</td>
-          <td>Nick</td>
-          <td>Solved</td>
-          <td>Penalty</td>
-          <td
-            v-for="index in contest_info.problems.length"
-            :key="'problem-head-' + index"
-          >
-            {{ String.fromCharCode(index + 64) }}
-          </td>
-        </tr>
-      </thead>
-      <tr
-        class="rank-form-element"
-        v-for="index in rank_info.length"
-        :key="'rank-row-' + index"
+    <div style="overflow-x: auto;">
+      <table
+        id="rank-form"
+        class="rank-form"
+        rules="rows"
+        frame="none"
+        cellspacing="0"
       >
-        <td
-          :class="[
-            rank_info[index - 1].rank === ''
-              ? ''
-              : rank_info[index - 1].rank <= prizeNum[0]
-              ? 'rank-au'
-              : rank_info[index - 1].rank <= prizeNum[1]
-              ? 'rank-ag'
-              : rank_info[index - 1].rank <= prizeNum[2]
-              ? 'rank-cu'
-              : '',
-          ]"
-        >
-          {{ rank_info[index - 1].rank }}
-        </td>
-        <td
-          :class="[
-            rank_info[index - 1].rank === ''
-              ? ''
-              : rank_info[index - 1].rank <= prizeNum[0]
-              ? 'rank-au'
-              : rank_info[index - 1].rank <= prizeNum[1]
-              ? 'rank-ag'
-              : rank_info[index - 1].rank <= prizeNum[2]
-              ? 'rank-cu'
-              : '',
-          ]"
-        >
-          {{ rank_info[index - 1].nick }}
-        </td>
-        <td>{{ rank_info[index - 1].acNum }}</td>
-        <td>{{ rank_info[index - 1].penalty | penaltyFilter }}</td>
-        <td
-          v-for="problemIndex in contest_info.problems.length"
-          :key="'rank-problem-' + problemIndex"
-        >
-          <div class="solved-info-data">
-            <div
-              v-if="
-                solveInfoMap(index - 1).indexOf(
-                  String.fromCharCode(problemIndex + 64)
-                ) !== -1
-              "
+        <thead>
+          <tr>
+            <td>Rank</td>
+            <td>Nick</td>
+            <td>Solved</td>
+            <td>Penalty</td>
+            <td
+              v-for="index in contest_info.problems.length"
+              :key="'problem-head-' + index"
             >
-              <!-- TODO 封榜Try逻辑 -->
-              <status-icon
-                :icon-type="isSuccess(index - 1, problemIndex) ? 'ac' : 'wa'"
-                :times="
-                  isSuccess(index - 1, problemIndex)
-                    ? rank_info[index - 1].solveInfo[
-                        solveInfoMap(index - 1).indexOf(
-                          String.fromCharCode(problemIndex + 64)
-                        )
-                      ].times + 1
-                    : rank_info[index - 1].solveInfo[
-                        solveInfoMap(index - 1).indexOf(
-                          String.fromCharCode(problemIndex + 64)
-                        )
-                      ].times
-                "
-              />
-              <!-- TODO 一血 蓝色加粗感叹号 -->
-              <span>{{
-                rank_info[index - 1].solveInfo[
+              {{ String.fromCharCode(index + 64) }}
+            </td>
+          </tr>
+        </thead>
+        <tr
+          class="rank-form-element"
+          v-for="index in rank_info.length"
+          :key="'rank-row-' + index"
+        >
+          <td
+            :class="[
+              rank_info[index - 1].rank === ''
+                ? ''
+                : rank_info[index - 1].rank <= prizeNum[0]
+                ? 'rank-au'
+                : rank_info[index - 1].rank <= prizeNum[1]
+                ? 'rank-ag'
+                : rank_info[index - 1].rank <= prizeNum[2]
+                ? 'rank-cu'
+                : '',
+            ]"
+          >
+            {{ rank_info[index - 1].rank }}
+          </td>
+          <td
+            :class="[
+              rank_info[index - 1].rank === ''
+                ? ''
+                : rank_info[index - 1].rank <= prizeNum[0]
+                ? 'rank-au'
+                : rank_info[index - 1].rank <= prizeNum[1]
+                ? 'rank-ag'
+                : rank_info[index - 1].rank <= prizeNum[2]
+                ? 'rank-cu'
+                : '',
+            ]"
+          >
+            {{ rank_info[index - 1].nick }}
+          </td>
+          <td>{{ rank_info[index - 1].acNum }}</td>
+          <td>{{ rank_info[index - 1].penalty | penaltyFilter }}</td>
+          <td
+            v-for="problemIndex in contest_info.problems.length"
+            :key="'rank-problem-' + problemIndex"
+          >
+            <div class="solved-info-data">
+              <div
+                v-if="
                   solveInfoMap(index - 1).indexOf(
                     String.fromCharCode(problemIndex + 64)
-                  )
-                ].success_time | penaltyFilter
-              }}</span>
+                  ) !== -1
+                "
+              >
+                <!-- TODO 封榜Try逻辑 -->
+                <status-icon
+                  :icon-type="isSuccess(index - 1, problemIndex) ? 'ac' : 'wa'"
+                  :times="
+                    isSuccess(index - 1, problemIndex)
+                      ? rank_info[index - 1].solveInfo[
+                          solveInfoMap(index - 1).indexOf(
+                            String.fromCharCode(problemIndex + 64)
+                          )
+                        ].times + 1
+                      : rank_info[index - 1].solveInfo[
+                          solveInfoMap(index - 1).indexOf(
+                            String.fromCharCode(problemIndex + 64)
+                          )
+                        ].times
+                  "
+                />
+                <!-- TODO 一血 蓝色加粗感叹号 -->
+                <span>{{
+                  rank_info[index - 1].solveInfo[
+                    solveInfoMap(index - 1).indexOf(
+                      String.fromCharCode(problemIndex + 64)
+                    )
+                  ].success_time | penaltyFilter
+                }}</span>
+              </div>
             </div>
-          </div>
-        </td>
-      </tr>
-    </table>
+          </td>
+        </tr>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -729,6 +731,9 @@ export default {
   },
   filters: {
     penaltyFilter: function(val) {
+      if (!val) {
+        return "";
+      }
       let res = parseInt(val);
       let hours = parseInt(res / 60 / 60);
       let mins = parseInt((res - hours * 60 * 60) / 60);
@@ -961,22 +966,14 @@ $cuColor: rgb(186, 110, 64);
   .contest-rank {
     width: 100%;
     padding: 0 10px;
-    overflow-x: auto;
 
     & > * {
       width: 100%;
     }
-  }
 
-  .rank-form-top {
-    position: fixed;
-    width: 100%;
-    left: 0;
-    padding: 0 13px;
-  }
-
-  .rank-form {
-    margin-top: 115px;
+    & > .rank-form {
+      width: auto;
+    }
   }
 }
 </style>
