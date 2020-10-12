@@ -350,5 +350,33 @@ export default {
   .problem-detail-container {
     top: 20px;
   }
+
+  .temp-problem-detail > .title::after {
+    width: calc(100% - 40px);
+  }
+
+  .example-data {
+    width: 100%;
+    margin-right: 0;
+
+    .example-data-element {
+      width: 100%;
+      margin-right: 0;
+
+      .example-content {
+        display: flex;
+        flex-flow: row wrap;
+        > div {
+          width: 100%;
+          > textarea {
+            width: 100%;
+          }
+          &:last-child {
+            margin-left: unset;
+          }
+        }
+      }
+    }
+  }
 }
 </style>
