@@ -265,15 +265,20 @@ export default {
   }
 }
 
+.carousel-img {
+  width: 100%;
+  height: 250px;
+}
+
 @media screen and (max-width: 650px) {
   .el-carousel {
     overflow: hidden !important;
   }
-}
 
-.carousel-img {
-  width: 100%;
-  height: 150px;
+  .carousel-img {
+    width: 100%;
+    height: 150px;
+  }
 }
 
 /*element-ui carousel END*/
