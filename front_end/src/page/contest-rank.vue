@@ -961,10 +961,22 @@ $cuColor: rgb(186, 110, 64);
   .contest-rank {
     width: 100%;
     padding: 0 10px;
+    overflow-x: auto;
 
     & > * {
       width: 100%;
     }
+  }
+
+  .rank-form-top {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    padding: 0 13px;
+  }
+
+  .rank-form {
+    margin-top: 115px;
   }
 }
 </style>
