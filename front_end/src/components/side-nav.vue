@@ -100,16 +100,22 @@
       <span
         class="menu-footer-content"
         style="font-size: 10px;font-weight: 200;"
-        >©2019 WUT ACM Developer</span
+        >©{{new Date().getYear() + 1900}} WUT ACM Developer</span
       >
       <div id="surprise" hidden>
-        ******** WUT OnlineJudge 的所有贡献者 王熠弘（2017 级）：OnlineJudge
-        前端页面、主页及部分评测核心的对接任务 李劲巍（2017
-        级）：后端业务逻辑、部分评测核心对接任务 曾嘉豪（2017
-        级）：项目运维及评测核心对接任务 黄 融（2018 级）：评测核心及其对接任务
-        郑文伟（2017 级）：WUTOJ 的设计工作 周景尧（2017 级）：OnlineJudge
-        前端页面 郑成锋（2016 级）：OnlineJudge 前端页面 冷 瑜（2016
-        级）：Python 爬虫部分 刘福鑫（2017 级）：主页 ********
+        ********************
+        WUT OnlineJudge 的所有贡献者(以下排名不分先后)
+        王熠弘（2017 级）：OnlineJudge、协会主页的前端开发
+        李劲巍（2017 级）：后端业务逻辑、部分评测核心对接任务
+        曾嘉豪（2017 级）：项目运维及评测核心对接任务
+        黄  融（2018 级）：评测核心Ana项目及其对接任务
+        郑文伟（2017 级）：WUTOJ 的UI设计工作
+        周景尧（2017 级）：OnlineJudge 前端页面
+        郑成锋（2016 级）：OnlineJudge 前端页面
+        冷  瑜（2016 级）：压力测试及爬虫工作
+        刘福鑫（2017 级）：协会主页前端开发
+        王超睿（2020 级）：协会项目运维任务
+        ********************
       </div>
     </div>
   </div>
