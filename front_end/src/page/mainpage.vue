@@ -74,7 +74,7 @@ import {
   getContestList,
   getPvData,
 } from "../api/getData";
-import { judgeWap } from "../utils";
+import { judgeWap, deepEqual } from "../utils";
 
 export default {
   name: "mainpage",
@@ -118,18 +118,11 @@ export default {
       let response = await getCarousel();
       if (response.status == 0) {
         // success
-        let data = response.data;
-        this.carouselItem = [];
-        data.forEach((val) => {
-          if (val.status == 1) {
-            let res = {
-              title: val.title,
-              url: val.url,
-            };
-            // console.log(res);
-            this.carouselItem.push(res);
-          }
-        });
+        const data = response.data.filter(x => x.status);
+        if (!deepEqual(this.carouselItem, data)) {
+          this.carouselItem = data;
+          localStorage.setItem('carousel', JSON.stringify(data));
+        }
       }
     },
     renderHistogram: async function() {
@@ -181,8 +174,18 @@ export default {
       );
       if (response.status !== 200) return;
     },
+    getCarouselCache() {
+      const str = localStorage.getItem('carousel');
+      try {
+        const data = JSON.parse(str);
+        this.carouselItem = data.filter(x => x.status);
+      } catch (e) {
+        localStorage.removeItem('carousel');
+      }
+    }
   },
   async created() {
+    this.getCarouselCache();
     this.renderCarousel();
     this.renderHistogram();
     this.renderContest();
@@ -270,7 +273,7 @@ export default {
 
 .carousel-img {
   width: 100%;
-  height: 250px;
+  height: 150px;
 }
 
 /*element-ui carousel END*/
@@ -412,6 +415,15 @@ export default {
       min-height: 150px;
       margin: 0;
       padding: 0 12px;
+
+      > div {
+        margin: 5px 0;
+        box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.08);
+
+        &:first-child {
+          margin-top: 0;
+        }
+      }
     }
   }
 

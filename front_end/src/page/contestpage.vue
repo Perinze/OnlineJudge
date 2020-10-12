@@ -564,7 +564,7 @@ export default {
       });
       if (response.status == 0) {
         this.discusses = response.data.data;
-        localStorage.setItem(`contestDiscussList-${this.$route.params.id}`, response.data.data);
+        localStorage.setItem(`contestDiscussList-${this.$route.params.id}`, JSON.stringify(response.data.data));
         // response.data.data.forEach((val) => {
         //   this.discusses.push({
         //     id: val.id,
