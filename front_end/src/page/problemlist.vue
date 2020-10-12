@@ -58,7 +58,9 @@ export default {
     renderProblemList: async function(page = 0) {
       try {
         this.$loading.open();
-        let response = await getProblemList({ page: page-1 });
+
+        let LSdata = this.getProblemListCache(page); // 先获取存在LS里面的数据
+        let response = await getProblemList({ page: page-1 }); // 请求线上数据
         if (response.status == 0) {
           // success
           this.counts = response.data.count;
@@ -83,6 +85,15 @@ export default {
             };
             this.items.push(res);
           });
+
+          if (LSdata === null) {
+            LSdata = {};
+          }
+          LSdata[page] = {
+            counts: this.counts,
+            items: this.items
+          };
+          localStorage.setItem(`problem-list`, JSON.stringify(LSdata));
         } else {
           // error
           if (response.status === 504) {
@@ -102,7 +113,34 @@ export default {
       }
     },
     changePage(page) {
+      document.getElementsByClassName('combox')[0].scrollTop = 0;
       this.renderProblemList(page);
+    },
+    getProblemListCache(page) {
+      const pageNumLimit = 3; // 最多存3页
+      const str = localStorage.getItem(`problem-list`);
+      try {
+        const data = JSON.parse(str);
+        if (data[`${page}`] === undefined) {
+          this.items = [];
+          return data;
+        }
+        this.counts = data[`${page}`].counts;
+        this.items = data[`${page}`].items;
+
+        const keys = Object.keys(data);
+        const keyLen = Object.keys(data).length;
+        if (keyLen > pageNumLimit) {
+          for (let i=pageNumLimit+1; i<keyLen; i++) {
+            delete data[keys[i]];
+          }
+        }
+        return data;
+      } catch (e) {
+        console.log(e);
+        localStorage.removeItem(`problem-list`);
+      }
+      return null;
     }
   },
 };

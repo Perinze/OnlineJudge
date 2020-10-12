@@ -14,7 +14,10 @@ module.exports = {
     let proPlugin = [
       new CompressionPlugin({
         test: /.(js|css|svg|woff|ttf|json|html|otf)$/,
-        threshold: 10240,
+        // threshold: 10240,
+        filename: '[path].gz[query]', 
+        algorithm: 'gzip',
+        minRatio: 1,
         deleteOriginalAssets: false,
       }),
       new UglifyJsPlugin({
