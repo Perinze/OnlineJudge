@@ -48,16 +48,17 @@ class Submit extends Base
             if ($info['code'] !== CODE_SUCCESS) {
                 return apiReturn($info['code'], $info['msg'], $info['data']);
             }
-            $info = $info['data'][0];
+
+            $info = $info['data'];
 
             // post to the random judger
             post($submit_url[mt_rand(0, $length - 1)], json_encode(array(
-                'id' => (string)$info['data'],
-                'pid' => (string)$req['problem_id'],
+                'id' => (string)$info['id'],
+                'pid' => (string)$info['problem_id'],
                 'env' => (string)config('wutoj_config.environment'),
                 'source' => [
-                    'language' => $req['language'],
-                    'code' => $req['source_code'],
+                    'language' => $info['language'],
+                    'code' => $info['source_code'],
                 ]
             ), true));
         }
@@ -93,16 +94,15 @@ class Submit extends Base
         $length = count($submit_url);
         foreach ($submits as $info){
 
-            $info = $info['data'][0];
 
             // post to the random judger
             post($submit_url[mt_rand(0, $length - 1)], json_encode(array(
-                'id' => (string)$info['data'],
-                'pid' => (string)$req['problem_id'],
+                'id' => (string)$info['id'],
+                'pid' => (string)$info['problem_id'],
                 'env' => (string)config('wutoj_config.environment'),
                 'source' => [
-                    'language' => $req['language'],
-                    'code' => $req['source_code'],
+                    'language' => $info['language'],
+                    'code' => $info['source_code'],
                 ]
             ), true));
         }
