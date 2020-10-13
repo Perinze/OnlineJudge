@@ -6,6 +6,7 @@ namespace app\panel\model;
 
 use think\Db;
 use think\Exception;
+use think\exception\DbException;
 use think\Model;
 
 class SubmitModel extends Model
@@ -31,6 +32,20 @@ class SubmitModel extends Model
             return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $info];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];
+        }
+    }
+
+    public function getSubmitGroup($where) {
+        try {
+            $res = $this->where($where)->select();
+            if (count($res) != 0) {
+                return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $res];
+            } else {
+                return ['code' => CODE_ERROR, 'msg' => '查询失败', 'data' => $res];
+            }
+
+        } catch (DbException $e) {
+            return ['code' => CODE_ERROR, 'msg' => "数据库错误", 'data' => $e->getMessage()];
         }
     }
 

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>控制台 - 提交 - 批量重测</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="__JS__/jquery-1.11.0.js"></script>
+    <!-- 样式文件 -->
+    <link rel="stylesheet" href="__UM__/themes/default/css/umeditor.css">
+    <link href="__CSS__/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="../../res/bacheditor/build/build.min.css" rel="stylesheet"> -->
+    <link href="__CSS__/sb-admin-2.css" rel="stylesheet">
+    <link href="__FONT__/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="__CSS__/plugins/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Styles -->
+    <link type="text/css" rel="stylesheet" href="__CSS__/fileinput.min.css" />
+</head>
+
+<body>
+
+<div id="wrapper">
+    <!--顶栏&菜单栏-->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        {include file='layout/toolbar'} {include file='layout/sidebar'}
+    </nav>
+
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">批量重测</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading"> 数据设置 </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <form action="">
+                                <!--http://ziqiangshe.applinzi.com/tp5/public/index.php/panel/blog/editblog-->
+                                <div class="col-lg-12">
+                                    <div>
+                                        <form>
+                                            <div class="form-group">
+                                                <div class="form-inline">
+                                                    <label for="problem_id">题目id</label>
+                                                    <input name="problem_id" id="problem_id" value="" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="form-inline">
+                                                    <label for="user_id">用户id</label>
+                                                    <input name="user_id" id="user_id" value="" class="form-control">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="form-inline">
+                                                    <label for="language">使用语言</label>
+                                                    <select name="type" class="form-control" id="language">
+                                                        <option value="all">all</option>
+                                                        <option value="c++">c++</option>
+                                                        <option value="c">c</option>
+                                                        <option value="java">java</option>
+                                                        <option value="python">python</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="form-inline">
+                                                    <label for="start">开始编号</label>
+                                                    <input name="start" id="start" value="" class="form-control">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="form-inline">
+                                                    <label for="end">结束编号</label>
+                                                    <input name="end" id="end" value="" class="form-control">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <button type="button" id="submit" class="btn btn-default">提交</button>
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Scripts -->
+<script src="__JS__/bootstrap.min.js"></script>
+<script src="__JS__/plugins/metisMenu/metisMenu.min.js"></script>
+<script src="__JS__/sb-admin-2.js"></script>
+<script type="text/javascript" src="__JS__/fileinput.js"></script>
+<script type="text/javascript" src="__JS__/locales/zh.js"></script>
+<script>
+
+    $("#submit").click(function () {
+        $.ajax({
+            url: "__PANEL__/submit/rejudge_group",
+            type: "post",
+            dataType: "json",
+            data: {
+                problem_id: $("#problem_id").val(),
+                user_id:    $("#user_id").val(),
+                language:   $("#language").val(),
+                start:      $("#start").val(),
+                end:        $("#end").val(),
+            },
+            success: function (data) {
+                alert(data.message);
+                if (data.status == 0) {
+                    window.location.href = "index.html"
+                }
+            },
+        });
+    });
+
+
+</script>
+</body>
+</html>
