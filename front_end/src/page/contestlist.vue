@@ -1,169 +1,70 @@
 <template>
   <div class="contestlist">
-    <div class="separator"><i>正在进行</i></div>
-    <div
-      class="contest-card"
-      v-for="index in items.length"
-      :key="'contest-card-' + index"
-      v-if="
-        new Date(items[index - 1].begin_time).getTime() <=
-          new Date().getTime() &&
-          new Date().getTime() < new Date(items[index - 1].end_time).getTime()
-      "
-    >
-      <div class="contest-content" @click="goto(items[index - 1].id)">
-        <div class="content-words">
-          <span class="contest-title">{{ items[index - 1].title }}</span>
-          <span class="contest-sub-title">{{
-            items[index - 1].begin_time + " — " + items[index - 1].end_time
-          }}</span>
-        </div>
-      </div>
-      <div class="function-btn-group">
-        <!--disabled-->
-        <button
-          class="join"
-          :class="[
-            items[index - 1].status === 1 &&
-            new Date(items[index - 1].end_time).getTime() >
-              new Date().getTime()
-              ? 'can-join'
-              : 'cant-join',
-          ]"
-          @click="doJoinContest(index - 1)"
-          v-show="!items[index - 1].hasJoin"
-        >
-          {{
-            items[index - 1].status === 1 &&
-            new Date(items[index - 1].end_time).getTime() >
-              new Date().getTime()
-              ? "点我报名"
-              : "不可报名"
-          }}
-        </button>
-        <button
-          class="join"
-          :class="[
-            items[index - 1].status === 1 &&
-            new Date(items[index - 1].end_time).getTime() >
-              new Date().getTime()
-              ? 'has-join'
-              : 'cant-join',
-          ]"
-          v-show="items[index - 1].hasJoin"
-        >
-          已经报名
-        </button>
-      </div>
+    <div v-if="items.playing.length + items.done.length + items.coming.length === 0 && !loading">
+      暂无比赛
     </div>
-    <div class="separator"><i>即将到来</i></div>
-    <div
-      class="contest-card"
-      v-for="index in items.length"
-      :key="'contest-card-' + index"
-      v-if="
-        new Date().getTime() <= new Date(items[index - 1].begin_time).getTime()
-      "
-    >
-      <div class="contest-content" @click="goto(items[index - 1].id)">
-        <div class="content-words">
-          <span class="contest-title">{{ items[index - 1].title }}</span>
-          <span class="contest-sub-title">{{
-            items[index - 1].begin_time + " — " + items[index - 1].end_time
-          }}</span>
+    <template v-for="k in itemsKeys">
+      <template v-if="items[k].length !== 0">
+        <div class="separator" :key="`contest-card-separator-${k}`">
+          <i>
+            {{
+              k === "playing" ? "正在进行" :
+              k === "coming" ? "即将到来" :
+              "已经结束"
+            }}
+          </i>
         </div>
-      </div>
-      <div class="function-btn-group">
-        <!--disabled-->
-        <button
-          class="join"
-          :class="[
-            items[index - 1].status === 1 &&
-            new Date(items[index - 1].end_time).getTime() >
-              new Date().getTime()
-              ? 'can-join'
-              : 'cant-join',
-          ]"
-          @click="doJoinContest(index - 1)"
-          v-show="!items[index - 1].hasJoin"
-        >
-          {{
-            items[index - 1].status === 1 &&
-            new Date(items[index - 1].end_time).getTime() >
-              new Date().getTime()
-              ? "点我报名"
-              : "不可报名"
-          }}
-        </button>
-        <button
-          class="join"
-          :class="[
-            items[index - 1].status === 1 &&
-            new Date(items[index - 1].end_time).getTime() >
-              new Date().getTime()
-              ? 'has-join'
-              : 'cant-join',
-          ]"
-          v-show="items[index - 1].hasJoin"
-        >
-          已经报名
-        </button>
-      </div>
-    </div>
-    <div class="separator"><i>已经结束</i></div>
-    <div
-      class="contest-card"
-      v-for="index in items.length"
-      :key="'contest-card-' + index"
-      v-if="
-        new Date().getTime() >= new Date(items[index - 1].end_time).getTime()
-      "
-    >
-      <div class="contest-content" @click="goto(items[index - 1].id)">
-        <div class="content-words">
-          <span class="contest-title">{{ items[index - 1].title }}</span>
-          <span class="contest-sub-title">{{
-            items[index - 1].begin_time + " — " + items[index - 1].end_time
-          }}</span>
-        </div>
-      </div>
-      <div class="function-btn-group">
-        <!--disabled-->
-        <button
-          class="join"
-          :class="[
-            items[index - 1].status === 1 &&
-            new Date(items[index - 1].end_time).getTime() >
-              new Date().getTime()
-              ? 'can-join'
-              : 'cant-join',
-          ]"
-          @click="doJoinContest(index - 1)"
-          v-show="!items[index - 1].hasJoin"
-        >
-          {{
-            items[index - 1].status === 1 &&
-            new Date(items[index - 1].end_time).getTime() >
-              new Date().getTime()
-              ? "点我报名"
-              : "不可报名"
-          }}
-        </button>
-        <button
-          class="join"
-          :class="[
-            items[index - 1].status === 1 &&
-            new Date(items[index - 1].end_time).getTime() >
-              new Date().getTime()
-              ? 'has-join'
-              : 'cant-join',
-          ]"
-          v-show="items[index - 1].hasJoin"
-        >
-          已经报名
-        </button>
-      </div>
-    </div>
+        <template v-for="(item, index) in items[k]">
+          <div
+            class="contest-card"
+            :key="`contest-card-${k}-${index}`"
+          >
+            <div class="contest-content" @click="goto(item.id)">
+              <div class="content-words">
+                <span class="contest-title">{{ item.title }}</span>
+                <span class="contest-sub-title">{{ item.begin_time + " — " + item.end_time }}</span>
+              </div>
+            </div>
+            <div class="function-btn-group">
+              <!--disabled-->
+              <button
+                class="join"
+                :class="[
+                  item.status === 1 &&
+                  new Date(item.end_time).getTime() >
+                    new Date().getTime()
+                    ? 'can-join'
+                    : 'cant-join',
+                ]"
+                @click="doJoinContest(index - 1)"
+                v-show="!item.hasJoin"
+              >
+                {{
+                  item.status === 1 &&
+                  new Date(item.end_time).getTime() >
+                    new Date().getTime()
+                    ? "点我报名"
+                    : "不可报名"
+                }}
+              </button>
+              <button
+                class="join"
+                :class="[
+                  item.status === 1 &&
+                  new Date(item.end_time).getTime() >
+                    new Date().getTime()
+                    ? 'has-join'
+                    : 'cant-join',
+                ]"
+                v-show="item.hasJoin"
+              >
+                已经报名
+              </button>
+            </div>
+          </div>
+        </template>
+      </template>
+    </template>
   </div>
 </template>
 
@@ -174,7 +75,13 @@ export default {
   name: "contestlist",
   data() {
     return {
-      items: [
+      loading: true,
+      items: {
+        playing: [],
+        coming: [],
+        done: []
+      },
+      // items: [
         // {
         //     id: '1000',
         //     title: '2019年武汉理工大学第二届新生赛',
@@ -183,26 +90,34 @@ export default {
         //     hasJoin: false,
         //     status: 1
         // },
-      ],
+      // ],
     };
   },
   methods: {
-    renderList: async function() {
+    renderList: async function () {
       this.$loading.open();
       let response = await getContestList();
       if (response.status === 0) {
-        let data = response.data;
-        data.forEach((val) => {
-          let res = {
-            id: val.contest_id.toString(),
-            title: val.contest_name,
-            begin_time: val.begin_time,
-            end_time: val.end_time,
-            hasJoin: false,
-            status: parseInt(val.status),
-          };
-          this.items.push(res);
-        });
+        const data = response.data;
+        if (data) {
+          const retObj = this.classifyList(data.map((item) => {
+            return {
+              id: item.contest_id.toString(),
+              title: item.contest_name,
+              begin_time: item.begin_time,
+              end_time: item.end_time,
+              hasJoin: false,
+              status: +item.status
+            };
+          }));
+          this.items = retObj;
+          localStorage.setItem('contest-list-nologin', JSON.stringify(this.items));
+        } else {
+          this.$message({
+            content: "未知错误，请联系管理员",
+            type: "error",
+          });
+        }
       } else {
         if (response.status === 504) {
           this.$message({
@@ -212,23 +127,23 @@ export default {
         }
       }
       this.$loading.hide();
+      this.loading = false;
     },
-    getUserContestList: async function() {
+    getUserContestList: async function () {
       let response = await getUserContest();
       if (response.status == 0) {
         response.data.forEach((val) => {
-          let itemsIndex = this.items
-            .map((x) => parseInt(x.id))
-            .indexOf(parseInt(val.contest_id));
-          if (itemsIndex !== -1) this.items[itemsIndex].hasJoin = true;
+          this.itemsKeys.forEach((key) => {
+            let itemsIndex = this.items[key]
+              .map((x) => parseInt(x.id))
+              .indexOf(parseInt(val.contest_id));
+            if (itemsIndex !== -1) this.items[key][itemsIndex].hasJoin = true;
+          });
         });
-      } else {
-        if (response.message == "无比赛数据") {
-          // pass
-        }
+        localStorage.setItem('contest-list', this.items); 
       }
     },
-    doJoinContest: async function(index) {
+    doJoinContest: async function (index) {
       if (
         !(this.items[index].status === 1 &&
           new Date(this.items[index].end_time).getTime() > Date.now())
@@ -253,12 +168,48 @@ export default {
       }
       this.$loading.hide();
     },
-    goto: function(link) {
+    goto: function (link) {
       if (link == "") return;
       this.$router.push("/contest/" + link);
     },
+    // 拆分数据
+    classifyList: function (arr) {
+      const now = (Date.now() || (new Date().getTime()));
+      const retObj = { playing: [], coming: [], done: [] };
+      arr.forEach((item) => {
+        if (
+          new Date(item.begin_time).getTime() <= now &&
+          new Date(item.end_time).getTime() > now
+        ) {
+          retObj.playing.push(item);
+        } else if ( new Date(item.begin_time).getTime() > now) {
+          retObj.coming.push(item);
+        } else {
+          retObj.done.push(item);
+        }
+      });
+      return retObj;
+    },
+    getContestListCache() {
+      let str = "";
+      if (localStorage.getItem("Flag") === "isLogin") {
+        str = localStorage.getItem('contest-list');
+      } else {
+        str = localStorage.getItem('contest-list-nologin');
+      }
+      try {
+        const data = JSON.parse(str);
+        if (data) {
+          this.items = data;
+          this.loading = false;
+        }
+      } catch (e) {
+        localStorage.removeItem('contest-list');
+      }
+    }
   },
   async created() {
+    this.getContestListCache();
     await this.renderList();
     await this.getUserContestList();
   },
@@ -267,6 +218,11 @@ export default {
       return val.slice(0, val.indexOf(" "));
     },
   },
+  computed: {
+    itemsKeys() {
+      return Object.keys(this.items);
+    }
+  }
 };
 </script>
 
