@@ -48,16 +48,17 @@
       <div class="main-contest-list">
         <div class="block-title">Contest</div>
         <div class="main-contest-list-content">
-          <contest-card
-            v-for="index in contestData.length"
-            :key="index"
-            v-if="new Date(contestData[index - 1].end_time).getTime() >= Date.now()"
-            :contest-nick="contestData[index - 1].title"
-            contest-type="ACM"
-            :contest-num="contestData[index - 1].contestantNum | stdNum"
-            :contest-id="contestData[index - 1].id"
-            style="cursor: pointer;"
-          />
+          <template v-for="index in contestData.length">
+            <contest-card
+              :key="index"
+              v-if="new Date(contestData[index - 1].end_time).getTime() >= Date.now()"
+              :contest-nick="contestData[index - 1].title"
+              contest-type="ACM"
+              :contest-num="contestData[index - 1].contestantNum | stdNum"
+              :contest-id="contestData[index - 1].id"
+              style="cursor: pointer;"
+            />
+          </template>
         </div>
       </div>
     </div>

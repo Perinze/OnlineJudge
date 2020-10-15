@@ -285,7 +285,7 @@ export default {
     };
   },
   mounted() {
-    this.drawRadarChart();
+    // this.drawRadarChart();
     this.renderUserInfo();
   },
   methods: {
@@ -308,13 +308,14 @@ export default {
       }
     },
     drawRadarChart(time = 650) {
+      // 废除
       // 保证渲染时有#radar-chart div
-      setTimeout(() => {
-        this.radarChart = this.$echarts.init(
-          document.getElementById("radar-chart")
-        );
-        this.radarChart.setOption(this.radarOption);
-      }, time);
+      // setTimeout(() => {
+      //   this.radarChart = this.$echarts.init(
+      //     document.getElementById("radar-chart")
+      //   );
+      //   this.radarChart.setOption(this.radarOption);
+      // }, time);
     },
     beginChange() {
       // 深拷贝
