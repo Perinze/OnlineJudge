@@ -41,6 +41,7 @@ module.exports = {
       }),
     ];
     let devPlugin = [new webpack.HotModuleReplacementPlugin()];
+
     if (process.env.NODE_ENV === "test" || process.env.NODE_ENV === "mock") {
       // 开发环境
       config.plugins = [...config.plugins, ...devPlugin];

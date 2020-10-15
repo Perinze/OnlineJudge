@@ -137,7 +137,6 @@ export default {
         }
         return data;
       } catch (e) {
-        console.log(e);
         localStorage.removeItem(`problem-list`);
       }
       return null;
