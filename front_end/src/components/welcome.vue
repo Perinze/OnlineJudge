@@ -716,7 +716,7 @@ export default {
               response.data.all_problems
                 .map((x) => x.status)
                 .forEach((val) => {
-                  if (val !== "ac") {
+                  if (val.toUpperCase() !== "AC") {
                     waCnt++;
                   } else {
                     acCnt++;
