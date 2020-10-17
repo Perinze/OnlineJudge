@@ -224,15 +224,19 @@ export const getUserGroups = () => fetch("/Group/user_get_all_group");
  * 获取所有讨论
  */
 
-export const getAllTopic = (data) =>
-  fetch("/discuss/getAllTopic", "post", data);
+export const getAllTopic = (data) => fetch("/discuss/getAllTopic", "post", data);
 
 /**
  * 上传图片
  */
 
-export const uploadImage = (data) =>
-  fetch("/upload/upload_image", "post", data);
+export const uploadImage = (data) => fetch("/upload/upload_image", "post", data);
+
+/**
+ * 上传头像
+ */
+
+export const uploadAvatar = (data) => fetch("/upload/upload_avatar", "post", data);
 
 /**
  * 查找用户

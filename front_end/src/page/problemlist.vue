@@ -18,7 +18,7 @@
         items[index - 1].statistics.ac + "/" + items[index - 1].statistics.all
       }}</span>
     </div>
-    <div class="problem-pager">
+    <div class="problem-pager" v-if="items.length > 0">
       <el-pagination
         background
         layout="prev, pager, next"

@@ -327,6 +327,8 @@ export default {
     avatorComputed: function () {
       if (this.isLogin) {
         return this.imgs.testAvator;
+        // 配好nginx后改回来
+        return this.userData.avator;
       } else {
         return this.imgs.defaultAvator;
       }
@@ -353,7 +355,7 @@ export default {
   width: 200px;
   background: #fbfbfb;
   position: fixed;
-  z-index: 1000;
+  z-index: 1002;
   box-shadow: inset -10px 0 15px -15px rgba(0, 0, 0, 0.3);
   transition: margin-left 0.5s ease-in-out;
 }
