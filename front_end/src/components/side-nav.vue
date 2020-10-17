@@ -326,6 +326,8 @@ export default {
     }),
     avatorComputed: function () {
       if (this.isLogin) {
+        return this.imgs.testAvator;
+        // 配好nginx后改回来
         return this.userData.avator;
       } else {
         return this.imgs.defaultAvator;
