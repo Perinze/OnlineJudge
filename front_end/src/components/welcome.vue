@@ -714,12 +714,11 @@ export default {
                 waCnt = 0;
 
               response.data.all_problems
-                .map((x) => x.status)
                 .forEach((val) => {
-                  if (val.toUpperCase() !== "AC") {
-                    waCnt++;
+                  if (val.status.toUpperCase() !== "AC") {
+                    waCnt = waCnt + val.cnt;
                   } else {
-                    acCnt++;
+                    acCnt = acCnt + val.cnt;
                   }
                 });
 
@@ -728,7 +727,7 @@ export default {
               localStorage.setItem("userId", response.data.userId);
               localStorage.setItem("nick", response.data.nick);
               localStorage.setItem("desc", response.data.desc);
-              localStorage.setItem("avator", response.data.avator);
+              localStorage.setItem("avator", response.data.avatar);
               localStorage.setItem("acCnt", acCnt);
               localStorage.setItem("waCnt", waCnt);
 

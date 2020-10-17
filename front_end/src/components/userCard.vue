@@ -209,8 +209,10 @@
 
 <script>
 import { getObjectURL } from "../api/common";
-import { getUserInfo, changeUserInfo, submitFeedback } from "../api/getData";
+import { getUserInfo, changeUserInfo, submitFeedback, uploadImage, uploadAvatar as doUploadAvator } from "../api/getData";
 import imgUploader from "./imgUploader";
+import { dataURLtoFile } from "../utils";
+
 export default {
   name: "user-card",
   components: { imgUploader },
@@ -279,6 +281,8 @@ export default {
         content: "",
         imgs: [],
       },
+      fileName: "",
+      imgObj: null,
       cropperDisplay: false,
       resAvator: null,
       newAvator: null,
@@ -357,9 +361,49 @@ export default {
     uploadAvator(imgs) {
       this.resAvator = getObjectURL(imgs.target.files[0]);
       this.cropperDisplay = true;
+      this.fileName = imgs.target.files[0].name;
     },
-    submitChangeAvator(data) {
-      // TODO API
+    async submitChangeAvator(data) {
+      let sucFlag = false;
+      this.$loading.open();
+
+      try {
+        // request
+        let formData = new FormData();
+        formData.append("image", dataURLtoFile(data.base64, this.fileName));
+  
+        const imgRes = await uploadImage(formData);
+        if (imgRes.status === 0) {
+          const imgUrl = imgRes.data;
+          const avaRes = await doUploadAvator({ url: imgUrl });
+          if (avaRes.status === 0) {
+            sucFlag = true;
+            // do something
+            // TODO 这里得吧state欠到vuex，放弃使用localStorage，交给新人来做吧
+          }
+        }
+      } catch (e) {
+          this.$message({
+            type: "error",
+            message: "头像上传失败"
+          });
+      } finally {
+        this.cropperDisplay = false;
+        this.$loading.hide();
+      }
+
+      if (sucFlag) {
+          this.$message({
+            type: "success",
+            message: "头像上传成功，下次登录生效"
+          });
+        } else {
+          this.$message({
+            type: "error",
+            message: "头像上传失败"
+          });
+        }
+
     },
     uploadFeedbackImg() {},
     submitFeedback: async function() {

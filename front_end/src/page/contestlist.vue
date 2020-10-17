@@ -31,18 +31,16 @@
                 class="join"
                 :class="[
                   item.status === 1 &&
-                  new Date(item.end_time).getTime() >
-                    new Date().getTime()
+                  new Date(item.end_time).getTime() > Date.now()
                     ? 'can-join'
                     : 'cant-join',
                 ]"
-                @click="doJoinContest(index - 1)"
+                @click="doJoinContest(item)"
                 v-show="!item.hasJoin"
               >
                 {{
                   item.status === 1 &&
-                  new Date(item.end_time).getTime() >
-                    new Date().getTime()
+                  new Date(item.end_time).getTime() > Date.now()
                     ? "点我报名"
                     : "不可报名"
                 }}
@@ -51,8 +49,7 @@
                 class="join"
                 :class="[
                   item.status === 1 &&
-                  new Date(item.end_time).getTime() >
-                    new Date().getTime()
+                  new Date(item.end_time).getTime() > Date.now()
                     ? 'has-join'
                     : 'cant-join',
                 ]"
@@ -143,19 +140,20 @@ export default {
         localStorage.setItem('contest-list', this.items); 
       }
     },
-    doJoinContest: async function (index) {
+    doJoinContest: async function (info) {
       if (
-        !(this.items[index].status === 1 &&
-          new Date(this.items[index].end_time).getTime() > Date.now())
+        !(info.status === 1 &&
+        new Date(info.end_time).getTime() > Date.now())
       ) {
         return;
       }
+
       this.$loading.open();
       let response = await joinContest({
-        contest_id: this.items[index].id,
+        contest_id: info.id,
       });
       if (response.status == 0) {
-        this.items[index].hasJoin = true;
+        info.hasJoin = true;
         this.$message({
           message: "参加比赛成功, 请记得按时参赛",
           type: "success",

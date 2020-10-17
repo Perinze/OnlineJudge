@@ -13,9 +13,15 @@ export default async function ifetch(
   method = method.toUpperCase();
 
   // headers处理
+  // let header_data = Object.assign({
+  //   Accept: "application/json",
+  //   "Contest-Type": "application/json"
+  // }, headers);
   let header_data = headers;
-  header_data["Accept"] = "application/json";
-  header_data["Content-Type"] = "application/json";
+  if (!(data instanceof FormData)) {
+    header_data["Accept"] = "application/json";
+    header_data["Content-Type"] = "application/json";
+  }
 
   // 区分站内外API地址
   if (url.indexOf("https://") === -1) {
@@ -39,9 +45,15 @@ export default async function ifetch(
 
   if (method === "POST") {
     // 仅POST请求附带数据
-    Object.defineProperty(requestConfig, "body", {
-      value: JSON.stringify(data),
-    });
+    if (data instanceof FormData) {
+      Object.defineProperty(requestConfig, "body", {
+        value: data,
+      });
+    } else {
+      Object.defineProperty(requestConfig, "body", {
+        value: JSON.stringify(data),
+      });
+    }
   }
 
   let timeoutFunc = () => {

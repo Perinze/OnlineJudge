@@ -55,8 +55,17 @@ export default {
       );
     },
     submit() {
-      let res = this.cropper.getData();
-      this.$emit("submit", res);
+      const that = this;
+      const canvas = this.cropper.getCroppedCanvas();
+      const base64 = canvas.toDataURL('image/jpeg');
+      const img = new Image();
+      img.onload = function (event) {
+        that.$emit("submit", {
+          base64,
+          obj: event.target
+        });
+      };
+      img.src = base64;
     },
   },
   watch: {
