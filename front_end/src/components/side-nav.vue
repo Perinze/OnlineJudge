@@ -220,6 +220,7 @@ export default {
         procedure.then(() => {
           this.initUser();
           this.displayUsercard = false;
+          this.$router.push('/main');
         });
       }
     },

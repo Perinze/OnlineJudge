@@ -12,7 +12,7 @@
       <div class="left">
         <div class="element-1"><div class="element-2"></div></div>
         <img
-          src="../../assets/media/avator.png"
+          :src="avatorComputed"
           width="60"
           height="60"
           @mouseover="avatorMaskDisplay = true"
@@ -212,6 +212,8 @@ import { getObjectURL } from "../api/common";
 import { getUserInfo, changeUserInfo, submitFeedback, uploadImage, uploadAvatar as doUploadAvator } from "../api/getData";
 import imgUploader from "./imgUploader";
 import { dataURLtoFile } from "../utils";
+import { mapGetters } from "vuex";
+import store from "../store";
 
 export default {
   name: "user-card",
@@ -286,6 +288,10 @@ export default {
       cropperDisplay: false,
       resAvator: null,
       newAvator: null,
+      imgs: {
+        testAvator: require("../../assets/media/avator.png"),
+        defaultAvator: require("../../assets/media/defualt-avator.png"),
+      },
     };
   },
   mounted() {
@@ -438,8 +444,22 @@ export default {
     },
   },
   computed: {
+    ...mapGetters("login", {
+      userData: "userInfo",
+      isLogin: "isLogin",
+    }),
     isChanged() {
       return JSON.stringify(this.userInfo) !== JSON.stringify(this.tmpUserInfo);
+    },
+    avatorComputed: function () {
+      if (this.isLogin) {
+        if (!this.userData.avator) {
+          return this.imgs.testAvator;
+        }
+        return this.userData.avator === "null" ? this.imgs.testAvator : this.userData.avator;
+      } else {
+        return this.imgs.defaultAvator;
+      }
     },
   },
 };
