@@ -456,9 +456,6 @@ export default {
         if (!this.userData.avator) {
           return this.imgs.testAvator;
         }
-        if (this.userData.avator === "../uploads/image/20200214/fc3d5f691e86c9f621621682c57de59b.jpg") {
-          return this.imgs.testAvator;
-        }
         return this.userData.avator === "null" ? this.imgs.testAvator : this.userData.avator;
       } else {
         return this.imgs.defaultAvator;
