@@ -80,9 +80,11 @@
                   ) !== -1
                 "
               >
-                <!-- TODO 封榜Try逻辑 -->
+                <!-- TODO 封榜一血逻辑 -->
                 <status-icon
                   :icon-type="isSuccess(index - 1, problemIndex) ? 'ac' : 'wa'"
+                  :first-blood="isFirstBlood(index - 1, problemIndex)"
+                  :frozen="isFrozen(rank_info[index - 1].solveInfo, problemIndex)"
                   :times="
                     isSuccess(index - 1, problemIndex)
                       ? rank_info[index - 1].solveInfo[
@@ -97,14 +99,15 @@
                         ].times
                   "
                 />
-                <!-- TODO 一血 蓝色加粗感叹号 -->
-                <span>{{
-                  rank_info[index - 1].solveInfo[
-                    solveInfoMap(index - 1).indexOf(
-                      String.fromCharCode(problemIndex + 64)
-                    )
-                  ].success_time | penaltyFilter
-                }}</span>
+                <span>
+                  {{
+                    rank_info[index - 1].solveInfo[
+                      solveInfoMap(index - 1).indexOf(
+                        String.fromCharCode(problemIndex + 64)
+                      )
+                    ].success_time | penaltyFilter
+                  }}
+                </span>
               </div>
             </div>
           </td>
@@ -722,6 +725,7 @@ export default {
       ],
       total: 0,
       interval: null,
+      firstBlood: {}
     };
   },
   async created() {
@@ -742,7 +746,7 @@ export default {
     },
   },
   methods: {
-    getContestInfo: async function() {
+    getContestInfo: async function () {
       let response = await getContest({
         contest_id: this.$route.params.id,
       });
@@ -759,15 +763,16 @@ export default {
         });
       }
     },
-    renderRankList: async function() {
-      this.resRank = [];
+    renderRankList: async function () {
+      let resRank = [];
       let response = await getContestRank({
         contest_id: this.$route.params.id,
       });
       if (response.status == 0) {
         let cnt = 1;
         response.data.forEach((val) => {
-          this.resRank.push({
+          // 保存榜单数据
+          resRank.push({
             id: val.user_id,
             rank: val.nick.indexOf("*") === 0 ? "" : cnt, // 打星
             nick: val.nick,
@@ -775,13 +780,31 @@ export default {
             penalty: val.penalty,
             solveInfo: val.problem_id,
           });
+
+          // 跑一血数据
+          val.problem_id.forEach((item) => {
+            if ((!this.firstBlood[item.problem_id]) || this.firstBlood[item.problem_id].time === "") {
+              this.firstBlood[item.problem_id] = {
+                user_id: val.user_id,
+                time: item.success_time
+              }
+            } else {
+              if (this.firstBlood[item.problem_id].time > item.success_time) {
+                this.firstBlood[item.problem_id] = {
+                  user_id: val.user_id,
+                  time: item.success_time
+                }
+              }
+            }
+          });
+
           // 打星逻辑
           if (val.nick.indexOf("*") !== 0) {
             cnt++;
           }
         });
         this.total = cnt - 1;
-        this.rank_info = this.resRank;
+        this.rank_info = resRank;
       } else {
         this.$message({
           message: response.message,
@@ -789,14 +812,14 @@ export default {
         });
       }
     },
-    intervalGetRank: function() {
+    intervalGetRank: function () {
       // 5秒轮询
       this.interval = setInterval(this.renderRankList, 5000);
     },
-    solveInfoMap: function(index) {
+    solveInfoMap: function (index) {
       return this.rank_info[index].solveInfo.map((x) => x.problem_id);
     },
-    isSuccess: function(index, problemIndex) {
+    isSuccess: function (index, problemIndex) {
       if (
         this.rank_info[index].solveInfo[
           this.solveInfoMap(index).indexOf(
@@ -807,6 +830,20 @@ export default {
         return true;
       else return false;
     },
+    isFirstBlood: function (uidx, pidx) {
+      const problemId = String.fromCharCode(pidx + String("A").charCodeAt(0) - 1);
+      if (this.rank_info[uidx].id === this.firstBlood[problemId].user_id) {
+        return true;
+      }
+      return false;
+    },
+    isFrozen: function (solveInfo, pidx) {
+      return false;
+      // 现在如果封榜了 后端直接不给数据 所以先注释了 恒false
+      // solveInfo.filter((x) => {
+        // if (x.)
+      // })
+    }
   },
   computed: {
     contest_id: function() {

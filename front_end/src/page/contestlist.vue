@@ -137,7 +137,7 @@ export default {
             if (itemsIndex !== -1) this.items[key][itemsIndex].hasJoin = true;
           });
         });
-        localStorage.setItem('contest-list', this.items); 
+        localStorage.setItem('contest-list', JSON.stringify(this.items)); 
       }
     },
     doJoinContest: async function (info) {
