@@ -1,28 +1,53 @@
 <template>
   <div class="status-icon">
     <div class="icon">
-      <img src="../../assets/icon/yes.svg" v-if="iconType === 'ac'" />
-      <img src="../../assets/icon/no.svg" v-else-if="iconType === 'wa'" />
-      <span style="font-weight: bold;" v-else>Try</span>
+      <span style="font-weight: bold;" v-if="frozen">Try</span>
+      <img src="../../assets/icon/yes.svg" v-else-if="iconType === 'ac'"/>
+      <img src="../../assets/icon/no.svg" v-else-if="iconType === 'wa'"/>
     </div>
-    <span
-      class="times"
-      :class="[
-        iconType === 'ac'
-          ? 'ac-color'
-          : iconType === 'wa'
-          ? 'wa-color'
-          : 'tle-color',
-      ]"
-      >{{ times }}</span
-    >
+    <span class="times" :class="colorClass">{{ times }}</span>
   </div>
 </template>
 
 <script>
 export default {
   name: "status-icon",
-  props: ["iconType", "times"],
+  props: {
+    iconType: {
+      type: "ac" | "wa",
+      require: true
+    },
+    times: {
+      type: Number,
+      require: true
+    },
+    frozen: {
+      type: Boolean,
+      default: false
+    },
+    firstBlood: {
+      type: Boolean,
+      default: false
+    }
+  },
+  computed: {
+    colorClass() {
+      if (this.frozen) {
+        return "tle-color";
+      }
+
+      switch (this.iconType) {
+        case "ac":
+          if (this.firstBlood) {
+            return "tle-color";
+          }
+          return "ac-color";
+        case "wa":
+          return "wa-color";
+        default:
+      }
+    }
+  }
 };
 </script>
 
