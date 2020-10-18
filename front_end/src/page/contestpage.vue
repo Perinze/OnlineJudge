@@ -899,7 +899,7 @@ table {
 }
 
 .discuss-card {
-  height: 110px;
+  min-height: 110px;
   border-radius: 10px;
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
   z-index: 1;
@@ -910,6 +910,7 @@ table {
   flex-direction: column;
   align-items: flex-end;
   padding: 7px 10px;
+  margin-right: 0;
 }
 
 .discuss-problem-id {

@@ -240,6 +240,7 @@ export default {
 }
 
 .temp-problem-detail {
+  user-select: text;
   position: relative;
   padding: 30px 20px 20px 20px;
 }
