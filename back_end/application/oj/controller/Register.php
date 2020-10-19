@@ -35,7 +35,7 @@ class Register extends Controller
         $resp = $user_model->addUser(array(
             'nick' => $req['nick'],
             'password' => md5(base64_encode($req['password'])),
-            'avatar' => isset($req['avatar']) ? $req['avatar'] : '../uploads/image/20200214/fc3d5f691e86c9f621621682c57de59b.jpg',
+            'avatar' => isset($req['avatar']) ? $req['avatar'] : 'null',
             'realname' => $req['realname'],
             'school' => $req['school'],
             'major' => $req['major'],
