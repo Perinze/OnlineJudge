@@ -24,6 +24,7 @@
         layout="prev, pager, next"
         :page-size="20"
         :total="counts"
+        :current-page="currentPage"
         @current-change="changePage"
       />
     </div>
@@ -39,6 +40,7 @@ export default {
     return {
       items: [],
       counts: 0,
+      currentPage: 1
     };
   },
   async beforeMount() {
@@ -115,6 +117,7 @@ export default {
     changePage(page) {
       document.getElementsByClassName('combox')[0].scrollTop = 0;
       this.renderProblemList(page);
+      this.currentPage = page;
     },
     getProblemListCache(page) {
       const pageNumLimit = 3; // 最多存3页
