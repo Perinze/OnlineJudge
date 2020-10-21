@@ -318,7 +318,7 @@ export default {
       if (total === 0) {
         return 0;
       } else {
-        return (ac / total).toFixed(3) * 100;
+        return (ac / total * 100).toFixed(1);
       }
     },
     ...mapGetters("login", {
