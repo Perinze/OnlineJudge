@@ -25,24 +25,14 @@
       <div class="main-statistics">
         <div class="block-title">Statistics</div>
         <div class="main-statistics-content">
-          <!-- <div style="width: 55px;flex: 1 1 auto;"></div> -->
           <statistics-card
-            title="提交量"
-            :num="histogramData.sumData.submit | stdNum"
-            :predata="histogramSubmit"
+            v-for="card in statistics"
+            :key="card.subtitle"
+            :title="card.title"
+            :subtitle="card.subtitle"
+            :num="card.num"
+            :percent="card.percent"
           />
-          <!-- <div style="width: 59px;"></div> -->
-          <statistics-card
-            title="通过量"
-            :num="histogramData.sumData.ac | stdNum"
-            :predata="histogramAC"
-          />
-          <!-- <div style="width: 59px;"></div> -->
-          <statistics-card
-            title="访问量"
-            num="1,432,567"
-          />
-          <!-- <div class="statistics-card-block" style="width: 51px;flex: 1 1 auto;"></div> -->
         </div>
       </div>
       <div class="main-contest-list">
@@ -89,20 +79,32 @@ export default {
             title: '网络连接失败'
         }
       ],
-      histogramData: {
-        sumData: {
-          ac: 12453566,
-          submit: 24587987,
+      statistics: [
+        {
+          title: "提交量",
+          subtitle: "submitted",
+          num: 0,
+          percent: 0
         },
-        dailyData: [
-          // {
-          //     time: '',
-          //     ac: '',
-          //     submit: ''
-          // }
-        ],
-      },
-      histogramPV: {},
+        {
+          title: "通过量",
+          subtitle: "accepted",
+          num: 0,
+          percent: 0
+        },
+        {
+          title: "访问量",
+          subtitle: "page view",
+          num: 0,
+          percent: 0
+        },
+        {
+          title: "题目量",
+          subtitle: "problems",
+          num: 0,
+          percent: 0
+        }
+      ],
       contestData: [
         // {
         //     id: 1000,
@@ -188,7 +190,7 @@ export default {
   async created() {
     this.getCarouselCache();
     this.renderCarousel();
-    this.renderHistogram();
+    // this.renderHistogram();
     this.renderContest();
     // this.renderPV();
   },
@@ -330,9 +332,9 @@ export default {
 }
 
 .main-statistics-content > * {
-  margin-left: 59px;
+  margin-left: 25px;
   &:first-child {
-    margin-left: 43px;
+    margin-left: 0;
   }
 }
 
@@ -349,6 +351,9 @@ export default {
   position: relative;
   top: 14px;
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-left: 43px;
 }
 
 .main-contest-list {
@@ -395,26 +400,34 @@ export default {
   }
 
   .main-statistics {
+    width: unset;
+
     .main-statistics-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      overflow-x: scroll;
+      width: unset;
+      height: 120px;
       padding: 0 15px;
+      
+      &::-webkit-scrollbar {
+        width: 0 !important
+      }
+      -ms-overflow-style: none;
+      overflow: -moz-scrollbars-none;
 
       > * {
-        // margin-left: 0;
-        // margin-top: 15px;
-        margin: 15px 15px 0 15px;
+        margin: 0 calc(15px / 2);
         width: 100%;
-        
+
         &:first-child {
-          margin: 0 15px 0 15px;
+          margin-left: 0;
         }
       }
     }
   }
 
   .main-contest-list {
+    top: 86px; 
+
     .main-contest-list-content {
       display: flex;
       flex-direction: column;

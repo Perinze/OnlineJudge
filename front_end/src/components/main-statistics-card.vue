@@ -1,37 +1,16 @@
 <template>
   <div class="statistics-card">
-    <div class="statistics-card-info">
-      <span class="card-info-title">{{ title }}</span>
-      <span class="card-info-num">{{ num }}</span>
-      <span class="card-precent-content">
-        <img class="statistics-icon" />
-        <span class="statistics-percent"></span>
-      </span>
+    <div class="card-row card-top">
+      <div class="card-column card-title-box">
+        <div class="card-subtitle">{{ subtitle | upperCase }}</div>
+        <div class="card-title">{{ title }}</div>
+      </div>
+      <div class="card-column card-percent-box" v-if="percent !== 0">
+        <img class="card-icon" :src="isRise ? cardIcon.rise : cardIcon.decent"/>
+        <div class="card-percent" :class="isRise ? 'card-rise' : 'card-decent'">{{ percent | abs | formatPercent }}</div>
+      </div>
     </div>
-    <div class="statistics-card-graph" v-if="predata.length > 1">
-      <div
-        class="graph-item"
-        v-for="index in predata.length"
-        v-bind:key="index"
-        style="transition: height .6s ease;"
-        :style="{
-          height:
-            ((predata[predata.length - index].num - numMin) /
-              (numMax - numMin + 1)) *
-              42 +
-            2 +
-            'px',
-        }"
-      ></div>
-    </div>
-    <div class="statistics-card-graph" v-else>
-      <div
-        class="graph-item"
-        v-for="index in predata.length"
-        v-bind:key="index"
-        :style="{ height: index * 3.5 + 'px' }"
-      ></div>
-    </div>
+    <div class="card-row card-bottom"> {{ num | formatNum }} </div>
   </div>
 </template>
 
@@ -43,129 +22,168 @@ export default {
       type: String,
       default: "Title",
     },
-    num: {
+    subtitle: {
       type: String,
-      default: "",
+      default: "subtitle",
     },
-    predata: {
-      type: Array,
-      default: function() {
-        return [
-          {
-            time: "",
-            num: 0,
-          },
-        ];
-      },
+    num: {
+      type: Number,
+      default: 0,
     },
+    percent: {
+      type: Number,
+      default: 0,
+    }
+  },
+  data() {
+    return {
+      cardIcon: {
+        rise: require("../../assets/icon/arrow-up.svg"),
+        decent: require("../../assets/icon/arrow-down.svg"),
+      }
+    }
   },
   computed: {
-    numMax() {
-      // TODO 之后调整为平均值
-      var ans = 0;
-      this.predata.forEach((val) => {
-        if (val.num > ans) {
-          ans = val.num;
-        }
-      });
-      return ans;
-    },
-    numMin() {
-      var ans = 9999999;
-      this.predata.forEach((val) => {
-        if (val.num < ans) {
-          ans = val.num;
-        }
-      });
-      return ans;
-    },
+    isRise() {
+      return this.percent > 0;
+    }
   },
+  filters: {
+    upperCase(str) {
+      return str.toUpperCase();
+    },
+    abs(num) {
+      return Math.abs(num);
+    },
+    formatNum: function(num) {
+      let res = (num || 0).toString();
+      let result = "";
+      while (res.length > 3) {
+        result = "," + res.slice(-3) + result;
+        res = res.slice(0, res.length - 3);
+      }
+      if (res) {
+        result = res + result;
+      }
+      return result;
+    },
+    formatPercent(num) {
+      return `${num.toFixed(1)}%`;
+    }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
 .statistics-card {
-  background: white;
+  display: flex;
+  flex-direction: column;
+  flex-basis: 150px;
+  flex-grow: 1;
+  flex-shrink: 0;
+  justify-content: space-between;
+  width: 100%;
+  height: 100px;
+  padding: 15px;
+  background-color: #FFF;
   border-radius: 10px;
   overflow: hidden;
-  // flex: 1 1 auto;
-  width: 370px;
-  height: 133px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 5px 15px rgba(0,0,0,.1);
 }
 
-.statistics-card .statistics-card-info {
-  display: flex;
-  flex: 1 1 auto;
-  flex-direction: column;
-  /*background: #1CC09F;*/
-  width: 228px;
-  top: auto;
-  bottom: 23px;
-  > span {
-    position: relative;
-    left: 20px;
-    display: block;
-  }
-}
-
-.statistics-card .statistics-card-info .card-info-title {
-  width: 48px;
-  height: 22px;
-  margin-bottom: 18px;
-  font-size: 16px;
-  font-weight: 400;
-  color: rgba(38, 38, 38, 1);
-  opacity: 0.5;
-}
-
-.statistics-card .statistics-card-info .card-info-num {
-  width: 150px;
-  height: 30px;
-  margin-bottom: 14px;
-  font-size: 30px;
-  font-weight: bold;
-  line-height: 36px;
-  color: rgba(77, 79, 92, 1);
-  opacity: 1;
-  text-align: left;
-}
-
-.statistics-card .statistics-card-info .card-precent-content {
-  height: 11px;
-  margin-bottom: 20px;
-}
-
-.statistics-card .statistics-card-graph {
-  /*background: #7eff00;*/
+.card-top {
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
-  justify-content: flex-end;
-  position: relative;
-  width: 128px;
-  right: 14px;
-  bottom: 20px;
-  height: 50px;
+  justify-content: space-between;
+  width: 100%;
 }
 
-.statistics-card .statistics-card-graph .graph-item {
-  background: linear-gradient(
-    to bottom,
-    rgba(140, 215, 253, 1),
-    rgba(189, 234, 254, 1)
-  );
-  width: 8.9px;
-  margin-right: 1px;
+.card-title-box {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  font-family: PingFang SC;
+}
+
+.card-subtitle {
+  font-size: 12px; 
+  font-weight: 300;
+  height: 9px;
+  color: #7D8184;
+  transform: scale(0.5833333);
+  margin-top: -3px;
+  margin-bottom: 2px;
+  margin-left: -23%;
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.card-percent-box {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.card-percent {
+  font-size: 11px;
+  font-family: PingFang SC;
+  font-weight: 600;
+  line-height: 9px;
+}
+
+.card-bottom {
+  width: 100%;
+  text-align: left;
+  font-size: 22px;
+  font-family: Arial;
+  font-weight: bold;
+  line-height: 25px;
+}
+
+.card-icon {
+  width: 7px;
+  height: 9px;
+  border: none;
+  margin-right: 3px;
+}
+
+.card-rise {
+  color: #07C793;
+}
+
+.card-decent {
+  color: #F03443;
 }
 
 @media screen and (max-width: 650px) {
   .statistics-card {
-    box-shadow: 0 5px 15px rgba(0,0,0,.1);
+    height: 70px;
+    padding: 10px;
+  }
+
+  .card-subtitle {
+    transform: scale(0.5);
+    margin-left: -35%;
+  }
+
+  .card-title {
+    font-size: 12px;
+    transform: scale(0.83333333);
+    margin-left: -10%;
+  }
+
+  .card-bottom {
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 18px;
+  }
+
+  .card-percent-box {
+    transform: scale(0.666667);
+    margin-top: -4px;
   }
 }
-
 </style>

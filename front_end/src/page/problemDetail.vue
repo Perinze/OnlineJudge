@@ -2,12 +2,15 @@
   <div class="problem-detail-container">
     <div class="temp-problem-detail">
       <div class="title">{{ problem_info.id }} {{ problem_info.title }}</div>
+      <div class="other-info">
+        <div class="source" v-if="problem_info.source.trim()">{{ problem_info.source }}</div>
+      </div>
       <div id="render-latex-content">
-        <div class="problem-background">
+        <div class="problem-background" v-if="problem_info.background.trim()">
           <span class="sub-title">题目背景</span>
           <span class="content" v-html="Marked(problem_info.background)"></span>
         </div>
-        <div class="describe" v-if="String(problem_info.describe) !== 'null'">
+        <div class="describe" v-if="problem_info.describe.trim()">
           <span class="sub-title">题目描述</span>
           <span class="content" v-html="Marked(problem_info.describe)"></span>
         </div>
@@ -121,6 +124,7 @@ export default {
           // },
         ],
         hint: "",
+        source: ""
       }
     };
   },
@@ -158,12 +162,15 @@ export default {
           });
         } else {
           let data = response.data;
-          this.problem_info.title = data.title;
-          this.problem_info.background = data.background;
-          this.problem_info.describe = data.describe;
-          this.problem_info.input_sample = data.input_format;
-          this.problem_info.output_sample = data.output_format;
-          this.problem_info.hint = data.hint;
+          this.problem_info = Object.assign(this.problem_info, {
+            title: data.title,
+            background: data.background,
+            describe: data.describe,
+            input_sample: data.input_format,
+            output_sample: data.output_format,
+            hint: data.hint,
+            source: data.source
+          });
           data.sample.forEach((val) => {
             this.problem_info.example.push(val);
           });
@@ -252,15 +259,26 @@ export default {
     weight: bold;
     size: 32px;
   }
-  &::after {
-    content: "";
-    position: absolute;
-    top: 75px;
-    height: 1px;
-    background: gray;
-    width: 70%;
+  // &::after {
+  //   content: "";
+  //   position: absolute;
+  //   top: 75px;
+  //   height: 1px;
+  //   background: gray;
+  //   width: 70%;
+  // }
+}
+
+.other-info {
+  display: flex;
+  flex-direction: row;
+  
+  .source {
+    color: gray;
+    font-size: 12px;
   }
 }
+
 
 .sub-title {
   display: block;
