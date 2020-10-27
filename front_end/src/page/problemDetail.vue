@@ -8,7 +8,7 @@
       <div id="render-latex-content">
         <div class="problem-background" v-if="problem_info.background.trim()">
           <span class="sub-title">题目背景</span>
-          <span class="content" v-html="Marked(problem_info.background)"></span>
+          <span class="content render-scroll-area" v-html="Marked(problem_info.background)"></span>
         </div>
         <div class="describe" v-if="problem_info.describe.trim()">
           <span class="sub-title">题目描述</span>
@@ -17,14 +17,14 @@
         <div class="io-standard">
           <span class="sub-title">输入格式</span>
           <span
-            class="content"
+            class="content render-scroll-area"
             v-html="Marked(problem_info.input_sample)"
           ></span>
         </div>
         <div class="io-standard">
           <span class="sub-title">输出格式</span>
           <span
-            class="content"
+            class="content render-scroll-area"
             v-html="Marked(problem_info.output_sample)"
           ></span>
         </div>
@@ -82,13 +82,20 @@
       </div>
       <div class="hint" v-if="problem_info.hint != ''">
         <span class="sub-title">Hint</span>
-        <span
-          class="content"
+        <div
+          class="content render-scroll-area"
           v-html="Marked(problem_info.hint)"
           id="render-latex-hint"
-        ></span>
+        ></div>
       </div>
       <div class="function-btn-group">
+        <button
+          class="judgelog-btn"
+          @click="gotoJudgelog(pid || $route.query.pid, cid || $route.query.cid)"
+          disabled
+        >
+          提交记录
+        </button>
         <button
           class="submit-btn"
           @click="gotoSubmit(pid || $route.query.pid, cid || $route.query.cid)"
@@ -132,6 +139,9 @@ export default {
     if (this.pid || this.$route.query.pid) this.renderProblemDetail();
   },
   methods: {
+    gotoJudgelog(pid, cid = null) {
+      alert("Developing");
+    },
     gotoSubmit(pid, cid = null) {
       if (window.isWap) {
         this.$parent.callSubmit({
@@ -292,8 +302,33 @@ export default {
   font-size: 17px;
 }
 
-.submit-btn {
+.function-btn-group {
   margin-top: 25px;
+  > button {
+    margin-right: 15px;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.judgelog-btn {
+  border-radius: 0.5em;
+  font-size: 16px;
+  padding: 5px 20px;
+  background: #4288ce;
+  color: white;
+  border: solid 1px #4288ce;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+  &:disabled {
+    display: none;
+  }
+}
+
+.submit-btn {
   border-radius: 0.5em;
   font-size: 16px;
   padding: 5px 20px;
@@ -368,6 +403,9 @@ export default {
 @media (max-width: 650px) {
   .problem-detail-container {
     top: 20px;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   .temp-problem-detail > .title::after {
@@ -395,6 +433,16 @@ export default {
           }
         }
       }
+    }
+  }
+
+  .render-scroll-area {
+    min-width: 100%;
+    width: auto;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    &::-webkit-scrollbar {
+      display: none;
     }
   }
 }
