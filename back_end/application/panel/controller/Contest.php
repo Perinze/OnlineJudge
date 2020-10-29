@@ -37,6 +37,7 @@ class Contest extends Base
             'begin_time' => $req['begin_time'],
             'end_time' => $req['end_time'],
             'frozen' => $req['frozen'],
+            'prize'  => isset($req['prize'])?$req['prize']:"['0.1', '0.2', '0.3']",
             'colors' => json_encode(isset($req['colors']) ? $req['colors'] : array()),
             'problems' => json_encode($req['problems']),
         ));

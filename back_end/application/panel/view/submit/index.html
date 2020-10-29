@@ -38,16 +38,10 @@
                     <div class="panel-heading"> 提交列表 </div>
                     <div class="panel-body">
                         <!--<div style="text-align:right;"> <button type="button" class="btn btn-success" style="margin-bottom:5px;" onclick="location.href='add.html'" >添加内容</button></div>-->
-                        <div>
-                            <label>开始位置</label>
-                            <input name="start" id="start" value="" class="form-control" style="width: 120px">
-                        </div>
-                        <div>
-                            <label>结束位置</label>
-                            <input name="end" id="end" value="" class="form-control" style="width: 120px">
-                        </div>
+
+
                         <div style="text-align:right;">
-                            <button type="button" class="btn btn-success" style="margin-bottom:5px;" onclick="reJudge($('#start').val(),$('#end').val())" >批量重测</button>
+                            <button type="button" class="btn btn-success" style="margin-bottom:5px;" onclick="location.href='pending.html'" >批量重测</button>
                         </div>
                         <div class="dataTable_wrapper">
                             <table class="table table-striped table-bordered table-hover" id="dataTable">
