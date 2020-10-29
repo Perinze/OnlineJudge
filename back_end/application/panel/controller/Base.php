@@ -67,6 +67,13 @@ class Base extends Controller
             'icon' => '',
             'child' => array()
         ),
+        array(
+            'c' =>  'notification',
+            'a' =>  'index',
+            'title' =>  '通知管理',
+            'icon'  =>  '',
+            'child' =>  array()
+        )
     );
 
     /**
