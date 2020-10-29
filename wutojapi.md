@@ -2287,6 +2287,37 @@ null
     ]
 }
 ```
-```json
 
+
+#### getNotificationByID 获取单个通知
+
+**request: POST**
+
+|param|type|data|comment|
+|----|----|----|----|
+|id|int|1|通知id|
+
+**response:**
+```json
+{
+    "status": 0,
+    "message": "查询成功",
+    "data": {
+        "id": 2,
+        "title": "asd",
+        "content": "asd",
+        "submit_time": "2020-10-29 20:23:00",
+        "modify_time": "2020-10-29 20:23:00",
+        "user_id": 7,
+        "status": 1
+    }
+}
+```
+
+```json
+{
+    "status": -1,
+    "message": "id不存在",
+    "data": ""
+}
 ```
