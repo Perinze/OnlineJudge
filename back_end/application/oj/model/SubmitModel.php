@@ -42,7 +42,7 @@ class SubmitModel extends Model
             $page_limit = config('wutoj_config.page_limit');
             $language = config('wutoj_config.language');
             $sql = $this
-                ->field(['submit.id as runid','submit.user_id as user_id','users.nick as nick', 'problem_id', 'language', 'submit.status as status', 'time', 'memory', 'submit_time'])
+                ->field(['submit.id as runid','submit.user_id as user_id','users.nick as nick', 'users.avatar as avatar', 'problem_id', 'language', 'submit.status as status', 'time', 'memory', 'submit_time'])
                 ->where($where)
                 ->order('submit_time', 'desc')
                 ->limit($page * $page_limit, $page_limit)
