@@ -20,7 +20,7 @@ class SubmitModel extends Model
     public function get_all_submit($where)
     {
         try {
-            $info = $this->field(['submit.user_id as user_id', 'submit.nick as nick', 'users.realname as realname','users.school as school','problem_id', 'submit.status as status', 'time', 'memory', 'submit_time'])
+            $info = $this->field(['submit.user_id as user_id', 'submit.nick as nick', 'users.avatar as avatar', 'users.realname as realname','users.school as school','problem_id', 'submit.status as status', 'time', 'memory', 'submit_time'])
                 ->where($where)
                 ->leftJoin('users', 'submit.user_id = users.user_id')
                 ->order('submit_time')->select()->toArray();
