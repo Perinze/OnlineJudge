@@ -18,6 +18,58 @@ class OJCacheModel extends Model
         $this->cache_time = config('wutoj_config.rank_cache_time');
     }
 
+    public function set_public_notification_cache($data)
+    {
+        try {
+            $ok = Cache::store('redis')->set("public_notification", $data, $this->cache_time * 6);
+            if (!$ok) {
+                return ['code' => CODE_ERROR, 'msg' => '更新全局通知失败', 'data' => $data];
+            }
+            return ['code' => CODE_SUCCESS, 'msg' => '更新全局通知成功', 'data' => $data];
+        } catch (Exception $e) {
+            return ['code' => CODE_ERROR, 'msg' => 'redis异常', 'data' => $e->getMessage()];
+        }
+    }
+
+    public function get_public_notification_cache()
+    {
+        try {
+            $ok = Cache::store('redis')->get("public_notification");
+            if (!$ok) {
+                return ['code' => CODE_ERROR, 'msg' => '获取全局通知失败', 'data' => ''];
+            }
+            return ['code' => CODE_SUCCESS, 'msg' => '获取全局通知成功', 'data' => $ok];
+        } catch (Exception $e) {
+            return ['code' => CODE_ERROR, 'msg' => 'redis异常', 'data' => $e->getMessage()];
+        }
+    }
+
+    public function set_contest_notification_cache($contest_id, $data)
+    {
+        try {
+            $ok = Cache::store('redis')->set("contest_notification".$contest_id, $data, $this->cache_time * 6);
+            if (!$ok) {
+                return ['code' => CODE_ERROR, 'msg' => '更新比赛通知失败', 'data' => $data];
+            }
+            return ['code' => CODE_SUCCESS, 'msg' => '更新比赛通知成功', 'data' => $data];
+        } catch (Exception $e) {
+            return ['code' => CODE_ERROR, 'msg' => 'redis异常', 'data' => $e->getMessage()];
+        }
+    }
+
+    public function get_contest_notification_cache($contest_id)
+    {
+        try {
+            $ok = Cache::store('redis')->get("contest_notification".$contest_id);
+            if (!$ok) {
+                return ['code' => CODE_ERROR, 'msg' => '获取全局通知失败', 'data' => ''];
+            }
+            return ['code' => CODE_SUCCESS, 'msg' => '获取全局通知成功', 'data' => $ok];
+        } catch (Exception $e) {
+            return ['code' => CODE_ERROR, 'msg' => 'redis异常', 'data' => $e->getMessage()];
+        }
+    }
+
     public function set_user_rank_cache($data)
     {
         try {

@@ -12,6 +12,7 @@
       :is-display="sidebarDisplay"
       @close="closeSideBar"
       @call="callSideBar"
+      @logout="doLogout"
     />
     <div class="layout-content" id="layout-content" :style="contentWidthObject">
       <topnav
@@ -25,6 +26,7 @@
           class="combox"
           :key="$route.fullPath + localUserId"
           @open-problem="callSideDrawer"
+          @logout="doLogout"
         />
       </keep-alive>
     </div>
@@ -56,6 +58,8 @@ import sidenav from "./components/side-nav";
 import topdrawer from "./components/top-drawer";
 import sidedrawer from "./components/side-drawer";
 import { judgeWap } from "./utils";
+import { logoutWork } from "./api/common";
+import { logout } from "./api/getData";
 
 export default {
   components: {
@@ -161,6 +165,18 @@ export default {
       this.sidebarDisplay = false;
       if (this.isWap) {
         this.wholePageMaskOpen = false;
+      }
+    },
+    doLogout: async function() {
+      let response = await logout();
+      if (response.status == 0) {
+        // ok
+        const procedure = new Promise((resolve) => {
+          logoutWork();
+          resolve();
+        }).then(() => {
+          this.$router.push('/main');
+        });
       }
     },
   },

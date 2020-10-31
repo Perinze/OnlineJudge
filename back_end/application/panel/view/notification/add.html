@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>控制台 - 公告列表 - 添加公告</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="__JS__/jquery-1.11.0.js"></script>
+    <!-- 样式文件 -->
+    <link rel="stylesheet" href="__UM__/themes/default/css/umeditor.css">
+    <link href="__CSS__/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="../../res/bacheditor/build/build.min.css" rel="stylesheet"> -->
+    <link href="__CSS__/sb-admin-2.css" rel="stylesheet">
+    <link href="__FONT__/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="__CSS__/plugins/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Styles -->
+    <link rel="stylesheet" href="__CSS__/plugins/tui-editor.css">
+    <link rel="stylesheet" href="__CSS__/plugins/tui-editor-contents.css">
+    <link rel="stylesheet" href="__CSS__/plugins/codemirror.css">
+    <link rel="stylesheet" href="__CSS__/plugins/github.min.css">
+</head>
+
+<body>
+
+<div id="wrapper">
+    <!--顶栏&菜单栏-->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        {include file='layout/toolbar'} {include file='layout/sidebar'}
+    </nav>
+
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">添加公告</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading"> 公告设置 </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <form action="">
+                                <!--http://ziqiangshe.applinzi.com/tp5/public/index.php/panel/blog/editblog-->
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>标题</label>
+                                        <textarea name="title" id="title" cols="30" rows="10" class="form-control"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>公告内容</label>
+                                        <textarea name="content" id="content" cols="30" rows="10" class="form-control"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>比赛id</label>
+                                        <input name="contest_id" id="contest_id" value="" class="form-control">
+                                    </div>
+                                    <div>
+                                        <label>是否可用</label>
+                                        <input name="status" id="status" value=1 class="form-control" placeholder="0-不可用 1-可用">
+                                    </div>
+                                    <div>
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <button type="button" class="btn btn-default" onclick="btn()">提交</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Scripts -->
+<script src="__JS__/plugins/markdown-it.js"></script>
+<script src="__JS__/plugins/to-markdown.js"></script>
+<script src="__JS__/tui-code-snippet.min.js"></script>
+<script src="__JS__/plugins/codemirror.min.js"></script>
+<script src="__JS__/plugins/highlight.min.js"></script>
+<script src="__JS__/plugins/squire-raw.js"></script>
+<script src="__JS__/tui-editor-Editor-full.js"></script>
+<script src="__JS__/bootstrap.min.js"></script>
+<script src="__JS__/plugins/metisMenu/metisMenu.min.js"></script>
+<script src="__JS__/sb-admin-2.js"></script>
+<script>
+
+    function btn()
+    {
+        $.ajax({
+            url: "__PANEL__/notification/addNotification",
+            type: "post",
+            dataType: "json",
+            data: {
+                title:   $("#title").val(),
+                content:     $("#content").val(),
+                contest_id: $("#contest_id").val(),
+                status: $("#status").val(),
+            },
+            success: function (data) {
+                if (data.status == 0) {
+                    alert(data.message);
+                    window.location.href = "__PANEL__/notification/index";
+                } else if (data.status == -1) {
+                    alert(data.message);
+                }
+            },
+        });
+    }
+
+</script>
+</body>
+</html>

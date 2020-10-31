@@ -8,7 +8,7 @@ return [
     'environment' => 'master',
     /* 提交 */
     'submit_url' => [
-        'http://10.143.216.128:8819/submit'
+        'http://10.143.216.128:8820/submit'
     ],
     /* 交题时间间隔 */
     'interval_time' => 5,
@@ -16,8 +16,8 @@ return [
     'language' => [
         'c.gcc',
         'cpp.g++',
-        'java.openjdk',
-        'py.cpython'
+        'java.openjdk10',
+        'python.cpython3.6'
     ],
     /* 每面数量 */
     'page_limit' => 20,

@@ -5,7 +5,7 @@ function aoDataFormat($aoData, $column)
     $aoData = json_decode($aoData, false);
     $data['offset'] = 0;
     $data['limit'] = 10;
-    $data['where'] = [];
+    $data['where'] = array();
     foreach ($aoData as $key => $val) {
         if ($val->name === 'iDisplayStart') {
             $data['offset'] = $val->value;
@@ -14,7 +14,7 @@ function aoDataFormat($aoData, $column)
             $data['limit']= $val->value;
         }
         if ($val->name === 'sSearch' && $val->value !== '') {
-            $data['where'][$column] = ['like', '%' . $val->value . '%'];
+            array_push($data['where'], [$column, 'like', '%' . $val->value . '%']);
         }
     }
     return $data;
