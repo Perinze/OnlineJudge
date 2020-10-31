@@ -91,8 +91,8 @@
       <div class="function-btn-group">
         <button
           class="judgelog-btn"
-          @click="gotoJudgelog(pid || $route.query.pid, cid || $route.query.cid)"
-          disabled
+          @click="gotoJudgelog(pid || $route.query.pid)"
+          :disabled="cid || $route.query.cid"
         >
           提交记录
         </button>
@@ -139,8 +139,8 @@ export default {
     if (this.pid || this.$route.query.pid) this.renderProblemDetail();
   },
   methods: {
-    gotoJudgelog(pid, cid = null) {
-      alert("Developing");
+    gotoJudgelog(pid) {
+      this.$router.push(`/submission?p=${pid}`);
     },
     gotoSubmit(pid, cid = null) {
       if (window.isWap) {

@@ -4,7 +4,7 @@
       <user-card
         v-if="displayUsercard"
         @close="displayUsercard = false"
-        @logout="doLogout"
+        @logout="$emit('logout'), displayUsercard = false, initUser()"
       />
     </transition>
     <transition name="welcome">
@@ -45,7 +45,7 @@
       <div class="user-info" :class="{'has-login': isLogin}" align="center" v-if="isLogin">
         <span id="user-nick">{{ userData.nick }}</span>
         <br />
-        <span id="user-desc">{{ userData.desc }}</span>
+        <span id="user-desc" v-if="userData.desc !== 'null'">{{ userData.desc }}</span>
       </div>
       <div class="user-data" :class="{'has-login': isLogin}" v-if="isLogin">
         <div style="width: 12px"></div>
@@ -125,7 +125,6 @@
 import MenuItem from "./menu-item";
 import userCard from "../components/userCard";
 import welcome from "../components/welcome";
-import { logoutWork } from "../api/common";
 import { logout, checkLogin } from "../api/getData";
 import { mapGetters } from "vuex";
 import store from "../store";
@@ -175,6 +174,12 @@ export default {
         //   routeName: "achievement",
         // },
         {
+          title: "提交 Submission",
+          keyName: "submission",
+          imgSrc: require("../../assets/icon/submission.svg"),
+          routeName: "submission"
+        },
+        {
           title: "讨论 Discussion",
           keyName: "discussion",
           imgSrc: require("../../assets/icon/discussion.svg"),
@@ -208,21 +213,7 @@ export default {
     recvLoginData: function(data) {
       this.$store.dispatch("login/userInfoStorage", data);
       this.userinfo.isLogin = true;
-    },
-    doLogout: async function() {
-      let response = await logout();
-      if (response.status == 0) {
-        // ok
-        let procedure = new Promise((resolve) => {
-          logoutWork();
-          resolve();
-        });
-        procedure.then(() => {
-          this.initUser();
-          this.displayUsercard = false;
-          this.$router.push('/main');
-        });
-      }
+      this.$router.go(0);
     },
     initUser() {
       let tmp = localStorage.getItem("Flag");
@@ -290,6 +281,7 @@ export default {
     },
     activeIndex: function () {
       let path = this.activePath;
+      return this.items.map(x => `/${x.routeName}`).indexOf(path);
       switch (path) {
         case "/main":
           return 0;
@@ -308,6 +300,7 @@ export default {
         case "/achievement":
           return 5;
         case "/discussion":
+        case "/discuss":
           return 6;
       }
       return null;

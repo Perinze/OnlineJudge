@@ -85,7 +85,7 @@
           <li
             v-for="index in submit_log.length"
             :key="'submit-log'+index"
-            v-bind:title="'RunID: ' + submit_log[index - 1].runid"
+            :title="'RunID: ' + submit_log[index - 1].runid"
             class="submit-log-list-element submit-log-li"
             @click="
               $router.push(
@@ -105,7 +105,7 @@
                     {{
                       String.fromCharCode(
                         contest_info.problems.indexOf(
-                          submit_log[index - 1].problem
+                          `${submit_log[index - 1].problem}`
                         ) + 65
                       )
                     }}
@@ -168,7 +168,6 @@
             >点我查看更多, 提问问题</span
           >
         </span>
-        <!-- TODO 改成卡片样式 -->
         <ol>
           <li>
             <div
@@ -190,7 +189,7 @@
                 {{
                   String.fromCharCode(
                     contest_info.problems.indexOf(
-                      discusses[index - 1].problem
+                      `${discusses[index - 1].problem_id}`
                     ) + 65
                   )
                 }}
@@ -564,6 +563,7 @@ export default {
       });
       if (response.status == 0) {
         this.discusses = response.data.data;
+        console.log(this.discusses);
         localStorage.setItem(`contestDiscussList-${this.$route.params.id}`, JSON.stringify(response.data.data));
         // response.data.data.forEach((val) => {
         //   this.discusses.push({

@@ -168,9 +168,9 @@ export default {
           return "C++11";
         case "c.gcc":
           return "C";
-        case "python.cpython":
+        case "python.cpython3.6":
           return "Python";
-        case "java.java":
+        case "java.openjdk10":
           return "Java";
         default:
           return "unknown Language";

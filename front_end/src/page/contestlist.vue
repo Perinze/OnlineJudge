@@ -159,6 +159,9 @@ export default {
           type: "success",
         });
       } else {
+        if (response.message == "未登录") {
+          this.$emit('logout');
+        }
         this.$message({
           message: "参加比赛失败: " + response.message,
           type: "error",
