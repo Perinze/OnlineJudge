@@ -60,8 +60,7 @@
 <script>
 import { getSubmitInfo } from "../api/getData";
 import submissionCard from "../components/submission-card";
-import _ from "lodash";
-
+import { languages } from "../config/language";
 const lsKey = 'submission-list';
 
 export default {

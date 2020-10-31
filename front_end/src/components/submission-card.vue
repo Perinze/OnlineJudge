@@ -12,7 +12,7 @@
         <div><span class="info-title" :class="statusClass">{{ status }}</span></div>
         <div>
           <span class="info-title">Language: </span>
-          <span class="info-content">{{ language | languageFormat }}</span>
+          <span class="info-content">{{ language | langDisplay }}</span>
         </div>
         <div class="wap-no-display">
           <span class="info-title">TimeCost: </span>
@@ -39,6 +39,8 @@
 </template>
 
 <script>
+import { languages } from "../config/language";
+
 export default {
   name: "submission-card",
   props: {
@@ -88,13 +90,14 @@ export default {
       res = res.toFixed(2);
       return res + " Mb";
     },
-    languageFormat(str) {
-      const arr = str.split('.');
-      let ret = '';
-      arr.forEach((val) => {
-        ret += val.charAt(0).toUpperCase() + val.slice(1) + '.'
-      });
-      return ret.slice(0, -1);
+    langDisplay(val) {
+      const len = languages.length;
+      for (let i=0; i<len; i++) {
+        if (val === languages[i].value) {
+          return languages[i].name;
+        }
+      }
+      return "Unknown Language";
     }
   }
 }

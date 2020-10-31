@@ -39,6 +39,7 @@
 import { getWholeErrorName } from "../api/common";
 import { getProblem, getStatus } from "../api/getData";
 import Mycodemirror from "../components/myCodemirror";
+import { languages } from "../config/language";
 
 export default {
   components: { Mycodemirror },
@@ -163,18 +164,13 @@ export default {
       this.$loading.hide();
     },
     langToValue(val) {
-      switch (val) {
-        case "cpp.g++":
-          return "C++11";
-        case "c.gcc":
-          return "C";
-        case "py.cpython3.6":
-          return "Python";
-        case "java.openjdk10":
-          return "Java";
-        default:
-          return "unknown Language";
+      const len = languages.length;
+      for (let i=0; i<len; i++) {
+        if (val === languages[i].value) {
+          return languages[i].name;
+        }
       }
+      return "Unknown Language";
     },
     setIntervaler: function() {
       this.interval = setInterval(() => {

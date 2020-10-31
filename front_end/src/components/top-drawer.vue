@@ -39,6 +39,7 @@
 <script>
 import codeEditor from "./myCodemirror";
 import { getProblem, submitCode, checkLogin } from "../api/getData";
+import { languages } from "../config/language";
 
 export default {
   name: "top-drawer",
@@ -48,28 +49,7 @@ export default {
     return {
       code: {},
       lang: "c.gcc",
-      langItems: [
-        {
-          name: "C",
-          value: "c.gcc",
-          cmValue: "text/x-csrc",
-        },
-        {
-          name: "C++11",
-          value: "cpp.g++",
-          cmValue: "text/x-c++src",
-        },
-        {
-            name: 'Java',
-            value: 'java.openjdk10',
-            cmValue: 'text/x-java'
-        },
-        {
-            name: 'Python3.6',
-            value: 'py.cpython3.6',
-            cmValue: 'python'
-        },
-      ],
+      langItems: languages
     };
   },
   methods: {
@@ -162,13 +142,20 @@ export default {
     },
   },
   watch: {
-    pid(before, val) {
+    lang(val, before) {
+      console.log(before, val);
       // 保存之前的代码
-      this.code[before] = this.$refs.codeEditor.code;
+      localStorage.setItem(`${before}-stash`, this.$refs.codeEditor.code);
       // 从未有过临时代码
-      if (this.code[val] === undefined) this.code[val] = "";
-      this.$refs.codeEditor.code = this.code[val];
+      this.$refs.codeEditor.code = localStorage.getItem(`${val}-stash`);
     },
+    isDisplay(val) {
+      if (val) {
+        this.lang = localStorage.getItem('code-language') || "c.gcc";
+      } else {
+        localStorage.setItem('code-language', this.lang);
+      }
+    }
   },
 };
 </script>
