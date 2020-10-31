@@ -41,6 +41,8 @@ class Submit extends Base
         if(isset($req['duration'])){
             $where[] = ['submit_time', 'between time', explode(',', $req['duration'])];
         }
+        var_dump($req);
+        halt($where);
         return $where;
     }
 
