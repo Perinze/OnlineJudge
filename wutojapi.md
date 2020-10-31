@@ -2250,3 +2250,74 @@ null
     ]
 }
 ```
+
+## Notification
+
+
+#### getNotification 获取所有通知
+
+**request: POST**
+
+|param|type|data|comment|
+|----|----|----|----|
+|contest_id|int|1|比赛id/为空则为获取所有全局公告|
+
+**response:**
+```json
+{
+    "status": 0,
+    "message": "查询成功",
+    "data": [
+        {
+            "id": 1,
+            "title": "123",
+            "content": "123",
+            "submit_time": "2020-10-27 20:03:13",
+            "modify_time": "2020-10-26 12:50:34",
+            "user_id": 1
+        },
+        {
+            "id": 7,
+            "title": "asdasd",
+            "content": "a",
+            "submit_time": "2020-10-27 20:35:55",
+            "modify_time": "2020-10-27 20:35:55",
+            "user_id": null
+        }
+    ]
+}
+```
+
+
+#### getNotificationByID 获取单个通知
+
+**request: POST**
+
+|param|type|data|comment|
+|----|----|----|----|
+|id|int|1|通知id|
+
+**response:**
+```json
+{
+    "status": 0,
+    "message": "查询成功",
+    "data": {
+        "id": 2,
+        "title": "asd",
+        "content": "asd",
+        "submit_time": "2020-10-29 20:23:00",
+        "modify_time": "2020-10-29 20:23:00",
+        "user_id": 7,
+        "status": 1
+    }
+}
+```
+
+```json
+{
+    "status": -1,
+    "message": "id不存在",
+    "data": ""
+}
+```
