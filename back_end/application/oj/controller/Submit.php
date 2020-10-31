@@ -30,7 +30,7 @@ class Submit extends Base
             $where[] = ['submit.user_id', '=', $req['user_id']];
         }
         if(isset($req['nick'])){
-            $where[] = ['users.nick', '=', $req['nick']];
+            $where[] = ['nick', '=', $req['nick']];
         }
         if(isset($req['status'])){
             $where[] = ['submit.status', '=', $req['status']];
@@ -39,7 +39,7 @@ class Submit extends Base
             $where[] = ['problem_id', '=', $req['problem_id']];
         }
         if(isset($req['duration'])){
-            $where[] = ['submit_time', 'between time', explode(',', $req)];
+            $where[] = ['submit_time', 'between time', explode(',', $req['duration'])];
         }
         return $where;
     }
