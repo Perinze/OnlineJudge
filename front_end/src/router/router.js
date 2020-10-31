@@ -186,6 +186,14 @@ const routes = [
     },
   },
   {
+    // 讨论区
+    path: "/discussion",
+    component: discussion,
+    meta: {
+      isLogin: false,
+    }
+  },
+  {
     // 某条帖子
     name: "discussionInfo",
     path: "/discussionInfo",
