@@ -44,10 +44,11 @@ class SubmitModel extends Model
             $sql = $this
                 ->field(['submit.id as runid','submit.user_id as user_id','users.nick as nick', 'avatar', 'problem_id', 'language', 'submit.status as status', 'time', 'memory', 'submit_time'])
                 ->where($where)
-                ->order('submit_time', 'desc')
+                ->order('submit.id', 'desc')
                 ->limit($page * $page_limit, $page_limit)
                 ->join('users','submit.user_id = users.user_id')
                 ->buildSql();
+            halt($sql);
             $info['submit_info'] = Db::query($sql);
             foreach ($info['submit_info'] as &$item){
                 $item['language'] = $language[$item['language']];
