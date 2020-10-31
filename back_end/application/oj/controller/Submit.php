@@ -20,6 +20,27 @@ use think\facade\Session;
 
 class Submit extends Base
 {
+    private function get_where_info($req)
+    {
+        $where = [];
+        if(isset($req['user_id'])){
+            $where[] = ['submit.user_id', '=', $req['user_id']];
+        }
+        if(isset($req['nick'])){
+            $where[] = ['users.nick', '=', $req['nick']];
+        }
+        if(isset($req['status'])){
+            $where[] = ['submit.status', '=', $req['status']];
+        }
+        if(isset($req['problem_id'])){
+            $where[] = ['problem_id', '=', $req['problem_id']];
+        }
+        if(isset($req['duration'])){
+            $where[] = ['submit_time', 'between time', explode(',', $req)];
+        }
+        return $where;
+    }
+
     /**
      * 获取提交详情
      */
@@ -60,12 +81,11 @@ class Submit extends Base
             }
             $where[] = ['contest_id', '=', $req['contest_id']];
             // administrator can get all
-            if (!($identify === ADMINISTRATOR || $time > strtotime($contest['data']['end_time']))) {
-                $where[] = ['submit.user_id', '=', $user_id];
+            if ($identify === ADMINISTRATOR || $time > strtotime($contest['data']['end_time'])) {
+                $where[] = $this->get_where_info($req);
             } else {
-                if(isset($req['user_id'])){
-                    $where[] = ['submit.user_id', '=', $req['user_id']];
-                }
+                $req['user_id'] = $user_id;
+                $where[] = $this->get_where_info($req);;
             }
             $resp = $submit_model->get_the_submit($where, $page);
 
@@ -78,9 +98,7 @@ class Submit extends Base
                 $resp['data']['rank'] = 1;
             }
         } else {
-            if(isset($req['user_id'])){
-                $where[] = ['submit.user_id', '=', $req['user_id']];
-            }
+            $where[] = $this->get_where_info($req);
             $resp = $submit_model->get_the_submit($where, $page);
         }
 
