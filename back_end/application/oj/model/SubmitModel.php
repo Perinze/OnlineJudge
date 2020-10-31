@@ -48,7 +48,6 @@ class SubmitModel extends Model
                 ->limit($page * $page_limit, $page_limit)
                 ->join('users','submit.user_id = users.user_id')
                 ->buildSql();
-            halt($sql);
             $info['submit_info'] = Db::query($sql);
             foreach ($info['submit_info'] as &$item){
                 $item['language'] = $language[$item['language']];
