@@ -66,7 +66,7 @@ export default {
         },
         {
             name: 'Python3.6',
-            value: 'python.cpython3.6',
+            value: 'py.cpython3.6',
             cmValue: 'python'
         },
       ],

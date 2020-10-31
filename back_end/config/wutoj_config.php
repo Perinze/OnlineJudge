@@ -17,7 +17,7 @@ return [
         'c.gcc',
         'cpp.g++',
         'java.openjdk10',
-        'py.cpython3.6'
+        'python.cpython3.6'
     ],
     /* 每面数量 */
     'page_limit' => 20,
