@@ -23,6 +23,9 @@ class Submit extends Base
     private function get_where_info($req)
     {
         $where = [];
+        if(isset($req['contest_id'])){
+            $where[] = ['contest_id', '=', $req['contest_id']];
+        }
         if(isset($req['user_id'])){
             $where[] = ['submit.user_id', '=', $req['user_id']];
         }
@@ -51,7 +54,6 @@ class Submit extends Base
         $rankCache_model = new OJCacheModel();
 
         $req = input('post.');
-        $where = [];
         $user_id = Session::get('user_id');
         $identify = Session::get('identify');
         $time = time();
@@ -79,13 +81,12 @@ class Submit extends Base
             if ($time < $contest['data']['begin_time']) {
                 return apiReturn(CODE_ERROR, '比赛未开始', '');
             }
-            $where[] = ['contest_id', '=', $req['contest_id']];
             // administrator can get all
             if ($identify === ADMINISTRATOR || $time > strtotime($contest['data']['end_time'])) {
-                $where[] = $this->get_where_info($req);
+                $where = $this->get_where_info($req);
             } else {
                 $req['user_id'] = $user_id;
-                $where[] = $this->get_where_info($req);;
+                $where = $this->get_where_info($req);;
             }
             $resp = $submit_model->get_the_submit($where, $page);
 
@@ -98,7 +99,7 @@ class Submit extends Base
                 $resp['data']['rank'] = 1;
             }
         } else {
-            $where[] = $this->get_where_info($req);
+            $where = $this->get_where_info($req);
             $resp = $submit_model->get_the_submit($where, $page);
         }
 
