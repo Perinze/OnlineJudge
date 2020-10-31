@@ -16,7 +16,7 @@ return [
     'language' => [
         'c.gcc',
         'cpp.g++',
-        'java.openjdk',
+        'java.openjdk10',
         'py.cpython'
     ],
     /* 每面数量 */
