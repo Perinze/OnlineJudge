@@ -41,8 +41,6 @@ class Submit extends Base
         if(isset($req['duration'])){
             $where[] = ['submit_time', 'between time', explode(',', $req['duration'])];
         }
-        var_dump($req);
-        halt($where);
         return $where;
     }
 
@@ -63,12 +61,6 @@ class Submit extends Base
             return apiReturn(CODE_ERROR, '未登录', '');
         }
         $page = isset($req['page']) ? (int)$req['page'] : 0; // 分页
-        if(!isset($req['contest_id']) && !isset($req['user_id'])){
-            $resp = $submit_model->get_the_submit(array(
-                'contest_id' => 0,
-            ),$page);
-            return apiReturn($resp['code'], $resp['msg'], $resp['data']);
-        }
 
         /**
          * in contest
@@ -101,6 +93,7 @@ class Submit extends Base
                 $resp['data']['rank'] = 1;
             }
         } else {
+            $req['contest_id'] = 0;
             $where = $this->get_where_info($req);
             $resp = $submit_model->get_the_submit($where, $page);
         }
