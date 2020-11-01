@@ -233,14 +233,18 @@ export default {
       }
     },
     getSampleRows: function(index) {
-      let content1 = this.problem_info.example[index].input;
-      let content2 = this.problem_info.example[index].output;
-      let lines = Math.max(
-        content1.split(/\r\n|\r|\n|<br>/).length,
-        content2.split(/\r\n|\r|\n|<br>/).length
-      );
-      if (lines <= 2) return 2;
-      else return lines;
+      try {
+        let content1 = this.problem_info.example[index].input || "";
+        let content2 = this.problem_info.example[index].output || "";
+        let lines = Math.max(
+          content1.split(/\r\n|\r|\n|<br>/).length,
+          content2.split(/\r\n|\r|\n|<br>/).length
+        );
+        if (lines <= 2) return 2;
+        else return lines;
+      } catch (e) {
+        return 0;
+      }
     },
   },
   computed: {
