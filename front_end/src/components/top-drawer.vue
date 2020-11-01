@@ -82,8 +82,6 @@ export default {
       return true;
     },
     doSubmit: async function() {
-      console.log(this.$refs.codeEditor.code);
-      return;
       let tmp = await this.checkLoginStatus();
       if (!tmp) return;
       this.$loading.open();
