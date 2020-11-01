@@ -23,7 +23,7 @@
         <span class="problem">Problem {{ pid }}</span>
         <span class="contest" v-if="cid != null">ContestID: {{ cid }}</span>
       </div>
-      <code-editor ref="codeEditor" :lang="getCMLang" :precode="getCode" />
+      <code-editor ref="codeEditor" :lang="getCMLang"/>
     </div>
     <div class="close-btn" @click="close()">
       <img
@@ -82,6 +82,8 @@ export default {
       return true;
     },
     doSubmit: async function() {
+      console.log(this.$refs.codeEditor.code);
+      return;
       let tmp = await this.checkLoginStatus();
       if (!tmp) return;
       this.$loading.open();
@@ -136,14 +138,10 @@ export default {
       } else {
         return this.langItems[res].cmValue;
       }
-    },
-    getCode() {
-      return this.code[this.pid] === undefined ? "" : this.code[this.pid];
-    },
+    }
   },
   watch: {
     lang(val, before) {
-      console.log(before, val);
       // 保存之前的代码
       localStorage.setItem(`${before}-stash`, this.$refs.codeEditor.code);
       // 从未有过临时代码
