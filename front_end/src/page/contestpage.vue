@@ -14,68 +14,71 @@
           >点击题号查看题面 Please click problem label to see the detail</label
         >
       </div>
-      <table
-        class="problem-status-form"
-        cellspacing="10"
-        cellpadding="12"
-        width="100%"
-      >
-        <thead>
-          <tr style="height: 42px;">
-            <th
-              class="status-rank style-border-left"
-              @click="$router.push('/rank/' + contest_info.id)"
-              :style="{width: isWap?'70px':'128px'}"
-            >
-              排名 Rank
-            </th>
-            <th :style="{width: isWap?'70px':'128px'}">罚时 Penalty</th>
-            <th
-              v-for="index in contest_info.problems.length"
-              :key="'preblem-head'+index"
-              class="problem-head"
-              @click="callProblem(contest_info.problems[index - 1], contest_info.id)"
-            >
-              {{ String.fromCharCode(64 + index) }}
-            </th>
-          </tr>
-        </thead>
-        <tr style="height: 42px;">
-          <td class="style-border-left">
-            {{ userData.rank }}
-          </td>
-          <td>
-            {{ userData.penalty | penaltyFilter }}
-          </td>
-          <td
-            v-for="index in contest_info.problems.length"
-            :key="'problem-status'+index"
-            class="problem-status"
+      <div class="table-box">
+        <div class="table-inner-box" @scroll="handleScroll">
+          <table
+            class="problem-status-form"
+            cellspacing="10"
+            cellpadding="12"
           >
-            <div
-              v-if="
-                myProblemStatus[String.fromCharCode(index + 64)] !== undefined
-              "
-            >
-              <!-- TODO 封榜 Try 逻辑 -->
-              <status-icon
-                :icon-type="
-                  myProblemStatus[String.fromCharCode(index + 64)]
-                    .success_time != ''
-                    ? 'ac'
-                    : 'wa'
-                "
-                :times="
-                  myProblemStatus[String.fromCharCode(index + 64)]
-                    .success_time != ''
-                    ? myProblemStatus[String.fromCharCode(index + 64)].times + 1
-                    : myProblemStatus[String.fromCharCode(index + 64)].times
-                "
-              />
-            </div>
-          </td>
-        </tr>
-      </table>
+            <thead>
+              <tr style="height: 42px;">
+                <th
+                  class="status-rank style-border-left"
+                  @click="$router.push('/rank/' + contest_info.id)"
+                  :style="{width: isWap?'70px':'128px'}"
+                >
+                  排名 Rank
+                </th>
+                <th :style="{width: isWap?'70px':'128px'}">罚时 Penalty</th>
+                <th
+                  v-for="index in contest_info.problems.length"
+                  :key="'preblem-head'+index"
+                  class="problem-head"
+                  @click="callProblem(contest_info.problems[index - 1], contest_info.id)"
+                >
+                  {{ String.fromCharCode(64 + index) }}
+                </th>
+              </tr>
+            </thead>
+            <tr style="height: 42px;">
+              <td class="style-border-left">
+                {{ userData.rank }}
+              </td>
+              <td>
+                {{ userData.penalty | penaltyFilter }}
+              </td>
+              <td
+                v-for="index in contest_info.problems.length"
+                :key="'problem-status'+index"
+                class="problem-status"
+              >
+                <div
+                  v-if="
+                    myProblemStatus[String.fromCharCode(index + 64)] !== undefined
+                  "
+                >
+                  <!-- TODO 封榜 Try 逻辑 -->
+                  <status-icon
+                    :icon-type="
+                      myProblemStatus[String.fromCharCode(index + 64)]
+                        .success_time != ''
+                        ? 'ac'
+                        : 'wa'
+                    "
+                    :times="
+                      myProblemStatus[String.fromCharCode(index + 64)]
+                        .success_time != ''
+                        ? myProblemStatus[String.fromCharCode(index + 64)].times + 1
+                        : myProblemStatus[String.fromCharCode(index + 64)].times
+                    "
+                  />
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
     </div>
     <div class="bottom">
       <div class="submit-log-list">
@@ -412,7 +415,29 @@ export default {
       this.getMyRank(); // 获取排名
     }
   },
+  mounted() {
+    const ele = document.getElementsByClassName('table-inner-box')[0];
+    if (ele.clientWidth < ele.scrollWidth) {
+      ele.classList.add('right-continue');
+    }
+  },
   methods: {
+    handleScroll(e) {
+      // const all = ['left-continue', 'right-continue', 'double-continue'];
+      if (e.target.scrollLeft === 0) {
+        e.target.classList.add('right-continue');
+        e.target.classList.remove('left-continue');
+        e.target.classList.remove('double-continue');
+      } else if (e.target.scrollLeft + e.target.clientWidth === e.target.scrollWidth) {
+        e.target.classList.add('left-continue');
+        e.target.classList.remove('right-continue');
+        e.target.classList.remove('double-continue');
+      } else {
+        e.target.classList.add('double-continue');
+        e.target.classList.remove('left-continue');
+        e.target.classList.remove('right-continue');
+      }
+    },
     callProblem(pid, cid) {
       if (this.isWap) {
         this.$router.push(`/problem?pid=${pid}&cid=${cid}`);
@@ -563,7 +588,6 @@ export default {
       });
       if (response.status == 0) {
         this.discusses = response.data.data;
-        console.log(this.discusses);
         localStorage.setItem(`contestDiscussList-${this.$route.params.id}`, JSON.stringify(response.data.data));
         // response.data.data.forEach((val) => {
         //   this.discusses.push({
@@ -756,12 +780,42 @@ table {
   justify-content: space-between;
 }
 
+.table-box {
+  width: 100%;
+  overflow-x: hidden;
+  border-radius: 10px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+}
+
+.table-inner-box {
+  overflow-x: auto;
+  border-radius: 10px;
+  background: white;
+  transition: box-shadow 300ms ease-in-out;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.left-continue {
+  box-shadow: inset 15px 0 15px -15px #4288ce;
+}
+
+.right-continue {
+  box-shadow: inset -15px 0 15px -15px #4288ce;
+}
+
+.double-continue {
+  box-shadow: inset -15px 0 15px -15px #4288ce, inset 15px 0 15px -15px #4288ce;
+}
+
 .problem-status-form {
   overflow: hidden;
   text-align: center;
   border-radius: 10px;
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
-  background: white;
+  min-width: 100%;
+  // box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
 }
 
 .problem-head {

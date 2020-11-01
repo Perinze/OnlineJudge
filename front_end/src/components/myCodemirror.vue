@@ -5,6 +5,7 @@
     class="-codeMirrorEditor"
     v-model="code"
     :options="cmOptions"
+    @change="codeChange"
   >
   </codemirror>
   <!--</div>-->
@@ -85,6 +86,11 @@ export default {
         json: true,
       });
     },
+  },
+  methods: {
+    codeChange(val) {
+      this.code = val;
+    }
   },
   mounted() {
     if (!this.readOnly) this.editor.focus();
