@@ -10,13 +10,15 @@ import {
   Form,
   FormItem,
   DatePicker,
-  Pagination
+  Pagination,
+  Notification
 } from "element-ui";
 
 import App from "./App";
 import router from "./router/router";
 import store from "./store";
 import loadingPlugin from "./plugins/loading";
+import notifyPlugin from "./plugins/notify";
 import codemirror from "vue-codemirror-lite";
 import { judgeWap } from "./utils";
 
@@ -41,10 +43,12 @@ Vue.use(Form);
 Vue.use(FormItem);
 Vue.use(DatePicker);
 Vue.use(Pagination);
+Vue.use(Notification);
 Vue.use(codemirror);
 Vue.use(loadingPlugin, {
   progressColor: "#4288ce",
 });
+Vue.use(notifyPlugin);
 
 /* eslint-disable */
 new Vue({
