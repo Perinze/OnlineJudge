@@ -38,7 +38,7 @@
     "node": "^8.5.0",
     "koa": "^2.13.0",
     "koa-body": "^4.2.0",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "stats-webpack-plugin": "^0.7.0",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "vue-template-compiler": "^2.5.21",
