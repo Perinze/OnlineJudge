@@ -250,7 +250,7 @@ class UserModel extends Model
                 $where = ['user_id' => $user_id];
                 $user_basic_info = $userModel->where($where)->find();
                 $user_submit_info = $submitModel->where($where)->select();
-                $status = ['AC', 'WA', 'TLE', 'MLE', 'CE', 'RE', 'OLE', 'PE'];
+                $status = ['WA', 'TLE', 'MLE', 'CE', 'RE', 'OLE', 'PE'];
                 $returnData = [
                     'nick'  => $user_basic_info['nick'],
                     'realname'  => $user_basic_info['realname']
@@ -258,11 +258,20 @@ class UserModel extends Model
                 foreach ($status as $item) {
                     $returnData[$item] = 0;
                 }
+                $returnData['AC'] = 0;
+                $problem_map = [];
                 foreach ($user_submit_info as $submit) {
                     foreach ($status as $item) {
                         if ($submit['status'] == $item) {
                             $returnData[$item]++;
                             break;
+                        }
+                        // AC单独计算
+                        if ($submit['status'] == 'AC') {
+                            if (!isset($problem_map[$submit['problem_id']])) {
+                                $returnData['AC']++;
+                                $problem_map[$submit['problem_id']] = true;
+                            }
                         }
                     }
                 }
