@@ -355,6 +355,10 @@ $reColor: rgb(131, 118, 169);
   /*src: url("../assets/font/DINCondensed.otf");*/
   src: url("../assets/font/DINCondensed_min.ttf");
 }
+@font-face {
+  font-family: RobotoMono;
+  src: url("../assets/font/RobotoMono-Regular.ttf");
+}
 </style>
 
 <!--CodeMirror Theme: material nord oceanic-next-->

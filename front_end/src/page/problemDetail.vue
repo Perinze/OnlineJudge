@@ -346,7 +346,7 @@ export default {
 }
 
 .example-data-element {
-  width: 53%;
+  width: 100%;
   margin: 20px 0;
   > label {
     font: {
@@ -359,8 +359,10 @@ export default {
     justify-content: flex-start;
   }
   .example-content {
-    > div:last-child {
-      margin-left: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    > div:first-child {
+      margin-right: 40px;
     }
   }
 }
@@ -383,6 +385,7 @@ export default {
   height: auto;
   user-select: text;
   resize: none;
+  font-family: RobotoMono;
 }
 
 .example-copy-btn {
