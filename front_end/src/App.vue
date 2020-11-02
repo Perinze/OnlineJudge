@@ -134,6 +134,10 @@ export default {
       }, 500);
     },
     callProblem(val) {
+      if (this.isWap) {
+        this.$router.push(`/problem?pid=${val}`);
+        return;
+      }
       this.callSideDrawer({ pid: val });
     },
     // 打开侧边抽屉
