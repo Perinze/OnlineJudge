@@ -346,14 +346,12 @@ export default {
 }
 
 .example-data-element {
-  width: 53%;
+  width: 100%;
   margin: 20px 0;
   > label {
     font: {
       size: 15px;
       weight: bold;
-      family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono,
-        DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
     }
   }
   > div {
@@ -361,8 +359,10 @@ export default {
     justify-content: flex-start;
   }
   .example-content {
-    > div:last-child {
-      margin-left: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    > div:first-child {
+      margin-right: 40px;
     }
   }
 }
@@ -385,6 +385,7 @@ export default {
   height: auto;
   user-select: text;
   resize: none;
+  font-family: RobotoMono;
 }
 
 .example-copy-btn {
