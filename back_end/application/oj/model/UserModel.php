@@ -95,15 +95,21 @@ class UserModel extends Model
                     ->where('user_id', $res['user_id'])
                     ->where('status', 'AC')
                     ->select();
-                foreach ($res['all_problems'] as &$item){
+                if($res['all_problems'] == null){
+                    $res['all_problems'] = array(0 => array('status' => 'AC', 'cnt' => 0));
+                }
+                $tmp = $res['all_problems'];
+                foreach ($tmp as &$item){
                     if($item['status'] === 'AC'){
                         $item['cnt'] = $cnt[0]['cnt'];
                     }
                 }
+                $res['all_problems'] = $tmp;
                 return ['code' => CODE_SUCCESS, 'msg' => '登陆成功', 'data' => $res];
             }
             return ['code' => CODE_ERROR, 'msg' => '用户名或密码错误', 'data' => ''];
         } catch (Exception $e) {
+            var_dump($e->getMessage());
             return ['code' => CODE_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];
         }
     }
