@@ -95,11 +95,9 @@ class UserModel extends Model
                     ->where('user_id', $res['user_id'])
                     ->where('status', 'AC')
                     ->select();
-                var_dump($res['all_problems']);
-                halt($cnt);
                 foreach ($res['all_problems'] as &$item){
                     if($item['status'] === 'AC'){
-                        $item['cnt'] = $cnt['cnt'];
+                        $item['cnt'] = $cnt[0]['cnt'];
                     }
                 }
                 return ['code' => CODE_SUCCESS, 'msg' => '登陆成功', 'data' => $res];
