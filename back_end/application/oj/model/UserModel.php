@@ -95,6 +95,8 @@ class UserModel extends Model
                     ->where('user_id', $res['user_id'])
                     ->where('status', 'AC')
                     ->select();
+                var_dump($res['all_problems']);
+                halt($cnt);
                 foreach ($res['all_problems'] as &$item){
                     if($item['status'] === 'AC'){
                         $item['cnt'] = $cnt['cnt'];
