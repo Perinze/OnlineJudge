@@ -352,6 +352,8 @@ export default {
     font: {
       size: 15px;
       weight: bold;
+      family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono,
+        DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
     }
   }
   > div {
