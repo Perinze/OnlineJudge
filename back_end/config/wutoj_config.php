@@ -5,7 +5,7 @@ return [
     'host' => 'localhost',
     'port' => '6379',
     'user_rank_cache' => 'user_rank_cache',
-    'environment' => 'dev',
+    'environment' => 'master',
     /* 提交 */
     'submit_url' => [
         'http://10.143.216.128:8819/submit'
