@@ -90,10 +90,16 @@ class UserModel extends Model
                     ->where('user_id', $res['user_id'])
                     ->group('status')
                     ->select();
-                $cnt = Db::table('submit')
+                $sql = Db::table('submit')
+                    ->distinct('problem_id')
                     ->where('user_id', $res['user_id'])
                     ->where('status', 'AC')
+                    ->buildSql();
+                var_dump($sql);
+                $cnt = Db::table('submit')
                     ->distinct('problem_id')
+                    ->where('user_id', $res['user_id'])
+                    ->where('status', 'AC')
                     ->count();
                 foreach ($res['all_problems'] as &$item){
                     halt($item);
