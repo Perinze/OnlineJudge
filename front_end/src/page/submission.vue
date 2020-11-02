@@ -40,6 +40,7 @@
           :time="item.submit_time"
           :time-cost="item.time"
           :user-id="item.user_id"
+          v-on="$listeners"
         />
       </li>
     </ul>
@@ -53,7 +54,7 @@
         :total="counts"
         :current-page="currentPage"
         @current-change="changePage"
-        pager-count="6"
+        :pager-count="5"
       />
     </div>
   </div>

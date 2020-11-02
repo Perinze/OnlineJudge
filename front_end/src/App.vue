@@ -27,6 +27,7 @@
           :key="$route.fullPath + localUserId"
           @open-problem="callSideDrawer"
           @logout="doLogout"
+          @call-problem="callProblem"
         />
       </keep-alive>
     </div>
@@ -131,6 +132,9 @@ export default {
           true
         ); // true 事件捕获
       }, 500);
+    },
+    callProblem(val) {
+      this.callSideDrawer({ pid: val });
     },
     // 打开侧边抽屉
     callSideDrawer: function(val) {
