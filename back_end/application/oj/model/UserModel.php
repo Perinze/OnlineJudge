@@ -96,6 +96,7 @@ class UserModel extends Model
                     ->distinct('problem_id')
                     ->count();
                 foreach ($res['all_problems'] as &$item){
+                    halt($item);
                     if($item['status'] === 'AC'){
                         $item['cnt'] = $cnt;
                     }
