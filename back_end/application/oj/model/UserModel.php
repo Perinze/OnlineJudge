@@ -90,11 +90,16 @@ class UserModel extends Model
                     ->where('user_id', $res['user_id'])
                     ->group('status')
                     ->select();
-                $res['all_problems']['AC'] = Db::table('submit')
+                $cnt = Db::table('submit')
                     ->where('user_id', $res['user_id'])
                     ->where('status', 'AC')
-                    ->group('problem_id')
+                    ->distinct('problem_id')
                     ->count();
+                foreach ($res['all_problems'] as &$item){
+                    if($item['status'] === 'AC'){
+                        $item['cnt'] = $cnt;
+                    }
+                }
                 return ['code' => CODE_SUCCESS, 'msg' => '登陆成功', 'data' => $res];
             }
             return ['code' => CODE_ERROR, 'msg' => '用户名或密码错误', 'data' => ''];
