@@ -1,6 +1,6 @@
 <template></template>
 <script>
-import getNotification from ".../api/getData.js";
+import getNotification from "../../api/getData.js";
 export default {
   name: "notify",
   props: {
