@@ -183,6 +183,12 @@ export const addDiscuss = (data) => fetch("/discuss/add_discuss", "post", data);
 
 export const addReply = (data) => fetch("/discuss/add_reply", "post", data);
 
+/**
+ * 获取比赛通知
+ */
+
+export const getNotificationByID = (data) => fetch("/Notification/getNotificationByID", "post", data);
+
 // 状态
 
 /**
@@ -282,7 +288,7 @@ export const getAllDiscussion = (data) =>
 export const getAllKnowledge = () => fetch("/knowledge/getAllKnowledge");
 
 /**
- * 获取知识点对应标签
+ * 获取知识点对应标签 
  */
 
 export const getAllTag = (data) => fetch("/knowledge/getAllTag", "post", data);

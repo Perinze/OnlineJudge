@@ -11,7 +11,7 @@ import {
   FormItem,
   DatePicker,
   Pagination,
-  Notification
+  Notification,
 } from "element-ui";
 
 import App from "./App";
