@@ -3,11 +3,9 @@
 import getNotification from "../../api/getData.js";
 export default {
   name: "notify",
-  props: {
-    cid: String,
-  },
   data() {
     return {
+      cid: this.$route.params.id,
       iswork: true,
       notice: "nothing",
     };
