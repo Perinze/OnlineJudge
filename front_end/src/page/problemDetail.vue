@@ -360,10 +360,8 @@ export default {
   }
   .example-content {
     display: flex;
+    justify-content: space-between;
     flex-wrap: wrap;
-    > div:first-child {
-      margin-right: 40px;
-    }
   }
 }
 
