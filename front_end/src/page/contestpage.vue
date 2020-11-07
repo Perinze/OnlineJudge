@@ -526,7 +526,10 @@ export default {
         contest_id: this.$route.params.id,
       });
       if (response.status === 0) {
-        this.contest_info = Object.assign(this.contest_info, response.data);
+        let resObj = Object.assign(this.contest_info, response.data);
+        resObj.begin_time = response.data.begin_time.replace(/-/g, '/');
+        resObj.end_time = response.data.end_time.replace(/-/g, '/');
+        this.contest_info = resObj;
         localStorage.setItem(`contestInfo-${this.$route.params.id}`, JSON.stringify(this.contest_info));
       } else {
         this.$message({
