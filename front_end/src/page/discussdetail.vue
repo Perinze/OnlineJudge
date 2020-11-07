@@ -62,7 +62,7 @@ export default {
         // },
       ],
       replyContent: "",
-      problemNick: "",
+      problemNick: "@",
     };
   },
   async created() {
@@ -77,8 +77,7 @@ export default {
       if (response.status == 0) {
         this.problemNick = String.fromCharCode(
           response.data.problems
-            .map((x) => parseInt(x))
-            .indexOf(this.themeInfo.problem_id) + 64
+            .indexOf(`${this.themeInfo.problem_id}`) + 65
         );
       }
     },

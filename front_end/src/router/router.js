@@ -25,6 +25,7 @@ import topic from "../page/topic";
 import topicInfo from "../page/topicInfo";
 import discussionInfo from "../page/discussionInfo";
 import addDiscussion from "../page/addDiscussion";
+import submission from "../page/submission";
 
 Vue.use(VueRouter);
 
@@ -51,6 +52,7 @@ const routes = [
     },
   },
   {
+    // 移动端题目详情
     path: "/problem",
     component: problemDetail,
     meta: {
@@ -96,6 +98,21 @@ const routes = [
     meta: {
       isLogin: true,
     },
+  },
+  {
+    // 提交列表
+    path: "/submission",
+    component: submission,
+    props: (route) => ({
+      user: route.query.u,
+      nick: route.query.n,
+      problem: route.query.p,
+      date: route.query.d,
+      status: route.query.s
+    }),
+    meta: {
+      isLogin: true,
+    }
   },
   {
     // 提交详情
@@ -167,6 +184,14 @@ const routes = [
     meta: {
       isLogin: false,
     },
+  },
+  {
+    // 讨论区
+    path: "/discussion",
+    component: discussion,
+    meta: {
+      isLogin: false,
+    }
   },
   {
     // 某条帖子
