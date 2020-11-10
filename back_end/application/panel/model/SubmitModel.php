@@ -19,7 +19,7 @@ class SubmitModel extends Model
             $field = ['id', 'user_id', 'nick', 'problem_id', 'language', 'status', 'time', 'memory', 'submit_time'];
             $info = $this->field($field)
                 ->where($where)
-                ->limit($limit, $offset)
+                ->limit($offset, $limit)
                 ->withAttr('language', function($value) {
                     $language = [0=>'c.gcc', 1=>'cpp.g++', 2=>'java.openjdk10', 3=>'python.cpython3.6'];
                     return $language[$value];
