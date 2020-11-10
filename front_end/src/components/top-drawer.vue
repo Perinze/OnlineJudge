@@ -15,7 +15,7 @@
       </div>
       <div class="btn-group">
         <button class="test-btn" disabled>编译测试</button>
-        <button class="submit-btn" @click="doSubmit">提交代码</button>
+        <button class="submit-btn" @click="doSubmit" :disabled="submitting">提交代码</button>
       </div>
     </div>
     <div>
@@ -23,7 +23,7 @@
         <span class="problem">Problem {{ pid }}</span>
         <span class="contest" v-if="cid != null">ContestID: {{ cid }}</span>
       </div>
-      <code-editor ref="codeEditor" :lang="getCMLang" :precode="getCode" />
+      <code-editor ref="codeEditor" :lang="getCMLang"/>
     </div>
     <div class="close-btn" @click="close()">
       <img
@@ -49,7 +49,8 @@ export default {
     return {
       code: {},
       lang: "c.gcc",
-      langItems: languages
+      langItems: languages,
+      submitting: false,
     };
   },
   methods: {
@@ -82,8 +83,12 @@ export default {
       return true;
     },
     doSubmit: async function() {
-      let tmp = await this.checkLoginStatus();
+      if (this.submitting) return;
+      else this.submitting = true;
+
+      const tmp = await this.checkLoginStatus();
       if (!tmp) return;
+      
       this.$loading.open();
       let requestData = {
         language: this.lang,
@@ -115,6 +120,7 @@ export default {
         });
         this.$loading.hide();
       }
+      this.submitting = false;
     },
   },
   computed: {
@@ -136,18 +142,14 @@ export default {
       } else {
         return this.langItems[res].cmValue;
       }
-    },
-    getCode() {
-      return this.code[this.pid] === undefined ? "" : this.code[this.pid];
-    },
+    }
   },
   watch: {
     lang(val, before) {
-      console.log(before, val);
       // 保存之前的代码
       localStorage.setItem(`${before}-stash`, this.$refs.codeEditor.code);
       // 从未有过临时代码
-      this.$refs.codeEditor.code = localStorage.getItem(`${val}-stash`);
+      this.$refs.codeEditor.code = localStorage.getItem(`${val}-stash`) || ""; // || ""不能删 删了会有bug
     },
     isDisplay(val) {
       if (val) {

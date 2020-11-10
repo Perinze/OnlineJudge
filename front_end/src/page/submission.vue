@@ -40,11 +40,13 @@
           :time="item.submit_time"
           :time-cost="item.time"
           :user-id="item.user_id"
+          v-on="$listeners"
         />
       </li>
     </ul>
     <div class="submission-pagination">
       <el-pagination
+        class="submission-pager"
         v-if="counts > 0"
         background
         layout="prev, pager, next"
@@ -52,6 +54,7 @@
         :total="counts"
         :current-page="currentPage"
         @current-change="changePage"
+        :pager-count="5"
       />
     </div>
   </div>
@@ -138,10 +141,18 @@ export default {
             message: "请求超时，请检查网络后重试"
           });
         } else {
-          this.$message({
-            type: "error",
-            message: "系统错误，请联系管理员"
-          });
+          if (response.message === "未登录") {
+            this.$emit('logout');
+            this.$message({
+              type: "warning",
+              message: "登录过期，请重新登录"
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "系统错误，请联系管理员"
+            });
+          }
         }
       } catch (e) {
         this.$message({
@@ -158,9 +169,9 @@ export default {
 
 <style lang="scss" scoped>
   .submission {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    // display: flex;
+    // flex-direction: column;
+    // align-items: center;
     padding-top: 80px;
     padding-bottom: 40px;
     padding-left: 24px;
@@ -182,11 +193,17 @@ export default {
     margin: 15px auto;
   }
 
+
+  .submission-pager {
+    margin: 0 auto;
+  }
+
   .submission-filter {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    margin: 0 auto;
 
     label {
       font-weight: bolder;
@@ -222,6 +239,7 @@ export default {
 
     .submission-filter {
       width: 100%;
+      padding: 0 10px;
       flex-direction: column;
       align-items: flex-start;
 
@@ -244,8 +262,8 @@ export default {
     }
 
     .submission-pagination {
-      // width: 100%;
-      margin: 15px 0;
+      width: 100%;
+      margin: 15px auto;
     }
   }
 </style>

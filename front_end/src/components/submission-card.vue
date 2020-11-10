@@ -8,7 +8,7 @@
     >
     <div class="submission-info">
       <div class="run-info">
-        <div><span class="info-title">P{{ problemId }}</span></div>
+        <div><span class="info-title problem-id" @click.stop="$emit('call-problem', problemId)">P{{ problemId }}</span></div>
         <div><span class="info-title" :class="statusClass">{{ status }}</span></div>
         <div>
           <span class="info-title">Language: </span>
@@ -145,6 +145,10 @@ export default {
 
   .info-title {
     font-weight: bolder;
+  }
+
+  .problem-id:hover {
+    text-decoration: underline;
   }
 
   @media screen and (max-width: 650px) {
