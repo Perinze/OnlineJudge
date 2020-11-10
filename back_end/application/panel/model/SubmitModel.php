@@ -37,7 +37,12 @@ class SubmitModel extends Model
 
     public function getSubmitGroup($where) {
         try {
-            $res = $this->where($where)->select();
+            $res = $this->field(['id','user_id','nick', 'problem_id', 'language', 'status', 'time', 'memory', 'submit_time', 'source_code'])
+                ->where($where)
+                ->withAttr('language', function($value) {
+                    $language = [0=>'c.gcc', 1=>'cpp.g++', 2=>'java.openjdk10', 3=>'python.cpython3.6'];
+                    return $language[$value];
+                })->select();
             if (count($res) != 0) {
                 return ['code' => CODE_SUCCESS, 'msg' => '查询成功', 'data' => $res];
             } else {
