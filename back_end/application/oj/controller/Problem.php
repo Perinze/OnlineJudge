@@ -70,6 +70,10 @@ class Problem extends Controller
                     if ($contest['code'] !== CODE_SUCCESS) {
                         return apiReturn($contest['code'], $contest['msg'], $contest['data']);
                     }
+                    $problems = json_decode($contest['data']['problems'], false);
+                    if(!in_array($req['problem_id'], $problems,false)){
+                        return apiReturn(CODE_ERROR,'该题不是比赛试题', '');
+                    }
                     // check authority
                     $info = $contest_user_model->searchUser($contest_id, $user_id);
                     if ($info['code'] !== CODE_SUCCESS) {
