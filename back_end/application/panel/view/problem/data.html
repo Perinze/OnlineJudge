@@ -76,12 +76,16 @@
                                             <div id="SpecialJudge">
 
                                             </div>
+                                            <div>
+                                                <button type="button" class="btn btn-default" id="update_data_info">更新数据信息</button>
+                                            </div>
                                             <div class="row form-group">
                                                 <label class="col-md-4">数据上传:</label>
                                                 <div class="col-sm-12">
                                                     <input id="input-id" name="file[]" multiple type="file" data-show-caption="true">
                                                 </div>
                                             </div>
+
                                         </form>
 
                                     </div>
@@ -121,6 +125,33 @@
 
     $(function () {
         initFileInput("input-id");
+    });
+
+    $("#update_data_info").click(function () {
+        const data_info = function(){
+            let data = {
+                'problem_id': getQueryString('id')
+            };
+            const secs = $('#secs').val();
+            const nanos = $('#nanos').val();
+            const memory = $('#memory').val();
+            if (secs) data['secs'] = secs;
+            if (nanos) data['nanos'] = nanos;
+            if (memory) data['memory'] = memory;
+            if ($("#type").val() == 1) {
+                data['spj'] = 1;
+            }
+            return data;
+        };
+        $.ajax({
+            url: "__PANEL__/problem/update_data_info",
+            type: "post",
+            dataType: "json",
+            data: data_info(),
+            success: function (data) {
+                alert(data.message);
+            },
+        });
     });
 
     $("#type").change(function () {

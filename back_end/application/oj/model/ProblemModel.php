@@ -23,7 +23,7 @@ class ProblemModel extends Model
         try {
             $page_limit = config('wutoj_config.page_limit');
             $info['data'] = $this->alias('p')
-                ->field(['p.problem_id as problem_id', 'title', 'tag',
+                ->field(['p.problem_id as problem_id', 'title', 'tag', 'p.time', 'p.memory/(1024*1024) as memory', 'p.type',
                     'count(case when submit.status="AC" then submit.status end) as ac',
                     'count(case when submit.status="WA" then submit.status end) as wa',
                     'count(case when submit.status="TLE" then submit.status end) as tle',
@@ -52,7 +52,7 @@ class ProblemModel extends Model
     public function searchProblemById($problem_id)
     {
         try {
-            $content = $this->where('problem_id', $problem_id)->find();
+            $content = $this->field('memory', true)->field('memory/(1024*1024) as memory')->where('problem_id', $problem_id)->find();
             if ($content) {
                 return ['code' => CODE_SUCCESS, 'msg' => '查找成功', 'data' => $content];
             }
@@ -66,7 +66,7 @@ class ProblemModel extends Model
     {
         try {
             $content['data'] = $this->alias('p')
-                ->field(['p.problem_id as problem_id', 'title', 'tag',
+                ->field(['p.problem_id as problem_id', 'title', 'tag', 'p.time', 'p.memory/(1024*1024) as memory', 'p.type',
                     'count(case when submit.status="AC" then submit.status end) as ac',
                     'count(case when submit.status="WA" then submit.status end) as wa',
                     'count(case when submit.status="TLE" then submit.status end) as tle',

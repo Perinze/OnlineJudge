@@ -117,6 +117,24 @@ class problem extends Base
     }
 
     /**
+     * 更新数据信息
+     */
+    public function update_data_info()
+    {
+        $req = input('post.');
+        $secs = isset($req['secs']) ? (int)$req['secs'] : 1;
+        $nanos = isset($req['nanos']) ? (int)$req['nanos'] * 100000000 : 0;
+        $data_info = [
+            'type'  =>  isset($req['sqj'])?'Special Judge':'Normal',
+            'time' => $secs.'.'.$nanos,
+            'memory' => isset($req['memory']) ? $req['memory'] * 1024 * 1024 : 33554432,
+        ];
+        $problemModel = new ProblemModel();
+        $resp = $problemModel->editProblemDataInfo($req['problem_id'], $data_info);
+        return apiReturn($resp['code'], $resp['msg'], $resp['data']);
+    }
+
+    /**
      * 上传题目数据接口, 支持多组数据
      */
     public function upload_data_file()
@@ -124,6 +142,19 @@ class problem extends Base
         $files = request()->file('');
         $req = input('post.');
         $data = [];
+        // 更新题目数据信息
+        $secs = isset($req['secs']) ? (int)$req['secs'] : 1;
+        $nanos = isset($req['nanos']) ? (int)$req['nanos'] * 100000000 : 0;
+        $data_info = [
+            'type'  =>  isset($req['sqj'])?'Special Judge':'Normal',
+            'time' => $secs.'.'.$nanos,
+            'memory' => isset($req['memory']) ? $req['memory'] * 1024 * 1024 : 33554432,
+        ];
+        $problemModel = new ProblemModel();
+        $resp = $problemModel->editProblemDataInfo($req['problem_id'], $data_info);
+        if (!$resp['code'] !== CODE_SUCCESS) {
+            return apiReturn(CODE_ERROR, $resp['msg'], $resp['data']);
+        }
         foreach($files['file'] as $file) {
             //halt($file);
             $info = $file->move($this->data_path.'tmp/', '');
