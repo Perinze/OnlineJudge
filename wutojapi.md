@@ -854,21 +854,12 @@ null
     "data": {
         "data": [
             {
-                "problem_id": 1001,
-                "title": "wyhsb",
-                "tag": "[\"1\",\"2\"]",
-                "ac": 1,
-                "wa": 0,
-                "tle": 0,
-                "mle": 0,
-                "re": 0,
-                "se": 0,
-                "ce": 0
-            },
-            {
                 "problem_id": 1002,
-                "title": "wyhsb",
+                "title": "A+B Problem",
                 "tag": null,
+                "time": 1,              // s
+                "memory": "32.0000",    // MB
+                "type": "Normal",       // 对应Special Judge
                 "ac": 0,
                 "wa": 2,
                 "tle": 0,
@@ -878,9 +869,12 @@ null
                 "ce": 0
             },
             {
-                "problem_id": 1003,
-                "title": "test",
-                "tag": "",
+                "problem_id": 1005,
+                "title": "不等数列",
+                "tag": null,
+                "time": 1,
+                "memory": "32.0000",
+                "type": "Normal",
                 "ac": 0,
                 "wa": 0,
                 "tle": 0,
@@ -890,7 +884,7 @@ null
                 "ce": 0
             }
         ],
-        "count": 3
+        "count": 2
     }
 }
 ```
@@ -912,19 +906,22 @@ null
     "status": 0,//0-success, -1-error
     "message": "操作成功",
     "data": {
-        "problem_id": 1001,
-        "title": "wyhsb",
-        "background": "wyhsb",
-        "describe": "wyhsb",
-        "input_format": "wyhsb",
-        "output_format": "wyhsb",
-        "hint": "wyhsb",
+        "problem_id": 1002,
+        "title": "A+B Problem",
+        "background": "",
+        "describe": "这是一个简单的A+B问题",
+        "input_format": "多组输入，每组输入包含一行，行内有两个用空格隔开的数字a和b",
+        "output_format": "每组输出一行，包含一个整数代表a+b的值",
+        "hint": "",
         "public": 1,
         "source": null,
         "ac": 0,
         "wa": 0,
+        "time": 1,          // s
+        "type": "Normal",   // 对应Special Judge
         "tag": null,
         "status": 1,
+        "memory": "32.0000",    // MB
         "sample": [
             {
                 "sample_id": 1,
@@ -963,21 +960,12 @@ null
     "data": {
         "data": [
             {
-                "problem_id": 1001,
-                "title": "wyhsb1",
-                "tag": "[\"1\",\"2\"]",
-                "ac": 1,
-                "wa": 0,
-                "tle": 0,
-                "mle": 0,
-                "re": 0,
-                "se": 0,
-                "ce": 0
-            },
-            {
                 "problem_id": 1002,
-                "title": "wyhsb11",
+                "title": "A+B Problem",
                 "tag": null,
+                "time": 1,          // s
+                "memory": "32.0000",// MB
+                "type": "Normal",   // 对应Special Judge
                 "ac": 0,
                 "wa": 2,
                 "tle": 0,
@@ -985,21 +973,9 @@ null
                 "re": 0,
                 "se": 0,
                 "ce": 0
-            },
-            {
-                "problem_id": 1003,
-                "title": "test1001",
-                "tag": "",
-                "ac": 0,
-                "wa": 0,
-                "tle": 0,
-                "mle": 0,
-                "re": 0,
-                "se": 0,
-                "ce": 0
             }
         ],
-        "count": 3
+        "count": 1
     }
 }
 ```
