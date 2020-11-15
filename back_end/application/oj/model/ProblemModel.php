@@ -31,7 +31,8 @@ class ProblemModel extends Model
                     'count(case when submit.status="RE" then submit.status end) as re',
                     'count(case when submit.status="SE" then submit.status end) as se',
                     'count(case when submit.status="CE" then submit.status end) as ce',
-                    'submit.status="AC" and submit.user_id="'.$user_id.'" as accepted'])
+                    'submit.status="AC" and submit.user_id="'.$user_id.'" as accepted',
+                    'submit.status!="AC" and submit.user_id="'.$user_id.'" as unaccepted'])
                 ->where('p.status', USING)
                 ->leftJoin('submit', 'p.problem_id = submit.problem_id')
                 ->group('p.problem_id')
