@@ -290,8 +290,6 @@ export default {
           content1.split(/\r\n|\r|\n|<br>/).length,
           content2.split(/\r\n|\r|\n|<br>/).length
         );
-        console.log('deantiwang', content1.split(/\r\n|\r|\n|<br>/),
-          content2.split(/\r\n|\r|\n|<br>/), lines);
         if (lines <= 2) return 2;
         else return lines + 1;
       } catch (e) {

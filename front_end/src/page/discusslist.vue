@@ -38,11 +38,7 @@
       >
         <div class="title">
           <span class="problem-tag">{{
-            String.fromCharCode(
-              problems
-                .map((x) => parseInt(x))
-                .indexOf(parseInt(item.problem_id)) + 65
-            )
+            String.fromCharCode(problems.map(x => +x).indexOf(+item.problem_id) + 65)
           }}</span>
           {{ item.title }}
         </div>
@@ -98,7 +94,6 @@ export default {
       // console.log(response);
       if (response.status == 0) {
         this.items = response.data.data;
-        console.log(this.items);
       } else {
         if (response.status === 504) {
           this.$message({
