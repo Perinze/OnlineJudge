@@ -152,7 +152,7 @@ class problem extends Base
         ];
         $problemModel = new ProblemModel();
         $resp = $problemModel->editProblemDataInfo($req['problem_id'], $data_info);
-        if (!$resp['code'] !== CODE_SUCCESS) {
+        if ($resp['code'] !== CODE_SUCCESS) {
             return apiReturn(CODE_ERROR, $resp['msg'], $resp['data']);
         }
         foreach($files['file'] as $file) {

@@ -149,7 +149,7 @@ class ProblemModel extends Model{
             if ($res) {
                 return ['code' => CODE_SUCCESS, 'msg' => '编辑成功', 'data' => ''];
             }
-            return ['code' => CODE_ERROR, 'msg' => '编辑失败', 'data' => ''];
+            return ['code' => CODE_ERROR, 'msg' => '编辑失败或与原信息相同', 'data' => ''];
         } catch (Exception $e) {
             return ['code' => CODE_ERROR, 'msg' => '数据库错误', 'data' => $e->getMessage()];
         }
