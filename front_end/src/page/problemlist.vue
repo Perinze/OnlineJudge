@@ -2,20 +2,20 @@
   <div class="problemlist">
     <div
       class="problem-element"
-      v-for="index in items.length"
+      v-for="(item, index) in items"
       :key="'problem-' + index"
     >
       <div class="problem-info">
-        <i class="icon" v-bind:class="items[index - 1].status + '-icon'"></i>
-        <span class="problem-id" @click="goto(items[index - 1].id)">{{
-          items[index - 1].id
+        <i class="icon" v-bind:class="items[index].status + '-icon'"></i>
+        <span class="problem-id" @click="goto(items[index].id)">{{
+          items[index].id
         }}</span>
-        <span class="problem-title" @click="goto(items[index - 1].id)">{{
-          items[index - 1].title
+        <span class="problem-title" @click="goto(items[index].id)">{{
+          items[index].title
         }}</span>
       </div>
       <span class="problem-statistics">{{
-        items[index - 1].statistics.ac + "/" + items[index - 1].statistics.all
+        items[index].statistics.ac + "/" + items[index].statistics.all
       }}</span>
     </div>
     <div class="problem-pager" v-if="items.length > 0">
@@ -71,7 +71,7 @@ export default {
           data.forEach((val) => {
             let res = {
               id: val.problem_id,
-              status: "un",
+              status: !(val.accepted + val.unaccepted) ?  "un" : val.accepted ? "ac" : "wa",
               title: val.title,
               statistics: {
                 ac: parseInt(val.ac),
