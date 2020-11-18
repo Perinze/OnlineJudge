@@ -14,6 +14,7 @@ use app\oj\model\ContestUserModel;
 use app\oj\model\ProblemModel;
 use app\oj\model\SampleModel;
 use app\oj\validate\ProblemValidate;
+use app\panel\model\CacheModel;
 use think\Controller;
 use think\facade\Session;
 
@@ -27,10 +28,11 @@ class Problem extends Controller
     public function displayAllProblem()
     {
         $problem_model = new ProblemModel();
+        $user_id = Session::get('user_id');
         // TODO 上Redis
         $req = input('post.');
         $page = isset($req['page']) ? (int)$req['page'] : 0;
-        $resp = $problem_model->get_all_problem($page);
+        $resp = $problem_model->get_all_problem($page, $user_id);
         return apiReturn($resp['code'], $resp['msg'], $resp['data']);
     }
 

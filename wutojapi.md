@@ -866,7 +866,9 @@ null
                 "mle": 0,
                 "re": 0,
                 "se": 0,
-                "ce": 0
+                "ce": 0,
+                "accepted": 1,
+                "unaccepted": 0
             },
             {
                 "problem_id": 1005,
@@ -882,6 +884,8 @@ null
                 "re": 0,
                 "se": 0,
                 "ce": 0
+                "accepted": 0
+                "unaccepted": 0
             }
         ],
         "count": 2
