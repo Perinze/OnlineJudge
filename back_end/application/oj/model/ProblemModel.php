@@ -18,7 +18,7 @@ class ProblemModel extends Model
 
     protected $table = 'problem';
 
-    public function get_all_problem($page)
+    public function get_all_problem($page, $user_id)
     {
         try {
             $page_limit = config('wutoj_config.page_limit');
@@ -30,7 +30,9 @@ class ProblemModel extends Model
                     'count(case when submit.status="MLE" then submit.status end) as mle',
                     'count(case when submit.status="RE" then submit.status end) as re',
                     'count(case when submit.status="SE" then submit.status end) as se',
-                    'count(case when submit.status="CE" then submit.status end) as ce'])
+                    'count(case when submit.status="CE" then submit.status end) as ce',
+                    'count(case when submit.status="AC" and submit.user_id="'.$user_id.'" then submit.status end) as accepted',
+                    'count(case when submit.status!="AC" and submit.user_id="'.$user_id.'" then submit.status end) as unaccepted'])
                 ->where('p.status', USING)
                 ->leftJoin('submit', 'p.problem_id = submit.problem_id')
                 ->group('p.problem_id')
