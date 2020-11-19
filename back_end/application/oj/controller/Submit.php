@@ -82,10 +82,17 @@ class Submit extends Base
                 $req['user_id'] = $user_id;
                 $where = $this->get_where_info($req);;
             }
-            $resp = $submit_model->get_the_submit($where, $page);
-
+            $temp = $submit_model->get_all_submit($where);
+            $resp['data']['submit_info'] = $temp['data'];
+            $resp['code'] = $temp['code'];
+            $resp['msg'] = $temp['msg'];
             // format
             $resp['data']['penalty'] = $this->handle_data($resp['data']['submit_info'],  $contest['data']['begin_time'], json_decode($contest['data']['problems'], true));
+            $temp = $submit_model->get_the_submit($where, $page);
+            $resp['data']['submit_info'] = $temp['data']['submit_info'];
+            $resp['code'] = $temp['code'];
+            $resp['msg'] = $temp['msg'];
+            $resp['data']['count'] = $temp['data']['count'];
             $cache = $rankCache_model->get_rank_cache($req['contest_id']);
             if ($cache['code'] === CODE_SUCCESS) {
                 $resp['data']['rank'] = $this->getRank($cache['data'], $user_id);
@@ -236,6 +243,10 @@ class Submit extends Base
             return apiReturn(CODE_ERROR, '不要查看其他人代码', '');
         }
 
+        $identity = Session::get('identity');
+        if($identity !== ADMINISTRATOR && $info['data']['status'] !== 'CE'){
+            $info['data']['msg'] = '';
+        }
         return apiReturn(CODE_SUCCESS, '请求成功', $info['data']);
     }
 
