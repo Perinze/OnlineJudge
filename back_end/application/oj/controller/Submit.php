@@ -244,7 +244,7 @@ class Submit extends Base
         }
 
         $identity = Session::get('identity');
-        if($identity !== ADMINISTRATOR && $info['data']['status'] !== 'ce'){
+        if($identity !== ADMINISTRATOR && $info['data']['status'] !== 'CE'){
             $info['data']['msg'] = 'null';
         }
         return apiReturn(CODE_SUCCESS, '请求成功', $info['data']);
