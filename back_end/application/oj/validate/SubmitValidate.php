@@ -11,7 +11,7 @@ class SubmitValidate extends Validate
     protected $rule = [
         'language' => 'require',
         'problem_id' => 'require|number',
-        'source_code' => 'require|max:9831',
+        'source_code' => 'require|max:20000',
         'status_id' => 'require|number',
     ];
 

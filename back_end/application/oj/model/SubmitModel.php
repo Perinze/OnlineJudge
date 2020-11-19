@@ -20,10 +20,14 @@ class SubmitModel extends Model
     public function get_all_submit($where)
     {
         try {
-            $info = $this->field(['submit.user_id as user_id', 'submit.nick as nick', 'avatar', 'users.realname as realname','users.school as school','problem_id', 'submit.status as status', 'time', 'memory', 'submit_time'])
+            $info = $this->field(['submit.user_id as user_id', 'submit.nick as nick', 'avatar', 'users.realname as realname', 'language', 'users.school as school','problem_id', 'submit.status as status', 'time', 'memory', 'submit_time'])
                 ->where($where)
+                ->withAttr('language', function($value) {
+                    $language = [0=>'c.gcc', 1=>'cpp.g++', 2=>'java.openjdk10', 3=>'python.cpython3.6'];
+                    return $language[$value];
+                })
                 ->leftJoin('users', 'submit.user_id = users.user_id')
-                ->order('submit_time')->select()->toArray();
+                ->order('submit.id', 'desc')->select()->toArray();
             foreach ($info as &$item){
                 $item['nick'] = $item['realname'].' '.$item['school'];
                 unset($item['realname']);
@@ -62,7 +66,7 @@ class SubmitModel extends Model
     public function get_a_submit($where){
         try {
             $language = config('wutoj_config.language');
-            $info = $this->field(['submit.id as runid','submit.user_id as user_id','users.nick as nick', 'problem_id', 'language', 'submit.status as status', 'time', 'memory', 'submit_time', 'source_code'])
+            $info = $this->field(['submit.id as runid','submit.user_id as user_id','users.nick as nick', 'problem_id', 'language', 'submit.status as status', 'time', 'memory', 'submit_time', 'source_code', 'msg'])
                 ->where($where)->order('submit_time')->join('users','submit.user_id = users.user_id')->buildSql();
             $info = Db::query($info);
             foreach ($info as &$item){

@@ -79,6 +79,7 @@
           </table>
         </div>
       </div>
+      <span class="notice-tips" v-if="isDisplayRightContinue">&nbsp;&nbsp;友情提示：题目条可以横向滚动～</span>
     </div>
     <div class="bottom">
       <div class="submit-log-list">
@@ -161,6 +162,19 @@
             </div>
           </li>
         </ul>
+        <div class="contest-submit-pager-box">
+          <el-pagination
+            class="contest-submit-pager"
+            v-if="submitLogCounts > 0"
+            background
+            layout="prev, pager, next"
+            :page-size="20"
+            :total="submitLogCounts"
+            :current-page="currentSubmitPage"
+            @current-change="changeSubmitPage"
+            :pager-count="5"
+          />
+        </div>
       </div>
       <div class="discuss-list">
         <span class="title">
@@ -323,6 +337,8 @@ export default {
         //     status: 'wa',
         // },
       ],
+      submitLogCounts: 0,
+      currentSubmitPage: 1,
       discusses: [
         // {
         //     id: '1',
@@ -338,6 +354,7 @@ export default {
       intervalBegin: null,
       intervalEnd: null,
       myProblemStatus: {},
+      isDisplayRightContinue: false,
     };
   },
   computed: {
@@ -399,7 +416,11 @@ export default {
   async created() {
     // 渲染比赛信息
     this.getContestInfoCache(); // 从LS拿缓存
-    await this.renderContestInfo();
+    await this.renderContestInfo(() => {
+      this.$nextTick(() => {
+        this.checkRightContinue();
+      });
+    });
     // 检查登陆状态
     await this.checkJoin();
 
@@ -409,19 +430,28 @@ export default {
     ) {
       // 比赛开始
       this.countDownToEnd(); // 结束倒计时
-      this.renderStatusList(); // 渲染题目状态列表
+      this.renderStatusList(0, () => {
+        this.$nextTick(() => {
+          this.checkRightContinue();
+        });
+      }); // 渲染题目状态列表
       this.getDiscussListCache(); // 从LS缓存渲染讨论版
       this.renderDiscussList(); // 渲染讨论板列表
       this.getMyRank(); // 获取排名
     }
   },
-  mounted() {
-    const ele = document.getElementsByClassName('table-inner-box')[0];
-    if (ele.clientWidth < ele.scrollWidth) {
-      ele.classList.add('right-continue');
-    }
-  },
   methods: {
+    changeSubmitPage(page) {
+      this.currentSubmitPage = page;
+      this.renderStatusList(page - 1);
+    },
+    checkRightContinue() {
+      const ele = document.getElementsByClassName('table-inner-box')[0];
+      if (ele.clientWidth < ele.scrollWidth) {
+        ele.classList.add('right-continue');
+        this.isDisplayRightContinue = true;
+      }
+    },
     handleScroll(e) {
       // const all = ['left-continue', 'right-continue', 'double-continue'];
       if (e.target.scrollLeft === 0) {
@@ -521,7 +551,7 @@ export default {
     getErrorName(status) {
       return getWholeErrorName(status);
     },
-    renderContestInfo: async function() {
+    renderContestInfo: async function(callback) {
       let response = await getContest({
         contest_id: this.$route.params.id,
       });
@@ -531,6 +561,8 @@ export default {
         resObj.end_time = response.data.end_time.replace(/-/g, '/');
         this.contest_info = resObj;
         localStorage.setItem(`contestInfo-${this.$route.params.id}`, JSON.stringify(this.contest_info));
+
+        typeof callback === "function" && callback();
       } else {
         this.$message({
           message: response.message,
@@ -538,11 +570,12 @@ export default {
         });
       }
     },
-    renderStatusList: async function() {
+    renderStatusList: async function(page = 0, callback) {
       let response = await getSubmitInfo({
         contest_id: this.$route.params.id,
         // 保证传回来的是自己相关的状态（本页面的业务需求）
         user_id: localStorage.getItem("userId"),
+        page,
       });
       this.submit_log = [];
       if (response.status == 0) {
@@ -569,6 +602,9 @@ export default {
             status: val.status.toLowerCase(),
           });
         });
+        this.submitLogCounts = response.data.count;
+
+        typeof callback === "function" && callback();
       } else {
         if (response.status === 504) {
           // timeout
@@ -779,15 +815,14 @@ table {
   display: flex;
   width: 80%;
   max-width: 990px;
-  margin: 30px auto 0 auto;
+  margin: 15px auto 0 auto;
   justify-content: space-between;
 }
 
 .table-box {
   width: 100%;
   overflow-x: hidden;
-  border-radius: 10px;
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+  filter: drop-shadow(0 2px 15px rgba(0, 0, 0, 0.08));
 }
 
 .table-inner-box {
@@ -797,8 +832,18 @@ table {
   transition: box-shadow 300ms ease-in-out;
 
   &::-webkit-scrollbar {
-    display: none;
+    // position: absolute;
+    // margin-top: 10px;
+    // display: none;
   }
+}
+
+.notice-tips {
+  display: inline-block;
+  color: red;
+  font-size: 12px;
+  font-weight: bold;
+  margin-top: 5px;
 }
 
 .left-continue {
@@ -984,6 +1029,12 @@ table {
 
 .discuss-author {
   font-size: 13px;
+}
+
+.contest-submit-pager-box {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 60px;
 }
 
 @media screen and (max-width: 650px) {

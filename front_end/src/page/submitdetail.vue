@@ -21,15 +21,26 @@
           >
         </div>
       </div>
-      <div class="content-code">
-        <label for="codeDisplay" hidden>Source Code:</label>
-        <mycodemirror
-          id="codeDisplay"
-          :lang="cmlang"
-          :readOnly="true"
-          :precode="code"
-          ref="codeViewer"
-        />
+      <div class="content-box">
+        <div class="err-msg" v-if="errMsg">
+          <label for="errMsgDisplay" class="title-label">编译信息</label>
+          <textarea
+            id="errMsgDisplay"
+            readonly
+            v-model="errMsg"
+          ></textarea>
+        </div>
+        
+        <label class="title-label" for="codeDisplay" v-if="errMsg">Source Code</label>
+        <div class="content-code">
+          <mycodemirror
+            id="codeDisplay"
+            :lang="cmlang"
+            :readOnly="true"
+            :precode="code"
+            ref="codeViewer"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -60,6 +71,7 @@ export default {
         // background: 'rgb(86,196,26)',
         // border: 'none'
       },
+      errMsg: ""
     };
   },
   computed: {
@@ -149,6 +161,7 @@ export default {
         this.submitTime = data.submit_time;
         this.timeUsed = data.time;
         this.memoryUsed = data.memory;
+        this.errMsg = data.msg;
         this.$refs.codeViewer.code = this.code;
 
         if (data.status !== "Judging") {
@@ -237,6 +250,12 @@ export default {
   padding-left: 27px;
 }
 
+.content-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
 .content {
   display: flex;
   flex-direction: column;
@@ -272,10 +291,8 @@ export default {
   &-code {
     overflow: hidden;
     border-radius: 10px;
-    margin-top: 10px;
-    > label {
-      font-weight: bold;
-    }
+    margin-top: 7px;
+    width: 100%;
   }
 }
 
@@ -297,8 +314,33 @@ export default {
 #back-contest-btn {
   float: right;
   color: red;
+  cursor: pointer;
   &:hover {
     text-decoration: underline;
+  }
+}
+
+.title-label {
+  font-weight: bold;
+}
+
+.err-msg {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 15px;
+  margin-bottom: 15px;
+
+  > textarea {
+    border: none;
+    resize: none;
+    background: rgba(38,50,56,0.9);
+    color: #E9EDED;
+    border-radius: 10px;
+    padding: 6px 13px;
+    min-height: 100px;
+    overflow: auto;
+    margin-top: 7px;
   }
 }
 

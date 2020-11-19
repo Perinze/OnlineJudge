@@ -63,7 +63,6 @@ export default {
 }
 
 .icon {
-  position: absolute;
   > img {
     width: 20px;
     height: 20px;
@@ -77,7 +76,7 @@ export default {
   top: 9px;
   left: 0;
   bottom: 0;
-  margin-left: 15px;
+  margin-left: -4px;
   /*padding: 10px 0 0 15px;*/
 }
 </style>

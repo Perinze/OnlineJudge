@@ -152,7 +152,7 @@ class problem extends Base
         ];
         $problemModel = new ProblemModel();
         $resp = $problemModel->editProblemDataInfo($req['problem_id'], $data_info);
-        if (!$resp['code'] !== CODE_SUCCESS) {
+        if ($resp['code'] !== CODE_SUCCESS) {
             return apiReturn(CODE_ERROR, $resp['msg'], $resp['data']);
         }
         foreach($files['file'] as $file) {
@@ -213,7 +213,7 @@ class problem extends Base
                 }
             }
             // spj文件config
-            $spj_name = 'spj'.substr($req['language'],0, strpos($req['language'], '.'));
+            $spj_name = 'spj.'.substr($req['language'],0, strpos($req['language'], '.'));
             file_put_contents($spj_path.'/config.toml', $spj_toml->addValue('source', $spj_name)
                 ->addValue('language', $req['language'])
                 ->addTable('timeout')
