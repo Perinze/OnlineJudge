@@ -213,7 +213,7 @@ class problem extends Base
                 }
             }
             // spj文件config
-            $spj_name = 'spj'.substr($req['language'],0, strpos($req['language'], '.'));
+            $spj_name = 'spj.'.substr($req['language'],0, strpos($req['language'], '.'));
             file_put_contents($spj_path.'/config.toml', $spj_toml->addValue('source', $spj_name)
                 ->addValue('language', $req['language'])
                 ->addTable('timeout')
