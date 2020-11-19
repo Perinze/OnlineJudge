@@ -92,6 +92,7 @@ class Submit extends Base
             $resp['data']['submit_info'] = $temp['data']['submit_info'];
             $resp['code'] = $temp['code'];
             $resp['msg'] = $temp['msg'];
+            $resp['data']['count'] = $temp['data']['count'];
             $cache = $rankCache_model->get_rank_cache($req['contest_id']);
             if ($cache['code'] === CODE_SUCCESS) {
                 $resp['data']['rank'] = $this->getRank($cache['data'], $user_id);
