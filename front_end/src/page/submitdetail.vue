@@ -21,6 +21,14 @@
           >
         </div>
       </div>
+      <div class="complie-err-msg" v-if="errMsg">
+        <mycodemirror
+          id="errMsgDisplay"
+          :lang="text"
+          :readOnly="true"
+          :precode="errMsg"
+        />
+      </div>
       <div class="content-code">
         <label for="codeDisplay" hidden>Source Code:</label>
         <mycodemirror
@@ -60,6 +68,7 @@ export default {
         // background: 'rgb(86,196,26)',
         // border: 'none'
       },
+      errMsg: ""
     };
   },
   computed: {
