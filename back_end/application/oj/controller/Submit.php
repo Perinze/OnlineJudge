@@ -82,11 +82,11 @@ class Submit extends Base
                 $req['user_id'] = $user_id;
                 $where = $this->get_where_info($req);;
             }
-            $resp['data']['submit_info'] = $submit_model->get_all_submit($where);
+            $resp['data']['submit_info'] = $submit_model->get_all_submit($where)['data'];
 
             // format
             $resp['data']['penalty'] = $this->handle_data($resp['data']['submit_info'],  $contest['data']['begin_time'], json_decode($contest['data']['problems'], true));
-            $resp['data']['submit_info'] = $submit_model->get_the_submit($where, $page);
+            $resp['data']['submit_info'] = $submit_model->get_the_submit($where, $page)['data']['submit_info'];
             $cache = $rankCache_model->get_rank_cache($req['contest_id']);
             if ($cache['code'] === CODE_SUCCESS) {
                 $resp['data']['rank'] = $this->getRank($cache['data'], $user_id);
