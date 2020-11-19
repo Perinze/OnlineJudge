@@ -243,6 +243,10 @@ class Submit extends Base
             return apiReturn(CODE_ERROR, '不要查看其他人代码', '');
         }
 
+        $identity = Session::get('identity');
+        if($identity !== ADMINISTRATOR && $info['data']['status'] !== 'ce'){
+            $info['data']['msg'] = 'null';
+        }
         return apiReturn(CODE_SUCCESS, '请求成功', $info['data']);
     }
 
