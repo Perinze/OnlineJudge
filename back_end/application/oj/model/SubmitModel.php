@@ -17,7 +17,7 @@ class SubmitModel extends Model
 {
     protected $table = 'submit';
 
-    public function get_all_submit($where)
+    public function get_all_submit($where, $order = 'desc')
     {
         try {
             $info = $this->field(['submit.user_id as user_id', 'submit.nick as nick', 'avatar', 'users.realname as realname', 'language', 'users.school as school','problem_id', 'submit.status as status', 'time', 'memory', 'submit_time'])
@@ -27,7 +27,7 @@ class SubmitModel extends Model
                     return $language[$value];
                 })
                 ->leftJoin('users', 'submit.user_id = users.user_id')
-                ->order('submit.id', 'desc')->select()->toArray();
+                ->order('submit.id', $order)->select()->toArray();
             foreach ($info as &$item){
                 $item['nick'] = $item['realname'].' '.$item['school'];
                 unset($item['realname']);
