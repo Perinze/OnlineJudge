@@ -78,9 +78,17 @@ class Discuss extends Controller
          */
         $identity = Session::get('identity');
         if($identity === ADMINISTRATOR){
+            $tmp = $discuss_model->get_the_discuss($req['id']);
+            if($tmp['code'] !== CODE_SUCCESS){
+                return apiReturn($tmp['code'], $tmp['msg'], $tmp['data']);
+            }
+            $status = 1;
+            if($tmp['data']['status'] == 8){
+                $status = 8;
+            }
             $data = array(
                 'id' => $req['id'],
-                'status' => 1,
+                'status' => $status,
             );
             $discuss_model->update_discuss($data);
         }
