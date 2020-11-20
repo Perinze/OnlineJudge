@@ -99,13 +99,13 @@
                         ].times
                   "
                 />
-                <span>
+                <span :class="{'tle-color': isFirstBlood(index - 1, problemIndex)}">
                   {{
-                    rank_info[index - 1].solveInfo[
+                    getPenalty(rank_info[index - 1].solveInfo[
                       solveInfoMap(index - 1).indexOf(
                         String.fromCharCode(problemIndex + 64)
                       )
-                    ].success_time | penaltyFilter
+                    ]) | penaltyFilter
                   }}
                 </span>
               </div>
@@ -783,13 +783,13 @@ export default {
 
           // 跑一血数据
           val.problem_id.forEach((item) => {
-            if ((!this.firstBlood[item.problem_id]) || this.firstBlood[item.problem_id].time === "") {
+            if ((!this.firstBlood[item.problem_id]) || (this.firstBlood[item.problem_id].time === "")) {
               this.firstBlood[item.problem_id] = {
                 user_id: val.user_id,
                 time: item.success_time
               }
             } else {
-              if (this.firstBlood[item.problem_id].time > item.success_time) {
+              if (this.firstBlood[item.problem_id].time > item.success_time && item.success_time !== "") {
                 this.firstBlood[item.problem_id] = {
                   user_id: val.user_id,
                   time: item.success_time
@@ -797,6 +797,8 @@ export default {
               }
             }
           });
+
+          console.log(this.firstBlood);
 
           // 打星逻辑
           if (val.nick.indexOf("*") !== 0) {
@@ -843,6 +845,10 @@ export default {
       // solveInfo.filter((x) => {
         // if (x.)
       // })
+    },
+    getPenalty: function (solveInfo) {
+      if (solveInfo.success_time === "") return solveInfo.success_time;
+      return solveInfo.success_time + solveInfo.times * 20 * 60;
     }
   },
   computed: {
@@ -907,6 +913,10 @@ export default {
   },
   activated() {
     this.intervalGetRank();
+  },
+  deactived() {
+    clearInterval(this.interval);
+    this.interval = null;
   },
   beforeDestroy() {
     clearInterval(this.interval);
