@@ -79,7 +79,7 @@ class Rank extends Controller
             $where[] = ['submit_time', '<= time', strtotime($begin_time)
                 + (strtotime($end_time) - strtotime($begin_time)) * (1 - $info['data']['frozen'])];// 封榜逻辑
         }
-        $resp = $submit_model->get_all_submit($where, 'asc');
+        $resp = $submit_model->get_all_submit($where);
 
         // TODO 处理榜单
         $problems = json_decode($info['data']['problems'], true);
