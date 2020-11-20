@@ -100,6 +100,7 @@ export default {
     },
     renderContent: async function(page = 0) {
       this.$loading.open();
+      this.replyItems = [];
       let response = await getDiscussDetail({
         discuss_id: this.$route.params.did,
         page,
