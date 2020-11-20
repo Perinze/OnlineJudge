@@ -908,9 +908,9 @@ export default {
       return true;
     },
     myRank: function() {
-      let userNick = localStorage.getItem("nick");
-      if (userNick === null) return "";
-      let index = this.rank_info.map((x) => x.nick).indexOf(userNick);
+      const id = localStorage.getItem("userId");
+      if (id === null || id === "") return "";
+      const index = this.rank_info.map((x) => x.id).indexOf(+id);
       if (index === -1) return "";
       return this.rank_info[index].rank;
     },
