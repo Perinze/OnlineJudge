@@ -23,6 +23,17 @@
         <div class="element-time">{{ replyItems[index - 1].time }}</div>
       </li>
     </ul>
+    <div class="reply-pager">
+      <el-pagination
+        v-if="counts > 0"
+        background
+        layout="prev, pager, next"
+        :page-size="20"
+        :total="counts"
+        :current-page="currentPage"
+        @current-change="changePage"
+      />
+    </div>
     <div class="reply-input-group">
       <textarea
         placeholder="在此填入回复内容(至少10个字符)..."
@@ -63,6 +74,8 @@ export default {
       ],
       replyContent: "",
       problemNick: "@",
+      counts: 0,
+      currentPage: 1
     };
   },
   async created() {
@@ -70,6 +83,10 @@ export default {
     await this.getProblemNick();
   },
   methods: {
+    changePage(page) {
+      this.currentPage = page;
+      this.renderContent(page - 1);
+    },
     getProblemNick: async function() {
       let response = await getContest({
         contest_id: this.$route.params.id,
@@ -81,13 +98,15 @@ export default {
         );
       }
     },
-    renderContent: async function() {
+    renderContent: async function(page = 0) {
       this.$loading.open();
       let response = await getDiscussDetail({
         discuss_id: this.$route.params.did,
+        page,
       });
       if (response.status == 0) {
         this.themeInfo = response.data.discuss;
+        this.counts = response.data.reply.count;
         response.data.reply.data.forEach((val) => {
           this.replyItems.push(val);
         });
@@ -247,6 +266,12 @@ li {
       text-decoration: underline;
     }
   }
+}
+
+.reply-pager {
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
 @media screen and (max-width: 650px) {

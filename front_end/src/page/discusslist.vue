@@ -48,6 +48,17 @@
         <div class="user-nick">{{ item.nick }}</div>
         <div class="time">{{ item.time }}</div>
       </div>
+      <div class="discuss-pager">
+        <el-pagination
+          v-if="counts > 0"
+          background
+          layout="prev, pager, next"
+          :page-size="20"
+          :total="counts"
+          :current-page="currentPage"
+          @current-change="changePage"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -79,6 +90,8 @@ export default {
         // }
       ],
       problems: [],
+      counts: 0,
+      currentPage: 1,
     };
   },
   beforeMount() {
@@ -86,14 +99,20 @@ export default {
     this.getProblemList();
   },
   methods: {
-    renderList: async function() {
+    changePage(page) {
+      this.currentPage = page;
+      this.renderList(page - 1);
+    },
+    renderList: async function(page = 0) {
       this.$loading.open();
       let response = await getDiscussList({
         contest_id: this.$route.params.id,
+        page,
       });
       // console.log(response);
       if (response.status == 0) {
         this.items = response.data.data;
+        this.counts = response.data.count;
       } else {
         if (response.status === 504) {
           this.$message({
@@ -293,6 +312,13 @@ export default {
 
 .time {
   text-align: right;
+}
+
+.discuss-pager {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 60px;
+  width: 100%;
 }
 
 @media screen and (max-width: 650px) {

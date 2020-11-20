@@ -226,6 +226,18 @@
             <div v-if="discusses.length === 0">暂无与您相关的讨论内容</div>
           </li>
         </ol>
+        <div class="discuss-pager">
+          <el-pagination
+            v-if="discussCounts > 0"
+            background
+            layout="prev, pager, next"
+            :page-size="20"
+            :total="discussCounts"
+            :current-page="currentDiscussPage"
+            @current-change="changeDiscussPage"
+            :pager-count="5"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -349,6 +361,8 @@ export default {
         //     status: 1,
         // }
       ],
+      discussCounts: 0,
+      currentDiscussPage: 1,
       leftBeforeBegin: "00:00:00",
       leftTime: "00:00:00",
       intervalBegin: null,
@@ -444,6 +458,10 @@ export default {
     changeSubmitPage(page) {
       this.currentSubmitPage = page;
       this.renderStatusList(page - 1);
+    },
+    changeDiscussPage(page) {
+      this.currentDiscussPage = page;
+      this.renderDiscussList(page - 1);
     },
     checkRightContinue() {
       const ele = document.getElementsByClassName('table-inner-box')[0];
@@ -621,13 +639,15 @@ export default {
         }
       }
     },
-    renderDiscussList: async function() {
+    renderDiscussList: async function(page = 0) {
       let response = await getUserDiscuss({
         contest_id: this.$route.params.id,
+        page,
       });
       if (response.status == 0) {
         this.discusses = response.data.data;
-        localStorage.setItem(`contestDiscussList-${this.$route.params.id}`, JSON.stringify(response.data.data));
+        this.discussCounts = response.data.count;
+        localStorage.setItem(`contestDiscussList-${this.$route.params.id}-${page}`, JSON.stringify(response.data.data));
         // response.data.data.forEach((val) => {
         //   this.discusses.push({
         //     id: val.id,
@@ -677,13 +697,13 @@ export default {
         localStorage.removeItem(`contestInfo-${this.$route.params.id}`);
       }
     },
-    getDiscussListCache() {
-      const str = localStorage.getItem(`contestDiscussList-${this.$route.params.id}`);
+    getDiscussListCache(page = 0) {
+      const str = localStorage.getItem(`contestDiscussList-${this.$route.params.id}-${page}`);
       try {
         const data = JSON.parse(str);
         this.discusses = data || [];
       } catch (e) {
-        localStorage.removeItem(`contestDiscussList-${this.$route.params.id}`);
+        localStorage.removeItem(`contestDiscussList-${this.$route.params.id}-${page}`);
       }
     }
   },
@@ -1031,10 +1051,11 @@ table {
   font-size: 13px;
 }
 
-.contest-submit-pager-box {
+.contest-submit-pager-box, .discuss-pager {
   display: flex;
   justify-content: center;
   margin-bottom: 60px;
+  width: 100%;
 }
 
 @media screen and (max-width: 650px) {
