@@ -101,11 +101,26 @@
                 />
                 <span :class="{'tle-color': isFirstBlood(index - 1, problemIndex)}">
                   {{
-                    getPenalty(rank_info[index - 1].solveInfo[
+                    rank_info[index - 1].solveInfo[
                       solveInfoMap(index - 1).indexOf(
                         String.fromCharCode(problemIndex + 64)
                       )
-                    ]) | penaltyFilter
+                    ].success_time | penaltyFilter
+                  }}
+                  {{
+                    rank_info[index - 1].solveInfo[
+                      solveInfoMap(index - 1).indexOf(
+                        String.fromCharCode(problemIndex + 64)
+                      )
+                    ].times && rank_info[index - 1].solveInfo[
+                      solveInfoMap(index - 1).indexOf(
+                        String.fromCharCode(problemIndex + 64)
+                      )
+                    ].success_time !== "" ? `(-${rank_info[index - 1].solveInfo[
+                      solveInfoMap(index - 1).indexOf(
+                        String.fromCharCode(problemIndex + 64)
+                      )
+                    ].times})` : ''
                   }}
                 </span>
               </div>
@@ -797,8 +812,6 @@ export default {
               }
             }
           });
-
-          console.log(this.firstBlood);
 
           // 打星逻辑
           if (val.nick.indexOf("*") !== 0) {
