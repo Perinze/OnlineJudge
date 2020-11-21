@@ -100,9 +100,8 @@ class Submit extends Base
                 $resp['data']['rank'] = 1;
             }
         } else {
-            if ($identify !== ADMINISTRATOR) {
-                $req['contest_id'] = 0;
-            }
+            // TODO 给管理员添加查看submit权限
+            $req['contest_id'] = 0;
             $where = $this->get_where_info($req);
             $resp = $submit_model->get_the_submit($where, $page);
         }
