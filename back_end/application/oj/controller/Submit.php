@@ -100,7 +100,9 @@ class Submit extends Base
                 $resp['data']['rank'] = 1;
             }
         } else {
-            $req['contest_id'] = 0;
+            if ($identify != ADMINISTRATOR) {
+                $req['contest_id'] = 0;
+            }
             $where = $this->get_where_info($req);
             $resp = $submit_model->get_the_submit($where, $page);
         }
