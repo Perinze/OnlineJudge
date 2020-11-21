@@ -83,8 +83,10 @@
     </div>
     <div class="bottom">
       <div class="submit-log-list">
-        <span class="title">提交记录 Submit log</span>
-        <span id="submit-log-tips" class="tips">点击查看具体记录</span>
+        <div class="title">
+          提交记录 Submit log
+          <span id="submit-log-tips" class="tips">点击查看具体记录</span>
+        </div>
         <ul class="submit-log-ul style-border-left">
           <li
             v-for="index in submit_log.length"
@@ -177,20 +179,22 @@
         </div>
       </div>
       <div class="discuss-list">
-        <span class="title">
+        <div class="title">
           讨论板 Discuss list
           <span
             class="see-more tips"
             @click="$router.push('/discuss/' + contest_info.id)"
-            >点我查看更多, 提问问题</span
           >
-        </span>
+            点我查看更多, 提问问题
+          </span>
+        </div>
         <ol>
-          <li>
+          <li
+            :key="'discuss-card'+index"
+            v-for="index in discusses.length"
+          >
             <div
               class="discuss-card"
-              :key="'discuss-card'+index"
-              v-for="index in discusses.length"
               @click="
                 $router.push(
                   '/discuss/' + contest_info.id + '/' + discusses[index - 1].id
@@ -756,7 +760,6 @@ table {
     size: 12px;
     weight: bold;
   }
-  float: right;
 }
 
 .countdown-label {
@@ -970,6 +973,8 @@ table {
 }
 
 .title {
+  display: flex;
+  justify-content: space-between;
   padding-left: 5px;
   font-weight: bold;
   font-size: 16px;
