@@ -31,7 +31,6 @@ import topicInfo from "../page/topicInfo";
 import discussionInfo from "../page/discussionInfo";
 import addDiscussion from "../page/addDiscussion";
 import submission from "../page/submission";
-
 import contestpageaf from "../page/contestpageaf";
 
 Vue.use(VueRouter);
@@ -74,7 +73,7 @@ const routes = [
       isLogin: false,
     },
   },
-  
+
   {
     // 比赛主页
     path: "/contest/:id",

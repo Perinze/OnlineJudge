@@ -869,7 +869,6 @@ table {
   flex-flow: column;
   width: 50%;
 }
-
 .problem-self{
   height: 14%;
   width: 95%;
