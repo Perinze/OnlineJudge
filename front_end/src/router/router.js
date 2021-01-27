@@ -32,6 +32,8 @@ import discussionInfo from "../page/discussionInfo";
 import addDiscussion from "../page/addDiscussion";
 import submission from "../page/submission";
 
+import contestpageaf from "../page/contestpageaf";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -81,6 +83,14 @@ const routes = [
     },
   },
 
+  {
+    // 比赛主页
+    path: "/contestaf/:id",
+    component: contestpageaf,
+    meta: {
+      isLogin: false,
+    },
+  },
   {
     // 比赛主页
     path: "/contestaf/:id",
