@@ -29,7 +29,7 @@
                   @click="$router.push('/rank/' + contest_info.id)"
                   :style="{width: isWap?'70px':'128px'}"
                 >
-                  排名 Rank
+                   排名 Rank
                 </th>
                 <th :style="{width: isWap?'70px':'128px'}">罚时 Penalty</th>
                 <th

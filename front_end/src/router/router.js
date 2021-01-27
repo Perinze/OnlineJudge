@@ -74,6 +74,7 @@ const routes = [
       isLogin: false,
     },
   },
+  
   {
     // 比赛主页
     path: "/contest/:id",
