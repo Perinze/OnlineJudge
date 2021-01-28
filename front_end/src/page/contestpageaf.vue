@@ -30,9 +30,7 @@
                   :style="{width: isWap?'70px':'128px'}"
                 >
                   <span>排名 Rank</span>
-                  <span class="see-more"> 
-                    (点我查看榜单)
-                  </span>
+                  <span class="see-more">(点我查看榜单)</span>
                 </th>
                 <th :style="{width: isWap?'70px':'128px'}">罚时 Penalty</th>
                 <th
@@ -1001,7 +999,8 @@ table {
 }
 
 .see-more {
-  margin-top: 4px;
+  cursor: pointer;
+  margin-top: 5px;
   font-size: 12px;
 }
 
