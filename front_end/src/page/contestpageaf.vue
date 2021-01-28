@@ -28,12 +28,11 @@
                   class="status-rank style-border-left"
                   @click="$router.push('/rank/' + contest_info.id)"
                   :style="{width: isWap?'70px':'128px'}"
-                  style="text-align:center;"
                 >
-                   排名 Rank
-                   <span class="see-more tips"> 
-                      点击此处查看榜单
-                    </span>
+                  <span>排名 Rank</span>
+                  <span class="see-more"> 
+                    (点我查看榜单)
+                  </span>
                 </th>
                 <th :style="{width: isWap?'70px':'128px'}">罚时 Penalty</th>
                 <th
@@ -811,6 +810,8 @@ table {
   height: 100%;
   overflow-x: hidden;
   overflow-y: scroll;
+
+  padding-bottom: 40px;
 }
 
 /* 开赛前毛玻璃波纹效果 */
@@ -983,20 +984,25 @@ table {
 }
 
 .status-rank {
+  text-align: center;
+
   color: #338bb8;
   cursor: pointer;
-  &:hover {
+
+  & > span {
+    display: block;
+    margin: 0 auto;
+  }
+
+  &:hover, &:hover > span {
     color: #5c8db7;
     text-decoration: underline;
   }
 }
 
 .see-more {
-  cursor: pointer;
-  margin-top: 5px;
-  &:hover {
-    text-decoration: underline;
-  }
+  margin-top: 4px;
+  font-size: 12px;
 }
 
 .submit-log-list {
@@ -1014,7 +1020,7 @@ table {
 
 .submit-log-li {
   cursor: pointer;
-  height: 15%;
+  height: 48px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;

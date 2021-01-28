@@ -14,7 +14,7 @@
       @call="callSideBar"
       @logout="doLogout"
     />
-    <div class="layout-content" id="layout-content" :style="contentWidthObject">
+    <div class="layout-content" id="layout-content">
       <topnav
         :topnavOpacity="topnavOpacity"
         :mineWidth="topnavWidth"
@@ -207,12 +207,13 @@ export default {
         };
       }
       return {
-        /*width: this.sideDisplay ? `${phantom}px` : "100%",
-        "padding-left": this.sidebarDisplay ? "200px" : 0,*/
+        width: this.sideDisplay ? `${phantom}px` : "100%",
+        "padding-left": this.sidebarDisplay ? "200px" : 0,
       };
     },
     topnavWidth: function() {
-      let res = this.contentWidthObject.width;
+      // let res = this.contentWidthObject.width;
+      let res = "100%";
       if (this.isWap) {
         return res;
       }
