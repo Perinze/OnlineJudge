@@ -28,8 +28,12 @@
                   class="status-rank style-border-left"
                   @click="$router.push('/rank/' + contest_info.id)"
                   :style="{width: isWap?'70px':'128px'}"
+                  style="text-align:center;"
                 >
                    排名 Rank
+                   <span class="see-more tips"> 
+                      点击此处查看榜单
+                    </span>
                 </th>
                 <th :style="{width: isWap?'70px':'128px'}">罚时 Penalty</th>
                 <th
@@ -733,6 +737,11 @@ export default {
       }
     }
   },
+  mounted(){
+    let body=document.getElementById('combox');
+    let sideDrawer=document.getElementById('side-drawer');
+    body.appendChild(sideDrawer);
+  },
   beforeDestroy() {
     clearInterval(this.intervalBegin);
     clearInterval(this.intervalEnd);
@@ -878,6 +887,7 @@ table {
   overflow: hidden;
   margin-bottom: 10px;
   background: white;
+  border-left: $inner-left-border;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -887,11 +897,13 @@ table {
 }
 
 .problem-pager{
-  margin-bottom: 0;
+  height: 100%;
   display: flex;
-  justify-content: center;
+  flex-flow: row;
+  align-items: flex-end;
   /*margin-bottom: 60px;*/
   width: 100%;
+  padding-left: 30%;
 }
 
 .discuss-and-submit{
