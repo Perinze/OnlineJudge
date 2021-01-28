@@ -1,37 +1,85 @@
 <template>
   <div class="problem-detail-container">
     <div class="temp-problem-detail">
-      <div class="title">{{ problem_info.id }} {{ problem_info.title }}</div>
+      <div class="title">Problem {{ problem_info.id }}. {{ problem_info.title }}</div>
       <div class="other-info">
-        <div class="source" v-if="problem_info.source.trim()">{{ problem_info.source }}</div>
+        <table>
+          <tbody>
+            <tr v-if="problem_info.source.trim()">
+              <td>Source:</td><td>{{ problem_info.source }}</td>
+            </tr>
+            <tr>
+              <td>Input file:</td><td>standard input</td>
+            </tr>
+            <tr>
+              <td>Output file:</td><td>standard output</td>
+            </tr>
+            <tr>
+              <td>Time limit:</td><td>{{ problem_info.timeLimit }} seconds</td>
+            </tr>
+            <tr>
+              <td>Memory limit:</td><td>{{ problem_info.memoryLimit }} mebibytes</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       <div id="render-latex-content">
-        <div class="problem-background" v-if="problem_info.background.trim()">
+        <!-- <div class="problem-background" v-if="problem_info.background.trim()">
           <span class="sub-title">题目背景</span>
           <span class="content render-scroll-area" v-html="Marked(problem_info.background)"></span>
-        </div>
+        </div> -->
         <div class="describe" v-if="problem_info.describe.trim()">
-          <span class="sub-title">题目描述</span>
-          <span class="content" v-html="Marked(problem_info.describe)"></span>
+          <blockquote class="content render-scroll-area" v-html="Marked(problem_info.background)"></blockquote>
+          <!-- <span class="sub-title">题目描述</span> -->
+          <span class="content render-scroll-area" v-html="Marked(problem_info.describe)"></span>
         </div>
         <div class="io-standard">
-          <span class="sub-title">输入格式</span>
+          <span class="sub-title">Input</span>
           <span
             class="content render-scroll-area"
             v-html="Marked(problem_info.input_sample)"
           ></span>
         </div>
         <div class="io-standard">
-          <span class="sub-title">输出格式</span>
+          <span class="sub-title">Output</span>
           <span
             class="content render-scroll-area"
             v-html="Marked(problem_info.output_sample)"
           ></span>
         </div>
       </div>
-      <div class="example-data">
-        <span class="sub-title">样例</span>
-        <div
+      <div class="example-data" v-if="problem_info.example.length">
+        <span class="sub-title">Examples</span>
+        <table>
+          <thead>
+            <tr>
+              <th>Standard Input</th>
+              <th>Standard Output</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="(item, index) in problem_info.example"
+              :key="`sample-${index}`"
+            >
+              <td>
+                <textarea
+                  readonly
+                  v-model="item.input"
+                  :rows="getSampleRows(index)"
+                ></textarea>
+              </td>
+              <td>
+                <textarea
+                  readonly
+                  v-model="item.output"
+                  :rows="getSampleRows(index)"
+                ></textarea>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- <div
           class="example-data-element"
           v-for="index in problem_info.example.length"
           :key="'sample-' + index"
@@ -77,7 +125,7 @@
               ></textarea>
             </div>
           </div>
-        </div>
+        </div> -->
         <div v-if="problem_info.example.length === 0">无</div>
       </div>
       <div class="hint" v-if="problem_info.hint != ''">
@@ -179,7 +227,9 @@ export default {
             input_sample: data.input_format,
             output_sample: data.output_format,
             hint: data.hint,
-            source: data.source
+            source: data.source,
+            timeLimit: data.time,
+            memoryLimit: (+data.memory || 0).toFixed(2)
           });
           data.sample.forEach((val) => {
             this.problem_info.example.push(val);
@@ -241,7 +291,7 @@ export default {
           content2.split(/\r\n|\r|\n|<br>/).length
         );
         if (lines <= 2) return 2;
-        else return lines;
+        else return lines + 1;
       } catch (e) {
         return 0;
       }
@@ -264,6 +314,12 @@ export default {
   user-select: text;
   position: relative;
   padding: 30px 20px 20px 20px;
+
+  blockquote {
+    margin-left: 3px;
+    padding-left: 10px;
+    border-left: 3px solid #4288ce;
+  }
 }
 
 .title {
@@ -286,13 +342,12 @@ export default {
 .other-info {
   display: flex;
   flex-direction: row;
-  
-  .source {
-    color: gray;
-    font-size: 12px;
+  font-size: 12px;
+
+  td {
+    padding: 1px 10px;
   }
 }
-
 
 .sub-title {
   display: block;
@@ -345,8 +400,41 @@ export default {
   }
 }
 
+.example-data table {
+  width: 100%;
+  border: .5px solid black;
+  border-collapse: collapse;
+  font-size: 13px;
+
+  tr td {
+    padding: 0 2px;
+  }
+
+  tr th, tr td {
+    border: .5px solid black;
+  }
+
+  thead {
+    text-align: left;
+    th {
+      font-weight: normal;
+      padding: 7px 2px 2px 2px;
+    }
+  }
+
+  textarea {
+    border: none;
+    resize: none;
+    width: 100%;
+    height: auto;
+    font-family: RobotoMono;
+    overflow-x: auto;
+    white-space: pre;
+  }
+}
+
 .example-data-element {
-  width: 53%;
+  width: 100%;
   margin: 20px 0;
   > label {
     font: {
@@ -359,9 +447,9 @@ export default {
     justify-content: flex-start;
   }
   .example-content {
-    > div:last-child {
-      margin-left: 40px;
-    }
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
   }
 }
 
@@ -383,6 +471,7 @@ export default {
   height: auto;
   user-select: text;
   resize: none;
+  font-family: RobotoMono;
 }
 
 .example-copy-btn {

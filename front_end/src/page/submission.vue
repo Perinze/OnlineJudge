@@ -169,9 +169,9 @@ export default {
 
 <style lang="scss" scoped>
   .submission {
-    // display: flex;
-    // flex-direction: column;
-    // align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding-top: 80px;
     padding-bottom: 40px;
     padding-left: 24px;

@@ -207,8 +207,8 @@ export default {
         };
       }
       return {
-        width: this.sideDisplay ? `${phantom}px` : "100%",
-        "padding-left": this.sidebarDisplay ? "200px" : 0,
+        /*width: this.sideDisplay ? `${phantom}px` : "100%",
+        "padding-left": this.sidebarDisplay ? "200px" : 0,*/
       };
     },
     topnavWidth: function() {
@@ -260,6 +260,11 @@ $reColor: rgb(131, 118, 169);
   &::-webkit-scrollbar {
     display: none;
   }
+}
+
+#side-drawer{
+  position: fixed;
+  z-index: 10000;
 }
 /*
   题目icon BEGIN
@@ -354,6 +359,10 @@ $reColor: rgb(131, 118, 169);
   font-family: DINCondensed;
   /*src: url("../assets/font/DINCondensed.otf");*/
   src: url("../assets/font/DINCondensed_min.ttf");
+}
+@font-face {
+  font-family: RobotoMono;
+  src: url("../assets/font/RobotoMono-Regular.ttf");
 }
 </style>
 

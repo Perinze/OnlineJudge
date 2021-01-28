@@ -101,8 +101,8 @@ export default {
             return {
               id: item.contest_id.toString(),
               title: item.contest_name,
-              begin_time: item.begin_time,
-              end_time: item.end_time,
+              begin_time: item.begin_time.replace(/-/g, '/'),
+              end_time: item.end_time.replace(/-/g, '/'),
               hasJoin: false,
               status: +item.status
             };

@@ -6,7 +6,12 @@ import problemlist from "../page/problemlist";
 import problemDetail from "../page/problemDetail";
 import contestlist from "../page/contestlist";
 import contestrank from "../page/contest-rank";
+
+
 import contestpage from "../page/contestpage";
+
+
+import contestpageaf from "../page/contestpageaf";
 import discusslist from "../page/discusslist";
 import discussdetail from "../page/discussdetail";
 import submitdetail from "../page/submitdetail";
@@ -67,12 +72,30 @@ const routes = [
       isLogin: false,
     },
   },
+
   {
     // 比赛主页
     path: "/contest/:id",
     component: contestpage,
     meta: {
       isLogin: true,
+    },
+  },
+
+  {
+    // 比赛主页
+    path: "/contestaf/:id",
+    component: contestpageaf,
+    meta: {
+      isLogin: false,
+    },
+  },
+  {
+    // 比赛主页
+    path: "/contestaf/:id",
+    component: contestpageaf,
+    meta: {
+      isLogin: false,
     },
   },
   {
@@ -185,14 +208,14 @@ const routes = [
       isLogin: false,
     },
   },
-  {
-    // 讨论区
-    path: "/discussion",
-    component: discussion,
-    meta: {
-      isLogin: false,
-    }
-  },
+  // {
+  //   // 讨论区
+  //   path: "/discussion",
+  //   component: discussion,
+  //   meta: {
+  //     isLogin: false,
+  //   }
+  // },
   {
     // 某条帖子
     name: "discussionInfo",

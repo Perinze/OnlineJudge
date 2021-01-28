@@ -41,7 +41,7 @@
           <template v-for="index in contestData.length">
             <contest-card
               :key="index"
-              v-if="new Date(contestData[index - 1].end_time).getTime() >= Date.now()"
+              v-if="new Date(contestData[index - 1].end_time.replace(/-/g, '/')).getTime() >= Date.now()"
               :contest-nick="contestData[index - 1].title"
               contest-type="ACM"
               :contest-num="contestData[index - 1].contestantNum | stdNum"

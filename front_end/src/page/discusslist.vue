@@ -14,41 +14,50 @@
           placeholder="在此键入提问内容(至少15个字符)..."
           v-model="question.content"
         />
-        <select v-model="question.problem_id">
-          <option
-            v-for="index in problems.length"
-            :value="problems[index - 1]"
-            :key="problems[index - 1]"
-            >{{ String.fromCharCode(64 + index) }}</option
-          >
-        </select>
-        <button class="submit-ques-btn" @click="doQuestion">Submit</button>
+        <div class="func-btns">
+          <select v-model="question.problem_id">
+            <option
+              v-for="index in problems.length"
+              :value="problems[index - 1]"
+              :key="problems[index - 1]"
+              >{{ String.fromCharCode(64 + index) }}</option
+            >
+          </select>
+          <button class="submit-ques-btn" @click="doQuestion">Submit</button>
+        </div>
       </div>
     </div>
     <div class="list">
       <div
         class="element-card"
-        v-for="index in items.length"
+        v-for="(item, index) in items"
         :key="'themeCard-' + index"
         @click="
-          $router.push('/discuss/' + contest_id + '/' + items[index - 1].id)
+          $router.push('/discuss/' + contest_id + '/' + item.id)
         "
       >
         <div class="title">
           <span class="problem-tag">{{
-            String.fromCharCode(
-              problems
-                .map((x) => parseInt(x))
-                .indexOf(parseInt(items[index - 1].problem_id)) + 64
-            )
+            String.fromCharCode(problems.map(x => +x).indexOf(+item.problem_id) + 65)
           }}</span>
-          {{ items[index - 1].title | titleFilter }}
+          {{ item.title }}
         </div>
         <div class="content">
-          {{ items[index - 1].content | contentFilter }}
+          {{ item.content }}
         </div>
-        <div class="user-nick">{{ items[index - 1].nick }}</div>
-        <div class="time">{{ items[index - 1].time }}</div>
+        <div class="user-nick">{{ item.nick }}</div>
+        <div class="time">{{ item.time }}</div>
+      </div>
+      <div class="discuss-pager">
+        <el-pagination
+          v-if="counts > 0"
+          background
+          layout="prev, pager, next"
+          :page-size="20"
+          :total="counts"
+          :current-page="currentPage"
+          @current-change="changePage"
+        />
       </div>
     </div>
   </div>
@@ -81,6 +90,8 @@ export default {
         // }
       ],
       problems: [],
+      counts: 0,
+      currentPage: 1,
     };
   },
   beforeMount() {
@@ -88,17 +99,20 @@ export default {
     this.getProblemList();
   },
   methods: {
-    renderList: async function() {
+    changePage(page) {
+      this.currentPage = page;
+      this.renderList(page - 1);
+    },
+    renderList: async function(page = 0) {
       this.$loading.open();
-      this.items = [];
       let response = await getDiscussList({
         contest_id: this.$route.params.id,
+        page,
       });
       // console.log(response);
       if (response.status == 0) {
-        response.data.data.forEach((val) => {
-          this.items.push(val);
-        });
+        this.items = response.data.data;
+        this.counts = response.data.count;
       } else {
         if (response.status === 504) {
           this.$message({
@@ -162,23 +176,7 @@ export default {
     contest_id: function() {
       return this.$route.params.id;
     },
-  },
-  filters: {
-    titleFilter: function(val) {
-      let len = val.length;
-      if (len < 30) {
-        return val;
-      }
-      return val.slice(0, 27) + "...";
-    },
-    contentFilter: function(val) {
-      let len = val.length;
-      if (len < 150) {
-        return val;
-      }
-      return val.slice(0, 147) + "...";
-    },
-  },
+  }
 };
 </script>
 
@@ -235,34 +233,33 @@ export default {
       resize: none;
       padding: 7px 10px;
     }
-    > select {
-      position: absolute;
-      height: 26px;
-      width: 50px;
-      margin-left: -110px;
-      margin-top: 257px;
-      appearance: none;
-      background: url("../../assets/icon/arrow-bottom.svg") no-repeat scroll
-        right center transparent;
-      background-size: 14px 14px;
-      margin-right: 1px;
-      border: 1px solid gray;
-      border-radius: 0.2em;
-      padding: 0 15px 0 7px;
-    }
-    .submit-ques-btn {
-      position: absolute;
-      background: none;
-      margin-left: -20px;
-      margin-top: 255px;
-      height: 30px;
-      border: 1px solid #4288ce;
-      border-radius: 10px;
-      color: #4288ce;
-      width: 80px;
-      cursor: pointer;
-      &:hover {
-        text-decoration: underline;
+    > .func-btns {
+      padding: 5px;
+
+      select {
+        height: 26px;
+        width: 50px;
+        appearance: none;
+        background: url("../../assets/icon/arrow-bottom.svg") no-repeat scroll
+          right center transparent;
+        background-size: 14px 14px;
+        border: 1px solid gray;
+        border-radius: 5px;
+        padding: 0 15px 0 7px;
+        margin-right: 5px;
+      }
+
+      .submit-ques-btn {
+        background: none;
+        height: 26px;
+        border: 1px solid #4288ce;
+        border-radius: 5px;
+        color: #4288ce;
+        width: 80px;
+        cursor: pointer;
+        &:hover {
+          text-decoration: underline;
+        }
       }
     }
   }
@@ -294,11 +291,19 @@ export default {
 .title {
   font-weight: bold;
   font-size: 17px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .content {
   padding-right: 25px;
   height: 50px;
+  overflow : hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .user-nick {
@@ -307,6 +312,13 @@ export default {
 
 .time {
   text-align: right;
+}
+
+.discuss-pager {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 60px;
+  width: 100%;
 }
 
 @media screen and (max-width: 650px) {

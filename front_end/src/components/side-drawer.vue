@@ -21,7 +21,8 @@ export default {
     problemDetail,
   },
   methods: {
-    close() {
+    close() { 
+
       this.$emit("close");
     },
     popOpenSubmit(val) {
@@ -31,7 +32,7 @@ export default {
   computed: {
     marginRightStyleObject() {
       if (this.isDisplay) {
-        return { "margin-right": 0 };
+        return { "margin-right": 0,};
       }
       return { "margin-right": "-100%" };
     },
@@ -41,14 +42,14 @@ export default {
 
 <style lang="scss" scoped>
 #side-drawer {
-  position: fixed;
+  position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: auto;
   width: calc((100% - 200px) / 2);
   background: white;
-  z-index: 1001;
+  z-index: 100000;
   border: {
     top-left-radius: 0.8em;
     bottom-left-radius: 0.8em;
