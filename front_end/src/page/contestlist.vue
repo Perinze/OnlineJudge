@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import { getContestList, getUserContest, joinContest } from "../api/getData";
+import { getContestList, getUserContest, joinContest } from "../api/contest";
 
 export default {
   name: "contestlist",
@@ -127,7 +127,7 @@ export default {
       this.loading = false;
     },
     getUserContestList: async function () {
-      let response = await getUserContest();
+      let response = await getUserContest(localStorage.getItem("userId"));
       if (response.status == 0) {
         response.data.forEach((val) => {
           this.itemsKeys.forEach((key) => {
@@ -149,9 +149,7 @@ export default {
       }
 
       this.$loading.open();
-      let response = await joinContest({
-        contest_id: info.id,
-      });
+      let response = await joinContest(info.id, localStorage.getItem("userId"));
       if (response.status == 0) {
         info.hasJoin = true;
         this.$message({

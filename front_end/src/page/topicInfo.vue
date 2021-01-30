@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { getDiscussList } from "../api/getData";
+import { getDiscussList } from "../api/discuss";
 import pagination from "../components/pagination";
 
 export default {
@@ -99,7 +99,7 @@ export default {
               contest_id: this.$route.query.id,
               page: index,
             };
-      getDiscussList(params).then((res) => {
+      getDiscussList(params.contest_id, params.page).then((res) => {
         window.console.log(res);
         this.discussions = res.data.data;
         this.count = res.count;

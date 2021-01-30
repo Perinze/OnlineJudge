@@ -45,7 +45,8 @@
 </template>
 
 <script>
-import { getDiscussDetail, addReply, getContest } from "../api/getData";
+import { getDiscussDetail, addReply } from "../api/discuss";
+import { getContest } from "../api/contest";
 
 export default {
   name: "discussdetail",
@@ -88,9 +89,7 @@ export default {
       this.renderContent(page - 1);
     },
     getProblemNick: async function() {
-      let response = await getContest({
-        contest_id: this.$route.params.id,
-      });
+      let response = await getContest(this.$route.params.id);
       if (response.status == 0) {
         this.problemNick = String.fromCharCode(
           response.data.problems
@@ -101,10 +100,7 @@ export default {
     renderContent: async function(page = 0) {
       this.$loading.open();
       this.replyItems = [];
-      let response = await getDiscussDetail({
-        discuss_id: this.$route.params.did,
-        page,
-      });
+      let response = await getDiscussDetail(this.$route.params.did, page);
       if (response.status == 0) {
         this.themeInfo = response.data.discuss;
         this.counts = response.data.reply.count;

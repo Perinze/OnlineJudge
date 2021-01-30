@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { getDiscussDetail, addReply } from "../api/getData";
+import { getDiscussDetail, addReply } from "../api/discuss";
 import pagination from "../components/pagination";
 export default {
   name: "topicInfo",
@@ -62,7 +62,7 @@ export default {
         discuss_id: this.$route.params.id,
         page: index,
       };
-      getDiscussDetail(params).then((res) => {
+      getDiscussDetail(params.discuss_id, params.page).then((res) => {
         window.console.log(res);
         if (res.status === -1) return;
         this.replys = res.data.reply.data;

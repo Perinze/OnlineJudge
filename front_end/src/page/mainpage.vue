@@ -59,12 +59,9 @@
 import contestCard from "../components/contest-card";
 import statisticsCard from "../components/main-statistics-card";
 import { baidu_site_id } from "../config/env";
-import {
-  getCarousel,
-  getDailydata,
-  getContestList,
-  getPvData,
-} from "../api/getData";
+import { getPvData } from "../api/getData";
+import { getCarousel, getDailydata } from "../api/index";
+import { getContestList } from "../api/contest";
 import { judgeWap, deepEqual } from "../utils";
 
 export default {

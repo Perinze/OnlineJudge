@@ -30,7 +30,8 @@
 
 <script>
 import mycodemirror from "../components/myCodemirror";
-import { getProblem, submitCode, checkLogin } from "../api/getData";
+import { getProblem, checkLogin } from "../api/getData";
+import { submitCode } from "../api/submit";
 
 export default {
   name: "submitpage",

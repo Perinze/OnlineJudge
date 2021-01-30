@@ -133,7 +133,8 @@
 </template>
 
 <script>
-import { getContestRank, getContest } from "../api/getData";
+import { getContestRank } from "../api/rank";
+import { getContest } from "../api/contest";
 import statusIcon from "../components/status-icon";
 
 export default {
@@ -762,9 +763,7 @@ export default {
   },
   methods: {
     getContestInfo: async function () {
-      let response = await getContest({
-        contest_id: this.$route.params.id,
-      });
+      let response = await getContest(this.$route.params.id);
       if (response.status == 0) {
         this.contest_info = {
           title: response.data.contest_name,
@@ -780,9 +779,7 @@ export default {
     },
     renderRankList: async function () {
       let resRank = [];
-      let response = await getContestRank({
-        contest_id: this.$route.params.id,
-      });
+      let response = await getContestRank(this.$route.params.id);
       if (response.status == 0) {
         let cnt = 1;
         response.data.forEach((val) => {

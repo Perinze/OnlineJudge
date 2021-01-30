@@ -609,7 +609,8 @@
 
 <script>
 import { login } from "../api/login";
-import { register, getCaptcha, forgetPassword } from "../api/getData";
+import { register } from "../api/register";
+import { getCaptcha, forgetPassword } from "../api/getData";
 import { judgeWap } from "../utils";
 
 export default {

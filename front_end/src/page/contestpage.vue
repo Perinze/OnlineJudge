@@ -278,12 +278,12 @@ import { formatDate } from "../api/common";
 import { getWholeErrorName, logoutWork } from "../api/common";
 import StatusIcon from "../components/status-icon";
 import {
-  getContest,
   getSubmitInfo,
   checkUserContest,
   getUserDiscuss,
-  getContestRank,
 } from "../api/getData";
+import { getContestRank } from "../api/rank";
+import { getContest } from "../api/contest";
 import { judgeWap } from "../utils";
 import Discussion from './discussion.vue';
 
@@ -597,9 +597,7 @@ export default {
       return getWholeErrorName(status);
     },
     renderContestInfo: async function(callback) {
-      let response = await getContest({
-        contest_id: this.$route.params.id,
-      });
+      let response = await getContest(this.$route.params.id);
       if (response.status === 0) {
         let resObj = Object.assign(this.contest_info, response.data);
         resObj.begin_time = response.data.begin_time.replace(/-/g, '/');
@@ -689,9 +687,7 @@ export default {
       }
     },
     getMyRank: async function() {
-      let response = await getContestRank({
-        contest_id: this.$route.params.id,
-      });
+      let response = await getContestRank(this.$route.params.id);
       if (response.status !== 0) return;
       let data = response.data;
       let user_id = localStorage.getItem("userId");

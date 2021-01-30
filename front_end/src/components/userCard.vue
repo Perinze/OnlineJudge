@@ -209,7 +209,8 @@
 
 <script>
 import { getObjectURL } from "../api/common";
-import { getUserInfo, changeUserInfo, submitFeedback, uploadImage, uploadAvatar as doUploadAvator } from "../api/getData";
+import { submitFeedback, uploadImage, uploadAvatar as doUploadAvator } from "../api/getData";
+import { changeUserInfo, getUserInfo } from "../api/user";
 import imgUploader from "./imgUploader";
 import { dataURLtoFile } from "../utils";
 import { mapGetters } from "vuex";
@@ -305,9 +306,7 @@ export default {
         // TODO 没登陆
         return;
       }
-      let response = await getUserInfo({
-        user_id: userId,
-      });
+      let response = await getUserInfo(userId);
       if (response.status == 0) {
         this.userInfo = response.data;
       } else {
@@ -345,7 +344,12 @@ export default {
           changedItems[key] = this.userInfo[key];
         }
       }
-      let response = await changeUserInfo(changedItems);
+      let userId = localStorage.getItem("userId");
+      if (userId === null || userId === undefined) {
+        // TODO 没登陆
+        return;
+      }
+      let response = await changeUserInfo(userId, changedItems);
       if (response.status == 0) {
         this.$message({
           message: "修改成功",

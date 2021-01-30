@@ -64,7 +64,8 @@
 </template>
 
 <script>
-import { getDiscussList, addDiscuss, getContest } from "../api/getData";
+import { getDiscussList, addDiscuss } from "../api/discuss";
+import { getContest } from "../api/contest";
 
 export default {
   name: "discusslist",
@@ -105,10 +106,7 @@ export default {
     },
     renderList: async function(page = 0) {
       this.$loading.open();
-      let response = await getDiscussList({
-        contest_id: this.$route.params.id,
-        page,
-      });
+      let response = await getDiscussList(this.$route.params.id, page);
       // console.log(response);
       if (response.status == 0) {
         this.items = response.data.data;
@@ -124,9 +122,7 @@ export default {
       this.$loading.hide();
     },
     getProblemList: async function() {
-      let response = await getContest({
-        contest_id: this.contest_id,
-      });
+      let response = await getContest(this.contest_id);
       if (response.status == 0) {
         this.problems = response.data.problems;
         this.question.problem_id = response.data.problems[0];
