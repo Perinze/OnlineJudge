@@ -6,12 +6,7 @@ import problemlist from "../page/problemlist";
 import problemDetail from "../page/problemDetail";
 import contestlist from "../page/contestlist";
 import contestrank from "../page/contest-rank";
-
-
 import contestpage from "../page/contestpage";
-
-
-import contestpageaf from "../page/contestpageaf";
 import discusslist from "../page/discusslist";
 import discussdetail from "../page/discussdetail";
 import submitdetail from "../page/submitdetail";
@@ -79,15 +74,6 @@ const routes = [
     component: contestpage,
     meta: {
       isLogin: true,
-    },
-  },
-
-  {
-    // 比赛主页
-    path: "/contestaf/:id",
-    component: contestpageaf,
-    meta: {
-      isLogin: false,
     },
   },
   {

@@ -10,6 +10,7 @@
           <span id="time-before-end">距离比赛结束还有: {{ leftTime }}</span>
           <span id="frozen" v-if="isFrozen">&nbsp;&nbsp;已经封榜</span>
         </label>
+          
         <label class="tips"
           >点击题号查看题面 Please click problem label to see the detail</label
         >
@@ -28,7 +29,8 @@
                   @click="$router.push('/rank/' + contest_info.id)"
                   :style="{width: isWap?'70px':'128px'}"
                 >
-                  排名 Rank
+                  <span>排名 Rank</span>
+                  <span class="see-more">(点我查看榜单)</span>
                 </th>
                 <th :style="{width: isWap?'70px':'128px'}">罚时 Penalty</th>
                 <th
@@ -82,6 +84,96 @@
       <span class="notice-tips" v-if="isDisplayRightContinue">&nbsp;&nbsp;友情提示：题目条可以横向滚动～</span>
     </div>
     <div class="bottom">
+      <div class=problem-list>
+        <span class="title">问题列表</span>
+        <ol>
+          <li>
+            <div v-for="index in contest_info.problems.length"
+                :key="'preblem-self'+index"
+                class="problem-self"
+                @click="callProblem(contest_info.problems[index - 1], contest_info.id)">
+              {{ String.fromCharCode(64 + index) }}
+            </div>
+          </li>
+        </ol>
+        <div class="problem-pager">
+          <el-pagination
+            v-if="contest_info.problems.length > 0"
+            background
+            layout="prev, pager, next"
+            :page-size="8"
+            :total="contest_info.problems.length"
+            :current-page="1"
+            :pager-count="5"
+          />
+        </div>
+      </div>
+      <div class="discuss-and-submit">
+      <div class="discuss-list">
+        <span class="title">
+          讨论板 Discuss list
+          <span
+            class="see-more tips"
+            @click="$router.push('/discuss/' + contest_info.id)"
+            >点我查看更多, 提问问题</span
+          >
+        </span>
+        <ol>
+          <li>
+            <div
+              class="discuss-card"
+              :key="'discuss-card'+index"
+              v-for="index in discusses.length"
+              @click="
+                $router.push(
+                  '/discuss/' + contest_info.id + '/' + discusses[index - 1].id
+                )
+              "
+              :class="[
+                discusses[index - 1].status === 8
+                  ? 'style-border-left-warning'
+                  : 'style-border-left',
+              ]"
+            >
+              <div class="discuss-problem-id">
+                {{
+                  String.fromCharCode(
+                    contest_info.problems.indexOf(
+                      `${discusses[index - 1].problem_id}`
+                    ) + 65
+                  )
+                }}
+              </div>
+              <div class="discuss-title">
+                {{ discusses[index - 1].title }}
+              </div>
+              <div class="discuss-author">
+                <span
+                  style="color: orange;"
+                  v-if="discusses[index - 1].status === 8"
+                  >{{ "\<" + "管理员公示\>&nbsp;" }}</span
+                >
+                {{ discusses[index - 1].author }}
+              </div>
+            </div>
+            <div v-if="discusses.length === 0">暂无与您相关的讨论内容</div>
+          </li>
+        </ol>
+        <div class="discuss-pager">
+          <el-pagination
+            v-if="discussCounts > 0"
+            background
+            layout="prev, pager, next"
+            :page-size="2"
+            :total="discussCounts"
+            :current-page="currentDiscussPage"
+            @current-change="changeDiscussPage"
+            :pager-count="5"
+          />
+        </div>
+      </div>
+    
+
       <div class="submit-log-list">
         <span class="title">提交记录 Submit log</span>
         <span id="submit-log-tips" class="tips">点击查看具体记录</span>
@@ -168,7 +260,7 @@
             v-if="submitLogCounts > 0"
             background
             layout="prev, pager, next"
-            :page-size="20"
+            :page-size="4"
             :total="submitLogCounts"
             :current-page="currentSubmitPage"
             @current-change="changeSubmitPage"
@@ -176,68 +268,6 @@
           />
         </div>
       </div>
-      <div class="discuss-list">
-        <span class="title">
-          讨论板 Discuss list
-          <span
-            class="see-more tips"
-            @click="$router.push('/discuss/' + contest_info.id)"
-            >点我查看更多, 提问问题</span
-          >
-        </span>
-        <ol>
-          <li>
-            <div
-              class="discuss-card"
-              :key="'discuss-card'+index"
-              v-for="index in discusses.length"
-              @click="
-                $router.push(
-                  '/discuss/' + contest_info.id + '/' + discusses[index - 1].id
-                )
-              "
-              :class="[
-                discusses[index - 1].status === 8
-                  ? 'style-border-left-warning'
-                  : 'style-border-left',
-              ]"
-            >
-              <div class="discuss-problem-id">
-                {{
-                  String.fromCharCode(
-                    contest_info.problems.indexOf(
-                      `${discusses[index - 1].problem_id}`
-                    ) + 65
-                  )
-                }}
-              </div>
-              <div class="discuss-title">
-                {{ discusses[index - 1].title }}
-              </div>
-              <div class="discuss-author">
-                <span
-                  style="color: orange;"
-                  v-if="discusses[index - 1].status === 8"
-                  >{{ "\<" + "管理员公示\>&nbsp;" }}</span
-                >
-                {{ discusses[index - 1].author }}
-              </div>
-            </div>
-            <div v-if="discusses.length === 0">暂无与您相关的讨论内容</div>
-          </li>
-        </ol>
-        <div class="discuss-pager">
-          <el-pagination
-            v-if="discussCounts > 0"
-            background
-            layout="prev, pager, next"
-            :page-size="20"
-            :total="discussCounts"
-            :current-page="currentDiscussPage"
-            @current-change="changeDiscussPage"
-            :pager-count="5"
-          />
-        </div>
       </div>
     </div>
   </div>
@@ -255,6 +285,7 @@ import {
   getContestRank,
 } from "../api/getData";
 import { judgeWap } from "../utils";
+import Discussion from './discussion.vue';
 
 export default {
   components: { StatusIcon },
@@ -263,11 +294,21 @@ export default {
     return {
       contest_info: {
         id: this.$route.params.id,
-        title: "",
-        begin_time: "" /*比赛开始时间*/,
-        end_time: "",
+        title: "test",
+        begin_time: 1611625965502 /*比赛开始时间*/,
+        end_time: 2611625965502,
         frozen: 0,
-        problems: [],
+        problems: [{
+          title:1
+        },
+        {title:2},
+        {title:3},
+        {title:4},
+        {title:5},
+        {title:6},
+        {title:7},
+        {title:8},
+        ],
         colors: [],
         // colors: ['924726','8cc590','b2c959','59785a','8e8c13','252b04','ccda06','8044a7','27e298','0cef7c','31f335','67f70e','0ea6ff'],
       },
@@ -275,94 +316,73 @@ export default {
         penalty: 0,
         rank: 0,
       },
-      submit_log: [
-        // {
-        //     runid: 21063965,
-        //     problem: 1000,
-        //     submit_time: 12, /* 比赛开始后的秒数*/
-        //     time_used: 234, /*毫秒数*/
-        //     mem_used: 2.54,
-        //     language: 'C++11',
-        //     status: 'ac',
-        // },
-        // {
-        //     runid: 21063965,
-        //     problem: 1000,
-        //     submit_time: 12, /* 比赛开始后的秒数*/
-        //     time_used: 234, /*毫秒数*/
-        //     mem_used: 2.54,
-        //     language: 'C++11',
-        //     status: 'wa',
-        // },
-        // {
-        //     runid: 21063965,
-        //     problem: 1005,
-        //     submit_time: 12, /* 比赛开始后的秒数*/
-        //     time_used: 2000, /*毫秒数*/
-        //     mem_used: 2.54,
-        //     language: 'C++11',
-        //     status: 'tle',
-        // },
-        // {
-        //     runid: 21063965,
-        //     problem: 1010,
-        //     submit_time: 12, /* 比赛开始后的秒数*/
-        //     time_used: 2, /*毫秒数*/
-        //     mem_used: 2.54,
-        //     language: 'Python',
-        //     status: 'wa',
-        // },
-        // {
-        //     runid: 21063965,
-        //     problem: 1000,
-        //     submit_time: 12, /* 比赛开始后的秒数*/
-        //     time_used: 234, /*毫秒数*/
-        //     mem_used: 2.54,
-        //     language: 'C',
-        //     status: 'ac',
-        // },
-        // {
-        //     runid: 21063965,
-        //     problem: 1000,
-        //     submit_time: 12, /* 比赛开始后的秒数*/
-        //     time_used: 234, /*毫秒数*/
-        //     mem_used: 2.54,
-        //     language: 'C',
-        //     status: 'wa',
-        // },
-        // {
-        //     runid: 21063965,
-        //     problem: 1005,
-        //     submit_time: 12, /* 比赛开始后的秒数*/
-        //     time_used: 2000, /*毫秒数*/
-        //     mem_used: 2.54,
-        //     language: 'Python',
-        //     status: 'tle',
-        // },
-        // {
-        //     runid: 21063965,
-        //     problem: 1010,
-        //     submit_time: 12, /* 比赛开始后的秒数*/
-        //     time_used: 2, /*毫秒数*/
-        //     mem_used: 2.54,
-        //     language: 'Java',
-        //     status: 'wa',
-        // },
+     submit_log: [
+{
+    runid: 21063965,
+    problem: 1000,
+    submit_time: 12, /* 比赛开始后的秒数*/
+    time_used: 234, /*毫秒数*/
+    mem_used: 2.54,
+    language: 'C++11',
+    status: 'ac',
+},
+{
+    runid: 21063965,
+    problem: 1000,
+    submit_time: 12, /* 比赛开始后的秒数*/
+    time_used: 234, /*毫秒数*/
+    mem_used: 2.54,
+    language: 'C++11',
+    status: 'wa',
+},
+{
+    runid: 21063965,
+    problem: 1005,
+    submit_time: 12, /* 比赛开始后的秒数*/
+    time_used: 2000, /*毫秒数*/
+    mem_used: 2.54,
+    language: 'C++11',
+    status: 'tle',
+},{
+    runid: 21063965,
+    problem: 1005,
+    submit_time: 12, /* 比赛开始后的秒数*/
+    time_used: 2000, /*毫秒数*/
+    mem_used: 2.54,
+    language: 'C++11',
+    status: 'tle',
+}
+  ],
+  submitLogCounts: 10,
+  currentSubmitPage: 1,
+  discusses: [
+{
+    id: '1',
+    problem: 1001,
+    title: 'title',
+    author: 'author',
+    time: 23,
+    status: 1,
+},
+{
+    id: '2',
+    problem: 1001,
+    title: 'title',
+    author: 'author',
+    time: 23,
+    status: 1,
+},
+{
+    id: '3',
+    problem: 1001,
+    title: 'title',
+    author: 'author',
+    time: 23,
+    status: 1,
+},
       ],
-      submitLogCounts: 0,
-      currentSubmitPage: 1,
-      discusses: [
-        // {
-        //     id: '1',
-        //     problem: 1001,
-        //     title: 'title',
-        //     author: 'author',
-        //     time: 23,
-        //     status: 1,
-        // }
-      ],
-      discussCounts: 0,
-      currentDiscussPage: 1,
+      discussCounts: 4,
+      currentDiscussPage: 0,
       leftBeforeBegin: "00:00:00",
       leftTime: "00:00:00",
       intervalBegin: null,
@@ -455,6 +475,13 @@ export default {
     }
   },
   methods: {
+
+    goto: function (link) {
+      if (link == "") return;
+      this.$router.push("/rank/" + link);
+    },
+
+
     changeSubmitPage(page) {
       this.currentSubmitPage = page;
       this.renderStatusList(page - 1);
@@ -707,6 +734,11 @@ export default {
       }
     }
   },
+  mounted(){
+    let body=document.getElementById('combox');
+    let sideDrawer=document.getElementById('side-drawer');
+    body.appendChild(sideDrawer);
+  },
   beforeDestroy() {
     clearInterval(this.intervalBegin);
     clearInterval(this.intervalEnd);
@@ -729,7 +761,7 @@ ol {
 li {
   cursor: pointer;
   > span {
-    margin: 0 5px;
+    margin: 0 3px;
   }
 }
 
@@ -776,6 +808,8 @@ table {
   height: 100%;
   overflow-x: hidden;
   overflow-y: scroll;
+
+  padding-bottom: 40px;
 }
 
 /* 开赛前毛玻璃波纹效果 */
@@ -836,7 +870,46 @@ table {
   width: 80%;
   max-width: 990px;
   margin: 15px auto 0 auto;
-  justify-content: space-between;
+}
+
+.problem-list{
+  display: flex;
+  flex-flow: column;
+  width: 50%;
+}
+.problem-self{
+  height: 40px;
+  width: 95%;
+  border-radius: 10px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+  z-index: 1;
+  overflow: hidden;
+  margin-bottom: 10px;
+  background: white;
+  border-left: $inner-left-border;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2% 4%;
+  margin-right: 0;
+}
+
+.problem-pager{
+  height: 100%;
+  display: flex;
+  flex-flow: row;
+  align-items: flex-end;
+  /*margin-bottom: 60px;*/
+  width: 100%;
+  padding-left: 30%;
+}
+
+.discuss-and-submit{
+  display: flex;
+  flex-flow: column;
+  width: 50%;
+  height: 100%;
 }
 
 .table-box {
@@ -909,9 +982,17 @@ table {
 }
 
 .status-rank {
+  text-align: center;
+
   color: #338bb8;
   cursor: pointer;
-  &:hover {
+
+  & > span {
+    display: block;
+    margin: 0 auto;
+  }
+
+  &:hover, &:hover > span {
     color: #5c8db7;
     text-decoration: underline;
   }
@@ -920,13 +1001,12 @@ table {
 .see-more {
   cursor: pointer;
   margin-top: 5px;
-  &:hover {
-    text-decoration: underline;
-  }
+  font-size: 12px;
 }
 
 .submit-log-list {
-  width: 51%;
+  height: 277px;
+  width: 100%;
 }
 
 .submit-log-ul {
@@ -939,7 +1019,7 @@ table {
 
 .submit-log-li {
   cursor: pointer;
-  height: 50px;
+  height: 48px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
@@ -966,7 +1046,10 @@ table {
 }
 
 .discuss-list {
-  width: 40%;
+  display: flex;
+  flex-flow: column;
+  width: 100%;
+  height: 310px;
 }
 
 .title {
@@ -1021,17 +1104,17 @@ table {
 }
 
 .discuss-card {
-  min-height: 110px;
+  height: 65px;
   border-radius: 10px;
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
   z-index: 1;
   overflow: hidden;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   background: white;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  padding: 7px 10px;
+  padding: 5px 10px;
   margin-right: 0;
 }
 
@@ -1039,22 +1122,22 @@ table {
   /*top: 5px;*/
   /*left: 10px;*/
   width: 100%;
-  font-size: 20px;
+  font-size: 10px;
 }
 
 .discuss-title {
   width: 100%;
-  height: calc(100% - 19px);
+  height: calc(100% - 20px);
 }
 
 .discuss-author {
-  font-size: 13px;
+  font-size: 10px;
 }
 
 .contest-submit-pager-box, .discuss-pager {
   display: flex;
   justify-content: center;
-  margin-bottom: 60px;
+  /*margin-bottom: 60px;*/
   width: 100%;
 }
 
