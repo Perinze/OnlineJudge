@@ -60,7 +60,7 @@ import topdrawer from "./components/top-drawer";
 import sidedrawer from "./components/side-drawer";
 import { judgeWap } from "./utils";
 import { logoutWork } from "./api/common";
-import { logout } from "./api/getData";
+import { logout } from "./api/login";
 
 export default {
   components: {

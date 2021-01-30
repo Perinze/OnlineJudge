@@ -125,7 +125,8 @@
 import MenuItem from "./menu-item";
 import userCard from "../components/userCard";
 import welcome from "../components/welcome";
-import { logout, checkLogin } from "../api/getData";
+import { checkLogin } from "../api/getData";
+import { logout } from "../api/login";
 import { mapGetters } from "vuex";
 import store from "../store";
 import { judgeWap } from "../utils";

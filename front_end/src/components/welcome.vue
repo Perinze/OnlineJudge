@@ -608,7 +608,8 @@
 </template>
 
 <script>
-import { login, register, getCaptcha, forgetPassword } from "../api/getData";
+import { login } from "../api/login";
+import { register, getCaptcha, forgetPassword } from "../api/getData";
 import { judgeWap } from "../utils";
 
 export default {
