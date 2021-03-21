@@ -184,6 +184,7 @@ export default {
           resolve();
         }).then(() => {
           this.$router.push('/main');
+          this.$router.go(0);
         });
       }
     },

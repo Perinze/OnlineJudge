@@ -4,4 +4,6 @@ import fetch from "../config/fetch";
 export const getProblemList = (data) => fetch("/problems", "get", data);
 
 // TODO 获取题目信息 params
-export const getProblem = (id) => fetch(`/problems/${id}`);
+export const getProblem = (data) => {
+    return fetch(`/problems/${data.problem_id}`);
+}

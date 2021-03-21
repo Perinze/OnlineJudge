@@ -156,7 +156,7 @@
 </template>
 
 <script>
-import { getProblem } from "../api/getData";
+import { getProblem } from "../api/problem";
 import { Clipboard } from "../api/common";
 import marked from "marked";
 
@@ -205,13 +205,19 @@ export default {
     },
     renderProblemDetail: async function() {
       this.$loading.open();
-      let requestData = {
-        problem_id: parseInt(this.pid || this.$route.query.pid),
-      };
+      let requestData = new Object();
+      if(this.pid != undefined){
+        requestData.problem_id = parseInt(this.pid);
+      }
+      if(this.$route.query.pid != undefined) {
+        requestData.problem_id |= parseInt(this.$route.query.pid);
+      }
       if ((this.cid || this.$route.query.cid) != undefined) {
         requestData.contest_id = this.cid || this.$route.query.cid;
       }
+     
       let response = await getProblem(requestData);
+      
       if (response.status == 0) {
         if (response.message == "题目不可用") {
           this.$message({
@@ -231,6 +237,9 @@ export default {
             timeLimit: data.time,
             memoryLimit: (+data.memory || 0).toFixed(2)
           });
+          if(this.problem_info.source == null) {
+            this.problem_info.source = "佚名";
+          }
           data.sample.forEach((val) => {
             this.problem_info.example.push(val);
           });

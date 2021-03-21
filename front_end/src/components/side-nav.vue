@@ -148,7 +148,7 @@ export default {
           title: "题目 Problem",
           keyName: "problemlist",
           imgSrc: require("../../assets/icon/problem.svg"),
-          routeName: "plist",
+          routeName: "problemlist",
         },
         {
           title: "比赛 Contest",

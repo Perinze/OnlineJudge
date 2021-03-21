@@ -597,6 +597,8 @@ export default {
       return getWholeErrorName(status);
     },
     renderContestInfo: async function(callback) {
+      console.log("!!!");
+      console.log(this.$route.params.id);
       let response = await getContest(this.$route.params.id);
       if (response.status === 0) {
         let resObj = Object.assign(this.contest_info, response.data);
@@ -695,17 +697,31 @@ export default {
       this.userData.rank = rank;
     },
     checkJoin: async function() {
-      let response = await checkUserContest({
-        contest_id: this.$route.params.id,
-      });
-      if (
-        response.status !== 0 &&
+      let response = await checkUserContest(
+        this.$route.params.id,
+      );
+      if(response.status != 0) {
+        this.$message({
+          message: "请求失败",
+          type: "error",
+        });
+        this.$router.go(-1);
+      }
+      else if (
+        (response.data.status <  0 || response.data.status > 3) && 
         new Date(this.contest_info.end_time).getTime() > Date.now()
       ) {
         // 未参加比赛 且 比赛未结束
         // 无权查看比赛
         this.$message({
           message: "您尚未参加本场比赛",
+          type: "error",
+        });
+        this.$router.go(-1);
+      }
+      else if (response.data.status == 3) {
+        this.$message({
+          message: "您作弊了",
           type: "error",
         });
         this.$router.go(-1);
@@ -811,7 +827,7 @@ table {
 /* 开赛前毛玻璃波纹效果 */
 
 .mask {
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
@@ -819,7 +835,7 @@ table {
   overflow: hidden;
   z-index: 999;
   &-background {
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
     left: 0;

@@ -45,7 +45,7 @@ const routes = [
   },
   {
     // 题目列表
-    path: "/plist",
+    path: "/problemlist",
     component: problemlist,
     meta: {
       isLogin: false,
@@ -67,21 +67,12 @@ const routes = [
       isLogin: false,
     },
   },
-
   {
     // 比赛主页
     path: "/contest/:id",
     component: contestpage,
     meta: {
       isLogin: true,
-    },
-  },
-  {
-    // 比赛主页
-    path: "/contestaf/:id",
-    component: contestpageaf,
-    meta: {
-      isLogin: false,
     },
   },
   {

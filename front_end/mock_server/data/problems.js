@@ -1,5 +1,5 @@
 module.exports =function(method, data) {
-    if(method == "get"){
+    if(method === "GET"){
         return {
             "status": 0,
     "message": "查找成功",
@@ -44,8 +44,8 @@ module.exports =function(method, data) {
     }
         }
     }
-    else if(method == "post"){
-        return{
+    else if(method === "POST"){
+        return {
             "status": 0,//0-success, -1-error
             "message": "添加成功",
             "data": ""

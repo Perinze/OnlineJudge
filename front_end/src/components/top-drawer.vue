@@ -38,7 +38,7 @@
 
 <script>
 import codeEditor from "./myCodemirror";
-import { scheckLogin } from "../api/getData";
+import { checkLogin } from "../api/getData";
 import { submitCode } from "../api/submit";
 import { getProblem } from "../api/problem";
 import { languages } from "../config/language";

@@ -1,6 +1,6 @@
 module.exports = function (method, data){
-    if(method == "get"){
-        return{
+    if(method === "GET"){
+        return {
     "status": 0,//0-success, -1-error
     "message": "操作成功",
     "data": {
@@ -37,7 +37,7 @@ module.exports = function (method, data){
     }
 }
 }
-    else if(method == put){
+    else if(method === "PUT"){
         return {
             "status": 0,//0-success, -1-error
             "message": "修改成功",

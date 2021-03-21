@@ -14,13 +14,13 @@ export const getCaptcha = (data) =>
  */
 
 export const forgetPassword = (data) =>
-  fetch("/Login/forgetPassword", "post", data);
+  fetch("/forgetPassword", "post", data);
 
 /**
  * 检查登录状态
  */
 
-export const checkLogin = (data) => fetch("/Login/checkLogin", "post", data);
+export const checkLogin = (data) => fetch("/Login/checkLogin", "get");
 
 // 业务逻辑
 
@@ -41,9 +41,8 @@ export const getPvData = (data, header) =>
 /**
  * 检查用户是否参加了某场比赛
  */
-
-export const checkUserContest = (data) =>
-  fetch("/Contest/checkContest", "post", data);
+export const checkUserContest = (contest_id) =>
+  fetch(`/contests/user/${contest_id}`, "get");
 
 // 讨论板
 

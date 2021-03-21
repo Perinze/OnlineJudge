@@ -143,8 +143,8 @@
               <div class="sub-function-btn">
                 <div class="forget-passwd-btn sub-function-btn-element">
                   <a
-                    :disabled="!functionAvailable.forgetPassword"
                     @click="activeInteract = 'forgetpasswd'"
+                    :disabled="!functionAvailable.forgetPassword"
                     >忘记密码</a
                   >
                   <!--<span>Forget Password</span>-->
@@ -225,6 +225,37 @@
                 <span
                   class="error-tips"
                   v-show="errorMsg.type === 'password'"
+                  >{{ errorMsg.content }}</span
+                >
+              </div>
+              <!---确认密码--->
+              <div
+                :class="[
+                  firefoxCheck
+                    ? '-moz-info-input-container'
+                    : 'info-input-container',
+                ]"
+              >
+                <div>
+                  <img src="../../assets/icon/lock.svg" width="23" />
+                  <input
+                    class="info-input"
+                    :type="[seePass ? 'text' : 'password']"
+                    placeholder="确认密码"
+                    v-model="confirmPassword"
+                    oncopy="return false"
+                  />
+                  <!--查看密码-->
+                  <img
+                    :src="eyeOrHide"
+                    height="23"
+                    @click="seePass = !seePass"
+                    style="cursor: pointer;"
+                  />
+                </div>
+                <span
+                  class="error-tips"
+                  v-show="errorMsg.type === 'confirmPassword'"
                   >{{ errorMsg.content }}</span
                 >
               </div>
@@ -432,16 +463,15 @@
                 ]"
               >
                 <div>
-                  <img src="../../assets/icon/account.svg" width="23" />
+                  <img src="../../assets/icon/mail.svg" width="23" />
                   <input
                     class="info-input"
                     type="text"
-                    placeholder="Account"
-                    v-model="forgetInfo.nick"
-                    maxlength="25"
+                    placeholder="E-mail"
+                    v-model="forgetInfo.mail"
                   />
                 </div>
-                <span class="error-tips" v-show="errorMsg.type === 'account'">{{
+                <span class="error-tips" v-show="errorMsg.type === 'mail'">{{
                   errorMsg.content
                 }}</span>
               </div>
@@ -452,16 +482,38 @@
                     : 'info-input-container',
                 ]"
               >
-                <div>
-                  <img src="../../assets/icon/mail.svg" width="23" />
+              <div>
+                  <img src="../../assets/icon/lock.svg" width="23" />
                   <input
                     class="info-input"
                     type="text"
-                    placeholder="E-mail"
-                    v-model="forgetInfo.mail"
+                    placeholder="newPassword"
+                    v-model="forgetInfo.newPassword"
+                    maxlength="25"
                   />
                 </div>
-                <span class="error-tips" v-show="errorMsg.type === 'mail'">{{
+                <span class="error-tips" v-show="errorMsg.type === 'newPassword'">{{
+                  errorMsg.content
+                }}</span>
+              </div>
+              <div
+                :class="[
+                  firefoxCheck
+                    ? '-moz-info-input-container'
+                    : 'info-input-container',
+                ]"
+              >
+              <div>
+                  <img src="../../assets/icon/lock.svg" width="23" />
+                  <input
+                    class="info-input"
+                    type="text"
+                    placeholder="confirmPassword"
+                    v-model="confirmPassword"
+                    maxlength="25"
+                  />
+                </div>
+                <span class="error-tips" v-show="errorMsg.type === 'confirmPassword'">{{
                   errorMsg.content
                 }}</span>
               </div>
@@ -608,7 +660,7 @@
 </template>
 
 <script>
-import { login } from "../api/login";
+import { login} from "../api/login";
 import { register } from "../api/register";
 import { getCaptcha, forgetPassword } from "../api/getData";
 import { judgeWap } from "../utils";
@@ -619,6 +671,7 @@ export default {
     return {
       activeInteract: "default",
       seePass: false,
+      seeconfirmPass: false,
       icons: {
         eye: require("../../assets/icon/eye.svg"),
         eyeHide: require("../../assets/icon/eye-hide.svg"),
@@ -638,9 +691,10 @@ export default {
         contact: "",
         mail: "",
       },
+      confirmPassword:"",
       forgetInfo: {
-        nick: "",
         mail: "",
+        newPassword: "",
         captcha: "",
       },
       loading: false,
@@ -651,7 +705,7 @@ export default {
       functionAvailable: {
         login: true,
         register: true,
-        forgetPassword: false,
+        forgetPassword: true,
         tourist: false,
       },
     };
@@ -790,6 +844,9 @@ export default {
         if (data.nick.length > 25 || data.nick.length < 1) {
           reject("account:用户名为1-25个字符");
         }
+        if (data.password != this.confirmPassword) {
+          reject("confirmPassword:输入密码不一致!");
+        }
         if (data.password.length < 6) {
           reject("password:密码最少6位");
         }
@@ -886,9 +943,6 @@ export default {
       this.errorMsg.content = "";
       let checkInfoPromise = new Promise((resolve, reject) => {
         let data = this.forgetInfo;
-        if (data.nick.length > 25 || data.nick.length < 1) {
-          reject("account:用户名为1-25个字符");
-        }
         if (data.mail.length < 1) {
           reject("mail:请输入电子邮件地址");
           let pattern = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
@@ -933,14 +987,18 @@ export default {
         });
     },
     do_forgetPassword: async function() {
+      console.log("?");
       if (this.loading) return;
       if (!this.functionAvailable.forgetPassword) return;
       this.errorMsg.type = "";
       this.errorMsg.content = "";
       let checkPromise = new Promise((resolve, reject) => {
         let data = this.forgetInfo;
-        if (data.nick.length > 25 || data.nick.length < 1) {
-          reject("account:用户名为1-25个字符");
+        if (data.newPassword.length < 6 ) {
+          reject("password:密码至少6个字符");
+        }
+        if(data.newPassword != this.confirmPassword) {
+          reject("confirmPassword:输入密码不一致!");
         }
         if (data.mail.length < 1) {
           reject("mail:请输入电子邮件地址");

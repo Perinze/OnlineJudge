@@ -8,7 +8,7 @@ module.exports ={
     "user_id":1,
     },
     {
-    "id":3,
+    "id":2,
     "contest_id":1002,
     "user_id":1,
     }

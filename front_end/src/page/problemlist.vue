@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { getProblemList } from "../api/getData";
+import { getProblemList } from "../api/problem";
 
 export default {
   name: "problemlist",

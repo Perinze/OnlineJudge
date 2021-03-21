@@ -4,5 +4,4 @@ import fetch from "../config/fetch";
 export const login = (data) => fetch("/login", "post", data);
 
 // 登出
-export const logout = () => fetch("/logout", "post", {});
-
+export const logout = () => fetch("/logout", "get");
