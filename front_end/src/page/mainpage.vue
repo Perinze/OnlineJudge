@@ -22,7 +22,7 @@
           </el-carousel-item>
         </el-carousel>
       </div>
-      <div class="main-statistics">
+      <div class="main-statistics" v-show="false">
         <div class="block-title">Statistics</div>
         <div class="main-statistics-content">
           <statistics-card

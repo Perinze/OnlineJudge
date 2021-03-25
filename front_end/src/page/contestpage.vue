@@ -278,6 +278,7 @@ import { formatDate } from "../api/common";
 import { getWholeErrorName, logoutWork } from "../api/common";
 import StatusIcon from "../components/status-icon";
 import {
+  getContestLog,
   getSubmitInfo,
   checkUserContest,
   getUserDiscuss,
@@ -298,16 +299,15 @@ export default {
         begin_time: 1611625965502 /*比赛开始时间*/,
         end_time: 2611625965502,
         frozen: 0,
-        problems: [{
-          title:1
-        },
-        {title:2},
-        {title:3},
-        {title:4},
-        {title:5},
-        {title:6},
-        {title:7},
-        {title:8},
+        problems: [/*
+          {title:1},
+          {title:2},
+          {title:3},
+          {title:4},
+          {title:5},
+          {title:6},
+          {title:7},
+          {title:8},*/
         ],
         colors: [],
         // colors: ['924726','8cc590','b2c959','59785a','8e8c13','252b04','ccda06','8044a7','27e298','0cef7c','31f335','67f70e','0ea6ff'],
@@ -316,73 +316,31 @@ export default {
         penalty: 0,
         rank: 0,
       },
-     submit_log: [
-{
-    runid: 21063965,
-    problem: 1000,
-    submit_time: 12, /* 比赛开始后的秒数*/
-    time_used: 234, /*毫秒数*/
-    mem_used: 2.54,
-    language: 'C++11',
-    status: 'ac',
-},
-{
-    runid: 21063965,
-    problem: 1000,
-    submit_time: 12, /* 比赛开始后的秒数*/
-    time_used: 234, /*毫秒数*/
-    mem_used: 2.54,
-    language: 'C++11',
-    status: 'wa',
-},
-{
-    runid: 21063965,
-    problem: 1005,
-    submit_time: 12, /* 比赛开始后的秒数*/
-    time_used: 2000, /*毫秒数*/
-    mem_used: 2.54,
-    language: 'C++11',
-    status: 'tle',
-},{
-    runid: 21063965,
-    problem: 1005,
-    submit_time: 12, /* 比赛开始后的秒数*/
-    time_used: 2000, /*毫秒数*/
-    mem_used: 2.54,
-    language: 'C++11',
-    status: 'tle',
-}
-  ],
-  submitLogCounts: 10,
-  currentSubmitPage: 1,
-  discusses: [
-{
-    id: '1',
-    problem: 1001,
-    title: 'title',
-    author: 'author',
-    time: 23,
-    status: 1,
-},
-{
-    id: '2',
-    problem: 1001,
-    title: 'title',
-    author: 'author',
-    time: 23,
-    status: 1,
-},
-{
-    id: '3',
-    problem: 1001,
-    title: 'title',
-    author: 'author',
-    time: 23,
-    status: 1,
-},
+      submit_log: [/*
+        {
+            runid: 21063965,
+            problem: 1005,
+            submit_time: 12, 
+            time_used: 2000, 
+            mem_used: 2.54,
+            language: 'C++11',
+            status: 'tle',
+        }*/
       ],
-      discussCounts: 4,
-      currentDiscussPage: 0,
+      submitLogCounts: 0,
+      currentSubmitPage: 1,
+      discusses: [/*
+      {
+          id: '1',
+          problem: 1001,
+          title: 'title',
+          author: 'author',
+          time: 23,
+          status: 1,
+      },*/
+      ],
+      discussCounts: 0,
+      currentDiscussPage: 1,
       leftBeforeBegin: "00:00:00",
       leftTime: "00:00:00",
       intervalBegin: null,
@@ -484,11 +442,11 @@ export default {
 
     changeSubmitPage(page) {
       this.currentSubmitPage = page;
-      this.renderStatusList(page - 1);
+      this.renderStatusList(page);
     },
     changeDiscussPage(page) {
       this.currentDiscussPage = page;
-      this.renderDiscussList(page - 1);
+      this.renderDiscussList(page);
     },
     checkRightContinue() {
       const ele = document.getElementsByClassName('table-inner-box')[0];
@@ -597,14 +555,13 @@ export default {
       return getWholeErrorName(status);
     },
     renderContestInfo: async function(callback) {
-      console.log("!!!");
-      console.log(this.$route.params.id);
       let response = await getContest(this.$route.params.id);
       if (response.status === 0) {
         let resObj = Object.assign(this.contest_info, response.data);
         resObj.begin_time = response.data.begin_time.replace(/-/g, '/');
         resObj.end_time = response.data.end_time.replace(/-/g, '/');
         this.contest_info = resObj;
+        resObj.problems = resObj.problems.slice(1,resObj.problems.length-1).split(",");
         localStorage.setItem(`contestInfo-${this.$route.params.id}`, JSON.stringify(this.contest_info));
 
         typeof callback === "function" && callback();
@@ -615,8 +572,8 @@ export default {
         });
       }
     },
-    renderStatusList: async function(page = 0, callback) {
-      let response = await getSubmitInfo({
+    renderStatusList: async function(page = 1, callback) {
+      let response = await getContestLog({
         contest_id: this.$route.params.id,
         // 保证传回来的是自己相关的状态（本页面的业务需求）
         user_id: localStorage.getItem("userId"),
@@ -666,7 +623,7 @@ export default {
         }
       }
     },
-    renderDiscussList: async function(page = 0) {
+    renderDiscussList: async function(page = 1) {
       let response = await getUserDiscuss({
         contest_id: this.$route.params.id,
         page,
@@ -686,6 +643,10 @@ export default {
         //   });
         // });
       } else {
+        this.$message({
+          message: "讨论版渲染失败",
+          type: "error",
+        });
       }
     },
     getMyRank: async function() {
@@ -736,7 +697,7 @@ export default {
         localStorage.removeItem(`contestInfo-${this.$route.params.id}`);
       }
     },
-    getDiscussListCache(page = 0) {
+    getDiscussListCache(page = 1) {
       const str = localStorage.getItem(`contestDiscussList-${this.$route.params.id}-${page}`);
       try {
         const data = JSON.parse(str);
@@ -745,11 +706,6 @@ export default {
         localStorage.removeItem(`contestDiscussList-${this.$route.params.id}-${page}`);
       }
     }
-  },
-  mounted(){
-    let body=document.getElementById('combox');
-    let sideDrawer=document.getElementById('side-drawer');
-    body.appendChild(sideDrawer);
   },
   beforeDestroy() {
     clearInterval(this.intervalBegin);

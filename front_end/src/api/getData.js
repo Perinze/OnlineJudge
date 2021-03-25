@@ -7,20 +7,20 @@ import fetch from "../config/fetch";
  */
 
 export const getCaptcha = (data) =>
-  fetch("/Login/forgetPassword", "post", data);
+  fetch("/password", "post", data);
 
 /**
  * 找回密码-验证验证码
  */
 
 export const forgetPassword = (data) =>
-  fetch("/forgetPassword", "post", data);
+  fetch("/password", "put", data);
 
 /**
  * 检查登录状态
  */
 
-export const checkLogin = (data) => fetch("/Login/checkLogin", "get");
+export const checkLogin = (data) => fetch("/checkLogin", "get");
 
 // 业务逻辑
 
@@ -47,10 +47,10 @@ export const checkUserContest = (contest_id) =>
 // 讨论板
 
 // 获取某场比赛用户相关讨论列表
-export const getUserDiscuss = (data) => fetch("/discuss/getUserDiscuss", "post", data);
+export const getUserDiscuss = (data) => fetch(`/discussions/contest/${data.contest_id}?page_number=${data.page}`, "get");
 
 // 获取比赛通知
-export const getNotificationByID = (data) => fetch("/Notification/getNotificationByID", "post", data);
+export const getNotificationByID = (data) => fetch(`/notification${data.contest_id}`, "get");
 
 // 状态
 
@@ -59,14 +59,22 @@ export const getNotificationByID = (data) => fetch("/Notification/getNotificatio
  */
 
 export const getSubmitInfo = (data) =>
-  fetch("/submit/get_submit_info", "post", data);
+  fetch(`/submit?page_number=${data.page}`, "get");
+
+
+/**
+ * 获取比赛提交记录
+ */
+
+export const getContestLog = (data) =>
+    fetch(`/submit/${data.contest_id}?page_number=${data.page}`, "get");
 
 /**
  * 获取评测信息
  */
 
 export const getStatus = (data) =>
-  fetch("/Submit/getSubmitStatus", "post", data);
+  fetch(`/submit/problem?problem_id=${data.problem_id}`, "get");
 
 // 反馈系统
 
@@ -98,19 +106,19 @@ export const getAllTopic = (data) => fetch("/discuss/getAllTopic", "post", data)
  * 上传图片
  */
 
-export const uploadImage = (data) => fetch("/upload/upload_image", "post", data);
+export const uploadImage = (data) => fetch("/image", "post", data);
 
 /**
  * 上传头像
  */
 
-export const uploadAvatar = (data) => fetch("/upload/upload_avatar", "post", data);
+export const uploadAvatar = (data) => fetch("/avatar", "post", data);
 
 /**
  * 查找用户
  */
 
-export const searchUser = (data) => fetch("/User/searchUser", "post", data);
+export const searchUser = (user_id) => fetch(`/users/${user_id}`, "get");
 
 // Test
 

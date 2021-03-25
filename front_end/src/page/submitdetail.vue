@@ -48,7 +48,8 @@
 
 <script>
 import { getWholeErrorName } from "../api/common";
-import { getProblem, getStatus } from "../api/getData";
+import { getProblem } from "../api/problem";
+import {  getStatus } from "../api/getData";
 import Mycodemirror from "../components/myCodemirror";
 import { languages } from "../config/language";
 
@@ -144,7 +145,7 @@ export default {
     renderStatus: async function() {
       this.$loading.open();
       let response = await getStatus({
-        status_id: this.sid,
+        problem_id: this.pid,
       });
       if (response.status == 0) {
         let data = response.data;

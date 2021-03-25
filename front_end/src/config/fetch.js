@@ -43,7 +43,7 @@ export default async function ifetch(
     cache: "force-cache",
   };
 
-  if (method === "POST") {
+  if (method === "POST" || method === "PUT") {
     // 仅POST请求附带数据
     if (data instanceof FormData) {
       Object.defineProperty(requestConfig, "body", {

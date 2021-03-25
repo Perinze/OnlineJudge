@@ -14,7 +14,7 @@ module.exports = function(method, data){
                   "1000",
                   "1001"
                 ],
-                "state": 0
+                "status": 0
               },
               {
                 "contest_id": 1,
@@ -30,10 +30,26 @@ module.exports = function(method, data){
                   "#FFFFFF",
                   "#FF00FF"
                 ],
-                "state": 0
+                "status": 0
               },
               {
                 "contest_id": 1002,
+                "contest_name": "wyh女装",
+                "begin_time": "2019-11-16 12:30:00",
+                "end_time": "2029-11-16 17:30:00",
+                "frozen": 0.2,
+                "problems": [
+                  "1000",
+                  "1001"
+                ],
+                "colors": [
+                  "#FFFFFF",
+                  "#FF00FF"
+                ],
+                "status": 1
+              },
+              {
+                "contest_id": 1003,
                 "contest_name": "wyh女装",
                 "begin_time": "2029-11-16 12:30:00",
                 "end_time": "2029-11-16 17:30:00",
@@ -46,7 +62,7 @@ module.exports = function(method, data){
                   "#FFFFFF",
                   "#FF00FF"
                 ],
-                "state": 0
+                "status": 1
               }
             ]
           }

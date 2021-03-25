@@ -19,7 +19,7 @@
             class="contest-card"
             :key="`contest-card-${k}-${index}`"
           >
-            <div class="contest-content" @click="goto(item.id)">
+            <div class="contest-content" @click="goto(item.contest_id)">
               <div class="content-words">
                 <span class="contest-title">{{ item.title }}</span>
                 <span class="contest-sub-title">{{ item.begin_time + " — " + item.end_time }}</span>
@@ -99,12 +99,14 @@ export default {
         if (data) {
           const retObj = this.classifyList(data.map((item) => {
             return {
-              id: item.contest_id.toString(),
+              contest_id: item.contest_id.toString(),
               title: item.contest_name,
               begin_time: item.begin_time.replace(/-/g, '/'),
               end_time: item.end_time.replace(/-/g, '/'),
+              frozen: item.frozen,
+              problem_str:item.problems,
               hasJoin: false,
-              status: +item.status
+              status: 0+item.status
             };
           }));
           this.items = retObj;
@@ -127,7 +129,7 @@ export default {
       this.loading = false;
     },
     getUserContestList: async function () {
-      let response = await getUserContest(localStorage.getItem("userId"));
+      let response = await getUserContest();
       if (response.status == 0) {
         response.data.forEach((val) => {
           this.itemsKeys.forEach((key) => {
@@ -147,9 +149,12 @@ export default {
       ) {
         return;
       }
-
       this.$loading.open();
-      let response = await joinContest(info.id, localStorage.getItem("userId"));
+      let response = await joinContest({
+        contest_id: info.contest_id,
+        user_id: localStorage.getItem("userId"),
+        status:0
+      });
       if (response.status == 0) {
         info.hasJoin = true;
         this.$message({
@@ -169,6 +174,24 @@ export default {
     },
     goto: function (link) {
       if (link == "") return;
+      /*let data=new Object();
+      console.log(link);
+      for(let item in this.items.playing){
+            console.log(this.items.playing[item]);
+            console.log(this.items.playing[item].contest_id);
+            console.log(typeof(link));
+
+            if(this.items.playing[item].contest_id != undefined)
+            if(this.items.playing[item].contest_id.toString() == link){
+              data = this.items.playing[item];
+            }
+      }
+      console.log(data);
+      let problem_str = data.problem_str.toString();
+      problem_str = problem_str.slice(1,problem_str.lenth-1);
+      let problems = problem_str.split(",");
+      data.problems = problems;
+      */
       this.$router.push("/contest/" + link);
     },
     // 拆分数据

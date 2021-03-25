@@ -157,7 +157,7 @@
               </div>
             </div>
             <div class="main-footer">
-              <button
+              <!--<button
                 class="feedback-group"
                 @click="contentType = 'feedback'"
                 :disabled="!funcAccess.feedback"
@@ -168,7 +168,7 @@
                   height="15"
                 />
                 <span>反馈</span>
-              </button>
+              </button>-->
             </div>
           </div>
           <div
@@ -209,8 +209,8 @@
 
 <script>
 import { getObjectURL } from "../api/common";
-import { submitFeedback, uploadImage, uploadAvatar as doUploadAvator } from "../api/getData";
-import { changeUserInfo, getUserInfo } from "../api/user";
+import { checkLogin,submitFeedback, uploadImage, uploadAvatar as doUploadAvator } from "../api/getData";
+import { changeUserInfo, getUserInfo, searchUser } from "../api/user";
 import imgUploader from "./imgUploader";
 import { dataURLtoFile } from "../utils";
 import { mapGetters } from "vuex";
@@ -306,7 +306,7 @@ export default {
         // TODO 没登陆
         return;
       }
-      let response = await getUserInfo(userId);
+      let response = await searchUser(userId);
       if (response.status == 0) {
         this.userInfo = response.data;
       } else {
@@ -345,8 +345,13 @@ export default {
         }
       }
       let userId = localStorage.getItem("userId");
-      if (userId === null || userId === undefined) {
-        // TODO 没登陆
+      let islogin = await checkLogin();
+      if (islogin.status != 0) {
+        //  没登陆
+        this.$message({
+          message: "你未登陆",
+          type: "error",
+        });
         return;
       }
       let response = await changeUserInfo(userId, changedItems);
@@ -385,7 +390,7 @@ export default {
         const imgRes = await uploadImage(formData);
         if (imgRes.status === 0) {
           const imgUrl = imgRes.data;
-          const avaRes = await doUploadAvator({ url: imgUrl });
+          const avaRes = await doUploadAvator({ avator: imgUrl });
           if (avaRes.status === 0) {
             sucFlag = true;
             // do something

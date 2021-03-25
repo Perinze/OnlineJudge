@@ -24,8 +24,19 @@ module.exports ={
             "content":"wyhsb",
             "time":"2019-10-13 16:00:31",
             "status":8
-    }
+        },
+        {
+            "id":4,
+            "problem_id":1001,
+            "contest_id":1001,
+            "user_id":1,
+            "nick":"123",
+            "title":"ssss",
+            "content":"wyhsb",
+            "time":"2019-10-13 16:00:31",
+            "status":8
+        },
     ],
-    "count":2
+    "count":3
     }
-    };
+};

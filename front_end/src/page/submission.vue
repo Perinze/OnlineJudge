@@ -113,10 +113,10 @@ export default {
     },
     changePage(page) {
       document.getElementsByClassName('combox')[0].scrollTop = 0;
-      this.renderList(page - 1);
+      this.renderList(page);
       this.currentPage = page;
     },
-    async renderList(page = 0) {
+    async renderList(page = 1) {
       try {
         this.$loading.open();
         const response = await getSubmitInfo({

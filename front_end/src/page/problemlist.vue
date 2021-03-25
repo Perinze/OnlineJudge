@@ -62,7 +62,7 @@ export default {
         this.$loading.open();
 
         let LSdata = this.getProblemListCache(page); // 先获取存在LS里面的数据
-        let response = await getProblemList({ page: page-1 }); // 请求线上数据
+        let response = await getProblemList({ page: page }); // 请求线上数据
         if (response.status == 0) {
           // success
           this.counts = response.data.count;

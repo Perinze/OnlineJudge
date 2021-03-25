@@ -27,7 +27,7 @@ export default {
       let self = this;
       let interval = setInterval(() => {
         if (this.iswork) {
-          getNotificationByID(cid).then((response) => {
+          getNotificationByID({contest_id:cid}).then((response) => {
             if (reseponse.status == 0) {
               self.notice = response.data.content;
             }

@@ -228,37 +228,6 @@
                   >{{ errorMsg.content }}</span
                 >
               </div>
-              <!---确认密码--->
-              <div
-                :class="[
-                  firefoxCheck
-                    ? '-moz-info-input-container'
-                    : 'info-input-container',
-                ]"
-              >
-                <div>
-                  <img src="../../assets/icon/lock.svg" width="23" />
-                  <input
-                    class="info-input"
-                    :type="[seePass ? 'text' : 'password']"
-                    placeholder="确认密码"
-                    v-model="confirmPassword"
-                    oncopy="return false"
-                  />
-                  <!--查看密码-->
-                  <img
-                    :src="eyeOrHide"
-                    height="23"
-                    @click="seePass = !seePass"
-                    style="cursor: pointer;"
-                  />
-                </div>
-                <span
-                  class="error-tips"
-                  v-show="errorMsg.type === 'confirmPassword'"
-                  >{{ errorMsg.content }}</span
-                >
-              </div>
               <!-- password check -->
               <div
                 :class="[
@@ -844,9 +813,6 @@ export default {
         if (data.nick.length > 25 || data.nick.length < 1) {
           reject("account:用户名为1-25个字符");
         }
-        if (data.password != this.confirmPassword) {
-          reject("confirmPassword:输入密码不一致!");
-        }
         if (data.password.length < 6) {
           reject("password:密码最少6位");
         }
@@ -964,7 +930,7 @@ export default {
           return;
         })
         .then(async () => {
-          let response = await getCaptcha(this.forgetInfo);
+          let response = await getCaptcha({mail: this.forgetInfo.mail});
           // 至少两秒
           setTimeout(() => {
             if (response.status == 0) {
@@ -1007,9 +973,10 @@ export default {
             reject("mail:请输入正确的电子邮件地址");
           }
         }
-        if (data.captcha.length !== 10) {
+        /*if (data.captcha.length !== 10) {
           reject("captcha:请正确输入验证码");
-        }
+        }*/
+
         resolve();
       });
       checkPromise.catch((errorMessage) => {
@@ -1023,7 +990,32 @@ export default {
           this.loading = true;
           return;
         })
-        .then(async () => {});
+        .then(async ()=> {
+          let response=forgetPassword({
+            vertify_code: this.forgetInfo.captcha,
+            password: this.forgetInfo.password,
+            password_check: this.confirmPassword,
+            mail: this.forgetInfo.mail
+          });
+          setTimeout(() => {
+            if (response.status == 0) {
+              // 成功
+              this.loading = false;
+              this.$message({
+                message: "修改密码成功",
+                type: "success",
+              });
+            } else {
+              this.errorMsg.type = "mail";
+              if (response.status === 504) {
+                this.errorMsg.content = "请求失败";
+              } else {
+                this.errorMsg.content = response.message;
+              }
+              this.loading = false;
+            }
+          }, 2000); 
+        } );
     },
   },
   computed: {

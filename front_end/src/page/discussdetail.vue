@@ -73,6 +73,7 @@ export default {
         //     time: ''
         // },
       ],
+      replyTitle:"",
       replyContent: "",
       problemNick: "@",
       counts: 0,
