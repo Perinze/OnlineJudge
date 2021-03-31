@@ -51,18 +51,20 @@ module.exports = {
       config.devServer.proxy =
         process.env.NODE_ENV === "test"
           ? {
-              "/api/oj": {
-                target: "https://acmwhut.com/",
+              "/api": {
+                /*if 原来 "https://acmwhut.com/" */
+                /*if 张志伟的服务器 "http://120.77.181.57:5000/" */
+                target: "http://120.77.181.57:5000/",
                 changeOrigin: true,
                 secure: false,
               },
             }
           : {
-              "/api/oj": {
+              "/api": {
                 target: "http://localhost:3000/",
                 changeOrigin: true,
                 pathRewrite: {
-                  "^/api/oj": "",
+                  "^/api": "",
                 },
               },
             };

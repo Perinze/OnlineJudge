@@ -734,20 +734,20 @@ export default {
               // 成功登陆
               this.loading = false;
               this.$loading.hide();
-
-              let acCnt = 0,
-                waCnt = 0;
-
-              response.data.all_problems
-                .forEach((val) => {
-                  if (val.status.toUpperCase() !== "AC") {
-                    waCnt = waCnt + val.cnt;
-                  } else {
-                    acCnt = acCnt + val.cnt;
-                  }
-                });
-
+              let acCnt = 0,waCnt = 0;
+              if(response.data.submit_log != undefined){
+                for(let val in response.data.submit_log) {
+                    if(val[0].toUpperCase() != 'U'){
+                      if (val[0].toUpperCase() != 'A' ) {
+                          waCnt = waCnt + response.data.submit_log[val];
+                        } else {
+                          acCnt = acCnt + response.data.submit_log[val];
+                        }
+                    }
+                }
+              }
               this.$store.dispatch("login/userLogin", true);
+              /*this.$store.dispatch("login/userInfoStorage", response.data);*/
               localStorage.setItem("Flag", "isLogin");
               localStorage.setItem("userId", response.data.userId);
               localStorage.setItem("nick", response.data.nick);
@@ -760,7 +760,7 @@ export default {
               delete obj.all_problems;
               obj.acCnt = acCnt;
               obj.waCnt = waCnt;
-              this.$emit("logged", obj);
+              //this.$emit("logged", obj);
             } else {
               // 用户名密码错误
               // 已经登陆
@@ -953,7 +953,6 @@ export default {
         });
     },
     do_forgetPassword: async function() {
-      console.log("?");
       if (this.loading) return;
       if (!this.functionAvailable.forgetPassword) return;
       this.errorMsg.type = "";
@@ -976,7 +975,6 @@ export default {
         /*if (data.captcha.length !== 10) {
           reject("captcha:请正确输入验证码");
         }*/
-
         resolve();
       });
       checkPromise.catch((errorMessage) => {
@@ -991,12 +989,12 @@ export default {
           return;
         })
         .then(async ()=> {
-          let response=forgetPassword({
-            vertify_code: this.forgetInfo.captcha,
-            password: this.forgetInfo.password,
-            password_check: this.confirmPassword,
-            mail: this.forgetInfo.mail
-          });
+          let requestData = new FormData();
+          requestData.append("verify_code",this.forgetInfo.captcha.toString());
+          requestData.append("password",this.forgetInfo.newPassword.toString());
+          requestData.append("password_check",this.confirmPassword.toString());
+          requestData.append("mail",this.forgetInfo.mail.toString());
+          let response = forgetPassword(requestData);
           setTimeout(() => {
             if (response.status == 0) {
               // 成功

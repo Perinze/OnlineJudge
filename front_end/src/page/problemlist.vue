@@ -96,6 +96,7 @@ export default {
             items: this.items
           };
           localStorage.setItem(`problem-list`, JSON.stringify(LSdata));
+          /*this.$store.state.problem.storedData = JSON.stringify(LSdata);*/
         } else {
           // error
           if (response.status === 504) {
@@ -122,6 +123,7 @@ export default {
     getProblemListCache(page) {
       const pageNumLimit = 3; // 最多存3页
       const str = localStorage.getItem(`problem-list`);
+      /*const str = this.$store.state.problem.storedData;*/
       try {
         const data = JSON.parse(str);
         if (data[`${page}`] === undefined) {
@@ -141,6 +143,7 @@ export default {
         return data;
       } catch (e) {
         localStorage.removeItem(`problem-list`);
+        /*this.$store.state.problem.storedData = null;*/
       }
       return null;
     }

@@ -60,6 +60,7 @@ new Vue({
 // 登陆检测
 
 router.beforeEach((to, from, next) => {
+  /*let isLogin = store.state.login.isLogin;*/
   let getFlag = localStorage.getItem("Flag");
   if (getFlag === "isLogin") {
     // 已经登陆
@@ -84,6 +85,17 @@ router.beforeEach((to, from, next) => {
       next();
     }
   }
+  /*if(isLogin != true) {
+    if (to.meta.isLogin){
+      next(false);
+      Vue.prototype.$message({
+        message: "请先登录",
+        type: "error",
+      })
+    } else {
+      next();
+    }
+  }*/
 });
 
 router.afterEach((route) => {

@@ -13,7 +13,7 @@ module.exports =function(method, data){
                "userId": 2,
                 "nick": "kdl12138",
                 "desc": "1234",
-                "avatar": "\"\"",
+                "avatar": "null",
                 "all_problems": [
                     {
                         "status": "WA",

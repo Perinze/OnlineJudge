@@ -7,7 +7,7 @@
  */
 
 // let baseUrl = "http://acmwhut.com/api/oj/";
-let baseUrl = "/api/oj/";
+let baseUrl = "/api/";
 let domain = "http://dev.acmwhut.com";
 
 /**

@@ -7,20 +7,26 @@ import fetch from "../config/fetch";
  */
 
 export const getCaptcha = (data) =>
-  fetch("/password", "post", data);
+  fetch(`/password?mail=${data.mail}`, "post", {});
 
 /**
  * 找回密码-验证验证码
  */
 
-export const forgetPassword = (data) =>
-  fetch("/password", "put", data);
+export const forgetPassword = (data) =>{
+  console.log(data.get("mail"));
+  console.log(data.get("verify_code"));
+  console.log(data.get("password"));
+  console.log(data.get("password_check"));
+  return fetch("/password", "put", data);
+}
+  
 
 /**
  * 检查登录状态
  */
 
-export const checkLogin = (data) => fetch("/checkLogin", "get");
+export const checkLogin = (data) => fetch("/checklogin", "get");
 
 // 业务逻辑
 

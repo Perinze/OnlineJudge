@@ -4,7 +4,7 @@ const Koa = require("koa");
 const koaBody = require("koa-body");
 const app = new Koa();
 
-const originBaseUrl = "http://acmwhut.com/api/oj";
+const originBaseUrl = "http://acmwhut.com/api";
 
 const getTime = () => {
   return (new Date()).toLocaleTimeString().slice(0,7);

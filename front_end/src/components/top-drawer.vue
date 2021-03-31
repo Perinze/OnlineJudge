@@ -38,7 +38,7 @@
 
 <script>
 import codeEditor from "./myCodemirror";
-import { checkLogin } from "../api/getData";
+import { checkLogin } from "../api/login";
 import { submitCode } from "../api/submit";
 import { getProblem } from "../api/problem";
 import { languages } from "../config/language";
@@ -60,6 +60,7 @@ export default {
       this.$emit("close");
     },
     checkLoginStatus: async function() {
+      /*user_id: this.$store.state.login.user_id,*/
       let response = await checkLogin({
         user_id: localStorage.getItem("userId"),
       });

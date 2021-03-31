@@ -209,7 +209,8 @@
 
 <script>
 import { getObjectURL } from "../api/common";
-import { checkLogin,submitFeedback, uploadImage, uploadAvatar as doUploadAvator } from "../api/getData";
+import { submitFeedback, uploadImage, uploadAvatar as doUploadAvator } from "../api/getData";
+import checkLogin from "../api/login";
 import { changeUserInfo, getUserInfo, searchUser } from "../api/user";
 import imgUploader from "./imgUploader";
 import { dataURLtoFile } from "../utils";
@@ -301,7 +302,7 @@ export default {
   },
   methods: {
     renderUserInfo: async function() {
-      let userId = localStorage.getItem("userId");
+      let userId = this.$store.state.login.userId;
       if (userId === null || userId === undefined) {
         // TODO 没登陆
         return;
@@ -344,7 +345,7 @@ export default {
           changedItems[key] = this.userInfo[key];
         }
       }
-      let userId = localStorage.getItem("userId");
+      let userId = this.$store.state.login.userId;
       let islogin = await checkLogin();
       if (islogin.status != 0) {
         //  没登陆
@@ -385,18 +386,19 @@ export default {
       try {
         // request
         let formData = new FormData();
-        formData.append("image", dataURLtoFile(data.base64, this.fileName));
-  
-        const imgRes = await uploadImage(formData);
+        formData.append("avatar", dataURLtoFile(data.base64, this.fileName));
+        /*const imgRes = await uploadImage(formData);
         if (imgRes.status === 0) {
           const imgUrl = imgRes.data;
-          const avaRes = await doUploadAvator({ avator: imgUrl });
+        }*/
+        console.log(formData.get("avatar"));
+        const avaRes = await doUploadAvator(formData);
           if (avaRes.status === 0) {
             sucFlag = true;
+            this.$store.state.login.avator = dataURLtoFile(data.base64, this.fileName);
             // do something
             // TODO 这里得吧state欠到vuex，放弃使用localStorage，交给新人来做吧
           }
-        }
       } catch (e) {
           this.$message({
             type: "error",

@@ -901,11 +901,13 @@ export default {
     },
     isLogin: function() {
       let flag = localStorage.getItem("Flag");
-      if (flag === null) return false;
+      /*let isLogin = this.$store.state.login.isLogin;*/
+      if (flag !== "isLogin") return false;
       return true;
     },
     myRank: function() {
       const id = localStorage.getItem("userId");
+      /*const id = this.$store.state.login.userId;*/
       if (id === null || id === "") return "";
       const index = this.rank_info.map((x) => x.id).indexOf(+id);
       if (index === -1) return "";

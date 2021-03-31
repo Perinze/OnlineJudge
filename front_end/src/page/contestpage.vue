@@ -563,7 +563,6 @@ export default {
         this.contest_info = resObj;
         resObj.problems = resObj.problems.slice(1,resObj.problems.length-1).split(",");
         localStorage.setItem(`contestInfo-${this.$route.params.id}`, JSON.stringify(this.contest_info));
-
         typeof callback === "function" && callback();
       } else {
         this.$message({
@@ -631,6 +630,7 @@ export default {
       if (response.status == 0) {
         this.discusses = response.data.data;
         this.discussCounts = response.data.count;
+        this.$store.dispatch("contest/contestDiscussList", JSON.stringify(response.data.data));
         localStorage.setItem(`contestDiscussList-${this.$route.params.id}-${page}`, JSON.stringify(response.data.data));
         // response.data.data.forEach((val) => {
         //   this.discusses.push({

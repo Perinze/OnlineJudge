@@ -194,6 +194,7 @@ export default {
       return this.$route.path;
     },
     localUserId: function() {
+      /*let userId = this.$store.state.login.userid;*/
       let ret = localStorage.getItem("userId");
       return ret;
     },

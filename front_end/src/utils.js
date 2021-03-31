@@ -152,6 +152,38 @@ export const deepEqual = function (x, y) {
   }
 }
 
+export const 	deepClone = (obj) => {
+  let newObj
+  if(typeof obj === 'object' && obj !== null){
+      if(obj instanceof Array){
+          newObj = obj.map(item=>deepClone(item))
+      }else{
+           newObj = Object.assign({},obj)
+      }
+      for (const key in obj){
+          if(obj.hasOwnProperty(key)){
+              newObj[key] = deepClone(obj[key])
+          }
+      }
+  }else if(typeof obj === 'function'){
+      let fnBody = []
+      fnBody = obj.toString().match(/\((.+)\)\{(.+)\}$/)
+      const args = fnBody.slice(1,fnBody.length-1)
+      newObj = new Function(args,fnBody[fnBody.length-1])
+      for (const key in obj){
+          if(obj.hasOwnProperty(key)){
+              newObj[key] = deepClone(obj[key])
+          }
+      }
+  }else if(typeof obj === 'symbol'){
+      newObj = Symbol(obj.toString().match(/\((.+)\)/)[1])
+  }else{
+      return obj
+  }
+  return newObj
+}
+
+
 export const dataURLtoFile = function (dataurl, filename) {
   let arr = dataurl.split(',');
   let mime = arr[0].match(/:(.*?);/)[1];

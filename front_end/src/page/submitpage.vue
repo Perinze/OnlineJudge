@@ -30,7 +30,8 @@
 
 <script>
 import mycodemirror from "../components/myCodemirror";
-import { getProblem, checkLogin } from "../api/getData";
+import { getProblem } from "../api/getData";
+import checkLogin from "../api/login";
 import { submitCode } from "../api/submit";
 
 export default {
@@ -118,6 +119,7 @@ export default {
       }
     },
     checkLoginStatus: async function() {
+      /*user_id: this.$store.state.login.userId,*/
       let response = await checkLogin({
         user_id: localStorage.getItem("userId"),
       });

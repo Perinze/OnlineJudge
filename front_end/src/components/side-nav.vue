@@ -125,7 +125,7 @@
 import MenuItem from "./menu-item";
 import userCard from "../components/userCard";
 import welcome from "../components/welcome";
-import { checkLogin } from "../api/getData";
+import { checkLogin } from "../api/login";
 import { logout } from "../api/login";
 import { mapGetters } from "vuex";
 import store from "../store";
@@ -188,7 +188,7 @@ export default {
         },
       ],
       userinfo: {
-        avator: "/assets/media/avator.png",
+        avator: require("../../assets/media/avator.png"),
       },
       displayUsercard: false,
       displayWelcome: false,
@@ -257,6 +257,8 @@ export default {
     callUsercard() {
       if (localStorage.getItem("Flag") === "isLogin")
         this.displayUsercard = true;
+      else if (this.$store.state.login.isLogin === true)
+        this.displayUsercard = true;
       else return;
     },
     // 开关sideBar
@@ -319,12 +321,13 @@ export default {
       userData: "userInfo",
       isLogin: "isLogin",
     }),
+    
     avatorComputed: function () {
       if (this.isLogin) {
         if (!this.userData.avator) {
           return this.imgs.testAvator;
         }
-        return this.userData.avator === "null" ? this.imgs.testAvator : this.userData.avator;
+        return this.userData.avator == "null" ? this.imgs.testAvator : this.userData.avator;
       } else {
         return this.imgs.defaultAvator;
       }
