@@ -54,7 +54,6 @@
                     : 'cant-join',
                 ]"
                 v-show="item.hasJoin"
-              >
                 已经报名
               </button>
             </div>
@@ -98,6 +97,11 @@ export default {
         const data = response.data;
         if (data) {
           const retObj = this.classifyList(data.map((item) => {
+            console.log(item.begin_time.length);
+            if(item.begin_time[19] == 'Z') item.begin_time = item.begin_time.substr(0,19);
+            item.begin_time = item.begin_time.replace("T", " ");
+            if(item.end_time[19] == 'Z') item.end_time = item.end_time.substr(0,19);
+            item.end_time = item.end_time.replace("T", " ");
             return {
               contest_id: item.contest_id.toString(),
               title: item.contest_name,
@@ -110,6 +114,7 @@ export default {
             };
           }));
           this.items = retObj;
+          /*this.$store.dispatch("contest/contestListNoLogin", retObj);*/
           localStorage.setItem('contest-list-nologin', JSON.stringify(this.items));
         } else {
           this.$message({
@@ -139,7 +144,8 @@ export default {
             if (itemsIndex !== -1) this.items[key][itemsIndex].hasJoin = true;
           });
         });
-        localStorage.setItem('contest-list', JSON.stringify(this.items)); 
+        /*this.$store.dispatch("contest/contestList", retObj);*/
+        localStorage.setItem('contest-list', JSON.stringify(this.items));
       }
     },
     doJoinContest: async function (info) {
@@ -150,6 +156,7 @@ export default {
         return;
       }
       this.$loading.open();
+      /*user_id: this.$store.state.login.userId,*/
       let response = await joinContest({
         contest_id: info.contest_id,
         user_id: localStorage.getItem("userId"),
@@ -219,6 +226,11 @@ export default {
       } else {
         str = localStorage.getItem('contest-list-nologin');
       }
+      /*if(this.$store.state.login.isLogin == true) {
+        str = this.$store.state.contest.contestList;
+      } else {
+        str = this.$store.state.contest.contestListNoLogin; 
+      }*/
       try {
         const data = JSON.parse(str);
         if (data) {
@@ -226,6 +238,7 @@ export default {
           this.loading = false;
         }
       } catch (e) {
+        /*this.$store.state.state.contestList = null;*/
         localStorage.removeItem('contest-list');
       }
     }
