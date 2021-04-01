@@ -124,8 +124,8 @@ export default {
     getProblemList: async function() {
       let response = await getContest(this.contest_id);
       if (response.status == 0) {
-        this.problems = response.data.problems;
-        this.question.problem_id = response.data.problems[0];
+        this.problems = response.data.problems.slice(1,response.data.problems.length-1).split(",");
+        this.question.problem_id = this.problems[0];
       } else {
         this.$message({
           message: "System error: " + response.message,

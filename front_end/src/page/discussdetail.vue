@@ -87,7 +87,7 @@ export default {
   methods: {
     changePage(page) {
       this.currentPage = page;
-      this.renderContent(page - 1);
+      this.renderContent(page);
     },
     getProblemNick: async function() {
       let response = await getContest(this.$route.params.id);
@@ -98,14 +98,14 @@ export default {
         );
       }
     },
-    renderContent: async function(page = 0) {
+    renderContent: async function(page = 1) {
       this.$loading.open();
       this.replyItems = [];
       let response = await getDiscussDetail(this.$route.params.did, page);
       if (response.status == 0) {
         this.themeInfo = response.data.discuss;
-        this.counts = response.data.reply.count;
-        response.data.reply.data.forEach((val) => {
+        this.counts = response.reply.count;
+        response.reply.data.forEach((val) => {
           this.replyItems.push(val);
         });
       } else {
@@ -128,8 +128,9 @@ export default {
         this.$loading.hide();
         return;
       }
+      console.log(typeof(this.$route.params.did));
       let response = await addReply({
-        id: this.$route.params.did,
+        discuss_id: parseInt(this.$route.params.did),
         content: this.replyContent,
       });
       if (response.status == 0) {

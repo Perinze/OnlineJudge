@@ -54,6 +54,7 @@
                     : 'cant-join',
                 ]"
                 v-show="item.hasJoin"
+              >
                 已经报名
               </button>
             </div>
@@ -97,7 +98,6 @@ export default {
         const data = response.data;
         if (data) {
           const retObj = this.classifyList(data.map((item) => {
-            console.log(item.begin_time.length);
             if(item.begin_time[19] == 'Z') item.begin_time = item.begin_time.substr(0,19);
             item.begin_time = item.begin_time.replace("T", " ");
             if(item.end_time[19] == 'Z') item.end_time = item.end_time.substr(0,19);
@@ -139,8 +139,15 @@ export default {
         response.data.forEach((val) => {
           this.itemsKeys.forEach((key) => {
             let itemsIndex = this.items[key]
-              .map((x) => parseInt(x.id))
+              .map((x) => {
+                /*console.log("!");
+                console.log(x.contest_id);*/
+                return parseInt(x.contest_id);
+                })
               .indexOf(parseInt(val.contest_id));
+              /*console.log(key);
+              console.log(val.contest_id);
+              console.log(itemsIndex);*/
             if (itemsIndex !== -1) this.items[key][itemsIndex].hasJoin = true;
           });
         });

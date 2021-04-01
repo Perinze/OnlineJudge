@@ -96,8 +96,9 @@ export default {
       let requestData = {
         language: this.lang,
         source_code: this.$refs.codeEditor.code,
-        problem_id: String(this.pid), // 傻逼ljw后端只能传string
+        problem_id: this.pid, // 傻逼ljw后端只能传string
       };
+      console.log(requestData);
       if (this.cid != undefined) {
         requestData.contest_id = this.cid;
       }

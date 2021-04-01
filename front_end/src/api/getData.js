@@ -56,7 +56,7 @@ export const checkUserContest = (contest_id) =>
 export const getUserDiscuss = (data) => fetch(`/discussions/contest/${data.contest_id}?page_number=${data.page}`, "get");
 
 // 获取比赛通知
-export const getNotificationByID = (data) => fetch(`/notification${data.contest_id}`, "get");
+export const getNotificationByID = (data) => fetch(`/notification?contest_id=${data.contest_id}`, "get");
 
 // 状态
 
@@ -73,7 +73,7 @@ export const getSubmitInfo = (data) =>
  */
 
 export const getContestLog = (data) =>
-    fetch(`/submit/${data.contest_id}?page_number=${data.page}`, "get");
+    fetch(`/submit/contest?contest_id=${data.contest_id}&page_number=${data.page}`, "get");
 
 /**
  * 获取评测信息

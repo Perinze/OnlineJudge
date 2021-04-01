@@ -227,20 +227,20 @@ export default {
         } else {
           let data = response.data;
           this.problem_info = Object.assign(this.problem_info, {
-            title: data.title,
-            background: data.background,
-            describe: data.describe,
-            input_sample: data.input_format,
-            output_sample: data.output_format,
-            hint: data.hint,
-            source: data.source,
-            timeLimit: data.time,
-            memoryLimit: (+data.memory || 0).toFixed(2)
+            title: data.problem.title,
+            background: data.problem.background,
+            describe: data.problem.describe,
+            input_sample: data.problem.input_format,
+            output_sample: data.problem.output_format,
+            hint: data.problem.hint,
+            source: data.problem.source,
+            timeLimit: data.problem.time,
+            memoryLimit: (+data.problem.memory || 0).toFixed(2)
           });
           if(this.problem_info.source == null) {
             this.problem_info.source = "佚名";
           }
-          data.sample.forEach((val) => {
+          data.problem_sample.forEach((val) => {
             this.problem_info.example.push(val);
           });
         }

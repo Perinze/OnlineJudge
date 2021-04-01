@@ -210,7 +210,7 @@
 <script>
 import { getObjectURL } from "../api/common";
 import { submitFeedback, uploadImage, uploadAvatar as doUploadAvator } from "../api/getData";
-import checkLogin from "../api/login";
+import { checkLogin } from "../api/login";
 import { changeUserInfo, getUserInfo, searchUser } from "../api/user";
 import imgUploader from "./imgUploader";
 import { dataURLtoFile } from "../utils";
@@ -339,15 +339,16 @@ export default {
     },
     submitInfoChange: async function() {
       if (!this.isChanged) return;
-      let changedItems = {};
+      /*let changedItems = {};
       for (let key in this.userInfo) {
         if (this.userInfo[key] !== this.tmpUserInfo[key]) {
           changedItems[key] = this.userInfo[key];
         }
-      }
+      }*/
       let userId = this.$store.state.login.userId;
-      let islogin = await checkLogin();
-      if (islogin.status != 0) {
+      console.log(userId);
+      let resp = await checkLogin({user_id: localStorage.getItem("userId")});
+      if (resp.status != 0) {
         //  没登陆
         this.$message({
           message: "你未登陆",
@@ -355,7 +356,7 @@ export default {
         });
         return;
       }
-      let response = await changeUserInfo(userId, changedItems);
+      let response = await changeUserInfo(userId, this.userInfo);
       if (response.status == 0) {
         this.$message({
           message: "修改成功",

@@ -70,10 +70,15 @@ export default {
           this.items = [];
           data.forEach((val) => {
             let res = {
-              id: val.problem_id,
-              status: !(val.accepted + val.unaccepted) ?  "un" : val.accepted ? "ac" : "wa",
-              title: val.title,
+              id: val.problem.problem_id,
+              title: val.problem.title,
+              status: "不知道",
               statistics: {
+                ac: 0,
+                all: 114514
+              }
+              //status: !(val.accepted + val.unaccepted) ?  "un" : val.accepted ? "ac" : "wa",
+              /*statistics: {
                 ac: parseInt(val.ac),
                 all:
                   parseInt(val.ac) +
@@ -83,11 +88,11 @@ export default {
                   parseInt(val.re) +
                   parseInt(val.ce) +
                   parseInt(val.se),
-              },
+              }*/
+
             };
             this.items.push(res);
           });
-
           if (LSdata === null) {
             LSdata = {};
           }

@@ -422,7 +422,7 @@ export default {
     ) {
       // 比赛开始
       this.countDownToEnd(); // 结束倒计时
-      this.renderStatusList(0, () => {
+      this.renderStatusList(1, () => {
         this.$nextTick(() => {
           this.checkRightContinue();
         });
@@ -560,8 +560,15 @@ export default {
         let resObj = Object.assign(this.contest_info, response.data);
         resObj.begin_time = response.data.begin_time.replace(/-/g, '/');
         resObj.end_time = response.data.end_time.replace(/-/g, '/');
-        this.contest_info = resObj;
+
+        if(resObj.begin_time[19] == 'Z') resObj.begin_time = resObj.begin_time.substr(0,19);
+        resObj.begin_time = resObj.begin_time.replace("T", " ");
+        if(resObj.end_time[19] == 'Z') resObj.end_time = resObj.end_time.substr(0,19);
+        resObj.end_time = resObj.end_time.replace("T", " ");//去除时间中的T和Z  timba   zimba
         resObj.problems = resObj.problems.slice(1,resObj.problems.length-1).split(",");
+        console.log(resObj.problems);
+        if(resObj.problems[0] == "") resObj.problems.shift();
+        this.contest_info = resObj;
         localStorage.setItem(`contestInfo-${this.$route.params.id}`, JSON.stringify(this.contest_info));
         typeof callback === "function" && callback();
       } else {

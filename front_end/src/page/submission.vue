@@ -131,9 +131,8 @@ export default {
           page: page
         });
         if (response.status === 0) {
-          this.counts = response.data.count;
-          this.list = response.data.submit_info;
-
+          //this.counts = response.data.count;
+          this.list = response.data;
           localStorage.setItem(lsKey, JSON.stringify(response.data));
         } else if (response.status === 504) {
           this.$message({

@@ -760,7 +760,7 @@ export default {
               delete obj.all_problems;
               obj.acCnt = acCnt;
               obj.waCnt = waCnt;
-              //this.$emit("logged", obj);
+              this.$emit("logged", obj);
             } else {
               // 用户名密码错误
               // 已经登陆
@@ -994,7 +994,7 @@ export default {
           requestData.append("password",this.forgetInfo.newPassword.toString());
           requestData.append("password_check",this.confirmPassword.toString());
           requestData.append("mail",this.forgetInfo.mail.toString());
-          let response = forgetPassword(requestData);
+          let response = await forgetPassword(requestData);
           setTimeout(() => {
             if (response.status == 0) {
               // 成功
