@@ -83,9 +83,7 @@ export default {
       let requestData = {
         knowledge_id: this.$route.query.id,
       };
-      console.log(requestData);
       let response = await getAllTag(requestData);
-      console.log(response);
       if (response.status == 0) {
         let data = response.data;
         data.forEach((val, index) => {
@@ -94,7 +92,6 @@ export default {
             description: val.description,
           };
           this.items.push(res);
-          console.log(this.items);
         });
       } else {
         // error

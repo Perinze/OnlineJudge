@@ -566,7 +566,6 @@ export default {
         if(resObj.end_time[19] == 'Z') resObj.end_time = resObj.end_time.substr(0,19);
         resObj.end_time = resObj.end_time.replace("T", " ");//去除时间中的T和Z  timba   zimba
         resObj.problems = resObj.problems.slice(1,resObj.problems.length-1).split(",");
-        console.log(resObj.problems);
         if(resObj.problems[0] == "") resObj.problems.shift();
         this.contest_info = resObj;
         localStorage.setItem(`contestInfo-${this.$route.params.id}`, JSON.stringify(this.contest_info));
@@ -586,20 +585,23 @@ export default {
         page,
       });
       this.submit_log = [];
+
       if (response.status == 0) {
-        this.userData.penalty = response.data.penalty.penalty;
+        //this.userData.penalty = response.data.penalty.penalty;
         // response.data.penalty.problem.forEach( (val, index) => {
         // TODO
         // });
-        let problemInfo = response.data.penalty.problem;
+        /*let problemInfo = response.data.penalty.problem;
         let forTotal = this.contest_info.problems.length + 65 - 1;
         for (let index = 65; index <= forTotal; index++) {
           let cindex = String.fromCharCode(index);
           if (problemInfo[cindex] !== undefined) {
             this.myProblemStatus[cindex] = problemInfo[cindex];
           }
-        }
-        response.data["submit_info"].forEach((val) => {
+        }*/
+        response.data.data.forEach((val) => {
+          if(val.submit_time[19] == 'Z') val.submit_time = val.submit_time.substr(0,19);
+          val.submit_time = val.submit_time.replace("T", " ");
           this.submit_log.push({
             runid: val.runid,
             problem: val.problem_id,

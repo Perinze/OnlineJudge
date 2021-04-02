@@ -67,7 +67,7 @@
 
 <script>
 import { getContestList, getUserContest, joinContest } from "../api/contest";
-
+import { checkUserContest } from "../api/getData";
 export default {
   name: "contestlist",
   data() {
@@ -186,7 +186,7 @@ export default {
       }
       this.$loading.hide();
     },
-    goto: function (link) {
+    goto: async function (link) {
       if (link == "") return;
       /*let data=new Object();
       console.log(link);
@@ -206,7 +206,16 @@ export default {
       let problems = problem_str.split(",");
       data.problems = problems;
       */
-      this.$router.push("/contest/" + link);
+     let response = await checkUserContest(link);
+      if(response.status == 0){
+        this.$router.push("/contest/" + link);
+      }
+      else {
+        this.$message({
+            content: "请点击参加比赛按钮",
+            type: "error"
+        });
+      }
     },
     // 拆分数据
     classifyList: function (arr) {

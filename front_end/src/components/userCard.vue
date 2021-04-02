@@ -346,7 +346,6 @@ export default {
         }
       }*/
       let userId = this.$store.state.login.userId;
-      console.log(userId);
       let resp = await checkLogin({user_id: localStorage.getItem("userId")});
       if (resp.status != 0) {
         //  没登陆
@@ -392,7 +391,6 @@ export default {
         if (imgRes.status === 0) {
           const imgUrl = imgRes.data;
         }*/
-        console.log(formData.get("avatar"));
         const avaRes = await doUploadAvator(formData);
           if (avaRes.status === 0) {
             sucFlag = true;

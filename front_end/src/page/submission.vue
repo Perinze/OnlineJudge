@@ -35,7 +35,7 @@
           :memory="item.memory"
           :language="item.language"
           :problem-id="item.problem_id"
-          :runid="item.runid"
+          :runid="item.id"
           :status="item.status"
           :time="item.submit_time"
           :time-cost="item.time"
@@ -131,9 +131,13 @@ export default {
           page: page
         });
         if (response.status === 0) {
-          //this.counts = response.data.count;
-          this.list = response.data;
-          localStorage.setItem(lsKey, JSON.stringify(response.data));
+          this.counts = response.data.count;
+          this.list = response.data.data;
+          for(let index in this.list){
+            if(this.list[index].submit_time[19] == 'Z') this.list[index].submit_time = this.list[index].submit_time.substr(0,19);
+            this.list[index].submit_time = this.list[index].submit_time.replace("T", " ");
+          };
+          localStorage.setItem(lsKey, JSON.stringify(response.data.data));
         } else if (response.status === 504) {
           this.$message({
             type: "error",

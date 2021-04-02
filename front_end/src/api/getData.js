@@ -14,10 +14,6 @@ export const getCaptcha = (data) =>
  */
 
 export const forgetPassword = (data) =>{
-  console.log(data.get("mail"));
-  console.log(data.get("verify_code"));
-  console.log(data.get("password"));
-  console.log(data.get("password_check"));
   return fetch("/password", "put", data);
 }
   

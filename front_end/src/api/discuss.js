@@ -8,12 +8,10 @@ export const getDiscussDetail = (id, page) => fetch(`/discussions/discuss?discus
 
 // 提问问题/发表讨论板
 export const addDiscuss = (data) => {
-    console.log(data);
     return fetch("/discussions", "post", data);
 }
 // 回复问题
 export const addReply = (data) => {
-    console.log(data);
     return fetch("/replies", "post", data);
 }
 

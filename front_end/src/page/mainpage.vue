@@ -143,10 +143,14 @@ export default {
       if (response.status == 0) {
         let data = response.data;
         data.forEach((val) => {
+          if(val.begin_time[19] == 'Z') val.begin_time = val.begin_time.substr(0,19);
+            val.begin_time = val.begin_time.replace("T", " ");
+          if(val.end_time[19] == 'Z') val.end_time = val.end_time.substr(0,19);
+            val.end_time = val.end_time.replace("T", " ");
           let res = {
             id: val.contest_id,
             title: val.contest_name,
-            contestantNum: 2244, // TODO 参加人数
+            contestantNum: 12138, // TODO 参加人数
             begin_time: val.begin_time,
             end_time: val.end_time,
           };

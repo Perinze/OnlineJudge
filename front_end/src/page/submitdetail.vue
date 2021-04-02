@@ -77,18 +77,20 @@ export default {
   },
   computed: {
     cmlang() {
-      switch (this.lang.toLowerCase()) {
+      console.log(this.lang);
+      /*switch (this.lang.toLowerCase()) {
         case "c":
           return "text/x-csrc";
-        case "c++":
+        case "c++11":
           return "text/x-c++src";
         case "java":
           return "text/x-java";
         case "python":
-          return "python";
+          return "python3.6";
         default:
           return "text/x-csrc";
-      }
+      }*/
+      return this.lang;
     },
   },
   filters: {
@@ -160,6 +162,8 @@ export default {
         this.status = data.status;
         this.code = data.source_code;
         this.submitTime = data.submit_time;
+        if(this.submitTime[19] == "Z") this.submitTime = this.submitTime.substr(0, this.submitTime.length-1);
+        this.submitTime = this.submitTime.replace("T", " ");
         this.timeUsed = data.time;
         this.memoryUsed = data.memory;
         this.errMsg = data.msg;
@@ -178,13 +182,14 @@ export default {
       this.$loading.hide();
     },
     langToValue(val) {
-      const len = languages.length;
+      /*const len = languages.length;
       for (let i=0; i<len; i++) {
         if (val === languages[i].value) {
           return languages[i].name;
         }
       }
-      return "Unknown Language";
+      return "Unknown Language";*/
+      return val;
     },
     setIntervaler: function() {
       this.interval = setInterval(() => {
