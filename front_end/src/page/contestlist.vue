@@ -118,14 +118,14 @@ export default {
           localStorage.setItem('contest-list-nologin', JSON.stringify(this.items));
         } else {
           this.$message({
-            content: "未知错误，请联系管理员",
+            message: "未知错误，请联系管理员",
             type: "error",
           });
         }
       } else {
         if (response.status === 504) {
           this.$message({
-            content: "请求超时",
+            message: "请求超时",
             type: "error",
           });
         }
@@ -211,8 +211,8 @@ export default {
         this.$router.push("/contest/" + link);
       }
       else {
-        this.$message({
-            content: "请点击参加比赛按钮",
+        await this.$message({
+            message: "请参加比赛" ,
             type: "error"
         });
       }

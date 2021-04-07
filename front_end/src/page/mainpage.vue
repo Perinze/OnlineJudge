@@ -71,9 +71,14 @@ export default {
     return {
       carouselItem: [
         {
-            url: '',
-            alt: '网络连接失败',
-            title: '网络连接失败'
+            url: require('../../assets/media/notice1.png'),
+            alt: 'test',
+            title: '装你妈比'
+        },
+        {
+            url: require('../../assets/media/notice2.png'),
+            alt: '?',
+            title: 'test1'
         }
       ],
       statistics: [

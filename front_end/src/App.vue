@@ -20,7 +20,7 @@
         :mineWidth="topnavWidth"
         @call-side-bar="callSideBar"
       />
-      <keep-alive>
+      <keep-alive exclude = "submitdetail">
         <router-view
           id="combox"
           class="combox"

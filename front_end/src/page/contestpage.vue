@@ -188,7 +188,7 @@
                 '/status?p=' +
                   submit_log[index - 1].problem +
                   '&s=' +
-                  submit_log[index - 1].runid +
+                  submit_log[index - 1].id +
                   '&c=' +
                   contest_info.id
               )
@@ -359,6 +359,7 @@ export default {
     },
     isBegin: function() {
       let begin = new Date(this.contest_info.begin_time).getTime();
+      console.log(this.contest_info.begin_time);
       let now = new Date().getTime();
       if (now >= begin) return true;
       return false;
@@ -415,7 +416,7 @@ export default {
     });
     // 检查登陆状态
     await this.checkJoin();
-
+    
     this.countDownToBegin(); // 开始倒计时
     if (
       new Date(this.contest_info.begin_time).getTime() <= new Date().getTime()
@@ -556,6 +557,7 @@ export default {
     },
     renderContestInfo: async function(callback) {
       let response = await getContest(this.$route.params.id);
+      localStorage.setItem("nowContest", this.$route.params.id);
       if (response.status === 0) {
         let resObj = Object.assign(this.contest_info, response.data);
         resObj.begin_time = response.data.begin_time.replace(/-/g, '/');
@@ -603,7 +605,7 @@ export default {
           if(val.submit_time[19] == 'Z') val.submit_time = val.submit_time.substr(0,19);
           val.submit_time = val.submit_time.replace("T", " ");
           this.submit_log.push({
-            runid: val.runid,
+            id: val.id,
             problem: val.problem_id,
             submit_time: val.submit_time, // TODO fix
             time_used: val.time,

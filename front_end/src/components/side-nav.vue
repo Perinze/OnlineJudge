@@ -327,7 +327,8 @@ export default {
         if (!this.userData.avator) {
           return this.imgs.testAvator;
         }
-        return this.userData.avator == "null" ? this.imgs.testAvator : this.userData.avator;
+        //return this.userData.avator == "null" ? this.imgs.testAvator : this.userData.avator;
+        return this.imgs.testAvator;
       } else {
         return this.imgs.defaultAvator;
       }

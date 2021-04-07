@@ -49,7 +49,8 @@
 <script>
 import { getWholeErrorName } from "../api/common";
 import { getProblem } from "../api/problem";
-import {  getStatus } from "../api/getData";
+import {  getStatusById } from "../api/status";
+import { getStatus } from "../api/getData"
 import Mycodemirror from "../components/myCodemirror";
 import { languages } from "../config/language";
 
@@ -60,7 +61,7 @@ export default {
   data() {
     return {
       title: "",
-      status: "",
+      status: "Judging",
       lang: "",
       code: "",
       memoryUsed: 0,
@@ -77,7 +78,6 @@ export default {
   },
   computed: {
     cmlang() {
-      console.log(this.lang);
       /*switch (this.lang.toLowerCase()) {
         case "c":
           return "text/x-csrc";
@@ -119,6 +119,10 @@ export default {
       this.renderStatus();
       this.setIntervaler();
     });
+    
+  },
+  deactivated() {
+    
   },
   destroyed() {
     clearInterval(this.interval);
@@ -128,7 +132,7 @@ export default {
       return getWholeErrorName(status);
     },
     renderProblemInfo: async function() {
-      let requestData = await {
+      let requestData = {
         problem_id: this.pid,
       };
       if (this.cid != undefined) {
@@ -146,32 +150,46 @@ export default {
     },
     renderStatus: async function() {
       this.$loading.open();
-      let response = await getStatus({
-        problem_id: this.pid,
-      });
-      if (response.status == 0) {
-        let data = response.data;
-        if (data.problem_id != this.pid) {
-          this.$message({
-            message: "不存在该提交",
-            type: "error",
+      let response = {};
+      if(this.pid != undefined && this.pid != "" && this.sid == ""){
+          response = await getStatus({
+            problem_id: this.pid,
           });
-          this.$router.go(-1);
-        }
-        this.lang = this.langToValue(data.language);
-        this.status = data.status;
-        this.code = data.source_code;
-        this.submitTime = data.submit_time;
-        if(this.submitTime[19] == "Z") this.submitTime = this.submitTime.substr(0, this.submitTime.length-1);
-        this.submitTime = this.submitTime.replace("T", " ");
-        this.timeUsed = data.time;
-        this.memoryUsed = data.memory;
-        this.errMsg = data.msg;
-        this.$refs.codeViewer.code = this.code;
-
-        if (data.status !== "Judging") {
-          clearInterval(this.interval);
-        }
+          console.log(getStatus({
+            problem_id: this.pid,
+          }))
+      }
+      else {
+        response = await getStatusById({
+          id: this.sid,
+        });
+        console.log(getStatusById({
+          id: this.sid,
+        }));
+      }
+      if (response.status == 0) {
+      let data = response.data;
+      if (data.problem_id != this.pid) {
+        this.$message({
+          message: "不存在该提交",
+          type: "error",
+        });
+        this.$router.go(-1);
+      }
+      this.lang = this.langToValue(data.language);
+      this.status = data.status;
+      this.code = data.source_code;
+      this.submitTime = data.submit_time;
+      if(this.submitTime[19] == "Z") this.submitTime = this.submitTime.substr(0, this.submitTime.length-1);
+      this.submitTime = this.submitTime.replace("T", " ");
+      this.timeUsed = data.time;
+      this.memoryUsed = data.memory;
+      this.errMsg = data.msg;
+      this.$refs.codeViewer.code = this.code;
+      
+      if (data.status !== "Judging") {
+        clearInterval(this.interval);
+      }
       } else {
         this.$message({
           message: "发生错误: " + response.message + ", 请联系管理员",

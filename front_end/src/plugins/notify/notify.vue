@@ -1,33 +1,30 @@
 <template></template>
 <script>
-import getNotificationByID from "../../api/getData.js";
+import { getNotificationByID } from "../../api/getData.js";
 export default {
   name: "notify",
   data() {
     return {
-      cid: this.$route.params.id,
+      cid: "",
       iswork: true,
-      notice: [],
+      tolog: false,
+      resArr: [],
+      notice: "nothing"
     };
   },
   watch: {
-    notice:{
-      handler(newval) {
-        for(let index in newval){
-          this.$notify({
-            title: newval[index].title,
-            message: newval[index].content,
-            duration: 3000
-          });
-        }
-      },
-      deep: true
+    notice(nval, oldval){
+      this.$notify({
+        title: nval.title,
+        message: nval.content,
+        duration: 0
+      })
     }
   },
   created() {
     let storedNotice = localStorage.getItem("storedNotice");
     if(storedNotice != null){
-      this.notice = JSON.parse(storedNotice);
+      this.resArr = JSON.parse(storedNotice);
     }
     this.intervalNotify();
   },
@@ -35,18 +32,35 @@ export default {
     intervalNotify() {
       let self = this;
       let interval = setInterval(() => {
-        if (this.iswork) {
-          getNotificationByID({contest_id:cid}).then((response) => {
-            if (reseponse.status == 0) {
-              let resArr= response.data;
-              if(resArr != undefined && resArr.length != 0){
-                for(let index in resArr){
-                  self.notice.push(resArr[index]);
+        if (this.iswork ) {
+          if(this.cid != ""){
+            getNotificationByID({contest_id: this.cid}).then((response) => {
+              if (response.status == 0) {
+                let res = response.data;
+                console.log(res.length);
+                if(res != undefined && res.length != 0){
+                  for(let index in res){
+                    self.resArr.push(res[index]);
+                  }
                 }
+                if(self.resArr.length > 0){
+                  console.log(self.resArr.length);
+                  self.notice = self.resArr.shift();
+                }
+                localStorage.setItem("storedNotice", JSON.stringify(self.resArr));
               }
-              localStorage.setItem("storedNotice", JSON.stringify(self.notice));
-            }
-          });
+            });
+          }
+          else{
+              if(localStorage.getItem("nowContest") != null){
+                this.cid = localStorage.getItem("nowContest");
+                localStorage.removeItem("nowContest");
+              }
+              else this.cid = "";
+              /*console.log(localStorage.getItem("nowContest"));
+              console.log("!");
+              console.log(this.cid);*/
+          }
         } else {
           clearInterval(interval);
         }

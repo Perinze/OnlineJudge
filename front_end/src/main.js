@@ -21,13 +21,14 @@ import loadingPlugin from "./plugins/loading";
 import notifyPlugin from "./plugins/notify";
 import codemirror from "vue-codemirror-lite";
 import { judgeWap } from "./utils";
-
+//import { checkLogin } from "../api/login"
 
 Vue.config.productionTip = false;
 
 // Element-ui-Message add Install function to mount
 Message.install = function(Vue) {
   Vue.prototype.$message = Message;
+  Vue.prototype.$notify = Notification;
 };
 // echarts
 // Vue.prototype.$echarts = echarts;

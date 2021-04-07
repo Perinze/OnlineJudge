@@ -1,9 +1,16 @@
 <template>
   <div class="submission-card" @click="$router.push(`/status??p=${problemId}&s=${runid}`)">
+    <!--
     <img
       class="avatar"
       :src="realAvatar"
-      :alt="nick"
+      :alt="nick" 
+      @click.stop="callUserCard"
+    >
+    -->
+    <img
+      class="avatar"
+      :src="testAvator"
       @click.stop="callUserCard"
     >
     <div class="submission-info">
@@ -43,6 +50,7 @@ import { languages } from "../config/language";
 
 export default {
   name: "submission-card",
+  testAvator:  require("../../assets/media/avator.png"),
   props: {
     // user
     userId: Number,
@@ -60,7 +68,10 @@ export default {
   },
   methods: {
     callUserCard() {
-    }
+    },
+  },
+  created(){
+    this.testAvator = require("../../assets/media/avator.png");
   },
   computed: {
     realAvatar() {
