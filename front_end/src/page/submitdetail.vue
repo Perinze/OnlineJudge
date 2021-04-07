@@ -155,16 +155,12 @@ export default {
           response = await getStatus({
             problem_id: this.pid,
           });
-<<<<<<< HEAD
-=======
-          console.log(response)
->>>>>>> 3ae5a3f46be5c7e66266b295381da511356f0e57
+
       }
       else {
         response = await getStatusById({
           id: this.sid,
         });
-<<<<<<< HEAD
       }
       if (response.status == 0) {
       let data = response.data;
@@ -174,18 +170,6 @@ export default {
           type: "error",
         });
         this.$router.go(-1);
-=======
-        console.log(response);
-      }
-      if (response.status == 0) {
-        let data = response.data;
-        if (data.problem_id != this.pid) {
-          this.$message({
-            message: "不存在该提交",
-            type: "error",
-          });
-          this.$router.go(-1);
->>>>>>> 3ae5a3f46be5c7e66266b295381da511356f0e57
         }
         this.lang = this.langToValue(data.language);
         this.status = data.status;
@@ -197,16 +181,9 @@ export default {
         this.memoryUsed = data.memory;
         this.errMsg = data.msg;
         this.$refs.codeViewer.code = this.code;
-        
-<<<<<<< HEAD
-      if (data.status !== "Judging") {
-        clearInterval(this.interval);
-      }
-=======
         if (data.status !== "Judging") {
           clearInterval(this.interval);
         }
->>>>>>> 3ae5a3f46be5c7e66266b295381da511356f0e57
       } else {
         this.$message({
           message: "发生错误: " + response.message + ", 请联系管理员",
