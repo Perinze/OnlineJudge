@@ -155,17 +155,11 @@ export default {
           response = await getStatus({
             problem_id: this.pid,
           });
-          console.log(getStatus({
-            problem_id: this.pid,
-          }))
       }
       else {
         response = await getStatusById({
           id: this.sid,
         });
-        console.log(getStatusById({
-          id: this.sid,
-        }));
       }
       if (response.status == 0) {
       let data = response.data;
@@ -175,18 +169,18 @@ export default {
           type: "error",
         });
         this.$router.go(-1);
-      }
-      this.lang = this.langToValue(data.language);
-      this.status = data.status;
-      this.code = data.source_code;
-      this.submitTime = data.submit_time;
-      if(this.submitTime[19] == "Z") this.submitTime = this.submitTime.substr(0, this.submitTime.length-1);
-      this.submitTime = this.submitTime.replace("T", " ");
-      this.timeUsed = data.time;
-      this.memoryUsed = data.memory;
-      this.errMsg = data.msg;
-      this.$refs.codeViewer.code = this.code;
-      
+        }
+        this.lang = this.langToValue(data.language);
+        this.status = data.status;
+        this.code = data.source_code;
+        this.submitTime = data.submit_time;
+        if(this.submitTime[19] == "Z") this.submitTime = this.submitTime.substr(0, this.submitTime.length-1);
+        this.submitTime = this.submitTime.replace("T", " ");
+        this.timeUsed = data.time;
+        this.memoryUsed = data.memory;
+        this.errMsg = data.msg;
+        this.$refs.codeViewer.code = this.code;
+        
       if (data.status !== "Judging") {
         clearInterval(this.interval);
       }
@@ -207,7 +201,7 @@ export default {
         }
       }
       return "Unknown Language";*/
-      return val;
+      return String(val);
     },
     setIntervaler: function() {
       this.interval = setInterval(() => {

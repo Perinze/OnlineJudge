@@ -767,7 +767,7 @@ export default {
       if (response.status == 0) {
         this.contest_info = {
           title: response.data.contest_name,
-          problems: response.data.problems,
+          problems: response.data.problems.substr(1,response.data.problems.length-2).split(","),
           prize: response.data.prize || [0, 0, 0],
         };
       } else {
@@ -792,9 +792,24 @@ export default {
             penalty: val.penalty,
             solveInfo: val.problem_id,
           });
-
+          console.log(val.problem_id);
           // 跑一血数据
-          val.problem_id.forEach((item) => {
+          for(let index in val.problem_id){
+            if((!this.firstBlood[index]) || (this.firstBlood[index].time === "")){
+              this.firstBlood[index] = {
+                user_id: val.user_id,
+                time: val.problem_id[index].success_time
+              }
+            } else{
+              if(this.firstBlood[index].time > val.problem_id[index].success_time && val.problem_id[index].success_time !== "")[
+                this.firstBlood[index] = {
+                  user_id: val.user_id,
+                  time: val.problem_id[index].success_time
+                }
+              ]
+            }
+          }
+        /*val.problem_id.forEach((item) => {
             if ((!this.firstBlood[item.problem_id]) || (this.firstBlood[item.problem_id].time === "")) {
               this.firstBlood[item.problem_id] = {
                 user_id: val.user_id,
@@ -808,7 +823,9 @@ export default {
                 }
               }
             }
-          });
+          }
+          
+          );*/
 
           // 打星逻辑
           if (val.nick.indexOf("*") !== 0) {
@@ -829,7 +846,12 @@ export default {
       this.interval = setInterval(this.renderRankList, 5000);
     },
     solveInfoMap: function (index) {
-      return this.rank_info[index].solveInfo.map((x) => x.problem_id);
+      let ret = [];
+      for(let tmpIndex in this.rank_info[index].solveInfo){
+        ret.push(this.rank_info[index].solveInfo[tmpIndex].problem_id);
+      }
+      return ret;
+      //return this.rank_info[index].solveInfo.map((x) => x.problem_id); 
     },
     isSuccess: function (index, problemIndex) {
       if (
