@@ -31,47 +31,61 @@
             </td>
           </tr>
         </thead>
-        <tr
+        <!--
+          <tr
           class="rank-form-element"
           v-for="index in rank_info.length"
           :key="'rank-row-' + index"
         >
+        -->
+        <tr
+          class="rank-form-element"
+          v-for="(i, index) in rank_info"
+          :key="'rank-row-' + index"
+        >
           <td
             :class="[
-              rank_info[index - 1].rank === ''
+              rank_info[index].rank === ''
                 ? ''
-                : rank_info[index - 1].rank <= prizeNum[0]
+                : rank_info[index].rank <= prizeNum[0]
                 ? 'rank-au'
-                : rank_info[index - 1].rank <= prizeNum[1]
+                : rank_info[index].rank <= prizeNum[1]
                 ? 'rank-ag'
-                : rank_info[index - 1].rank <= prizeNum[2]
+                : rank_info[index].rank <= prizeNum[2]
                 ? 'rank-cu'
                 : '',
             ]"
           >
-            {{ rank_info[index - 1].rank }}
+            {{ rank_info[index].rank }}
           </td>
           <td
             :class="[
-              rank_info[index - 1].rank === ''
+              rank_info[index].rank === ''
                 ? ''
-                : rank_info[index - 1].rank <= prizeNum[0]
+                : rank_info[index].rank <= prizeNum[0]
                 ? 'rank-au'
-                : rank_info[index - 1].rank <= prizeNum[1]
+                : rank_info[index].rank <= prizeNum[1]
                 ? 'rank-ag'
-                : rank_info[index - 1].rank <= prizeNum[2]
+                : rank_info[index].rank <= prizeNum[2]
                 ? 'rank-cu'
                 : '',
             ]"
           >
-            {{ rank_info[index - 1].nick }}
+            {{ rank_info[index].nick }}
           </td>
-          <td>{{ rank_info[index - 1].acNum }}</td>
-          <td>{{ rank_info[index - 1].penalty | penaltyFilter }}</td>
-          <td
+          <td>{{ rank_info[index].acNum }}</td>
+          <td>{{ rank_info[index].penalty | penaltyFilter }}</td>
+          <!--
+            <td
             v-for="problemIndex in contest_info.problems.length"
             :key="'rank-problem-' + problemIndex"
           >
+          -->
+          <td
+            v-for="(problemName, problemIndex) in contest_info.problems"
+            :key="'rank-problem-' + problemIndex"
+          >
+            <!--
             <div class="solved-info-data">
               <div
                 v-if="
@@ -80,46 +94,42 @@
                   ) !== -1
                 "
               >
+              -->
+            <div class="solved-info-data">
+              <div
+                v-if="
+                  rank_info[index].solveInfo[problemName] != undefined
+                "
+              >
                 <!-- TODO 封榜一血逻辑 -->
                 <status-icon
-                  :icon-type="isSuccess(index - 1, problemIndex) ? 'ac' : 'wa'"
-                  :first-blood="isFirstBlood(index - 1, problemIndex)"
-                  :frozen="isFrozen(rank_info[index - 1].solveInfo, problemIndex)"
+                  :icon-type="isSuccess(index, problemName) ? 'ac' : 'wa'"
+                  :first-blood="isFirstBlood(index, problemName)"
+                  :frozen="isFrozen(rank_info[index].solveInfo, problemName)"
                   :times="
-                    isSuccess(index - 1, problemIndex)
-                      ? rank_info[index - 1].solveInfo[
-                          solveInfoMap(index - 1).indexOf(
-                            String.fromCharCode(problemIndex + 64)
-                          )
+                    isSuccess(index, problemName)
+                      ? rank_info[index].solveInfo[
+                            problemName
                         ].times + 1
-                      : rank_info[index - 1].solveInfo[
-                          solveInfoMap(index - 1).indexOf(
-                            String.fromCharCode(problemIndex + 64)
-                          )
+                      : rank_info[index].solveInfo[
+                            problemName
                         ].times
                   "
                 />
-                <span :class="{'tle-color': isFirstBlood(index - 1, problemIndex)}">
+                <span :class="{'tle-color': isFirstBlood(index, problemName)}">
                   {{
-                    rank_info[index - 1].solveInfo[
-                      solveInfoMap(index - 1).indexOf(
-                        String.fromCharCode(problemIndex + 64)
-                      )
+                    rank_info[index].solveInfo[
+                        problemName
                     ].success_time | penaltyFilter
                   }}
                   {{
-                    rank_info[index - 1].solveInfo[
-                      solveInfoMap(index - 1).indexOf(
-                        String.fromCharCode(problemIndex + 64)
-                      )
-                    ].times && rank_info[index - 1].solveInfo[
-                      solveInfoMap(index - 1).indexOf(
-                        String.fromCharCode(problemIndex + 64)
-                      )
-                    ].success_time !== "" ? `(-${rank_info[index - 1].solveInfo[
-                      solveInfoMap(index - 1).indexOf(
-                        String.fromCharCode(problemIndex + 64)
-                      )
+                    rank_info[index].solveInfo[
+                        problemName
+                      
+                    ].times && rank_info[index].solveInfo[
+                        problemName
+                    ].success_time != 0 ? `(-${rank_info[index].solveInfo[
+                        problemName
                     ].times})` : ''
                   }}
                 </span>
@@ -792,7 +802,6 @@ export default {
             penalty: val.penalty,
             solveInfo: val.problem_id,
           });
-          console.log(val.problem_id);
           // 跑一血数据
           for(let index in val.problem_id){
             if((!this.firstBlood[index]) || (this.firstBlood[index].time === "")){
@@ -848,24 +857,29 @@ export default {
     solveInfoMap: function (index) {
       let ret = [];
       for(let tmpIndex in this.rank_info[index].solveInfo){
-        ret.push(this.rank_info[index].solveInfo[tmpIndex].problem_id);
+        ret.push(tmpIndex);
       }
       return ret;
       //return this.rank_info[index].solveInfo.map((x) => x.problem_id); 
     },
     isSuccess: function (index, problemIndex) {
       if (
+        /*
         this.rank_info[index].solveInfo[
           this.solveInfoMap(index).indexOf(
             String.fromCharCode(problemIndex + 64)
           )
         ].success_time != ""
+        */
+       this.rank_info[index].solveInfo[problemIndex].success_time != 0
       )
         return true;
       else return false;
     },
     isFirstBlood: function (uidx, pidx) {
-      const problemId = String.fromCharCode(pidx + String("A").charCodeAt(0) - 1);
+      //const problemId = String.fromCharCode(pidx + String("A").charCodeAt(0) - 1);
+      const problemId = pidx;
+      if(this.rank_info[uidx] != undefined && this.firstBlood[problemId] != undefined)
       if (this.rank_info[uidx].id === this.firstBlood[problemId].user_id) {
         return true;
       }

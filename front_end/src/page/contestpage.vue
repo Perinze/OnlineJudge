@@ -51,28 +51,28 @@
                 {{ userData.penalty | penaltyFilter }}
               </td>
               <td
-                v-for="index in contest_info.problems.length"
+                v-for="(Item, index) in contest_info.problems"
                 :key="'problem-status'+index"
                 class="problem-status"
               >
                 <div
                   v-if="
-                    myProblemStatus[String.fromCharCode(index + 64)] !== undefined
+                    myProblemStatus[Item] !== undefined
                   "
                 >
                   <!-- TODO 封榜 Try 逻辑 -->
                   <status-icon
                     :icon-type="
-                      myProblemStatus[String.fromCharCode(index + 64)]
-                        .success_time != ''
+                      myProblemStatus[Item]
+                        .success_time != 0
                         ? 'ac'
                         : 'wa'
                     "
                     :times="
-                      myProblemStatus[String.fromCharCode(index + 64)]
-                        .success_time != ''
-                        ? myProblemStatus[String.fromCharCode(index + 64)].times + 1
-                        : myProblemStatus[String.fromCharCode(index + 64)].times
+                      myProblemStatus[Item]
+                        .success_time != 0
+                        ? myProblemStatus[Item].times + 1
+                        : myProblemStatus[Item].times
                     "
                   />
                 </div>
@@ -359,7 +359,6 @@ export default {
     },
     isBegin: function() {
       let begin = new Date(this.contest_info.begin_time).getTime();
-      console.log(this.contest_info.begin_time);
       let now = new Date().getTime();
       if (now >= begin) return true;
       return false;
@@ -664,6 +663,31 @@ export default {
       let response = await getContestRank(this.$route.params.id);
       if (response.status !== 0) return;
       let data = response.data;
+      if(data == null) return;
+      for(let index in data){
+        if(data[index].user_id == parseInt(localStorage.getItem("userId"))){
+          this.userData.penalty = data[index].penalty;
+          let problemInfo = data[index].problem_id;
+          for(let problemId in this.contest_info.problems){
+            if(problemInfo[this.contest_info.problems[problemId]] != undefined){
+              this.myProblemStatus[this.contest_info.problems[problemId]] =
+                problemInfo[this.contest_info.problems[problemId]];
+            }
+          }
+        }
+      }
+      //this.userData.penalty = response.data.penalty.penalty;
+      // response.data.penalty.problem.forEach( (val, index) => {
+      // TODO
+      // });
+      /*let problemInfo = response.data.penalty.problem;
+      let forTotal = this.contest_info.problems.length + 65 - 1;
+      for (let index = 65; index <= forTotal; index++) {
+        let cindex = String.fromCharCode(index);
+        if (problemInfo[cindex] !== undefined) {
+          this.myProblemStatus[cindex] = problemInfo[cindex];
+        }
+      }*/
       let user_id = localStorage.getItem("userId");
       let rank = data.map((x) => x.user_id).indexOf(parseInt(user_id)) + 1;
       this.userData.rank = rank;

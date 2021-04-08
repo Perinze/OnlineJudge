@@ -46,6 +46,7 @@ export default {
                 if(self.resArr.length > 0){
                   console.log(self.resArr.length);
                   self.notice = self.resArr.shift();
+                  console.log(self.resArr.length);
                 }
                 localStorage.setItem("storedNotice", JSON.stringify(self.resArr));
               }
