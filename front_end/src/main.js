@@ -21,7 +21,7 @@ import loadingPlugin from "./plugins/loading";
 import notifyPlugin from "./plugins/notify";
 import codemirror from "vue-codemirror-lite";
 import { judgeWap } from "./utils";
-//import { checkLogin } from "../api/login"
+import { checkLogin, logout } from "./api/login"
 
 Vue.config.productionTip = false;
 
@@ -74,13 +74,19 @@ router.beforeEach((to, from, next) => {
     store.state.login.waCnt = localStorage.getItem("waCnt");
     next();
   } else {
+    
+    //已登录、未缓存
+    let resp = checkLogin();
+      if(resp.status == 0){
+        logout();
+      }
     // 未登陆
     if (to.meta.isLogin) {
-      next(false);
-      Vue.prototype.$message({
-        message: "请先登录",
-        type: "error",
-      });
+        next(false);
+        Vue.prototype.$message({
+          message: "请先登录",
+          type: "error",
+        });
     } else {
       //用户进入无需登录的界面，则跳转继续
       next();

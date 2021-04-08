@@ -58,9 +58,6 @@ export default {
                 localStorage.removeItem("nowContest");
               }
               else this.cid = "";
-              /*console.log(localStorage.getItem("nowContest"));
-              console.log("!");
-              console.log(this.cid);*/
           }
         } else {
           clearInterval(interval);
