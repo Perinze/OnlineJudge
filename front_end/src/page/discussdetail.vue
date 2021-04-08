@@ -92,6 +92,7 @@ export default {
     getProblemNick: async function() {
       let response = await getContest(this.$route.params.id);
       if (response.status == 0) {
+        response.data.problems=response.data.problems.substr(1,response.data.problems.length-2).split(',');
         this.problemNick = String.fromCharCode(
           response.data.problems
             .indexOf(`${this.themeInfo.problem_id}`) + 65

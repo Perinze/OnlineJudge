@@ -144,8 +144,8 @@ export default {
         return;
       }
       let response = await addDiscuss({
-        contest_id: this.contest_id,
-        problem_id: this.question.problem_id,
+        contest_id: parseInt(this.contest_id),
+        problem_id: parseInt(this.question.problem_id),
         content: this.question.content,
         title: this.question.title,
       });

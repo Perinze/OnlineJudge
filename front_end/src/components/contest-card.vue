@@ -48,7 +48,7 @@ export default {
     height: 100%;
     border-radius: 10px;
     overflow: hidden;
-    backdrop-filter: blur(12px) brightness(123%);
+    backdrop-filter: blur(6px) brightness(68%);
   }
 }
 
