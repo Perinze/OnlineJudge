@@ -74,12 +74,11 @@ router.beforeEach((to, from, next) => {
     store.state.login.waCnt = localStorage.getItem("waCnt");
     next();
   } else {
-    
     //已登录、未缓存
     let resp = checkLogin();
-      if(resp.status == 0){
-        logout();
-      }
+    if(resp.status == 0){
+      logout();
+    }
     // 未登陆
     if (to.meta.isLogin) {
         next(false);

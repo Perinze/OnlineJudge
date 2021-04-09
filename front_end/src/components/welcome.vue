@@ -799,7 +799,6 @@ export default {
               this.loading = false;
               this.$loading.hide();
             }
-
           }, 2000);
         });
     },

@@ -200,6 +200,15 @@ export default {
     this.renderContest();
     // this.renderPV();
   },
+  async mounted(){
+    let getFlag = localStorage.getItem("Flag");
+    if (getFlag !== "isLogin"){
+      let resp = checkLogin();
+        if(resp.status == 0){
+          logout();
+      }
+    }
+  },
   filters: {
     stdNum: function(num) {
       let res = (num || 0).toString(),
