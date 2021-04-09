@@ -75,10 +75,10 @@ router.beforeEach((to, from, next) => {
     next();
   } else {
     //已登录、未缓存
-    let resp = checkLogin();
+    /*let resp = checkLogin();
     if(resp.status == 0){
       logout();
-    }
+    }*/
     // 未登陆
     if (to.meta.isLogin) {
         next(false);
