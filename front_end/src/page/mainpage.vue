@@ -63,7 +63,7 @@ import { getPvData } from "../api/getData";
 import { getCarousel, getDailydata } from "../api/index";
 import { getContestList } from "../api/contest";
 import { judgeWap, deepEqual } from "../utils";
-
+import { checkLogin, logout} from "../api/login";
 export default {
   name: "mainpage",
   components: { statisticsCard, contestCard },
