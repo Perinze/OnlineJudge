@@ -183,12 +183,14 @@ export default {
       );
       if (response.status !== 200) return;
     },
-    loginCheck() {
+    loginCheck: async function (){
       let getFlag = localStorage.getItem("Flag");
       if (getFlag !== "isLogin"){
-        let resp = checkLogin();
+        let resp = await checkLogin();
           if(resp.status == 0){
-            logout();
+            console.log("!");
+            console.log(resp);
+            await logout();
         }
       }
     },
