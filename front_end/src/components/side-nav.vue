@@ -156,12 +156,12 @@ export default {
           imgSrc: require("../../assets/icon/contest.svg"),
           routeName: "contest",
         },
-        {
+        /*{
           title: "排名 Rank",
           keyName: "rank",
           imgSrc: require("../../assets/icon/rank.svg"),
           routeName: "rank",
-        },
+        },*/
         // {
         //   title: "小组 Groups",
         //   keyName: "grouplist",
@@ -180,12 +180,12 @@ export default {
           imgSrc: require("../../assets/icon/submission.svg"),
           routeName: "submission"
         },
-        {
+        /*{
           title: "讨论 Discussion",
           keyName: "discussion",
           imgSrc: require("../../assets/icon/discussion.svg"),
           routeName: "discussion",
-        },
+        },*/
       ],
       userinfo: {
         avator: require("../../assets/media/avator.png"),
