@@ -183,6 +183,15 @@ export default {
       );
       if (response.status !== 200) return;
     },
+    loginCheck() {
+      let getFlag = localStorage.getItem("Flag");
+      if (getFlag !== "isLogin"){
+        let resp = checkLogin();
+          if(resp.status == 0){
+            logout();
+        }
+      }
+    },
     getCarouselCache() {
       const str = localStorage.getItem('carousel');
       try {
@@ -201,13 +210,14 @@ export default {
     // this.renderPV();
   },
   async mounted(){
-    let getFlag = localStorage.getItem("Flag");
+    this.loginCheck();
+    /*let getFlag = localStorage.getItem("Flag");
     if (getFlag !== "isLogin"){
       let resp = checkLogin();
         if(resp.status == 0){
           logout();
       }
-    }
+    }*/
   },
   filters: {
     stdNum: function(num) {
