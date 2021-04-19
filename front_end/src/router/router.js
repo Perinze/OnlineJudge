@@ -26,6 +26,7 @@ import topicInfo from "../page/topicInfo";
 import discussionInfo from "../page/discussionInfo";
 import addDiscussion from "../page/addDiscussion";
 import submission from "../page/submission";
+import bot from "../page/bot";
 
 Vue.use(VueRouter);
 
@@ -158,6 +159,13 @@ const routes = [
     meta: {
       isLogin: false,
     },
+  },
+  { 
+    path: "/knowledge",
+    component: bot,
+    meta: {
+      isLogin: false,
+    }
   },
   {
     // 小组管理

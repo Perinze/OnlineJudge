@@ -186,6 +186,12 @@ export default {
           imgSrc: require("../../assets/icon/discussion.svg"),
           routeName: "discussion",
         },*/
+        {
+          title: "知识库 Knowledge",
+          keyName: "knowledge",
+          imgSrc: require("../../assets/media/knowledge.png"),
+          routeName: "knowledge"
+        }
       ],
       userinfo: {
         avator: require("../../assets/media/avator.png"),
