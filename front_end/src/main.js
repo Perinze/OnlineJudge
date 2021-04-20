@@ -44,7 +44,7 @@ Vue.use(Form);
 Vue.use(FormItem);
 Vue.use(DatePicker);
 Vue.use(Pagination);
-Vue.use(Notification);
+Vue.component(Notification);
 Vue.use(codemirror);
 Vue.use(loadingPlugin, {
   progressColor: "#4288ce",
