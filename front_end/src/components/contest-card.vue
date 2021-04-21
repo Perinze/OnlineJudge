@@ -19,12 +19,22 @@
 </template>
 
 <script>
+import {checkUserContest} from '../api/getData';
 export default {
   name: "contest-card",
   props: ["contestId", "contestType", "contestNick", "contestNum"],
   methods: {
-    gotoLink(link) {
-      this.$router.push(link);
+    gotoLink: async function(link) {
+      let resp = await checkUserContest(this.contestId);
+      if(resp.data.status == 0){
+        this.$router.push(link);
+      }
+      else{
+        this.$message({
+          message: "请先参加比赛",
+          type: "error"
+        })
+      }
     },
   },
 };
