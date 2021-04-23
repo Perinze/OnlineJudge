@@ -69,13 +69,23 @@ export default {
           let data = response.data.data;
           this.items = [];
           data.forEach((val) => {
+            let Ac = 0, UnAc = 0;
+            if(val.problem_submit_log.problem_id != undefined){
+              Ac = parseInt(val.problem_submit_log.ac);
+              UnAc =  parseInt(val.problem_submit_log.wa) +
+                      parseInt(val.problem_submit_log.tle) +
+                      parseInt(val.problem_submit_log.mle) +
+                      parseInt(val.problem_submit_log.re) +
+                      parseInt(val.problem_submit_log.se) +
+                      parseInt(val.problem_submit_log.ce);
+            }
             let res = {
               id: val.problem.problem_id,
               title: val.problem.title,
               status: "不知道",
               statistics: {
-                ac: 0,
-                all: 114514
+                ac: Ac,
+                all: UnAc
               }
               //status: !(val.accepted + val.unaccepted) ?  "un" : val.accepted ? "ac" : "wa",
               /*statistics: {
