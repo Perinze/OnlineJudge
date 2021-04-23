@@ -1,6 +1,6 @@
 # Online Judge Front-end
 
-武汉理工 OJ 前端项目
+WUT OJ 前端项目
 
 ## Usage
 
