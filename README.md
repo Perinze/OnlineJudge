@@ -11,7 +11,7 @@ $ npm run serve # 启动本地开发(无MockData)
 
 ## MockServer
 
-在后端尚未开发完时可以使用 MockServer 来 Mock data。
+在后端尚未开发完时可以使用 MockServer 来 Mock data
 
 ```bash
 $ npm run mock # 启动Mock服务器
