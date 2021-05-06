@@ -69,10 +69,11 @@ export default {
           let data = response.data.data;
           this.items = [];
           data.forEach((val) => {
-            let Ac = 0, UnAc = 0;
+            let Ac = 0, Tot = 0;
             if(val.problem_submit_log.problem_id != undefined){
               Ac = parseInt(val.problem_submit_log.ac);
-              UnAc =  parseInt(val.problem_submit_log.wa) +
+              Tot =  parseInt(val.problem_submit_log.ac) + 
+                      parseInt(val.problem_submit_log.wa) +
                       parseInt(val.problem_submit_log.tle) +
                       parseInt(val.problem_submit_log.mle) +
                       parseInt(val.problem_submit_log.re) +
@@ -85,7 +86,7 @@ export default {
               status: "不知道",
               statistics: {
                 ac: Ac,
-                all: UnAc
+                all: Tot
               }
               //status: !(val.accepted + val.unaccepted) ?  "un" : val.accepted ? "ac" : "wa",
               /*statistics: {
