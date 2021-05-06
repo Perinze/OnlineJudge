@@ -53,6 +53,7 @@ export default {
       lang: "c.gcc",
       langItems: languages,
       submitting: false,
+      lastSubmit: 0
     };
   },
   methods: {
@@ -88,6 +89,15 @@ export default {
     doSubmit: async function() {
       if (this.submitting) return;
       else this.submitting = true;
+      let nowTime = new Date().getTime();
+      if(nowTime - this.lastSubmit < 3000){
+        this.$message({
+          message: "提交过于频繁,请稍后再试",
+          type: "error",
+        });
+        this.$loading.hide();
+      }
+      else this.lastSubmit = nowTime;
 
       const tmp = await this.checkLoginStatus();
       if (!tmp) return;
