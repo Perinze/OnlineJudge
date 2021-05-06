@@ -73,7 +73,7 @@ export default {
         {
             url: require('../../assets/media/notice1.png'),
             alt: 'test',
-            title: '装你妈比'
+            title: '装备齐全'
         },
         {
             url: require('../../assets/media/notice2.png'),
