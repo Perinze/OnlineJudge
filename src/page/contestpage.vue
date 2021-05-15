@@ -92,7 +92,8 @@
                 :key="'preblem-self'+index"
                 class="problem-self"
                 @click="callProblem(contest_info.problems[index - 1], contest_info.id)">
-              {{ String.fromCharCode(64 + index) }}
+              {{ String.fromCharCode(64 + index) }}  
+              {{ contest_info.problems[index - 1].title}}
             </div>
           </li>
         </ol>

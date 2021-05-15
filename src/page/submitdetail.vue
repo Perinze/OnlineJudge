@@ -20,6 +20,15 @@
             >返回比赛</span
           >
         </div>
+        <div>
+          <span
+            id="print-quest-btn"
+            @click="doPrint()"
+            v-if="cid !== undefined"
+          >
+          打印记录
+          </span>
+        </div>
       </div>
       <div class="content-box">
         <div class="err-msg" v-if="errMsg">
@@ -52,6 +61,7 @@ import { getProblem } from "../api/problem";
 import {  getStatusById } from "../api/status";
 import { getStatus } from "../api/getData"
 import Mycodemirror from "../components/myCodemirror";
+import { printRequest } from "../api/print";
 import { languages } from "../config/language";
 
 export default {
@@ -146,6 +156,24 @@ export default {
           message: "发生错误: " + response.message + ", 请联系管理员",
           type: "error",
         });
+      }
+    },
+    doPrint: async function() {
+      let requestData = {
+        submit_id: this.id
+      }
+      let response = await printRequest(requestData);
+      if(response.status == 0) {
+        this.$message({
+            message: "请求发送成功",
+            type: "success"
+          }
+        )
+      } else {
+        this.$message({
+          message: "发生错误: " + response.message + ",请联系管理员",
+          type: "error"
+        })
       }
     },
     renderStatus: async function() {
@@ -332,6 +360,15 @@ export default {
 #back-contest-btn {
   float: right;
   color: red;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+#print-quest-btn {
+  float: right;
+  color: blue;
   cursor: pointer;
   &:hover {
     text-decoration: underline;

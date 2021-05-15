@@ -24,7 +24,8 @@
         />
       </div>
     </transition>
-    <div class="logo" @click="$emit('close')">
+    <!--<div class="logo" @click="$emit('close')">-->
+    <div class="logo">
       <div style="position: relative;top: 9px">
         <img src="../../assets/media/logo.png" />
       </div>

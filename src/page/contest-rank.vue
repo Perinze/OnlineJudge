@@ -110,12 +110,13 @@
                     isSuccess(index, problemName)
                       ? rank_info[index].solveInfo[
                             problemName
-                        ].times + 1
+                        ].times
                       : rank_info[index].solveInfo[
                             problemName
                         ].times
                   "
                 />
+                <!--
                 <span :class="{'tle-color': isFirstBlood(index, problemName)}">
                   {{
                     rank_info[index].solveInfo[
@@ -132,7 +133,7 @@
                         problemName
                     ].times})` : ''
                   }}
-                </span>
+                </span>-->
               </div>
             </div>
           </td>

@@ -28,6 +28,11 @@
             <div class="function-btn-group">
               <!--disabled-->
               <button
+                class="showRank"
+                @click="gotoRank(item.contest_id)">
+              查看榜单
+              </button>
+              <button
                 class="join"
                 :class="[
                   item.status === 1 &&
@@ -185,6 +190,10 @@ export default {
         });
       }
       this.$loading.hide();
+    },
+    gotoRank: async function(link) {
+      if (link == "") return;
+      this.$router.push("/rank/" + link);
     },
     goto: async function (link) {
       if (link == "") return;
@@ -391,6 +400,21 @@ export default {
   color: white;
   cursor: pointer;
   right: 25px;
+  left: auto;
+}
+
+.showRank {
+  position: absolute;
+  height: 40px;
+  width: 120px;
+  border: 2px solid rgba(250, 250, 250, 1);
+  box-shadow: 0 3px 15px rgba(38, 38, 38, 0);
+  background: rgba(38, 38, 38, 0.3);
+  border-radius: 5px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  right: 200px;
   left: auto;
 }
 

@@ -59,7 +59,8 @@ export default async function ifetch(
   if(method === "GET") {
     if(url.indexOf("?") != -1) url += '&';
     else url += '?';
-    url=url+`time=${new Date().getTime()}`;
+    let nowTime = new Date().getTime().toString();
+    url=url+`time=${nowTime.substr(nowTime.length-6, 6)}`;
   }
 
   let timeoutFunc = () => {
