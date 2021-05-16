@@ -93,7 +93,6 @@
                 class="problem-self"
                 @click="callProblem(contest_info.problems[index - 1], contest_info.id)">
               {{ String.fromCharCode(64 + index) }}  
-              {{ contest_info.problems[index - 1].title}}
             </div>
           </li>
         </ol>
@@ -277,6 +276,7 @@
 <script>
 import { formatDate } from "../api/common";
 import { getWholeErrorName, logoutWork } from "../api/common";
+import {getProblem} from "../api/problem";
 import StatusIcon from "../components/status-icon";
 import {
   getContestLog,
@@ -373,7 +373,7 @@ export default {
       let beginTime = new Date(this.contest_info.begin_time).getTime();
       let endTime = new Date(this.contest_info.end_time).getTime();
       let total = endTime - beginTime;
-      if (left <= total * this.contest_info.frozen) return true;
+      if (total - left >= total * this.contest_info.frozen) return true;
       return false;
     },
   },
@@ -569,6 +569,7 @@ export default {
         resObj.end_time = resObj.end_time.replace("T", " ");//去除时间中的T和Z  timba   zimba
         resObj.problems = resObj.problems.slice(1,resObj.problems.length-1).split(",");
         if(resObj.problems[0] == "") resObj.problems.shift();
+
         this.contest_info = resObj;
         localStorage.setItem(`contestInfo-${this.$route.params.id}`, JSON.stringify(this.contest_info));
         typeof callback === "function" && callback();
@@ -601,19 +602,22 @@ export default {
             this.myProblemStatus[cindex] = problemInfo[cindex];
           }
         }*/
-        response.data.data.forEach((val) => {
-          if(val.submit_time[19] == 'Z') val.submit_time = val.submit_time.substr(0,19);
-          val.submit_time = val.submit_time.replace("T", " ");
-          this.submit_log.push({
-            id: val.id,
-            problem: val.problem_id,
-            submit_time: val.submit_time, // TODO fix
-            time_used: val.time,
-            mem_used: val.memory,
-            language: val.language,
-            status: val.status.toLowerCase(),
+        if(response.data.data != null) {
+          response.data.data.forEach((val) => {
+            if(val.submit_time[19] == 'Z') val.submit_time = val.submit_time.substr(0,19);
+            val.submit_time = val.submit_time.replace("T", " ");
+            this.submit_log.push({
+              id: val.id,
+              problem: val.problem_id,
+              submit_time: val.submit_time, // TODO fix
+              time_used: val.time,
+              mem_used: val.memory,
+              language: val.language,
+              status: val.status.toLowerCase(),
+            });
           });
-        });
+        }
+       
         this.submitLogCounts = response.data.count;
 
         typeof callback === "function" && callback();
