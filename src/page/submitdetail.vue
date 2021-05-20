@@ -26,7 +26,7 @@
             @click="doPrint()"
             v-if="cid !== undefined"
           >
-          打印记录
+          申请打印
           </span>
         </div>
       </div>
