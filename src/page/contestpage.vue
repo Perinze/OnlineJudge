@@ -71,7 +71,7 @@
                     :times="
                       myProblemStatus[Item]
                         .success_time != 0
-                        ? myProblemStatus[Item].times + 1
+                        ? myProblemStatus[Item].times
                         : myProblemStatus[Item].times
                     "
                   />
