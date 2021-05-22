@@ -11,7 +11,7 @@ export const languages = [
   },
   {
       name: 'Java',
-      value: 'java.openjdk10',
+      value: 'java.openjdk8',
       cmValue: 'text/x-java'
   },
   {
