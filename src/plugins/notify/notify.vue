@@ -62,7 +62,7 @@ export default {
         } else {
           clearInterval(interval);
         }
-      }, 5000);
+      }, 50000);
     },
   },
 };

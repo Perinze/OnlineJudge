@@ -28,7 +28,7 @@
           <span class="sub-title">题目背景</span>
           <span class="content render-scroll-area" v-html="Marked(problem_info.background)"></span>
         </div> -->
-        <div class="describe" v-if="problem_info.describe.trim()">
+        <div class="describe">
           <blockquote class="content render-scroll-area" v-html="Marked(problem_info.background)"></blockquote>
           <!-- <span class="sub-title">题目描述</span> -->
           <span class="content render-scroll-area" v-html="Marked(problem_info.describe)"></span>
