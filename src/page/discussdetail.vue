@@ -6,7 +6,8 @@
     >
       回到比赛
     </div>
-    <ul class="discuss-content">
+    <div class="discuss-list">
+    <ol class="discuss-content">
       <li class="content-head">
         <div class="head-title">{{ problemNick }} {{ themeInfo.title }}</div>
         <div class="head-content">{{ themeInfo.content }}</div>
@@ -22,7 +23,7 @@
         <div class="element-user">{{ replyItems[index - 1].nick }}</div>
         <div class="element-time">{{ replyItems[index - 1].time }}</div>
       </li>
-    </ul>
+    </ol>
     <div class="reply-pager">
       <el-pagination
         v-if="counts > 0"
@@ -33,6 +34,7 @@
         :current-page="currentPage"
         @current-change="changePage"
       />
+    </div>
     </div>
     <div class="reply-input-group">
       <textarea
@@ -76,7 +78,7 @@ export default {
       replyTitle:"",
       replyContent: "",
       problemNick: "@",
-      counts: 0,
+      counts: 30,
       currentPage: 1
     };
   },
