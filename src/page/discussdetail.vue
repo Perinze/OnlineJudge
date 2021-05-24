@@ -105,7 +105,7 @@ export default {
       let response = await getDiscussDetail(this.$route.params.did, page);
       if (response.status == 0) {
         this.themeInfo = response.data.discuss;
-        //this.counts = response.data.reply.count;
+        this.counts = response.data.reply.count;
         response.data.reply.forEach((val) => {
           this.replyItems.push(val);
         });
