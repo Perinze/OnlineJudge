@@ -71,6 +71,7 @@ export default {
   data() {
     return {
       title: "",
+      submit_id: "",
       status: "Judging",
       lang: "",
       code: "",
@@ -160,8 +161,9 @@ export default {
     },
     doPrint: async function() {
       let requestData = {
-        submit_id: this.id
+        submit_id: this.submit_id
       }
+      console.log(requestData);
       let response = await printRequest(requestData);
       if(response.status == 0) {
         this.$message({
@@ -192,6 +194,7 @@ export default {
       }
       if (response.status == 0) {
       let data = response.data;
+      this.submit_id = data.id;
       if (data.problem_id != this.pid) {
         this.$message({
           message: "不存在该提交",
