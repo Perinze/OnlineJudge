@@ -108,7 +108,7 @@ export default {
       if (response.status == 0) {
         this.themeInfo = response.data.discuss;
         this.counts = response.data.reply.count;
-        response.data.reply.forEach((val) => {
+        response.data.reply.data.forEach((val) => {
           this.replyItems.push(val);
         });
       } else {
