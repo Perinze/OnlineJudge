@@ -373,7 +373,7 @@ export default {
       let beginTime = new Date(this.contest_info.begin_time).getTime();
       let endTime = new Date(this.contest_info.end_time).getTime();
       let total = endTime - beginTime;
-      if (total - left >= total * this.contest_info.frozen) return true;
+      if (total - left >= total * (1 - this.contest_info.frozen)) return true;
       return false;
     },
   },
