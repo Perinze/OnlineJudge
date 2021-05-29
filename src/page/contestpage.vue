@@ -92,7 +92,7 @@
                 :key="'preblem-self'+index"
                 class="problem-self"
                 @click="callProblem(contest_info.problems[index - 1], contest_info.id)">
-              {{ `${String.fromCharCode(64 + index)} ${contest_info.problemInfo[index - 1].title || ""}` }}  
+              {{ `${String.fromCharCode(64 + index)} ${problemsInfo[index - 1].title || ""}` }}  
             </div>
           </li>
         </ol>
@@ -294,6 +294,12 @@ export default {
   name: "contestpage",
   data() {
     return {
+      problemsInfo: [
+        // {
+        //   id: 42,
+        //   title: "欢迎来到ACM@WUT"
+        // }
+      ],
       contest_info: {
         id: this.$route.params.id,
         title: "test",
@@ -756,7 +762,7 @@ export default {
         });
         console.log("deanti data", data);
         console.log("deanti problems", problems);
-        this.contest_info.problemInfo = problems;
+        this.problemsInfo = problems;
       } else {
         console.error("🙅‍♂️ getContestProblem API error: %s", resp.message);
         this.$message({
