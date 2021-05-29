@@ -151,7 +151,7 @@
                 <span
                   style="color: orange;"
                   v-if="discusses[index - 1].status === 8"
-                  >{{ "\<" + "管理员公示\>&nbsp;" }}</span
+                  >{{ `\{管理员公示\}&nbsp;` }}</span
                 >
                 {{ discusses[index - 1].author }}
               </div>
@@ -557,7 +557,6 @@ export default {
     },
     renderContestInfo: async function(callback) {
       const response = await getContest(this.$route.params.id);
-      this.getContestProblems(); // 获取比赛题目信息
       localStorage.setItem("nowContest", this.$route.params.id);
 
       if (response.status === 0) {
@@ -575,6 +574,8 @@ export default {
         this.contest_info = resObj;
         localStorage.setItem(`contestInfo-${this.$route.params.id}`, JSON.stringify(this.contest_info));
         typeof callback === "function" && callback();
+
+        await this.getContestProblems(); // 获取比赛题目信息
       } else {
         this.$message({
           message: response.message,
