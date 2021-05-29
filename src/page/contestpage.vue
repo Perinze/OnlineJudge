@@ -410,6 +410,7 @@ export default {
     // 渲染比赛信息
     this.getContestInfoCache(); // 从LS拿缓存
     await this.renderContestInfo(() => {
+      this.getContestProblems(); // 获取比赛题目信息
       this.$nextTick(() => {
         this.checkRightContinue();
       });
@@ -434,13 +435,10 @@ export default {
     }
   },
   methods: {
-
     goto: function (link) {
       if (link == "") return;
       this.$router.push("/rank/" + link);
     },
-
-
     changeSubmitPage(page) {
       this.currentSubmitPage = page;
       this.renderStatusList(page);
@@ -574,8 +572,6 @@ export default {
         this.contest_info = resObj;
         localStorage.setItem(`contestInfo-${this.$route.params.id}`, JSON.stringify(this.contest_info));
         typeof callback === "function" && callback();
-
-        await this.getContestProblems(); // 获取比赛题目信息
       } else {
         this.$message({
           message: response.message,
