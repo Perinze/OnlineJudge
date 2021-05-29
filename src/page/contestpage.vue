@@ -748,7 +748,7 @@ export default {
         localStorage.removeItem(`contestDiscussList-${this.$route.params.id}-${page}`);
       }
     },
-    getContestProblems() { // 获取比赛相关的题目信息
+    async getContestProblems() { // 获取比赛相关的题目信息
       const resp = await getContestProblem(this.$route.params.id);
       if (resp.status === 0) {
         const data = resp.data;
