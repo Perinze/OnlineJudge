@@ -92,7 +92,7 @@
                 :key="'preblem-self'+index"
                 class="problem-self"
                 @click="callProblem(contest_info.problems[index - 1], contest_info.id)">
-              {{ String.fromCharCode(64 + index) }}  
+              {{ `${String.fromCharCode(64 + index)} ${contest_info.problemInfo.title || ""}` }}  
             </div>
           </li>
         </ol>
@@ -276,7 +276,7 @@
 <script>
 import { formatDate } from "../api/common";
 import { getWholeErrorName, logoutWork } from "../api/common";
-import {getProblem} from "../api/problem";
+import { getContestProblem } from "../api/problem";
 import StatusIcon from "../components/status-icon";
 import {
   getContestLog,
@@ -556,10 +556,12 @@ export default {
       return getWholeErrorName(status);
     },
     renderContestInfo: async function(callback) {
-      let response = await getContest(this.$route.params.id);
+      const response = await getContest(this.$route.params.id);
+      this.getContestProblems(); // 获取比赛题目信息
       localStorage.setItem("nowContest", this.$route.params.id);
+
       if (response.status === 0) {
-        let resObj = Object.assign(this.contest_info, response.data);
+        let resObj = Object.assign({}, this.contest_info, response.data);
         resObj.begin_time = response.data.begin_time.replace(/-/g, '/');
         resObj.end_time = response.data.end_time.replace(/-/g, '/');
 
@@ -744,6 +746,24 @@ export default {
         this.discusses = data || [];
       } catch (e) {
         localStorage.removeItem(`contestDiscussList-${this.$route.params.id}-${page}`);
+      }
+    },
+    getContestProblems() { // 获取比赛相关的题目信息
+      const resp = await getContestProblem(this.$route.params.id);
+      if (resp.status === 0) {
+        const data = resp.data;
+        const problems = data.map((problem) => {
+          const { id, info } = problem;
+          const { title } = info;
+          return { id, title };
+        });
+        this.contest_info.problemInfo = problems;
+      } else {
+        console.error("🙅‍♂️ getContestProblem API error: %s", resp.message);
+        this.$message({
+          message: resp.message,
+          type: "error",
+        });
       }
     }
   },
