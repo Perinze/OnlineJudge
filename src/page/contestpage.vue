@@ -758,6 +758,8 @@ export default {
           const { title } = info;
           return { id, title };
         });
+        console.log("deanti data", data);
+        console.log("deanti problems", problems);
         this.contest_info.problemInfo = problems;
       } else {
         console.error("🙅‍♂️ getContestProblem API error: %s", resp.message);
