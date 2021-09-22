@@ -102,9 +102,9 @@ export default {
   methods: {
     changePage(page) {
       this.currentPage = page;
-      this.renderList(page - 1);
+      this.renderList(page);
     },
-    renderList: async function(page = 0) {
+    renderList: async function(page = 1) {
       this.$loading.open();
       let response = await getDiscussList(this.$route.params.id, page);
       // console.log(response);

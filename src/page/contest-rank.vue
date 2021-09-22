@@ -779,8 +779,14 @@ export default {
         this.contest_info = {
           title: response.data.contest_name,
           problems: response.data.problems.substr(1,response.data.problems.length-2).split(","),
-          prize: response.data.prize || [0, 0, 0],
+          prize: [0, 0, 0],
         };
+        // 后端返回的prize字段居然是字符串，我吐了
+        try {
+          this.contest_info.prize = JSON.parse(response.data.prize);
+        } catch (e) {
+          this.contest_info.prize = [0, 0, 0];
+        } 
       } else {
         this.$message({
           message: response.message,
@@ -890,8 +896,8 @@ export default {
       return false;
       // 现在如果封榜了 后端直接不给数据 所以先注释了 恒false
       // solveInfo.filter((x) => {
-        // if (x.)
-      // })
+      //   solveInfo[pidx].
+      // });
     },
     getPenalty: function (solveInfo) {
       if (solveInfo.success_time === "") return solveInfo.success_time;
