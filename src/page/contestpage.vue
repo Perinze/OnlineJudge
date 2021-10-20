@@ -102,9 +102,11 @@
             background
             layout="prev, pager, next"
             :page-size="8"
+            @current-change="current_change"
+            :current-page.sync="currentPage"
             :total="contest_info.problems.length"
-            :current-page="1"
             :pager-count="5"
+            
           />
         </div>
       </div>
@@ -294,6 +296,7 @@ export default {
   name: "contestpage",
   data() {
     return {
+      currentPage: 1,
       problemsInfo: [
         // {
         //   id: 42,
@@ -441,6 +444,9 @@ export default {
     }
   },
   methods: {
+    current_change(val) {
+      this.currentPage = val;
+    },
     goto: function (link) {
       if (link == "") return;
       this.$router.push("/rank/" + link);
