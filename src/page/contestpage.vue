@@ -91,7 +91,7 @@
             <div v-for="(item,index) in contest_info.problems.slice((currentPage-1)*8,currentPage*8)"
                 :key="'preblem-self'+index"
                 class="problem-self"
-                @click="callProblem(item.id, contest_info.id)">
+                @click="callProblem(item, contest_info.id)">
               {{ `${String.fromCharCode(65 + index + (currentPage - 1) * 8)} ${problemsInfo[index - 1] ? (item.title || "") : ""}` }}  
             </div>
           </li>
@@ -483,6 +483,7 @@ export default {
       }
     },
     callProblem(pid, cid) {
+      console.log(pid);
       if (this.isWap) {
         this.$router.push(`/problem?pid=${pid}&cid=${cid}`);
       } else {
