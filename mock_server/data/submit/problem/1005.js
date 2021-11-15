@@ -1,0 +1,17 @@
+module.exports={
+    "data":{
+        "id":1,
+        "user_id":382,
+        "nick":"1",
+        "problem_id":1,
+        "contest_id":1,
+        "source_code":"1",
+        "language":1,
+        "status":"AC",
+        "time":0,
+        "memory":0,
+        "submit_time":"2020-01-01T00:00:00Z",
+    },
+    "message":"查询提交记录成功",
+    "status":0
+}

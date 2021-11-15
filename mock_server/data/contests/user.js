@@ -1,0 +1,24 @@
+module.exports = {
+    "data":[
+        {
+            "contest_id":1000,
+            "user_id":26,
+            "id":15,
+            "status":0
+        },
+        {
+            "contest_id":1001,
+            "user_id":26,
+            "id":17,
+            "status":0
+        },
+        {
+            "contest_id":1002,
+            "user_id":26,
+            "id":16,
+            "status":0
+        }
+    ],
+    "msg":"查询用户比赛成功",
+    "status":0
+}

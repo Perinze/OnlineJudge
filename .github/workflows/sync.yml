@@ -1,0 +1,22 @@
+on:
+  workflow_dispatch:
+  push:
+    branches: [ afwe ]
+    
+name: Mirror GitHub Selected Repos to Gitee
+jobs:
+  run:
+    name: Run
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source codes
+        uses: actions/checkout@v2
+      - name: Mirror Github to Gitee with white list
+        uses: Yikun/hub-mirror-action@master
+        with:
+          src: github/Perinze
+          dst: gitee/perinze
+          dst_key: ${{ secrets.GITEE_PRIVATE_KEY }}
+          dst_token: ${{ secrets.GITEE_TOKEN }}
+          static_list: 'OnlineJudge'
+          force_update: true
