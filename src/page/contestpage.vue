@@ -88,11 +88,11 @@
         <span class="title">问题列表</span>
         <ol>
           <li>
-            <div v-for="index in contest_info.problems.length"
+            <div v-for="(item,index) in contest_info.problems.slice((currentPage-1)*8,currentPage*8)"
                 :key="'preblem-self'+index"
                 class="problem-self"
-                @click="callProblem(contest_info.problems[index - 1], contest_info.id)">
-              {{ `${String.fromCharCode(64 + index)} ${problemsInfo[index - 1] ? (problemsInfo[index - 1].title || "") : ""}` }}  
+                @click="callProblem(item.id, contest_info.id)">
+              {{ `${String.fromCharCode(65 + index + (currentPage - 1) * 8)} ${problemsInfo[index - 1] ? (item.title || "") : ""}` }}  
             </div>
           </li>
         </ol>
